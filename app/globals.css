@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+/* =========================================================
+   TEMA CLARO
+   ========================================================= */
+:root,
+[data-tema="claro"] {
+  color-scheme: light;
+
+  --fondo: #f8fafc;
+  --deg: radial-gradient(
+    1200px 700px at 50% -10%,
+    #e0f2fe 0%,
+    #f8fafc 60%,
+    #f1f5f9 100%
+  );
+
+  /* Tarjetas */
+  --card: rgba(255, 255, 255, 0.72);
+  --card2: rgba(255, 255, 255, 0.48);
+  --suave: rgba(255, 255, 255, 0.55);
+  --suave2: rgba(255, 255, 255, 0.82);
+
+  /* Bordes */
+  --th: rgba(255, 255, 255, 0.7);
+  --th2: rgba(147, 197, 253, 0.55);
+
+  /* Textos */
+  --txt: #0f172a;
+  --txt2: #475569;
+  --txt3: #64748b;
+
+  /* Colores principales */
+  --azul: #3b82f6;
+  --azul-hover: #2563eb;
+  --morado: #8b5cf6;
+  --morado-hover: #7c3aed;
+  --rojo: #dc2626;
+
+  /* Selección */
+  --sel: #e0f2fe;
+
+  /* Estados */
+  --ok: rgba(16, 185, 129, 0.15);
+  --ok-b: rgba(16, 185, 129, 0.35);
+  --ok-t: #047857;
+
+  --err: rgba(239, 68, 68, 0.14);
+  --err-b: rgba(239, 68, 68, 0.35);
+  --err-t: #b91c1c;
+
+  --ambar: rgba(245, 158, 11, 0.15);
+  --ambar-b: rgba(245, 158, 11, 0.35);
+  --ambar-t: #b45309;
+
+  /* Botones */
+  --btn: #0f172a;
+  --btnh: #1e293b;
+  --btn-txt: #ffffff;
+
+  /* Sombras */
+  --sombra: 0 10px 40px -12px rgba(59, 130, 246, 0.2);
+  --sombra-fuerte: 0 18px 55px -20px rgba(59, 130, 246, 0.35);
+}
+
+/* =========================================================
+   TEMA OSCURO
+   ========================================================= */
+[data-tema="oscuro"] {
+  color-scheme: dark;
+
+  --fondo: #0f172a;
+  --deg: radial-gradient(
+    1200px 700px at 50% -10%,
+    #1e1b4b 0%,
+    #0f172a 60%,
+    #020617 100%
+  );
+
+  --card: rgba(30, 41, 59, 0.78);
+  --card2: rgba(15, 23, 42, 0.55);
+  --suave: rgba(148, 163, 184, 0.08);
+  --suave2: rgba(148, 163, 184, 0.14);
+
+  --th: rgba(255, 255, 255, 0.12);
+  --th2: rgba(148, 163, 184, 0.24);
+
+  --txt: #f8fafc;
+  --txt2: #cbd5e1;
+  --txt3: #94a3b8;
+
+  --azul: #60a5fa;
+  --azul-hover: #3b82f6;
+  --morado: #a78bfa;
+  --morado-hover: #8b5cf6;
+  --rojo: #f87171;
+
+  --sel: #1e3a8a;
+
+  --ok: rgba(52, 211, 153, 0.16);
+  --ok-b: rgba(52, 211, 153, 0.35);
+  --ok-t: #6ee7b7;
+
+  --err: rgba(248, 113, 113, 0.16);
+  --err-b: rgba(248, 113, 113, 0.35);
+  --err-t: #fca5a5;
+
+  --ambar: rgba(251, 191, 36, 0.16);
+  --ambar-b: rgba(251, 191, 36, 0.35);
+  --ambar-t: #fcd34d;
+
+  --btn: #f8fafc;
+  --btnh: #ffffff;
+  --btn-txt: #0f172a;
+
+  --sombra: 0 12px 42px -14px rgba(0, 0, 0, 0.55);
+  --sombra-fuerte: 0 20px 60px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* =========================================================
+   TAILWIND
+   ========================================================= */
+@theme inline {
+  --color-background: var(--fondo);
+  --color-foreground: var(--txt);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--fondo);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--fondo);
+  background-image: var(--deg);
+  color: var(--txt);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::selection {
+  background: var(--sel);
+  color: var(--txt);
+}
+
+/* =========================================================
+   FONDOS Y TARJETAS
+   ========================================================= */
+.bg-app {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: var(--fondo);
+  background-image: var(--deg);
+}
+
+.card,
+.card-glass {
+  border: 1px solid var(--th);
+  background: var(--card);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.card-glass {
+  border-radius: 1.5rem;
+}
+
+/* =========================================================
+   BOTONES DE LA PORTADA
+   ========================================================= */
+.btn-action {
+  display: flex;
+  width: 100%;
+  max-width: 320px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  padding: 1rem 1.75rem;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 750;
+  line-height: 1.25;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.btn-examen {
+  background: var(--azul);
+  box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.65);
+}
+
+.btn-arcade {
+  background: var(--morado);
+  box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.65);
+}
+
+@media (min-width: 640px) {
+  .btn-action {
+    width: auto;
+    min-width: 220px;
+  }
+}
+
+@media (hover: hover) {
+  .btn-examen:hover {
+    background: var(--azul-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -10px rgba(37, 99, 235, 0.55);
+  }
+
+  .btn-arcade:hover {
+    background: var(--morado-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -10px rgba(124, 58, 237, 0.55);
+  }
+}
+
+.btn-action:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   TEXTO CON GRADIENTE
+   ========================================================= */
+.hero-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--azul) 0%,
+    var(--morado) 55%,
+    #ec4899 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   REFLEJOS DECORATIVOS
+   ========================================================= */
+.blob-fondo {
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+  animation: flotarBlob 10s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+  top: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: rgba(96, 165, 250, 0.4);
+}
+
+.blob-2 {
+  right: -80px;
+  bottom: -80px;
+  width: 340px;
+  height: 340px;
+  background: rgba(147, 197, 253, 0.32);
+  animation-delay: -5s;
+}
+
+.blob-3 {
+  top: 40%;
+  left: 60%;
+  width: 260px;
+  height: 260px;
+  background: rgba(167, 139, 250, 0.25);
+  opacity: 0.55;
+  animation-delay: -2s;
+}
+
+[data-tema="oscuro"] .blob-1 {
+  background: rgba(30, 58, 138, 0.5);
+}
+
+[data-tema="oscuro"] .blob-2 {
+  background: rgba(88, 28, 135, 0.38);
+}
+
+[data-tema="oscuro"] .blob-3 {
+  background: rgba(30, 58, 138, 0.45);
+}
+
+@keyframes flotarBlob {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate3d(30px, 50px, 0) scale(1.1);
+  }
+}
+
+/* =========================================================
+   ANIMACIONES DE ENTRADA
+   ========================================================= */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 700ms ease-out forwards;
+}
+
+/* =========================================================
+   ACCESIBILIDAD
+   ========================================================= */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 0.75rem;
+  background: var(--btn);
+  color: var(--btn-txt);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   REDUCCIÓN DE MOVIMIENTO
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-fade-in-up {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
