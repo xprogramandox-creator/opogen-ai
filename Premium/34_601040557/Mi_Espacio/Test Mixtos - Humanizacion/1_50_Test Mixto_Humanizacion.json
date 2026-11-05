@@ -1,0 +1,507 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En el marco teórico de la comunicación clínica, ¿cuándo se considera que el acto comunicativo resulta formalmente eficaz?",
+      "opciones": [
+        "Cuando el emisor expone la totalidad del mensaje clínico sin interrupciones.",
+        "Cuando el canal utilizado carece de interferencias o barreras ambientales.",
+        "Cuando el receptor interpreta el mensaje en los términos pretendidos por el emisor.",
+        "Cuando el receptor manifiesta verbalmente su adhesión terapéutica plena."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Conforme al protocolo de acogida en UCI, ¿en qué supuesto se justifica la aplicación de barreras de protección individual a los familiares visitantes?",
+      "opciones": [
+        "De forma generalizada durante toda la estancia, para minimizar el riesgo de infecciones cruzadas.",
+        "Únicamente cuando el paciente presente infección por microorganismos con mecanismos de resistencia, como KPC, para asegurar el aislamiento de contacto.",
+        "Siempre que el familiar solicite acompañar al paciente durante un procedimiento invasivo.",
+        "Cuando el paciente se encuentre incapacitado y la familia deba participar en la toma de decisiones."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿En qué momento deben aprender los sanitarios a comunicarse con cariño?",
+      "opciones": [
+        "Solo al jubilarse",
+        "Nunca en su vida",
+        "Durante toda su formación",
+        "Solo los fines de semana"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Respecto a la identificación de 'A QUIÉN comunicar', ¿qué praxis errónea advierte el documento en el abordaje asistencial?",
+      "opciones": [
+        "Excluir a los tutores legales en casos de incapacidad formal manifiesta.",
+        "Comunicar el diagnóstico directamente al menor emancipado sin consentimiento.",
+        "Dirigir por defecto la información a los familiares asumiendo la incapacidad del usuario.",
+        "Informar al paciente sin la presencia obligatoria de un testigo administrativo."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "En materia de participación de los familiares en los cuidados del paciente crítico, ¿cuál de las siguientes actuaciones se contempla expresamente en el protocolo?",
+      "opciones": [
+        "Imponer la implicación de la familia en los cuidados, con independencia de su voluntad.",
+        "Valorar la estructura familiar para identificar potenciales cuidadores, siempre que estos lo deseen.",
+        "Limitar la formación de los familiares a los aspectos meramente informativos del ingreso.",
+        "Reservar la participación familiar exclusivamente a los ingresos no programados."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Cuando el paciente crítico se encuentra incapacitado, la toma de decisiones sobre el tratamiento o cualquier procedimiento debe:",
+      "opciones": [
+        "Adoptarse de forma unilateral por el equipo sanitario, dada la urgencia vital.",
+        "Delegarse íntegramente en el familiar de mayor grado de parentesco.",
+        "Compartirse con la familia, apoyándose en herramientas validadas para la ayuda en la toma de decisiones.",
+        "Suspenderse hasta que el paciente recupere su capacidad de obrar."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "En relación con la atención psicosocial al paciente, el material destaca como actuación del profesional:",
+      "opciones": [
+        "Escuchar y permitir que el paciente exprese sus emociones y miedos",
+        "Restringir la información a la familia para evitar alarma",
+        "Limitar la comunicación a los aspectos estrictamente clínicos",
+        "Priorizar la cumplimentación documental sobre la escucha activa"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes afirmaciones se desprende del contenido de la guía en cuanto a la atención psicosocial al paciente?",
+      "opciones": [
+        "El profesional debe identificar las necesidades de información del paciente y responder a ellas.",
+        "El profesional debe priorizar la información clínica sobre la emocional.",
+        "El profesional debe evitar hablar de temas que puedan angustiar al paciente.",
+        "El profesional debe remitir al paciente a recursos externos para apoyo emocional."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Conforme a la guía citada, ¿qué dos unidades hospitalarias requieren una especial actuación por la deshumanización que conlleva la pandemia?",
+      "opciones": [
+        "UCI y Servicio de Urgencias.",
+        "Hospitalización y Consultas Externas.",
+        "UCI y Hospitalización.",
+        "Servicio de Urgencias y Quirófano."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿cuál fue el verdadero motivo por el que el modelo restrictivo de visitas en UCI se mantuvo implantado durante tanto tiempo?",
+      "opciones": [
+        "La evidencia científica demostraba que perjudicaba la seguridad del paciente.",
+        "La costumbre y la falta de crítica sobre los inconvenientes de dicho modelo.",
+        "La limitada estructura del box y la vulneración de la intimidad de otros pacientes.",
+        "La mayor dificultad para realizar los cuidados enfermeros que generaba en los profesionales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según la guía de acompañamiento para pacientes ingresados por COVID-19, ¿qué finalidad principal se persigue con la comunicación entre el profesional y el paciente?",
+      "opciones": [
+        "Mantener una buena comunicación que contribuya a disminuir la incertidumbre del paciente.",
+        "Cumplir con el protocolo de información clínica establecido por el centro.",
+        "Registrar en la historia clínica las emociones manifestadas por el paciente.",
+        "Delegar en el acompañante la responsabilidad de informar al paciente."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con la atención psicosocial al paciente prevista en la guía, ¿por qué se indica expresamente que el profesional debe identificarse?",
+      "opciones": [
+        "Porque el paciente tiene derecho a conocer la categoría profesional de quien le atiende.",
+        "Porque los equipos de protección individual dificultan que el paciente lo reconozca.",
+        "Porque así se evita que el paciente confunda al personal sanitario con el no sanitario.",
+        "Porque lo exige el protocolo de trazabilidad de contactos."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué experiencia previa se invoca en el texto como fundamento para plantear la adaptación del modelo de puertas abiertas a las UCI de adultos?",
+      "opciones": [
+        "La de las Unidades de Cuidados Intensivos pediátricas y neonatales, donde la familia se considera pilar fundamental del cuidado íntegro.",
+        "La de las unidades de hospitalización convencional, donde la visita se flexibilizó sin incidencias reseñables.",
+        "La de los servicios de urgencias, que ya aplicaban horarios de visita ampliados con resultados positivos.",
+        "La de las unidades de cuidados paliativos, donde la familia participa en los cuidados desde hace décadas."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Conforme al material, la obligación de responder a las necesidades de información o dudas del paciente se enmarca dentro de:",
+      "opciones": [
+        "La buena comunicación que el profesional debe mantener con el paciente",
+        "Las funciones del acompañante familiar",
+        "Los criterios de ingreso en unidades de críticos",
+        "El protocolo de visitas del centro"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la bibliografía recogida en el material, ¿qué documento se identifica como guía de acompañamiento para pacientes ingresados del COVID-19?",
+      "opciones": [
+        "El publicado por ForoHURGE en 2020",
+        "El elaborado por el Comité de Ética del Área I del Servicio Murciano de Salud",
+        "El aprobado por el Ministerio de Sanidad en 2021",
+        "El emitido por la Organización Mundial de la Salud en 2019"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el material, ¿qué teoría propia ha construido la bioética como conjunto de principios éticos destinados a orientar la resolución de conflictos en la práctica biomédica?",
+      "opciones": [
+        "La teoría hipocrática clásica.",
+        "El principalismo.",
+        "La ética práctica aristotélica.",
+        "El paternalismo clínico."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Entre las obligaciones que la guía impone al acompañante del paciente, se encuentra informarle de determinados extremos. ¿Cuál de los siguientes NO se recoge expresamente en el texto?",
+      "opciones": [
+        "Los riesgos de adquirir la enfermedad.",
+        "Los riesgos específicos derivados de su propia situación de salud.",
+        "La obligación de realizar cuarentena posteriormente.",
+        "La obligación de firmar un consentimiento informado ante notario."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Según el texto, ¿qué efecto concreto se llega a asegurar por algunos autores en relación con la cercanía de un ser querido al paciente en UCI?",
+      "opciones": [
+        "La reducción de la estancia media en la unidad de cuidados intensivos.",
+        "La mejora de la actividad cardíaca de los pacientes.",
+        "La disminución de la necesidad de sedación farmacológica.",
+        "La reducción de las infecciones asociadas a la asistencia sanitaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En relación con el origen de la bioética como disciplina, ¿qué comisión e informe se citan en el material y cuál fue su tarea inicial?",
+      "opciones": [
+        "Una comisión creada en 1974 en EEUU que asumió la tarea de identificar los principios éticos básicos que guiarían la investigación con seres humanos, dando lugar al informe Belmont.",
+        "Una comisión europea de 1974 que elaboró el informe Belmont para regular la práctica asistencial en hospitales.",
+        "Una comisión estadounidense posterior a 1974 que añadió el principio de no maleficencia al informe Belmont.",
+        "Una comisión creada en 1974 en EEUU que redactó el informe Belmont para establecer los principios de la deontología profesional."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué hace un monitor central en el hospital?",
+      "opciones": [
+        "Ver la información de todos los enfermos desde fuera",
+        "Preparar la comida",
+        "Limpiar las habitaciones",
+        "Apagar las luces"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿qué rol activo deben asumir los profesionales para integrarse en la humanización del sistema?",
+      "opciones": [
+        "La sustitución de la gestión de recursos tradicionales por asambleas ciudadanas.",
+        "La implicación directa en la elaboración de protocolos y en la comunicación interna.",
+        "La supervisión exclusiva de los circuitos administrativos en áreas pediátricas.",
+        "El relevo de las familias en la aplicación de técnicas asistenciales complejas."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué se puede poner en el hospital para que el enfermo se distraiga?",
+      "opciones": [
+        "Un jardín o un patio",
+        "Más ruido",
+        "Menos luz",
+        "Puertas cerradas"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En el marco de la humanización de Urgencias, ¿qué medida específica se prescribe para pacientes vulnerables?",
+      "opciones": [
+        "La limitación de visitas a franjas horarias estrictas para preservar la intimidad.",
+        "El traslado automático a neonatología para implementar el método canguro.",
+        "La habilitación de un circuito diferenciado que garantice el acompañamiento continuo.",
+        "La exclusión del acompañamiento durante la realización de técnicas diagnósticas."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Conforme al material, ¿qué principio bioético se configura como regla del consentimiento libre e informado, impidiendo que se impongan decisiones al paciente por ignorancia o por fuerza?",
+      "opciones": [
+        "El principio de beneficencia, en tanto que obliga al profesional a procurar el bien del paciente.",
+        "El principio de autonomía, que comprende el derecho a equivocarse en la elección.",
+        "El principio de no maleficencia, identificado con el aforismo primum non nocere.",
+        "El principio de justicia, orientado a la resolución de conflictos en contextos plurales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quién recibe y escucha la información en una conversación?",
+      "opciones": [
+        "El receptor",
+        "El emisor",
+        "El papel",
+        "El mensaje"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la guía elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud, ¿cuál de las siguientes afirmaciones sobre el acompañamiento del paciente es correcta?",
+      "opciones": [
+        "El acompañamiento está justificado en todo paciente ingresado, sin necesidad de valorar el criterio clínico del momento.",
+        "El acompañamiento está de sobra justificado en algunos pacientes, aunque debe tenerse en cuenta el criterio clínico del paciente en ese momento.",
+        "El acompañamiento solo se autoriza cuando existe fallecimiento inmediato, excluyendo cualquier otra circunstancia.",
+        "El acompañante no requiere información sobre los riesgos, pues la decisión corresponde exclusivamente al profesional sanitario."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿En qué guía de buenas prácticas se basan la mayoría de protocolos o Guías de Práctica Clínica para desarrollar sus objetivos y estrategias, según el texto?",
+      "opciones": [
+        "En la guía de buenas prácticas del Plan HU-CI.",
+        "En las recomendaciones de la Sociedad Española de Medicina Intensiva.",
+        "En los protocolos de las Unidades de Cuidados Intensivos pediátricas y neonatales.",
+        "En las guías de práctica clínica de las unidades de hospitalización convencional."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué ocurre cuando un enfermo entiende bien los consejos del médico?",
+      "opciones": [
+        "Se cuida y recupera mejor",
+        "Se confunde más",
+        "Toma peores decisiones",
+        "Se enfada con todos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes objetivos NO se atribuye expresamente a la Guía de acompañamiento elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud?",
+      "opciones": [
+        "Crear estrategias y mecanismos seguros para las diferentes áreas de hospitalización.",
+        "Facilitar documentos a los profesionales sanitarios para valorar la idoneidad del acompañamiento.",
+        "Establecer un régimen sancionador para los familiares que incumplan la cuarentena.",
+        "Proporcionar información a los familiares por circuitos adecuados."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Quién ayuda a un niño enfermo a estar tranquilo en el hospital?",
+      "opciones": [
+        "Un desconocido",
+        "Su familia",
+        "Un juguete roto",
+        "Nadie"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Cómo se llama el cuidado donde los padres abrazan al bebé en el pecho?",
+      "opciones": [
+        "Método canguro",
+        "Salto de rana",
+        "Carrera de osos",
+        "Nido de pájaro"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la guía, ¿en qué unidades se necesita una especial actuación por la deshumanización que conlleva la pandemia?",
+      "opciones": [
+        "Hospitalización y consultas externas.",
+        "UCI y Servicio de Urgencias.",
+        "Farmacia hospitalaria y rehabilitación.",
+        "Hospitalización a domicilio y atención primaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme a la Guía de acompañamiento para pacientes ingresados por COVID-19 elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud, ¿cuál de las siguientes afirmaciones sobre la justificación del acompañamiento se ajusta con mayor exactitud a lo dispuesto en la guía?",
+      "opciones": [
+        "El acompañamiento está justificado en determinados pacientes, si bien debe atenderse al criterio clínico del paciente en ese momento.",
+        "El acompañamiento se justifica únicamente por la voluntad del familiar que lo solicita, sin valoración clínica alguna.",
+        "El acompañamiento se excluye de forma absoluta en todos los supuestos, dada la elevada contagiosidad del SARS-CoV-2.",
+        "El acompañamiento se autoriza de forma automática a todo paciente ingresado, sin necesidad de valorar su situación clínica."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cómo debe ser el sitio donde se cuida a los enfermos en el hospital?",
+      "opciones": [
+        "Un sitio agradable y cómodo",
+        "Un sitio oscuro y con ruido",
+        "Un sitio frío y vacío",
+        "Un sitio sin ventanas"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En la dimensión metodológica del 'CÓMO comunicar', ¿qué pauta debe observar rigurosamente el profesional sanitario?",
+      "opciones": [
+        "Priorizar el rigor léxico clínico sobre la inteligibilidad del receptor.",
+        "Adaptar el registro lingüístico al nivel de competencia del usuario.",
+        "Delegar la transmisión técnica a medios escritos complementarios.",
+        "Condensar los contenidos omitiendo pautas relativas al estilo de vida."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En relación con los ingresos programados en UCI y la acogida de la familia, el protocolo contempla:",
+      "opciones": [
+        "Prohibir cualquier visita previa al ingreso para evitar interferencias en la organización de la unidad.",
+        "Permitir visitas previas al ingreso con el fin de minimizar el estrés que genera el ingreso en la unidad.",
+        "Autorizar visitas previas únicamente cuando el paciente lo solicite por escrito.",
+        "Sustituir las visitas previas por material informativo entregado a la familia."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Respecto a las barreras percibidas por los profesionales para flexibilizar los horarios en UCI, ¿qué afirma el texto que demuestra la evidencia?",
+      "opciones": [
+        "Que dichas barreras se confirman y justifican el mantenimiento de las restricciones de visita.",
+        "Que solo la limitada estructura del box constituye un obstáculo real e insalvable.",
+        "Que la evidencia demuestra todo lo contrario, ya que las acciones que disminuyen el estrés favorecen la seguridad del paciente y su familia.",
+        "Que la mayor ansiedad familiar ante procedimientos invasivos es el único efecto adverso documentado."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes NO se enumera en el texto como criterio de acompañamiento según la guía?",
+      "opciones": [
+        "Menores de edad.",
+        "Embarazadas y parturientas.",
+        "Personas con deterioro cognitivo y/o demencia.",
+        "Personas con enfermedad crónica estabilizada sin dependencia."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Respecto a la formación continuada de los profesionales sanitarios según el texto, ¿cuál es su finalidad primordial?",
+      "opciones": [
+        "Sustituir las competencias técnicas asistenciales por habilidades relacionales básicas.",
+        "Afrontar cualquier situación desde una perspectiva humanística ofreciendo calidad técnica y humana.",
+        "Delegar la toma de decisiones clínicas y éticas en los comités de participación ciudadana.",
+        "Restringir la comunicación de malas noticias a unidades de cuidados intensivos y urgencias."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Cómo se llama la información que queremos contar o transmitir?",
+      "opciones": [
+        "El canal",
+        "El receptor",
+        "El emisor",
+        "El mensaje"
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿qué obligación se impone al acompañante del paciente COVID-19?",
+      "opciones": [
+        "Someterse a una prueba diagnóstica antes de acceder a la unidad.",
+        "Realizar cuarentena posteriormente, además de ser informado de los riesgos de adquirir la enfermedad.",
+        "Permanecer en el hospital durante todo el ingreso sin posibilidad de ausentarse.",
+        "Firmar un documento que le exime al centro de toda responsabilidad sanitaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quién se siente mejor si la sala de espera es cómoda?",
+      "opciones": [
+        "Las familias que esperan",
+        "Los coches del aparcamiento",
+        "Los jardines del hospital",
+        "Las máquinas de la cocina"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Para qué se pone una luz especial al lado de la cama de un enfermo?",
+      "opciones": [
+        "Para que pueda leer si quiere",
+        "Para que no tenga miedo",
+        "Para calentar la comida",
+        "Para llamar a los bomberos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, la ética en salud orienta y exige a dos colectivos principales. ¿Cuáles son?",
+      "opciones": [
+        "Los investigadores y los comités de ética asistencial.",
+        "Los pacientes y sus familiares.",
+        "Los agentes de la salud y los directivos y ejecutivos que administran los centros sanitarios.",
+        "Los humanistas y los profesionales de la ciencia."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Qué es una 'sala de estar' para las familias en el hospital?",
+      "opciones": [
+        "Un sitio para que las familias descansen y pasen tiempo",
+        "Un cuarto lleno de camas de enfermos",
+        "Una tienda de juguetes",
+        "Un lugar donde se opera"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál fue la evolución de los principios de la bioética según el material?",
+      "opciones": [
+        "Inicialmente eran cuatro principios y posteriormente se suprimió el de justicia.",
+        "Inicialmente había tres principios (beneficencia, autonomía y justicia) y más tarde se añadió el de no maleficencia.",
+        "Inicialmente había tres principios (beneficencia, no maleficencia y justicia) y más tarde se añadió el de autonomía.",
+        "Inicialmente había dos principios (autonomía y justicia) y más tarde se añadieron beneficencia y no maleficencia."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quiénes formularon los cuatro principios de la bioética recogidos en el material (autonomía, no maleficencia, beneficencia y justicia)?",
+      "opciones": [
+        "Beauchamp y Childress, en 1979.",
+        "Hipócrates y Galeno, en la tradición clásica.",
+        "Aristóteles y Platón, en la ética práctica.",
+        "Kant y Mill, en la ética teórica moderna."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la guía, ¿qué actuación del profesional contribuye directamente a disminuir la incertidumbre del paciente?",
+      "opciones": [
+        "Escuchar y permitir que el paciente muestre sus emociones y miedos.",
+        "Proporcionar al paciente únicamente información escrita.",
+        "Limitar las visitas del acompañante para evitar contagios.",
+        "Realizar rondas médicas más frecuentes."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿A qué principio de la bioética corresponde el aforismo «primum non nocere» y el respeto a la integridad de la persona como ser humano?",
+      "opciones": [
+        "Principio de beneficencia.",
+        "Principio de autonomía.",
+        "Principio de no maleficencia.",
+        "Principio de justicia."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿cuál de los siguientes se considera criterio de acompañamiento justificado?",
+      "opciones": [
+        "Personas con deterioro cognitivo y/o demencia",
+        "Personas con patología banal que acuden a consulta externa",
+        "Personas que rechazan expresamente el acompañamiento",
+        "Personas con alta hospitalaria programada"
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 50,
+  "carpeta": "Test Mixtos - Humanizacion",
+  "textoContexto": "Test mixto de Humanizacion"
+}

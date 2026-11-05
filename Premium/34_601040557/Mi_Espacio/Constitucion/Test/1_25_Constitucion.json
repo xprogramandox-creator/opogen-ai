@@ -1,0 +1,257 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "Conforme a los artículos 52 y 54 de la Constitución, ¿cuál de las siguientes afirmaciones es correcta respecto a su regulación normativa?",
+      "opciones": [
+        "Tanto las organizaciones profesionales como el Defensor del Pueblo se regulan por ley ordinaria.",
+        "Las organizaciones profesionales se regulan por ley y el Defensor del Pueblo mediante ley orgánica.",
+        "Ambas figuras deben regularse preceptivamente mediante ley orgánica.",
+        "El Defensor del Pueblo se regula por ley ordinaria y las organizaciones profesionales por real decreto."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al texto constitucional facilitado, el secuestro de publicaciones únicamente puede acordarse:",
+      "opciones": [
+        "Por resolución administrativa motivada de la autoridad gubernativa competente.",
+        "En virtud de resolución judicial.",
+        "Mediante acuerdo del Consejo de Ministros comunicado a la autoridad judicial.",
+        "Por decisión de la fiscalía en supuestos de protección urgente a la infancia."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "A tenor del artículo 113.2 de la Constitución, ¿qué exigencia formal preceptiva debe concurrir para proponer una moción de censura?",
+      "opciones": [
+        "Ser suscrita por la mayoría absoluta del Congreso.",
+        "Ser avalada por al menos una quinta parte de los Diputados.",
+        "Incluir preceptivamente un candidato a la Presidencia del Gobierno.",
+        "Contar con el dictamen favorable de la Mesa del Congreso."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "De acuerdo con el artículo 115.1 de la Constitución, la propuesta de disolución de las Cámaras requiere formalmente:",
+      "opciones": [
+        "Aprobación vinculante del Consejo de Ministros y refrendo del Presidente del Congreso.",
+        "Previa deliberación del Consejo de Ministros, actuando el Presidente bajo su exclusiva responsabilidad.",
+        "Acuerdo motivado del Consejo de Ministros y posterior ratificación del Senado.",
+        "Autorización previa de las Mesas de ambas Cámaras."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el artículo 24, ¿en qué supuestos regulará la ley la exención de declarar sobre hechos presuntamente delictivos?",
+      "opciones": [
+        "Por secreto de sumario y confidencialidad procesal.",
+        "Por razón de parentesco o de secreto profesional.",
+        "Únicamente por incompatibilidad sobrevenida del letrado defensor.",
+        "Por pertenencia activa a sindicatos o partidos políticos legalizados."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Para adoptar acuerdos válidos en las Cámaras, ¿qué quórum de asistencia se exige con carácter preceptivo?",
+      "opciones": [
+        "Asistencia de las dos terceras partes de sus miembros.",
+        "Asistencia de la mayoría absoluta de los miembros presentes.",
+        "Asistencia de la mayoría de sus miembros.",
+        "Asistencia reglamentaria de un tercio de sus componentes."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Dentro del Título I, ¿qué capítulo comprende formalmente el tratamiento 'De la suspensión de los derechos y libertades'?",
+      "opciones": [
+        "Capítulo Tercero.",
+        "Capítulo Cuarto.",
+        "Capítulo Quinto.",
+        "Capítulo Primero."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Respecto a la distribución sistemática del Título VIII de la Constitución, ¿cuál es la denominación del Capítulo Primero?",
+      "opciones": [
+        "De las Comunidades Autónomas.",
+        "De la Administración Local.",
+        "Principios rectores.",
+        "Principios generales."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Respecto al derecho de asociación, ¿cuál es la eficacia jurídica exigida a su inscripción registral?",
+      "opciones": [
+        "Constitutiva para el reconocimiento formal de su personalidad.",
+        "A los solos efectos de publicidad.",
+        "De convalidación administrativa obligatoria para el inicio de actividades.",
+        "Declarativa de no incurrir en fines paramilitares o delictivos."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al artículo 108 de la Constitución, ¿ante qué órgano responde solidariamente el Gobierno de su gestión política?",
+      "opciones": [
+        "Ante las Cortes Generales.",
+        "Ante el Congreso de los Diputados.",
+        "Ante el Congreso de los Diputados y el Senado conjuntamente.",
+        "Ante el Jefe del Estado y las Cortes Generales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En relación con la tramitación de la moción de censura (artículo 113.3), ¿en qué plazo computado desde su presentación pueden formalizarse mociones alternativas?",
+      "opciones": [
+        "En los tres primeros días.",
+        "En cualquier momento antes de la votación definitiva.",
+        "En las primeras cuarenta y ocho horas tras admitirse a trámite.",
+        "En los dos primeros días del plazo previo a la votación."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Conforme al artículo 82.2, ¿mediante qué instrumento debe otorgarse la delegación legislativa para refundir varios textos legales?",
+      "opciones": [
+        "Ley de bases exclusivamente.",
+        "Ley ordinaria.",
+        "Decreto-ley acordado en Consejo de Ministros.",
+        "Ley marco aprobada por mayoría cualificada."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "La aprobación, modificación o derogación de una ley orgánica exige en el Congreso:",
+      "opciones": [
+        "Mayoría absoluta en una votación final sobre el conjunto del proyecto.",
+        "Mayoría simple en cada una de las lecturas y votaciones del texto.",
+        "Mayoría de tres quintos del Pleno en votación definitiva de artículos.",
+        "Mayoría absoluta de ambas Cámaras en sesión conjunta extraordinaria."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Atendiendo a la sistemática del Título I de la Constitución Española, ¿cuál de las siguientes materias se ubica formalmente en la Sección 2.ª del Capítulo Segundo?",
+      "opciones": [
+        "De los derechos fundamentales y de las libertades públicas.",
+        "De los derechos y deberes de los ciudadanos.",
+        "De los principios rectores de la política social y económica.",
+        "De las garantías de las libertades y derechos fundamentales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿En qué supuesto concreto puede la autoridad prohibir una manifestación en lugares de tránsito público?",
+      "opciones": [
+        "Por falta de solicitud tempestiva de autorización previa.",
+        "Cuando coincida con actos electorales legalmente previstos.",
+        "Cuando existan razones fundadas de alteración del orden público, con peligro para personas o bienes.",
+        "Por mera concurrencia simultánea con otra manifestación en el mismo itinerario."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "La suspensión de actividades o disolución de una asociación válidamente constituida requiere:",
+      "opciones": [
+        "Resolución judicial motivada.",
+        "Resolución administrativa firme con previa audiencia del interesado.",
+        "Decreto del órgano competente de la administración registral.",
+        "Dictamen vinculante del Ministerio Fiscal en vía contenciosa."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el artículo 55.2 de la Constitución, la suspensión individual de derechos frente a bandas armadas o elementos terroristas requiere imperativamente:",
+      "opciones": [
+        "Intervención judicial previa y ratificación del Consejo de Ministros.",
+        "Necesaria intervención judicial y adecuado control parlamentario.",
+        "Autorización exclusiva del Tribunal Constitucional mediante auto motivado.",
+        "Decreto previo acordado en Consejo de Ministros y ratificado por el Congreso."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Hasta qué momento ejercen sus funciones las Diputaciones Permanentes en caso de disolución de las Cámaras?",
+      "opciones": [
+        "Hasta el día de la celebración de las elecciones generales.",
+        "Hasta la constitución de las nuevas Cortes Generales.",
+        "Hasta la expiración improrrogable del mandato parlamentario.",
+        "Hasta la publicación oficial de los resultados electorales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿En qué título y capítulo de la Constitución Española se ubica sistemáticamente la regulación 'De los Tratados Internacionales'?",
+      "opciones": [
+        "Título III, Capítulo Primero.",
+        "Título III, Capítulo Tercero.",
+        "Título IV, Capítulo Segundo.",
+        "Título V, Capítulo Primero."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué mayoría se requiere para acordar el carácter no público de una sesión plenaria de una Cámara?",
+      "opciones": [
+        "Mayoría simple de los miembros presentes.",
+        "Mayoría de tres quintos de los componentes.",
+        "Mayoría absoluta o con arreglo al Reglamento.",
+        "Mayoría de dos tercios de la Cámara respectiva."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "A tenor del artículo 53.3 de la Constitución, los principios reconocidos en el Capítulo tercero:",
+      "opciones": [
+        "Pueden ser invocados directamente ante los Tribunales sin mediación de ley previa.",
+        "Gozan de tutela ante la Jurisdicción ordinaria mediante el principio de sumariedad.",
+        "Solo podrán ser alegados ante la Jurisdicción ordinaria según lo que dispongan las leyes que los desarrollen.",
+        "Solo pueden tutelarse a través del recurso de inconstitucionalidad y el recurso de amparo."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el artículo 55.1 de la Constitución, ¿cuál de los siguientes derechos queda excluido de la suspensión en caso de declaración del estado de excepción?",
+      "opciones": [
+        "El artículo 17, apartado 2.",
+        "El artículo 18, apartado 2.",
+        "El artículo 17, apartado 3.",
+        "El artículo 18, apartado 3."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el artículo 112 de la Constitución, la cuestión de confianza se entenderá válidamente otorgada cuando vote a su favor:",
+      "opciones": [
+        "La mayoría absoluta de los Diputados.",
+        "La mayoría simple de los miembros presentes.",
+        "La mayoría simple de los Diputados.",
+        "Las dos terceras partes de la Cámara."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Conforme al artículo 53.2 de la Constitución, ¿qué precepto situado fuera de la Sección primera del Capítulo segundo es susceptible de recurso de amparo?",
+      "opciones": [
+        "El artículo 30 respecto a la objeción de conciencia.",
+        "El artículo 37 relativo al conflicto colectivo.",
+        "El artículo 14 referente al principio de igualdad ante la ley.",
+        "El artículo 52 en materia de organizaciones profesionales."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En la estructura formal de la Constitución Española, ¿qué rúbrica ostenta el Título V?",
+      "opciones": [
+        "Del Poder Judicial.",
+        "Del Gobierno y de la Administración.",
+        "De las relaciones entre el Gobierno y las Cortes Generales.",
+        "Economía y Hacienda."
+      ],
+      "correcta": 2
+    }
+  ],
+  "numPreguntas": 25,
+  "carpeta": "Constitucion",
+  "textoContexto": "Examen de OpoGen"
+}

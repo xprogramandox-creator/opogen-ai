@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "¿Cuál fue la evolución de los principios de la bioética según el texto?",
+      "opciones": [
+        "Inicialmente se formularon cuatro principios y posteriormente se suprimió el de justicia.",
+        "Inicialmente había tres principios (beneficencia, autonomía y justicia) y más tarde se añadió el de no maleficencia.",
+        "Inicialmente había dos principios (autonomía y no maleficencia) y después se añadieron beneficencia y justicia.",
+        "Los cuatro principios surgieron simultáneamente en el informe Belmont sin modificaciones posteriores."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En relación con el origen de la bioética como disciplina, ¿qué comisión e informe se mencionan en el material como punto de partida en 1974 en EEUU?",
+      "opciones": [
+        "Una comisión que elaboró el Informe Belmont para identificar los principios éticos básicos de la investigación con seres humanos.",
+        "Una comisión que redactó el Código de Núremberg para regular la experimentación médica en prisioneros.",
+        "Una comisión que aprobó la Declaración de Helsinki sobre investigación clínica.",
+        "Una comisión que promulgó el Convenio de Oviedo sobre derechos humanos y biomedicina."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En el modelo clásico paternalista descrito en el material, el profesional sanitario:",
+      "opciones": [
+        "Compartía la decisión terapéutica con el paciente mediante consentimiento informado",
+        "Imponía su visión del bien sin contar con la autorización del paciente",
+        "Renunciaba a aplicar el principio de beneficencia",
+        "Priorizaba siempre la autonomía del paciente"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al texto, ¿en qué principio se cimenta la medicina y qué comprende dicho principio?",
+      "opciones": [
+        "En el principio de autonomía, que exige el consentimiento informado previo a toda actuación.",
+        "En el principio de justicia distributiva, que garantiza el reparto equitativo de recursos sanitarios.",
+        "En el principio de proporcionar salud a personas vulnerables, buscando bienestar físico y mental, aliviar dolencias, curar enfermedades y prolongar la vida con calidad y dignidad.",
+        "En el principio de no maleficencia, entendido como la abstención absoluta de cualquier tratamiento invasivo."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el material, ¿cuál es la función principal que la bioética desempeña en relación con la humanización de los servicios de salud?",
+      "opciones": [
+        "Sustituir los valores morales individuales por protocolos clínicos de obligado cumplimiento.",
+        "Facilitar instrumentos para razonar y discutir sobre cómo ofrecer cuidados de calidad que mantengan la dignidad humana.",
+        "Garantizar jurídicamente la financiación de los centros sanitarios de atención primaria.",
+        "Establecer sanciones disciplinarias a los profesionales que no actúen con humanidad."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "El principio que obliga a respetar las opciones personales y los valores del individuo, incluyendo el derecho a equivocarse, es el de:",
+      "opciones": [
+        "No maleficencia",
+        "Beneficencia",
+        "Autonomía",
+        "Justicia"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "El principalismo, como teoría propia de la bioética, se orienta a:",
+      "opciones": [
+        "Sustituir los códigos deontológicos por normas jurídicas vinculantes",
+        "Unificar las creencias religiosas de los pacientes en la práctica biomédica",
+        "Orientar la resolución de conflictos en la práctica biomédica mediante principios universalmente aceptables",
+        "Impedir la aplicación de los avances científicos y tecnológicos"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el texto, ¿a quién se atribuye la formulación de los cuatro principios de la bioética en 1979?",
+      "opciones": [
+        "A Beauchamp y Childress",
+        "A Hipócrates y Galeno",
+        "Al principalismo kantiano",
+        "A la ética práctica aristotélica"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la perspectiva ética expuesta, la humanización en salud orienta y exige compromisos a dos colectivos principales. ¿Cuáles son?",
+      "opciones": [
+        "Los pacientes y sus familiares, por un lado, y las administraciones públicas, por otro.",
+        "Los agentes de la salud y los directivos y ejecutivos que administran los centros sanitarios.",
+        "Los investigadores científicos y los comités de ética de la investigación.",
+        "Los humanistas y los profesionales de la ciencia exclusivamente."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Con qué aforismo clásico de la ética médica tradicional se identifica el principio de no maleficencia?",
+      "opciones": [
+        "Primum non nocere",
+        "Salus aegroti suprema lex",
+        "Voluntas aegroti suprema lex",
+        "Primum vivere"
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Biologia",
+  "textoContexto": "Examen de OpoGen"
+}

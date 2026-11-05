@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En el proceso de comunicación entre el personal sanitario y el paciente, ¿qué elemento se define como el conjunto de reglas o signos empleados para enviar el mensaje?",
+      "opciones": [
+        "El canal",
+        "El código",
+        "El contexto",
+        "El mensaje"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el texto, ¿qué transformación han experimentado los ciudadanos en su relación con el sistema sanitario?",
+      "opciones": [
+        "Han pasado de ser simples espectadores a actores principales en las decisiones sobre su salud",
+        "Han quedado subordinados a la gestión técnica de los recursos sanitarios",
+        "Han asumido la dirección de los protocolos de comunicación interna",
+        "Han dejado de demandar transparencia en la gestión de los recursos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Respecto a la identificación de QUIÉN debe recibir la información, ¿qué precisión establece el material frente a la práctica habitual con personas mayores o niños?",
+      "opciones": [
+        "Se comunica siempre y de forma automática a los familiares, sin excepción alguna",
+        "Se excluye a los menores y ancianos de toda información por su falta de comprensión",
+        "Aunque se tiende a informar a los familiares, en ocasiones el niño o el anciano están capacitados para recibir la información",
+        "La información debe dirigirse exclusivamente al tutor legal en todos los casos"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿En qué circunstancia se considera que la comunicación sanitaria ha sido eficaz?",
+      "opciones": [
+        "Cuando el emisor transmite el mensaje con el menor número de palabras posible",
+        "Cuando el receptor interpreta el mensaje recibido tal y como el emisor pretendía",
+        "Cuando se utiliza un lenguaje técnico que demuestra la competencia del profesional",
+        "Cuando el mensaje llega a un familiar del paciente aunque este no lo comprenda"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Al abordar el CÓMO comunicar, el material ejemplifica con el caso de un paciente diagnosticado de diabetes. ¿Qué aspecto se destaca como más adecuado en la comunicación?",
+      "opciones": [
+        "Emplear terminología clínica precisa para garantizar el rigor de la información",
+        "Usar un lenguaje adecuado al nivel lingüístico del paciente",
+        "Limitar la información al tratamiento farmacológico prescrito",
+        "Remitir al paciente a material escrito para evitar malentendidos"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Entre los efectos positivos demostrados de informar adecuadamente al paciente, ¿cuál de los siguientes se recoge expresamente en el material?",
+      "opciones": [
+        "El aumento del número de consultas preventivas programadas",
+        "La disminución de costes al sistema y el buen uso de este",
+        "La reducción de la carga administrativa del personal facultativo",
+        "La eliminación de las visitas a urgencias por parte del paciente"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "De acuerdo con el texto, ¿qué finalidad persigue la implicación de los profesionales sanitarios en la creación de protocolos y en la comunicación interna?",
+      "opciones": [
+        "Que se conviertan en parte activa de la humanización y del sistema",
+        "Que deleguen en la ciudadanía la gestión de los recursos",
+        "Que prioricen la formación técnica sobre la humanística",
+        "Que reduzcan su participación en la atención directa al paciente"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿qué efecto produce en el paciente la cercanía de una persona de confianza en el ámbito sanitario?",
+      "opciones": [
+        "Reduce su vulnerabilidad y favorece la expresión de sus sentimientos",
+        "Incrementa su dependencia del profesional sanitario",
+        "Dificulta la aplicación de los cuidados técnicos",
+        "Sustituye la labor de acompañamiento del personal sanitario"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con el acompañamiento en unidades de neonatología, el texto señala que se potencia el método madre o padre/canguro y, además, se facilita que los padres:",
+      "opciones": [
+        "Permanecer junto a sus hijos durante la realización de técnicas",
+        "Participen en la elaboración de los protocolos de la unidad",
+        "Asuman la dirección de los cuidados intensivos",
+        "Decidan el circuito asistencial que deben seguir"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Respecto al acompañamiento en el servicio de urgencias, el texto establece que debe disponerse de un circuito diferenciado para personas vulnerables con el fin de:",
+      "opciones": [
+        "Permitir su acompañamiento continuo",
+        "Agilizar su derivación a unidades de cuidados intensivos",
+        "Limitar el acceso de familiares a la zona asistencial",
+        "Garantizar la rotación de los profesionales sanitarios"
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Biologia",
+  "textoContexto": "Examen de OpoGen"
+}

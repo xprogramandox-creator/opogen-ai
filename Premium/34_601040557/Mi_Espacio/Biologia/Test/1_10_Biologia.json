@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "¿Qué finalidad perseguía el humanismo en cada etapa histórica según el material?",
+      "opciones": [
+        "Griega: educar; medievo cristiano: evangelizar; ilustrado: emancipar y elevar el género humano.",
+        "Griega: evangelizar; medievo cristiano: educar; ilustrado: emancipar y elevar el género humano.",
+        "Griega: emancipar; medievo cristiano: educar; ilustrado: evangelizar y formar parte de una vida ética.",
+        "Griega: educar; medievo cristiano: emancipar; ilustrado: evangelizar y elevar el género humano."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿cómo se manifiesta el síndrome de burnout en el profesional sanitario?",
+      "opciones": [
+        "Como un estrés agudo y puntual que se resuelve con el descanso entre turnos.",
+        "Como un estrés crónico con sensación de estar extasiado, agotado física y mentalmente, y desinteresado.",
+        "Como una disminución transitoria del rendimiento motivada por la falta de incentivos económicos.",
+        "Como una dificultad exclusivamente administrativa para conciliar la vida familiar y laboral."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al material, ofrecer una atención humana al paciente desde el ámbito de la Salud se caracteriza por varias actuaciones. ¿Cuál de las siguientes NO se corresponde con lo expuesto?",
+      "opciones": [
+        "Prescindir de las creencias y valores del paciente para garantizar la objetividad técnica del cuidado.",
+        "Identificar las necesidades de las personas vulnerables y de su entorno.",
+        "Comprender el significado que tiene para la persona la situación que afronta.",
+        "Establecer una comunicación efectiva y cercana."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la definición de la RAE recogida en el material, el término «humanizar» incluye el adjetivo «familiar». ¿Qué implicación profesional se extrae de ello en la relación sanitario-paciente?",
+      "opciones": [
+        "Tratar al enfermo con la cercanía y empatía propias de un familiar, sin abandonar por ello los términos profesionales.",
+        "Adoptar un trato condescendiente y complaciente que evite cualquier conflicto con el usuario.",
+        "Sustituir la relación profesional por una relación afectiva equiparable a la del ámbito doméstico.",
+        "Delegar en la familia del paciente las decisiones clínicas que afecten a su dignidad."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con la dignidad, el material atribuye a Kant una obligación estricta. ¿Cuál es su contenido exacto?",
+      "opciones": [
+        "Hacer crecer y salvaguardar la dignidad personal, pues de lo contrario el ser humano se defrauda a sí mismo y a la humanidad entera.",
+        "Reconocer la dignidad solo a quien es capaz de ejercer su autonomía de forma plena y racional.",
+        "Garantizar la dignidad mediante el consentimiento informado como único mecanismo válido.",
+        "Vincular la dignidad al mérito y al valor social de la persona, que pueden perderse."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De las siguientes, ¿cuál se identifica en el texto como barrera organizativa o administrativa que dificulta los cuidados humanizados y que, en muchas ocasiones, resulta evitable?",
+      "opciones": [
+        "La ausencia de protocolos de comunicación entre profesionales.",
+        "El aumento de labores administrativas y asistenciales, de modo que lo no registrado en el programa informático no consta como realizado.",
+        "La falta de formación universitaria en valores éticos.",
+        "La inexistencia de cauces de participación del paciente en su propio cuidado."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el material, humanizar implica reconocer a la otra persona como agente ético. ¿Cómo se concreta esa relación entre personal sanitario y paciente?",
+      "opciones": [
+        "Ambos se sitúan en el mismo grado o jerarquía, correspondiendo al menos afectado la responsabilidad moral y profesional sobre el más vulnerable.",
+        "El personal sanitario ocupa una jerarquía superior que le permite decidir por el paciente en atención a su beneficio.",
+        "El paciente, por su vulnerabilidad, queda eximido de toda responsabilidad sobre su propio proceso de cuidado.",
+        "La responsabilidad moral recae exclusivamente en la institución sanitaria, no en el profesional concreto."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿qué característica define esencialmente la prestación de un cuidado humanizado por parte de los profesionales sanitarios?",
+      "opciones": [
+        "La aplicación exclusiva de protocolos clínicos basados en la evidencia científica.",
+        "La relación interpersonal y la comunicación con las personas vulnerables o sujetas a cuidados.",
+        "La obtención de resultados clínicos medibles en el menor tiempo posible.",
+        "El cumplimiento estricto de la normativa administrativa del centro sanitario."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En relación con la formación de los futuros profesionales de la salud, el texto atribuye a universidades y escuelas una función que trasciende lo académico. ¿Cuál de las siguientes opciones recoge con mayor exactitud esa función?",
+      "opciones": [
+        "Formar únicamente en conocimientos científicos basados en la mejor evidencia disponible.",
+        "Garantizar la enseñanza de valores morales y éticos junto a los conocimientos científicos, atendiendo a todas las dimensiones del ser humano.",
+        "Priorizar la formación en gestión administrativa y en la cumplimentación de registros informáticos.",
+        "Sustituir la formación en valores por la formación en habilidades técnicas de diagnóstico."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué consecuencia directa se deriva, según el texto, de la interacción continua del profesional sanitario con el paciente y su entorno?",
+      "opciones": [
+        "La reducción de la carga asistencial por la implicación del entorno familiar.",
+        "El aumento de la carga emocional del profesional, que actúa como elemento facilitador de riesgos psicosociales.",
+        "La mejora automática de la calidad del registro en la historia clínica.",
+        "La disminución del tiempo disponible para tareas administrativas."
+      ],
+      "correcta": 1
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Biologia",
+  "textoContexto": "Examen de OpoGen"
+}

@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En el hospital, ¿para qué sirven los carteles grandes que indican dónde están las habitaciones?",
+      "opciones": [
+        "Para que las familias encuentren el camino",
+        "Para decorar las paredes",
+        "Para que los médicos corran",
+        "Para tapar las ventanas"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué ayuda a que el enfermo tenga su intimidad en el hospital?",
+      "opciones": [
+        "Una cortina o un biombo",
+        "Una televisión grande",
+        "Una ventana abierta",
+        "Una silla dura"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Para qué se pone una luz especial al lado de la cama de un enfermo?",
+      "opciones": [
+        "Para que pueda leer si quiere",
+        "Para que no tenga miedo",
+        "Para calentar la comida",
+        "Para llamar a los bomberos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Para qué sirve poner una buena luz y una temperatura agradable en la habitación?",
+      "opciones": [
+        "Para que el enfermo esté más cómodo",
+        "Para gastar más electricidad",
+        "Para que haya más ruido",
+        "Para que entre más frío"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Quién se siente mejor si la sala de espera es cómoda?",
+      "opciones": [
+        "Las familias que esperan",
+        "Los coches del aparcamiento",
+        "Los jardines del hospital",
+        "Las máquinas de la cocina"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué es una 'sala de estar' para las familias en el hospital?",
+      "opciones": [
+        "Un sitio para que las familias descansen y pasen tiempo",
+        "Un cuarto lleno de camas de enfermos",
+        "Una tienda de juguetes",
+        "Un lugar donde se opera"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Por qué el hospital debe ser un lugar con poco ruido?",
+      "opciones": [
+        "Para que los médicos puedan hablar y aprender",
+        "Para que los bebés duerman",
+        "Porque el ruido rompe las ventanas",
+        "Para no molestar a los vecinos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cómo debe ser el sitio donde se cuida a los enfermos en el hospital?",
+      "opciones": [
+        "Un sitio agradable y cómodo",
+        "Un sitio oscuro y con ruido",
+        "Un sitio frío y vacío",
+        "Un sitio sin ventanas"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué hace un monitor central en el hospital?",
+      "opciones": [
+        "Ver la información de todos los enfermos desde fuera",
+        "Preparar la comida",
+        "Limpiar las habitaciones",
+        "Apagar las luces"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué se puede poner en el hospital para que el enfermo se distraiga?",
+      "opciones": [
+        "Un jardín o un patio",
+        "Más ruido",
+        "Menos luz",
+        "Puertas cerradas"
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

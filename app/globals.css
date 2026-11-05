@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-tema="oscuro"], [data-tema="oscuro"] *));
+
 /* =========================================================
    TEMA CLARO
    ========================================================= */
@@ -7,38 +9,37 @@
 [data-tema="claro"] {
   color-scheme: light;
 
-  --fondo: #f8fafc;
+  --fondo: #cbd5e1;
   --deg: radial-gradient(
-    1200px 700px at 50% -10%,
-    #e0f2fe 0%,
-    #f8fafc 60%,
-    #f1f5f9 100%
+    1100px 720px at 50% -10%,
+    #f2f8fc 0%,
+    #dce8f2 38%,
+    #cbd5e1 72%,
+    #bccbd9 100%
   );
 
   /* Tarjetas */
-  --card: rgba(255, 255, 255, 0.72);
-  --card2: rgba(255, 255, 255, 0.48);
-  --suave: rgba(255, 255, 255, 0.55);
-  --suave2: rgba(255, 255, 255, 0.82);
+  --card: #ffffff;
+  --card2: #f8fafc;
+  --suave: #eef4f9;
+  --suave2: #e2eaf2;
 
   /* Bordes */
-  --th: rgba(255, 255, 255, 0.7);
-  --th2: rgba(147, 197, 253, 0.55);
+  --th: rgba(15, 23, 42, 0.1);
+  --th2: rgba(15, 23, 42, 0.16);
 
   /* Textos */
-  --txt: #0f172a;
-  --txt2: #475569;
-  --txt3: #64748b;
+  --txt: #172033;
+  --txt2: #334155;
+  --txt3: #475569;
 
   /* Colores principales */
-  --azul: #3b82f6;
-  --azul-hover: #2563eb;
-  --morado: #8b5cf6;
-  --morado-hover: #7c3aed;
+  --azul: #1d4ed8;
+  --azul-hover: #1e40af;
   --rojo: #dc2626;
 
   /* Selección */
-  --sel: #e0f2fe;
+  --sel: #dbeafe;
 
   /* Estados */
   --ok: rgba(16, 185, 129, 0.15);
@@ -54,13 +55,13 @@
   --ambar-t: #b45309;
 
   /* Botones */
-  --btn: #0f172a;
-  --btnh: #1e293b;
+  --btn: #172033;
+  --btnh: #334155;
   --btn-txt: #ffffff;
 
   /* Sombras */
-  --sombra: 0 10px 40px -12px rgba(59, 130, 246, 0.2);
-  --sombra-fuerte: 0 18px 55px -20px rgba(59, 130, 246, 0.35);
+  --sombra: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.08);
+  --sombra-fuerte: 0 18px 48px -20px rgba(15, 23, 42, 0.24);
 }
 
 /* =========================================================
@@ -71,28 +72,26 @@
 
   --fondo: #0f172a;
   --deg: radial-gradient(
-    1200px 700px at 50% -10%,
-    #1e1b4b 0%,
-    #0f172a 60%,
-    #020617 100%
+    1100px 720px at 50% -10%,
+    #1e3a5f 0%,
+    #0f172a 58%,
+    #0a1120 100%
   );
 
-  --card: rgba(30, 41, 59, 0.78);
-  --card2: rgba(15, 23, 42, 0.55);
-  --suave: rgba(148, 163, 184, 0.08);
-  --suave2: rgba(148, 163, 184, 0.14);
+  --card: #1e293b;
+  --card2: #172033;
+  --suave: #263449;
+  --suave2: #223044;
 
-  --th: rgba(255, 255, 255, 0.12);
-  --th2: rgba(148, 163, 184, 0.24);
+  --th: rgba(226, 232, 240, 0.12);
+  --th2: rgba(226, 232, 240, 0.18);
 
-  --txt: #f8fafc;
+  --txt: #e2e8f0;
   --txt2: #cbd5e1;
   --txt3: #94a3b8;
 
   --azul: #60a5fa;
   --azul-hover: #3b82f6;
-  --morado: #a78bfa;
-  --morado-hover: #8b5cf6;
   --rojo: #f87171;
 
   --sel: #1e3a8a;
@@ -109,12 +108,12 @@
   --ambar-b: rgba(251, 191, 36, 0.35);
   --ambar-t: #fcd34d;
 
-  --btn: #f8fafc;
+  --btn: #e2e8f0;
   --btnh: #ffffff;
   --btn-txt: #0f172a;
 
-  --sombra: 0 12px 42px -14px rgba(0, 0, 0, 0.55);
-  --sombra-fuerte: 0 20px 60px -20px rgba(0, 0, 0, 0.7);
+  --sombra: 0 12px 42px -14px rgba(2, 6, 23, 0.6);
+  --sombra-fuerte: 0 20px 60px -20px rgba(2, 6, 23, 0.75);
 }
 
 /* =========================================================
@@ -125,6 +124,7 @@
   --color-foreground: var(--txt);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-newsreader);
 }
 
 /* =========================================================
@@ -138,14 +138,19 @@
 
 html {
   min-height: 100%;
+  /* El recorte horizontal vive en la raíz para no romper position: sticky
+     en los descendientes (un ancestro con overflow crea un contenedor
+     de scroll y anula el sticky). */
+  overflow-x: hidden;
   background: var(--fondo);
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  overflow-x: hidden;
   background-color: var(--fondo);
   background-image: var(--deg);
   color: var(--txt);
@@ -160,6 +165,11 @@ input,
 select,
 textarea {
   -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
 }
 
 button:not(:disabled),
@@ -181,11 +191,14 @@ button:disabled {
    ========================================================= */
 .bg-app {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
   background-color: var(--fondo);
   background-image: var(--deg);
+}
+
+/* Contenido que arranca justo debajo de la cabecera fija de 72px.
+   Se declara aquí (sin capa) para que gane a la utilidad de Tailwind. */
+.min-h-app {
+  min-height: calc(100dvh - 72px);
 }
 
 .card,
@@ -226,12 +239,22 @@ button:disabled {
 
 .btn-examen {
   background: var(--azul);
-  box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.65);
+  box-shadow: 0 8px 24px -8px rgba(31, 27, 22, 0.18);
 }
 
 .btn-arcade {
-  background: var(--morado);
-  box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.65);
+  background: var(--azul);
+  box-shadow: 0 8px 24px -8px rgba(31, 27, 22, 0.18);
+}
+
+/* En tema oscuro los acentos son más claros: se oscurece el fondo para que
+   el texto blanco mantenga un contraste legible. */
+[data-tema="oscuro"] .btn-examen {
+  background: #2563eb;
+}
+
+[data-tema="oscuro"] .btn-arcade {
+  background: #2563eb;
 }
 
 @media (min-width: 640px) {
@@ -245,97 +268,19 @@ button:disabled {
   .btn-examen:hover {
     background: var(--azul-hover);
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px -10px rgba(37, 99, 235, 0.55);
+    box-shadow: 0 14px 30px -10px rgba(31, 27, 22, 0.22);
   }
 
   .btn-arcade:hover {
-    background: var(--morado-hover);
+    background: var(--azul-hover);
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px -10px rgba(124, 58, 237, 0.55);
+    box-shadow: 0 14px 30px -10px rgba(31, 27, 22, 0.22);
   }
 }
 
 .btn-action:focus-visible {
   outline: 3px solid var(--azul);
   outline-offset: 4px;
-}
-
-/* =========================================================
-   TEXTO CON GRADIENTE
-   ========================================================= */
-.hero-gradient {
-  background: linear-gradient(
-    90deg,
-    var(--azul) 0%,
-    var(--morado) 55%,
-    #ec4899 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-/* =========================================================
-   REFLEJOS DECORATIVOS
-   ========================================================= */
-.blob-fondo {
-  position: absolute;
-  z-index: 0;
-  border-radius: 9999px;
-  filter: blur(80px);
-  pointer-events: none;
-  will-change: transform;
-  animation: flotarBlob 10s infinite alternate ease-in-out;
-}
-
-.blob-1 {
-  top: -100px;
-  left: -100px;
-  width: 400px;
-  height: 400px;
-  background: rgba(96, 165, 250, 0.4);
-}
-
-.blob-2 {
-  right: -80px;
-  bottom: -80px;
-  width: 340px;
-  height: 340px;
-  background: rgba(147, 197, 253, 0.32);
-  animation-delay: -5s;
-}
-
-.blob-3 {
-  top: 40%;
-  left: 60%;
-  width: 260px;
-  height: 260px;
-  background: rgba(167, 139, 250, 0.25);
-  opacity: 0.55;
-  animation-delay: -2s;
-}
-
-[data-tema="oscuro"] .blob-1 {
-  background: rgba(30, 58, 138, 0.5);
-}
-
-[data-tema="oscuro"] .blob-2 {
-  background: rgba(88, 28, 135, 0.38);
-}
-
-[data-tema="oscuro"] .blob-3 {
-  background: rgba(30, 58, 138, 0.45);
-}
-
-@keyframes flotarBlob {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  100% {
-    transform: translate3d(30px, 50px, 0) scale(1.1);
-  }
 }
 
 /* =========================================================
@@ -355,7 +300,160 @@ button:disabled {
 
 .animate-fade-in-up {
   opacity: 0;
-  animation: fade-in-up 700ms ease-out forwards;
+  animation: fade-in-up 500ms ease-out forwards;
+}
+
+/* =========================================================
+   AJUSTES PARA PANTALLAS PEQUEÑAS
+   ========================================================= */
+
+/* iOS hace zoom automático al enfocar un campo con menos de 16px,
+   por lo que los campos de formulario se estandarizan en móvil. */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Respeta el área segura inferior de los móviles con gestos o notch
+   (iPhone, Android con barra de navegación). */
+.bottom-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Menos aire arriba en el hero cuando la pantalla es baja y estrecha
+   (móviles en vertical): así el botón principal queda a la vista. */
+@media (max-width: 1023px) and (max-height: 720px) {
+  .hero-top {
+    padding-top: 3.5rem;
+  }
+}
+
+/* Animación de puntos suspensivos para estados de carga. */
+.puntos-animados {
+  display: inline-block;
+  overflow: hidden;
+  width: 0;
+  vertical-align: bottom;
+  animation: puntos-animados 1.2s steps(4, end) infinite;
+}
+
+@keyframes puntos-animados {
+  0% {
+    width: 0;
+  }
+  25% {
+    width: 0.35em;
+  }
+  50% {
+    width: 0.7em;
+  }
+  75%,
+  100% {
+    width: 1.05em;
+  }
+}
+
+/* Letras de la pantalla de carga del Arcade. */
+.letra-encendida {
+  display: inline-block;
+  color: inherit;
+  animation: letra-encendida 0.9s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@keyframes letra-encendida {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* =========================================================
+   FUEGOS ARTIFICIALES · ZONA KIDS
+   ========================================================= */
+.fuegos-artificiales {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fuego-cohete {
+  position: absolute;
+  left: 50%;
+  bottom: -84px;
+  width: 48px;
+  height: 72px;
+  opacity: 0;
+  transform: translateX(-50%);
+  animation: fuego-cohete-subir 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+.fuego-explosion {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0;
+  height: 0;
+}
+
+.fuego-chispa {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--tamano);
+  height: var(--tamano);
+  border-radius: 9999px;
+  background: var(--color);
+  box-shadow: 0 0 12px var(--color);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: fuego-chispa-expandir 1.25s ease-out forwards;
+}
+
+@keyframes fuego-cohete-subir {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.7);
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+    transform: translate(-50%, -52vh) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -55vh) scale(0.85);
+  }
+}
+
+@keyframes fuego-chispa-expandir {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--dx)),
+        calc(-50% + var(--dy))
+      )
+      scale(1);
+  }
 }
 
 /* =========================================================

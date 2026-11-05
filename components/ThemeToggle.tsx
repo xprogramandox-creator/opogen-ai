@@ -1,35 +1,53 @@
 "use client";
-
+import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
-import {
-  alternarTema,
-  obtenerTema,
-  obtenerTemaServidor,
-  suscribirTema,
-} from "@/lib/theme";
 
 type ThemeToggleProps = {
   className?: string;
 };
 
+// No hay nada a lo que suscribirse: solo interesa saber si ya estamos en el
+// cliente. Así se evita el setState dentro de un efecto.
+const sinSuscripcion = () => () => {};
+
 export default function ThemeToggle({
   className = "",
 }: ThemeToggleProps) {
-  const tema = useSyncExternalStore(
-    suscribirTema,
-    obtenerTema,
-    obtenerTemaServidor,
+  const { theme, setTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    sinSuscripcion,
+    () => true,
+    () => false,
   );
 
-  const estaOscuro = tema === "oscuro";
+  if (!mounted) {
+    return (
+      <div
+        className={`h-10 w-10 shrink-0 rounded-full border border-[var(--th)] bg-[var(--card)] ${className}`}
+        aria-hidden="true"
+      />
+    );
+  }
+
+  const estaOscuro = theme === "oscuro";
   const etiqueta = estaOscuro
     ? "Cambiar a modo claro"
     : "Cambiar a modo oscuro";
 
+  function cambiarTema(): void {
+    const nuevo = estaOscuro ? "claro" : "oscuro";
+
+    document.cookie = `opoquiz-tema=${nuevo}; path=/; max-age=31536000; samesite=lax${
+      window.location.protocol === "https:" ? "; secure" : ""
+    }`;
+
+    setTheme(nuevo);
+  }
+
   return (
     <button
       type="button"
-      onClick={alternarTema}
+      onClick={cambiarTema}
       className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] shadow-sm transition-colors hover:text-[var(--azul)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 ${className}`}
       title={etiqueta}
       aria-label={etiqueta}

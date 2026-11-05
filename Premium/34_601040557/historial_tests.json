@@ -1,0 +1,92 @@
+[
+  {
+    "fecha": "2026-11-05T07:10:14.682Z",
+    "nota": 0,
+    "carpeta": "Test rápido",
+    "aciertos": 0,
+    "fallos": 0,
+    "enBlanco": 10,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-05T07:04:50.396Z",
+    "nota": 2,
+    "carpeta": "Test rápido",
+    "aciertos": 5,
+    "fallos": 20,
+    "enBlanco": 0,
+    "total": 25
+  },
+  {
+    "fecha": "2026-11-04T03:13:18.451Z",
+    "nota": 4.8,
+    "carpeta": "Constitucion",
+    "aciertos": 12,
+    "fallos": 13,
+    "enBlanco": 0,
+    "total": 25
+  },
+  {
+    "fecha": "2026-11-02T03:00:33.411Z",
+    "nota": 2.5,
+    "carpeta": "Humanizacion",
+    "aciertos": 5,
+    "fallos": 15,
+    "enBlanco": 0,
+    "total": 20
+  },
+  {
+    "fecha": "2026-11-02T02:34:03.964Z",
+    "nota": 0,
+    "carpeta": "Humanizacion",
+    "aciertos": 0,
+    "fallos": 0,
+    "enBlanco": 10,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-02T02:22:38.036Z",
+    "nota": 2,
+    "carpeta": "Humanizacion",
+    "aciertos": 2,
+    "fallos": 8,
+    "enBlanco": 0,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-02T01:39:30.387Z",
+    "nota": 3,
+    "carpeta": "Test rápido",
+    "aciertos": 3,
+    "fallos": 7,
+    "enBlanco": 0,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-02T01:01:04.481Z",
+    "nota": 0,
+    "carpeta": "Humanizacion",
+    "aciertos": 0,
+    "fallos": 0,
+    "enBlanco": 10,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-02T01:00:40.327Z",
+    "nota": 3,
+    "carpeta": "Humanizacion",
+    "aciertos": 3,
+    "fallos": 5,
+    "enBlanco": 2,
+    "total": 10
+  },
+  {
+    "fecha": "2026-11-02T00:45:11.155Z",
+    "nota": 10,
+    "carpeta": "Humanizacion",
+    "aciertos": 10,
+    "fallos": 0,
+    "enBlanco": 0,
+    "total": 10
+  }
+]

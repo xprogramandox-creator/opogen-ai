@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En el marco de la humanización de Urgencias, ¿qué medida específica se prescribe para pacientes vulnerables?",
+      "opciones": [
+        "La limitación de visitas a franjas horarias estrictas para preservar la intimidad.",
+        "El traslado automático a neonatología para implementar el método canguro.",
+        "La habilitación de un circuito diferenciado que garantice el acompañamiento continuo.",
+        "La exclusión del acompañamiento durante la realización de técnicas diagnósticas."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "En el marco teórico de la comunicación clínica, ¿cuándo se considera que el acto comunicativo resulta formalmente eficaz?",
+      "opciones": [
+        "Cuando el emisor expone la totalidad del mensaje clínico sin interrupciones.",
+        "Cuando el canal utilizado carece de interferencias o barreras ambientales.",
+        "Cuando el receptor interpreta el mensaje en los términos pretendidos por el emisor.",
+        "Cuando el receptor manifiesta verbalmente su adhesión terapéutica plena."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes efectos se asocia directamente a una adecuada transmisión de información asistencial al usuario?",
+      "opciones": [
+        "Incremento en el uso preventivo de los servicios de urgencias.",
+        "Reducción de los costes globales para el sistema sanitario.",
+        "Exención de responsabilidades en la toma de decisiones clínicas.",
+        "Aumento de la demanda de consultas facultativas de seguimiento."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿A qué elemento estructural de la comunicación corresponde el conjunto de reglas y signos empleados en la transmisión del acto informativo?",
+      "opciones": [
+        "Canal.",
+        "Contexto.",
+        "Mensaje.",
+        "Código."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Respecto a la formación continuada de los profesionales sanitarios según el texto, ¿cuál es su finalidad primordial?",
+      "opciones": [
+        "Sustituir las competencias técnicas asistenciales por habilidades relacionales básicas.",
+        "Afrontar cualquier situación desde una perspectiva humanística ofreciendo calidad técnica y humana.",
+        "Delegar la toma de decisiones clínicas y éticas en los comités de participación ciudadana.",
+        "Restringir la comunicación de malas noticias a unidades de cuidados intensivos y urgencias."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "La evolución del usuario de espectador pasivo a actor principal y decisor de su salud conlleva:",
+      "opciones": [
+        "La reducción del acompañamiento familiar en las unidades de cuidados intensivos.",
+        "La eliminación de la formación humanística en el currículo académico sanitario.",
+        "Un cambio en las formas tradicionales de gestión impulsado por la exigencia de transparencia.",
+        "La limitación del rol profesional al ámbito estrictamente técnico-asistencial."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Qué repercusión directa produce la presencia de un acompañante de confianza sobre el paciente ingresado?",
+      "opciones": [
+        "Aumenta su predisposición receptiva hacia los cuidados y la expresión de sus emociones.",
+        "Elimina por completo la necesidad de soporte técnico especializado en unidades críticas.",
+        "Exime al equipo sanitario de elaborar protocolos de comunicación interprofesional.",
+        "Garantiza el cumplimiento estricto del método canguro en los circuitos de urgencias."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿qué rol activo deben asumir los profesionales para integrarse en la humanización del sistema?",
+      "opciones": [
+        "La sustitución de la gestión de recursos tradicionales por asambleas ciudadanas.",
+        "La implicación directa en la elaboración de protocolos y en la comunicación interna.",
+        "La supervisión exclusiva de los circuitos administrativos en áreas pediátricas.",
+        "El relevo de las familias en la aplicación de técnicas asistenciales complejas."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Respecto a la identificación de 'A QUIÉN comunicar', ¿qué praxis errónea advierte el documento en el abordaje asistencial?",
+      "opciones": [
+        "Excluir a los tutores legales en casos de incapacidad formal manifiesta.",
+        "Comunicar el diagnóstico directamente al menor emancipado sin consentimiento.",
+        "Dirigir por defecto la información a los familiares asumiendo la incapacidad del usuario.",
+        "Informar al paciente sin la presencia obligatoria de un testigo administrativo."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "En la dimensión metodológica del 'CÓMO comunicar', ¿qué pauta debe observar rigurosamente el profesional sanitario?",
+      "opciones": [
+        "Priorizar el rigor léxico clínico sobre la inteligibilidad del receptor.",
+        "Adaptar el registro lingüístico al nivel de competencia del usuario.",
+        "Delegar la transmisión técnica a medios escritos complementarios.",
+        "Condensar los contenidos omitiendo pautas relativas al estilo de vida."
+      ],
+      "correcta": 1
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

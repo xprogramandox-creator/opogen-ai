@@ -1,6 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
+import { cookies } from "next/headers";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+import { SessionProvider } from "@/components/SessionProvider";
+import { AuthModalProvider } from "@/components/AuthModalProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import FondoEscolar from "@/components/FondoEscolar";
+import { NotificationProvider } from "@/components/NotificationProvider";
+import SincronizarTemaCookie from "@/components/SincronizarTemaCookie";
+import RegistrarUsoZona from "@/components/RegistrarUsoZona";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,14 +25,20 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "OpoQuiz AI | Exámenes tipo test con tus apuntes",
-    template: "%s | OpoQuiz AI",
+    default: "OpoGen AI | Exámenes tipo test con tus apuntes",
+    template: "%s | OpoGen AI",
   },
   description:
     "Sube tus apuntes y genera exámenes tipo test personalizados para oposiciones, bachillerato, universidad y secundaria.",
-  applicationName: "OpoQuiz AI",
+  applicationName: "OpoGen AI",
   keywords: [
     "exámenes",
     "test",
@@ -33,20 +49,25 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "OpoQuiz AI",
+      name: "OpoGen AI",
     },
   ],
+  icons: {
+    icon: "/opogen-logo-nuevo.png",
+    shortcut: "/opogen-logo-nuevo.png",
+    apple: "/opogen-logo-nuevo.png",
+  },
   openGraph: {
-    title: "OpoQuiz AI",
+    title: "OpoGen AI",
     description:
       "Convierte tus apuntes en exámenes personalizados en segundos.",
     type: "website",
     locale: "es_ES",
-    siteName: "OpoQuiz AI",
+    siteName: "OpoGen AI",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OpoQuiz AI",
+    title: "OpoGen AI",
     description:
       "Convierte tus apuntes en exámenes personalizados en segundos.",
   },
@@ -62,44 +83,49 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 };
 
-// Se ejecuta antes de mostrar el contenido de la página.
-// Así el tema guardado se aplica sin un parpadeo visual.
-const TEMA_INICIAL = `
-(function () {
-  try {
-    var tema = localStorage.getItem("opoquiz-tema");
-
-    if (tema !== "claro" && tema !== "oscuro") {
-      tema = (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      )
-        ? "oscuro"
-        : "claro";
-    }
-
-    document.documentElement.setAttribute("data-tema", tema);
-  } catch (error) {
-    document.documentElement.setAttribute("data-tema", "claro");
-  }
-})();
-`;
+export const instant = false;
 
 type RootLayoutProps = {
   children: ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const cookieStore = await cookies();
+  const temaInicial =
+    cookieStore.get("opoquiz-tema")?.value === "oscuro"
+      ? "oscuro"
+      : "claro";
+
   return (
     <html
-      lang="es"
-      data-tema="claro"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang={locale}
+      data-tema={temaInicial}
+      className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased bg-transparent`}
       suppressHydrationWarning
     >
-      <body className="min-h-full bg-[var(--fondo)] text-[var(--txt)]">
-        <script dangerouslySetInnerHTML={{ __html: TEMA_INICIAL }} />
-        {children}
+      <body className="relative min-h-full bg-transparent text-[var(--txt)]">
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider
+            attribute="data-tema"
+            defaultTheme={temaInicial}
+            enableSystem={false}
+          >
+            <SincronizarTemaCookie />
+            <RegistrarUsoZona />
+            <FondoEscolar />
+            <div className="relative z-10">
+              <NotificationProvider>
+                <SessionProvider>
+                  <AuthModalProvider>
+                    {children}
+                  </AuthModalProvider>
+                </SessionProvider>
+              </NotificationProvider>
+            </div>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

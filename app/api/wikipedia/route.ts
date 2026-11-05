@@ -231,7 +231,7 @@ async function buscarEnWikipedia(
           Accept: "application/json",
           "User-Agent":
             process.env.WIKIPEDIA_USER_AGENT?.trim() ||
-            "OpoQuizAI/1.0 (aplicacion educativa de examenes)",
+            "OpoGenAI/1.0 (aplicacion educativa de examenes)",
         },
         cache: "no-store",
         signal: controller.signal,

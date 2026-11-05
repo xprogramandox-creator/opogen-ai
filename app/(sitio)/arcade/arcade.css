@@ -1,0 +1,1418 @@
+/* Estilos del Arcade, aislados bajo .arcade-app. */
+
+
+    .arcade-app {
+      color-scheme: light;
+      --bg-base: #f7f4ee;
+      --card: #ffffff;
+      --card2: #fdfbf7;
+      --txt: #1f1b16;
+      --txt2: #5e554a;
+      --muted: #7b7266;
+      --p1: #1d4ed8;
+      --good: #10b981;
+      --bad: #ef4444;
+      --gold: #f59e0b;
+      --line: rgba(31, 27, 22, 0.08);
+      --blob1: rgba(96, 165, 250, 0.4);
+      --blob2: rgba(147, 197, 253, 0.3);
+    }
+
+    [data-tema="oscuro"] .arcade-app {
+      color-scheme: dark;
+      --bg-base: #12110f;
+      --card: #1c1a18;
+      --card2: #151311;
+      --txt: #efe9de;
+      --txt2: #aaa398;
+      --muted: #8a847a;
+      --p1: #60a5fa;
+      --good: #34d399;
+      --bad: #f87171;
+      --gold: #fbbf24;
+      --line: rgba(239, 234, 222, 0.12);
+      --blob1: rgba(30, 58, 138, 0.5);
+      --blob2: rgba(88, 28, 135, 0.3);
+    }
+
+    .arcade-app * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .arcade-app {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0;
+    }
+
+    .arcade-app {
+      position: relative;
+      overflow: hidden;
+      background-color: transparent;
+      background-image: none;
+      color: var(--txt);
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    .arcade-app button,
+    .arcade-app input {
+      font: inherit;
+    }
+
+    .arcade-app button {
+      touch-action: manipulation;
+    }
+
+    .arcade-app button:focus-visible,
+    .arcade-app input:focus-visible {
+      outline: 3px solid var(--p1);
+      outline-offset: 3px;
+    }
+
+    .arcade-app [hidden] {
+      display: none !important;
+    }
+
+    .arcade-app .bg-blobs {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .arcade-app .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: arcade-floatBlob 10s infinite alternate ease-in-out;
+    }
+
+    .arcade-app .blob-1 {
+      top: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: var(--blob1);
+    }
+
+    .arcade-app .blob-2 {
+      right: -50px;
+      bottom: -50px;
+      width: 300px;
+      height: 300px;
+      background: var(--blob2);
+      animation-delay: -5s;
+    }
+
+    .arcade-app .blob-3 {
+      top: 40%;
+      left: 60%;
+      width: 250px;
+      height: 250px;
+      background: var(--blob1);
+      opacity: 0.5;
+      animation-delay: -2s;
+    }
+
+    @keyframes arcade-floatBlob {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      to {
+        transform: translate3d(30px, 50px, 0) scale(1.1);
+      }
+    }
+
+    .arcade-app #app {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 14px;
+      /* Deja libre la fila de controles que superpone la página (/arcade). */
+      padding-top: 72px;
+      /* Respeta las zonas seguras de móviles con notch o gestos. */
+      padding-right: max(14px, env(safe-area-inset-right));
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+      padding-left: max(14px, env(safe-area-inset-left));
+      overflow: hidden;
+    }
+
+    .arcade-app .screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .arcade-app .screen.active {
+      display: flex !important;
+    }
+
+    .arcade-app #menu {
+      position: relative;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      padding: 8px 0 20px;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      text-align: center;
+    }
+
+    .arcade-app #menu::-webkit-scrollbar,
+    .arcade-app::-webkit-scrollbar {
+      display: none;
+    }
+
+    .arcade-app .arcade-menu-contenido {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-block: auto;
+    }
+
+    .arcade-app .btn-jugar {
+      width: 100%;
+      padding: 24px;
+      font-size: 21px;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+    }
+
+    .arcade-app .btn-jugar:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow:
+        0 14px 30px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .arcade-app .arcade-modos {
+      width: min(1100px, 96%);
+      margin: 24px 0 0;
+    }
+
+    .arcade-app #app.arcade-app-menu {
+      max-width: 1120px;
+    }
+
+    .arcade-app .arcade-modo-card {
+      display: flex;
+      width: 100%;
+      min-height: 360px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 36px 28px;
+      border: 1px solid var(--th);
+      border-radius: 28px;
+      background: var(--card);
+      color: var(--txt);
+      text-align: center;
+      cursor: pointer;
+      box-shadow:
+        0 16px 32px -20px rgba(31, 27, 22, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .arcade-app .arcade-modo-card:hover {
+      transform: translateY(-7px);
+      border-color: var(--azul, var(--p1));
+      box-shadow:
+        0 22px 42px -14px rgba(37, 99, 235, 0.25),
+        0 0 0 1px color-mix(in srgb, var(--azul, var(--p1)) 25%, transparent);
+    }
+
+    .arcade-app .arcade-modo-icono {
+      font-size: 80px;
+      line-height: 1;
+    }
+
+    .arcade-app .arcade-modo-titulo {
+      color: var(--txt);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .arcade-app .arcade-modo-descripcion {
+      max-width: 28ch;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .arcade-app .arcade-modos + .menu-btns {
+      width: min(420px, 92%);
+      margin-top: 20px;
+    }
+
+    .arcade-app .arcade-intro {
+      display: flex;
+      width: min(560px, 96%);
+      align-items: flex-start;
+      gap: 14px;
+      margin-top: 8px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      text-align: left;
+    }
+
+    .arcade-app .arcade-intro-icono {
+      flex-shrink: 0;
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .arcade-app .arcade-intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .arcade-app .arcade-intro strong {
+      color: var(--txt);
+      font-weight: 600;
+    }
+
+    .arcade-app .arcade-beneficios {
+      width: min(560px, 96%);
+      margin-top: 8px;
+    }
+
+    .arcade-app .arcade-beneficio {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 10px;
+      border: 1px solid var(--th);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 72%, transparent);
+      text-align: center;
+    }
+
+    .arcade-app .arcade-beneficio-icono {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .arcade-app .arcade-beneficio-titulo {
+      color: var(--txt);
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .arcade-app .arcade-beneficio-texto {
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+
+    .arcade-app .arcade-modal-modo {
+      max-width: 430px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--txt);
+      text-align: center;
+    }
+
+    .arcade-app .arcade-modal-icono {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 44px;
+      line-height: 1;
+    }
+
+    .arcade-app .arcade-modal-modo h3 {
+      margin: 0;
+      color: var(--txt);
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .arcade-app .arcade-modal-modo p {
+      margin-top: 12px;
+      color: var(--txt2);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .arcade-app .arcade-modal-acciones {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .arcade-app .arcade-modal-acciones .btn {
+      flex: 1;
+      padding: 14px 16px;
+    }
+
+    .arcade-app .arcade-modal-modo .btn.ghost {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .arcade-app .logo {
+      font-size: clamp(40px, 12vw, 66px);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -1px;
+      color: var(--txt);
+      animation: arcade-logoIn 500ms ease;
+    }
+
+    @keyframes arcade-logoIn {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .arcade-app .tag {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .arcade-app .menu-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: min(340px, 86%);
+      margin-top: 26px;
+    }
+
+    .arcade-app .btn {
+      padding: 18px;
+      color: #ffffff;
+      background: var(--p1);
+      border: 0;
+      border-radius: 16px;
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 80ms ease;
+    }
+
+    .arcade-app .btn.ghost {
+      padding: 13px;
+      color: var(--txt);
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .arcade-app .btn:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .arcade-app .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .arcade-app #config {
+      /* Alineado arriba: si el formulario no cabe (móviles pequeños),
+         el contenido crece hacia abajo y se puede desplazar. Con
+         justify-content: center la parte superior quedaba fuera del
+         área visible y bajo la cabecera fija. */
+      justify-content: flex-start;
+      gap: 6px;
+      padding-top: 4px;
+      padding-bottom: 20px;
+      overflow-y: auto;
+    }
+
+    .arcade-app #cfgTitle {
+      margin: 0 0 14px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .arcade-app .cfgrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .arcade-app .seg {
+      display: flex;
+      gap: 6px;
+    }
+
+    .arcade-app .seg button {
+      padding: 8px 13px;
+      color: var(--txt);
+      background: var(--card2);
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .arcade-app .seg button.on {
+      color: #ffffff;
+      background: var(--p1);
+      border-color: transparent;
+    }
+
+    .arcade-app .cfgrow select {
+      min-width: 0;
+      max-width: 62%;
+      padding: 8px 10px;
+      color: var(--txt);
+      background: var(--card2);
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      font-family: inherit;
+      /* 16px evita que iOS haga zoom al enfocar el desplegable. */
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .arcade-app .cfgrow select:focus {
+      border-color: var(--p1);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+    }
+
+    .arcade-app .upload-box {
+      position: relative;
+      margin-bottom: 12px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 2px dashed #93c5fd;
+      border-radius: 14px;
+      text-align: center;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    [data-tema="oscuro"] .arcade-app .upload-box {
+      background: rgba(28, 26, 24, 0.6);
+      border-color: #5e554a;
+    }
+
+    .arcade-app .upload-box:hover {
+      background: var(--card);
+    }
+
+    .arcade-app .upload-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .arcade-app .upload-box p {
+      margin: 0;
+      color: var(--p1);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .arcade-app .upload-box small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .arcade-app .topic-box {
+      margin-bottom: 12px;
+      padding: 20px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .arcade-app .topic-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .arcade-app .topic-input {
+      width: 100%;
+      padding: 14px 15px;
+      color: var(--txt);
+      background: var(--card2);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+    }
+
+    .arcade-app .topic-input::placeholder {
+      color: var(--muted);
+    }
+
+    .arcade-app .topic-input:focus {
+      border-color: var(--p1);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+    }
+
+    .arcade-app .topic-help {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .arcade-app .source-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding: 5px;
+      background: var(--card2);
+      border-radius: 13px;
+    }
+
+    .arcade-app .source-switch button {
+      padding: 10px 8px;
+      color: var(--txt2);
+      background: transparent;
+      border: 0;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .arcade-app .source-switch button.on {
+      color: #ffffff;
+      background: var(--p1);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .arcade-app .source-switch button:focus-visible {
+      outline: 3px solid var(--p1);
+      outline-offset: 2px;
+    }
+
+    .arcade-app .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .arcade-app .file-list li {
+      overflow: hidden;
+      padding: 9px 11px;
+      color: var(--txt2);
+      background: var(--card2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .arcade-app .error-box {
+      width: 100%;
+      margin-top: 4px;
+      padding: 12px 14px;
+      color: var(--bad);
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .arcade-app .topbar {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .arcade-app .scorebox {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .arcade-app .scorebox .k {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .arcade-app .scorebox .v {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .arcade-app .hearts {
+      color: var(--bad);
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+
+    .arcade-app .streakbadge {
+      padding: 6px 12px;
+      color: #ffffff;
+      background: var(--gold);
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+      font-weight: 600;
+      transform: scale(0);
+      transition: transform 180ms ease;
+    }
+
+    .arcade-app .streakbadge.show {
+      transform: scale(1);
+      animation: arcade-pop 300ms ease;
+    }
+
+    .arcade-app .survivalbadge {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      color: #ffffff;
+      background: var(--bad);
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes arcade-pop {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .arcade-app .timerwrap {
+      flex-shrink: 0;
+      height: 8px;
+      margin-bottom: 12px;
+      background: var(--card2);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .arcade-app .timerwrap-pausa .timerbar {
+      background: var(--p1);
+    }
+
+    .arcade-app .timerpausa {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1d4ed8;
+      font-size: 9px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .arcade-app .timerbar {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--good), var(--gold), var(--bad));
+      border-radius: 999px;
+      transition: width 60ms linear;
+    }
+
+    .arcade-app .qmeta {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .arcade-app .cat {
+      padding: 3px 10px;
+      color: var(--txt);
+      background: var(--card2);
+      border-radius: 999px;
+    }
+
+    .arcade-app .pausebtn {
+      padding: 4px 9px;
+      color: var(--txt);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .arcade-app .pausebtn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .arcade-app .qcard {
+      position: relative;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      min-height: 110px;
+      margin-bottom: 12px;
+      padding: 22px 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      animation: arcade-cardIn 280ms ease;
+    }
+
+    @keyframes arcade-cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .arcade-app .qcard.shake {
+      animation: arcade-shake 400ms ease;
+    }
+
+    @keyframes arcade-shake {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      20% {
+        transform: translateX(-9px);
+      }
+      40% {
+        transform: translateX(9px);
+      }
+      60% {
+        transform: translateX(-6px);
+      }
+      80% {
+        transform: translateX(6px);
+      }
+    }
+
+    .arcade-app .qcard .qtext {
+      font-size: clamp(17px, 4.6vw, 22px);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .arcade-app .juego-contenido .qcard {
+      margin-bottom: 0;
+    }
+
+    .arcade-app .juego-contenido .options {
+      flex: 0 0 auto;
+      overflow: visible;
+    }
+
+    .arcade-app .juego-contenido .comos {
+      margin-top: 0;
+    }
+
+    .arcade-app .options {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      padding-bottom: 4px;
+      overflow: auto;
+    }
+
+    .arcade-app .opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      color: var(--txt);
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px -5px rgba(0, 0, 0, 0.05);
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      animation: arcade-optIn 300ms ease backwards;
+      transition:
+        transform 70ms ease,
+        border-color 150ms ease,
+        background 150ms ease;
+    }
+
+    @keyframes arcade-optIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .arcade-app .opt:disabled {
+      cursor: default;
+    }
+
+    .arcade-app .opt .letter {
+      display: grid;
+      flex: 0 0 30px;
+      place-items: center;
+      height: 30px;
+      color: var(--muted);
+      background: var(--card2);
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .arcade-app .opt:hover:not(:disabled) {
+      background: var(--card2);
+      border-color: var(--p1);
+    }
+
+    .arcade-app .opt:active:not(:disabled) {
+      transform: scale(0.985);
+    }
+
+    .arcade-app .opt.correct {
+      color: #065f46;
+      background: #ecfdf5;
+      border-color: var(--good);
+    }
+
+    .arcade-app .opt.correct .letter {
+      color: #ffffff;
+      background: var(--good);
+    }
+
+    .arcade-app .opt.wrong {
+      color: #991b1b;
+      background: #fef2f2;
+      border-color: var(--bad);
+    }
+
+    .arcade-app .opt.wrong .letter {
+      color: #ffffff;
+      background: var(--bad);
+    }
+
+    .arcade-app .opt.hidden50 {
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    [data-tema="oscuro"] .arcade-app .opt.correct {
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.2);
+    }
+
+    [data-tema="oscuro"] .arcade-app .opt.wrong {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .arcade-app .comos {
+      display: flex;
+      flex-shrink: 0;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .arcade-app .como {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 12px 6px;
+      color: var(--txt);
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px -5px rgba(0, 0, 0, 0.05);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .arcade-app .como:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .arcade-app .como .ico {
+      font-size: 19px;
+    }
+
+    .arcade-app .como .n {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .arcade-app .hint {
+      flex-shrink: 0;
+      min-height: 18px;
+      margin-top: 8px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .arcade-app .feedback {
+      flex-shrink: 0;
+      max-height: 0;
+      margin-top: 10px;
+      padding: 0 14px;
+      overflow: hidden;
+      opacity: 0;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.35;
+      transition:
+        max-height 300ms ease,
+        opacity 300ms ease,
+        padding 300ms ease;
+    }
+
+    .arcade-app .feedback.show {
+      max-height: 180px;
+      padding: 12px 14px;
+      opacity: 1;
+    }
+
+    .arcade-app .feedback.no {
+      color: #991b1b;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .arcade-app .feedback.ok {
+      color: #065f46;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+    }
+
+    .arcade-app .feedback .exp {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    [data-tema="oscuro"] .arcade-app .feedback.no {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    [data-tema="oscuro"] .arcade-app .feedback.ok {
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .arcade-app #result {
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .arcade-app .result-title {
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .arcade-app .result-big {
+      color: var(--gold);
+      font-size: 64px;
+      font-weight: 600;
+      line-height: 1;
+      animation: arcade-pop 500ms ease;
+    }
+
+    .arcade-app .result-sub {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .arcade-app .flash {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease;
+    }
+
+    .arcade-app .flash.on {
+      opacity: 0.35;
+    }
+
+    .arcade-app .flash.good {
+      background: radial-gradient(
+        circle at 50% 60%,
+        rgba(16, 185, 129, 0.4),
+        transparent 60%
+      );
+    }
+
+    .arcade-app .flash.bad {
+      background: radial-gradient(
+        circle at 50% 60%,
+        rgba(239, 68, 68, 0.4),
+        transparent 60%
+      );
+    }
+
+    .arcade-app .float {
+      position: fixed;
+      top: 44%;
+      left: 50%;
+      z-index: 70;
+      font-size: 34px;
+      font-weight: 600;
+      pointer-events: none;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+      transform: translate(-50%, -50%);
+      animation: arcade-floatUp 900ms ease forwards;
+    }
+
+    @keyframes arcade-floatUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -140%) scale(1);
+      }
+    }
+
+    .arcade-app .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      overflow-y: auto;
+      background: rgba(18, 17, 15, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .arcade-app .overlay-box {
+      width: 100%;
+      max-width: 380px;
+      padding: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .arcade-app .overlay-box h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+    }
+
+    .arcade-app .overlay-box p {
+      margin: 8px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    .arcade-app .overlay-box.arcade-modal-modo {
+      max-width: 430px;
+      border-color: var(--line);
+      background: var(--card);
+      color: var(--txt);
+    }
+
+    .arcade-app .overlay-box.arcade-modal-modo h3 {
+      margin: 0;
+      color: var(--txt);
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .arcade-app .overlay-box.arcade-modal-modo p {
+      margin-top: 12px;
+      color: var(--txt2);
+      text-align: center;
+      white-space: normal;
+    }
+
+    .arcade-app .overlay-box.arcade-modal-modo .arcade-modal-acciones {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .arcade-app .overlay-box.arcade-modal-modo .arcade-modal-acciones .btn {
+      width: auto;
+      flex: 1;
+      margin-top: 0;
+      padding: 14px 16px;
+    }
+
+    .arcade-app .overlay-box .btn {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .arcade-app .overlay-box .btn + .btn {
+      margin-top: 8px;
+    }
+
+    .arcade-app .spinner {
+      width: 30px;
+      height: 30px;
+      margin: 0 auto 10px;
+      border: 4px solid var(--card2);
+      border-top-color: var(--p1);
+      border-radius: 50%;
+      animation: arcade-spin 1s linear infinite;
+    }
+
+    @keyframes arcade-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .arcade-app .start-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      backdrop-filter: blur(2px);
+      transition:
+        opacity 2s ease,
+        visibility 2s ease;
+    }
+
+    [data-tema="oscuro"] .arcade-app .start-overlay {
+      background: rgba(18, 17, 15, 0.85);
+    }
+
+    .arcade-app .start-overlay.hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .arcade-app .start-overlay button {
+      padding: 14px 28px;
+      color: #ffffff;
+      background: var(--p1);
+      border: 0;
+      border-radius: 50px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 100ms ease;
+    }
+
+    .arcade-app .start-overlay button:active {
+      transform: scale(0.95);
+    }
+
+    .arcade-app .stars-container {
+      position: absolute;
+      inset: 0;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      pointer-events: none;
+    }
+
+    .arcade-app .star {
+      color: var(--p1);
+      font-size: 28px;
+      animation: arcade-floatStars 2s ease-out forwards;
+    }
+
+    @keyframes arcade-floatStars {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-40px) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1);
+        filter: blur(4px);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .arcade-app .cfgrow {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .arcade-app .seg {
+        width: 100%;
+      }
+
+      .arcade-app .seg button {
+        flex: 1;
+      }
+    }
+
+    @media (max-height: 650px) {
+      .arcade-app .menu-btns {
+        margin-top: 18px;
+      }
+
+      .arcade-app .qcard {
+        min-height: 90px;
+        padding: 16px 12px;
+      }
+
+      /* En pantallas bajas la partida completa se desplaza en lugar de
+         comprimir las opciones hasta hacerlas invisibles cuando aparece
+         la explicación de la respuesta. */
+      .arcade-app #game {
+        overflow-y: auto;
+      }
+
+      .arcade-app .options {
+        flex: 0 0 auto;
+        overflow: visible;
+      }
+
+      .arcade-app .opt {
+        padding: 11px 14px;
+        font-size: 15px;
+      }
+
+      .arcade-app .comos {
+        margin-top: 8px;
+      }
+
+      .arcade-app .como {
+        padding: 9px 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .arcade-app *,
+.arcade-app *::before,
+.arcade-app *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  

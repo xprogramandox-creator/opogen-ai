@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "¿Quién ayuda a un niño enfermo a estar tranquilo en el hospital?",
+      "opciones": [
+        "Un desconocido",
+        "Su familia",
+        "Un juguete roto",
+        "Nadie"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quiénes son considerados el corazón del sistema de salud?",
+      "opciones": [
+        "Los profesionales sanitarios",
+        "Los edificios grandes",
+        "Las máquinas de rayos",
+        "Las camas vacías"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cómo debe hablar un médico para que un niño le entienda?",
+      "opciones": [
+        "Con palabras difíciles",
+        "En voz muy baja",
+        "Con palabras sencillas",
+        "Sin mirarle a la cara"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿Quién es la persona que envía un mensaje a otra?",
+      "opciones": [
+        "El receptor",
+        "El emisor",
+        "El canal",
+        "El código"
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quién recibe y escucha la información en una conversación?",
+      "opciones": [
+        "El receptor",
+        "El emisor",
+        "El papel",
+        "El mensaje"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Con el paso de los años, ¿qué papel tienen hoy los pacientes?",
+      "opciones": [
+        "Quedarse siempre callados",
+        "No acudir al hospital",
+        "Ignorar las medicinas",
+        "Decidir y participar activamente"
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "¿Cómo se llama la información que queremos contar o transmitir?",
+      "opciones": [
+        "El canal",
+        "El receptor",
+        "El emisor",
+        "El mensaje"
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "¿Cómo se llama el cuidado donde los padres abrazan al bebé en el pecho?",
+      "opciones": [
+        "Método canguro",
+        "Salto de rana",
+        "Carrera de osos",
+        "Nido de pájaro"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Qué ocurre cuando un enfermo entiende bien los consejos del médico?",
+      "opciones": [
+        "Se cuida y recupera mejor",
+        "Se confunde más",
+        "Toma peores decisiones",
+        "Se enfada con todos"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿En qué momento deben aprender los sanitarios a comunicarse con cariño?",
+      "opciones": [
+        "Solo al jubilarse",
+        "Nunca en su vida",
+        "Durante toda su formación",
+        "Solo los fines de semana"
+      ],
+      "correcta": 2
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

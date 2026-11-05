@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comprobación responsive</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 8px;
+        background: #1e293b;
+        font: 12px/1.4 monospace;
+        color: #e2e8f0;
+      }
+      iframe {
+        border: 0;
+        display: block;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const ancho = params.get("w") || "360";
+      const alto = params.get("h") || "740";
+      const ruta = params.get("p") || "/";
+      const marco = document.createElement("iframe");
+      marco.src = ruta;
+      marco.width = ancho;
+      marco.height = alto;
+      marco.title = "comprobacion";
+      document.body.appendChild(marco);
+    </script>
+  </body>
+</html>

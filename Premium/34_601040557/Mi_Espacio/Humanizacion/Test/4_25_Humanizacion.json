@@ -1,0 +1,257 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En relación con la atención psicosocial al paciente prevista en la guía, ¿por qué se indica expresamente que el profesional debe identificarse?",
+      "opciones": [
+        "Porque el paciente tiene derecho a conocer la categoría profesional de quien le atiende.",
+        "Porque los equipos de protección individual dificultan que el paciente lo reconozca.",
+        "Porque así se evita que el paciente confunda al personal sanitario con el no sanitario.",
+        "Porque lo exige el protocolo de trazabilidad de contactos."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según la guía de acompañamiento para pacientes ingresados por COVID-19, ¿qué finalidad principal se persigue con la comunicación entre el profesional y el paciente?",
+      "opciones": [
+        "Mantener una buena comunicación que contribuya a disminuir la incertidumbre del paciente.",
+        "Cumplir con el protocolo de información clínica establecido por el centro.",
+        "Registrar en la historia clínica las emociones manifestadas por el paciente.",
+        "Delegar en el acompañante la responsabilidad de informar al paciente."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la Guía de acompañamiento para pacientes ingresados por COVID-19 del Comité de Ética del Área I del Servicio Murciano de Salud, ¿cuál de los siguientes NO se configura como criterio de acompañamiento justificado?",
+      "opciones": [
+        "Pacientes menores de edad.",
+        "Mujeres embarazadas y parturientas.",
+        "Personas con deterioro cognitivo y/o demencia.",
+        "Personas con patología respiratoria crónica leve."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "De acuerdo con la bibliografía recogida en el material, ¿qué documento se identifica como guía de acompañamiento para pacientes ingresados del COVID-19?",
+      "opciones": [
+        "El publicado por ForoHURGE en 2020",
+        "El elaborado por el Comité de Ética del Área I del Servicio Murciano de Salud",
+        "El aprobado por el Ministerio de Sanidad en 2021",
+        "El emitido por la Organización Mundial de la Salud en 2019"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Respecto a la atención psicosocial al paciente, la guía establece que el profesional debe identificarse porque:",
+      "opciones": [
+        "Los equipos de protección individual dificultan que el paciente lo reconozca",
+        "La normativa de protección de datos lo exige en todo caso",
+        "El paciente debe firmar el consentimiento informado",
+        "El acompañante asume la responsabilidad de la identificación"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿qué se recomienda al profesional en relación con las emociones y miedos del paciente?",
+      "opciones": [
+        "Escuchar y permitir que el paciente muestre sus emociones y miedos para reducir su incertidumbre.",
+        "Evitar que el paciente exprese emociones negativas para no aumentar su ansiedad.",
+        "Derivar al paciente al servicio de psiquiatría para que exprese sus emociones.",
+        "Limitar la expresión de emociones a una sesión semanal programada."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con la atención psicosocial al paciente, el material destaca como actuación del profesional:",
+      "opciones": [
+        "Escuchar y permitir que el paciente exprese sus emociones y miedos",
+        "Restringir la información a la familia para evitar alarma",
+        "Limitar la comunicación a los aspectos estrictamente clínicos",
+        "Priorizar la cumplimentación documental sobre la escucha activa"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la guía, ¿qué actuación del profesional contribuye directamente a disminuir la incertidumbre del paciente?",
+      "opciones": [
+        "Escuchar y permitir que el paciente muestre sus emociones y miedos.",
+        "Proporcionar al paciente únicamente información escrita.",
+        "Limitar las visitas del acompañante para evitar contagios.",
+        "Realizar rondas médicas más frecuentes."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿qué obligación se impone al acompañante del paciente COVID-19?",
+      "opciones": [
+        "Someterse a una prueba diagnóstica antes de acceder a la unidad.",
+        "Realizar cuarentena posteriormente, además de ser informado de los riesgos de adquirir la enfermedad.",
+        "Permanecer en el hospital durante todo el ingreso sin posibilidad de ausentarse.",
+        "Firmar un documento que le exime al centro de toda responsabilidad sanitaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes objetivos NO se atribuye expresamente a la Guía de acompañamiento elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud?",
+      "opciones": [
+        "Crear estrategias y mecanismos seguros para las diferentes áreas de hospitalización.",
+        "Facilitar documentos a los profesionales sanitarios para valorar la idoneidad del acompañamiento.",
+        "Establecer un régimen sancionador para los familiares que incumplan la cuarentena.",
+        "Proporcionar información a los familiares por circuitos adecuados."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según la Guía de acompañamiento para pacientes ingresados por COVID-19, ¿qué documento elaboró el Comité de Ética del Área I del Servicio Murciano de Salud?",
+      "opciones": [
+        "Una guía de acompañamiento para pacientes ingresados de COVID-19",
+        "Un protocolo de aislamiento domiciliario para contactos estrechos",
+        "Un plan de contingencia para Urgencias y Emergencias",
+        "Una instrucción sobre uso de equipos de protección individual"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿cuál de los siguientes se considera criterio de acompañamiento justificado?",
+      "opciones": [
+        "Personas con deterioro cognitivo y/o demencia",
+        "Personas con patología banal que acuden a consulta externa",
+        "Personas que rechazan expresamente el acompañamiento",
+        "Personas con alta hospitalaria programada"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes NO se enumera en el texto como criterio de acompañamiento según la guía?",
+      "opciones": [
+        "Menores de edad.",
+        "Embarazadas y parturientas.",
+        "Personas con deterioro cognitivo y/o demencia.",
+        "Personas con enfermedad crónica estabilizada sin dependencia."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Conforme a la guía citada, ¿qué dos unidades hospitalarias requieren una especial actuación por la deshumanización que conlleva la pandemia?",
+      "opciones": [
+        "UCI y Servicio de Urgencias.",
+        "Hospitalización y Consultas Externas.",
+        "UCI y Hospitalización.",
+        "Servicio de Urgencias y Quirófano."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes afirmaciones se desprende del contenido de la guía en cuanto a la atención psicosocial al paciente?",
+      "opciones": [
+        "El profesional debe identificar las necesidades de información del paciente y responder a ellas.",
+        "El profesional debe priorizar la información clínica sobre la emocional.",
+        "El profesional debe evitar hablar de temas que puedan angustiar al paciente.",
+        "El profesional debe remitir al paciente a recursos externos para apoyo emocional."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "De acuerdo con la guía, ¿qué debe hacer el profesional ante las dudas que plantee el paciente?",
+      "opciones": [
+        "Responder a las necesidades de información o dudas que pueda tener el paciente.",
+        "Remitir al paciente a la página web del centro para consultar sus dudas.",
+        "Indicar al paciente que consulte sus dudas con el acompañante.",
+        "Anotar las dudas para resolverlas en la siguiente visita médica."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según la guía, ¿en qué unidades se necesita una especial actuación por la deshumanización que conlleva la pandemia?",
+      "opciones": [
+        "Hospitalización y consultas externas.",
+        "UCI y Servicio de Urgencias.",
+        "Farmacia hospitalaria y rehabilitación.",
+        "Hospitalización a domicilio y atención primaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el material sobre la campaña de humanización ante situaciones excepcionales, ¿qué finalidad se atribuye a escuchar y permitir que el paciente muestre sus emociones y miedos?",
+      "opciones": [
+        "Disminuir su incertidumbre",
+        "Agilizar el alta hospitalaria",
+        "Cumplimentar el registro clínico",
+        "Delegar la información en el acompañante"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Entre los objetivos de la guía de acompañamiento NO se incluye:",
+      "opciones": [
+        "Crear estrategias y mecanismos seguros para las diferentes áreas de hospitalización",
+        "Proporcionar información a los familiares por circuitos adecuados",
+        "Sustituir el criterio clínico del paciente por el del acompañante",
+        "Ofrecer respuesta a la necesidad percibida de acompañamiento"
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según la guía elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud, ¿cuál de las siguientes afirmaciones sobre el acompañamiento del paciente es correcta?",
+      "opciones": [
+        "El acompañamiento está justificado en todo paciente ingresado, sin necesidad de valorar el criterio clínico del momento.",
+        "El acompañamiento está de sobra justificado en algunos pacientes, aunque debe tenerse en cuenta el criterio clínico del paciente en ese momento.",
+        "El acompañamiento solo se autoriza cuando existe fallecimiento inmediato, excluyendo cualquier otra circunstancia.",
+        "El acompañante no requiere información sobre los riesgos, pues la decisión corresponde exclusivamente al profesional sanitario."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Entre las obligaciones que la guía impone al acompañante del paciente, se encuentra informarle de determinados extremos. ¿Cuál de los siguientes NO se recoge expresamente en el texto?",
+      "opciones": [
+        "Los riesgos de adquirir la enfermedad.",
+        "Los riesgos específicos derivados de su propia situación de salud.",
+        "La obligación de realizar cuarentena posteriormente.",
+        "La obligación de firmar un consentimiento informado ante notario."
+      ],
+      "correcta": 3
+    },
+    {
+      "enunciado": "Conforme al material, la obligación de responder a las necesidades de información o dudas del paciente se enmarca dentro de:",
+      "opciones": [
+        "La buena comunicación que el profesional debe mantener con el paciente",
+        "Las funciones del acompañante familiar",
+        "Los criterios de ingreso en unidades de críticos",
+        "El protocolo de visitas del centro"
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con la atención psicosocial al paciente, ¿qué actuación se destaca en la guía por las circunstancias derivadas de los equipos de protección individual?",
+      "opciones": [
+        "Que el profesional evite hablar para no generar ansiedad en el paciente.",
+        "Que el profesional se identifique, ya que por los equipos de protección individual será difícil que el paciente lo reconozca.",
+        "Que el acompañante sea quien informe al paciente de su identidad.",
+        "Que se reduzca al mínimo la comunicación verbal con el paciente."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme a la Guía de acompañamiento para pacientes ingresados por COVID-19 elaborada por el Comité de Ética del Área I del Servicio Murciano de Salud, ¿cuál de las siguientes afirmaciones sobre la justificación del acompañamiento se ajusta con mayor exactitud a lo dispuesto en la guía?",
+      "opciones": [
+        "El acompañamiento está justificado en determinados pacientes, si bien debe atenderse al criterio clínico del paciente en ese momento.",
+        "El acompañamiento se justifica únicamente por la voluntad del familiar que lo solicita, sin valoración clínica alguna.",
+        "El acompañamiento se excluye de forma absoluta en todos los supuestos, dada la elevada contagiosidad del SARS-CoV-2.",
+        "El acompañamiento se autoriza de forma automática a todo paciente ingresado, sin necesidad de valorar su situación clínica."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el material, ¿qué recurso complementario se cita junto a la guía de acompañamiento?",
+      "opciones": [
+        "La campaña «Acompañame-paciente COVID19» de ForoHURGE",
+        "Un protocolo de triaje del Servicio Murciano de Salud",
+        "Un manual de prevención de riesgos laborales",
+        "Una instrucción de visitas del área de salud"
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 25,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

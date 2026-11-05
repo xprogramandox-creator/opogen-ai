@@ -1,0 +1,157 @@
+[
+  {
+    "enunciado": "¿A qué elemento estructural de la comunicación corresponde el conjunto de reglas y signos empleados en la transmisión del acto informativo?",
+    "opciones": [
+      "Canal.",
+      "Contexto.",
+      "Mensaje.",
+      "Código."
+    ],
+    "correcta": 3,
+    "explicacion": "El material define 'código' como las reglas o signos que se emplean para enviar el mensaje."
+  },
+  {
+    "enunciado": "La evolución del usuario de espectador pasivo a actor principal y decisor de su salud conlleva:",
+    "opciones": [
+      "La reducción del acompañamiento familiar en las unidades de cuidados intensivos.",
+      "La eliminación de la formación humanística en el currículo académico sanitario.",
+      "Un cambio en las formas tradicionales de gestión impulsado por la exigencia de transparencia.",
+      "La limitación del rol profesional al ámbito estrictamente técnico-asistencial."
+    ],
+    "correcta": 2,
+    "explicacion": "El texto afirma que la demanda ciudadana de mayor transparencia en la gestión de recursos provocará una transformación de la gestión tradicional y fomentará una mayor participación comunitaria."
+  },
+  {
+    "enunciado": "¿Qué repercusión directa produce la presencia de un acompañante de confianza sobre el paciente ingresado?",
+    "opciones": [
+      "Aumenta su predisposición receptiva hacia los cuidados y la expresión de sus emociones.",
+      "Elimina por completo la necesidad de soporte técnico especializado en unidades críticas.",
+      "Exime al equipo sanitario de elaborar protocolos de comunicación interprofesional.",
+      "Garantiza el cumplimiento estricto del método canguro en los circuitos de urgencias."
+    ],
+    "correcta": 0,
+    "explicacion": "El texto señala que al estar acompañadas por una persona de confianza, las personas se sienten menos vulnerables, más receptivas a los cuidados y más empáticas para mostrar sus verdaderos sentimientos."
+  },
+  {
+    "enunciado": "Según el texto, ¿qué rol activo deben asumir los profesionales para integrarse en la humanización del sistema?",
+    "opciones": [
+      "La sustitución de la gestión de recursos tradicionales por asambleas ciudadanas.",
+      "La implicación directa en la elaboración de protocolos y en la comunicación interna.",
+      "La supervisión exclusiva de los circuitos administrativos en áreas pediátricas.",
+      "El relevo de las familias en la aplicación de técnicas asistenciales complejas."
+    ],
+    "correcta": 1,
+    "explicacion": "Se indica explícitamente la necesidad de implicar a los profesionales sanitarios en la creación de protocolos y en la comunicación interna para que sean parte activa de la humanización."
+  },
+  {
+    "enunciado": "Respecto a la identificación de 'A QUIÉN comunicar', ¿qué praxis errónea advierte el documento en el abordaje asistencial?",
+    "opciones": [
+      "Excluir a los tutores legales en casos de incapacidad formal manifiesta.",
+      "Comunicar el diagnóstico directamente al menor emancipado sin consentimiento.",
+      "Dirigir por defecto la información a los familiares asumiendo la incapacidad del usuario.",
+      "Informar al paciente sin la presencia obligatoria de un testigo administrativo."
+    ],
+    "correcta": 2,
+    "explicacion": "El texto advierte del error sistemático de comunicar automáticamente las noticias a los familiares en casos de niños o ancianos cuando estos pueden estar plenamente capacitados."
+  },
+  {
+    "enunciado": "En el marco de la humanización de Urgencias, ¿qué medida específica se prescribe para pacientes vulnerables?",
+    "opciones": [
+      "La limitación de visitas a franjas horarias estrictas para preservar la intimidad.",
+      "El traslado automático a neonatología para implementar el método canguro.",
+      "La habilitación de un circuito diferenciado que garantice el acompañamiento continuo.",
+      "La exclusión del acompañamiento durante la realización de técnicas diagnósticas."
+    ],
+    "correcta": 2
+  },
+  {
+    "enunciado": "En el marco teórico de la comunicación clínica, ¿cuándo se considera que el acto comunicativo resulta formalmente eficaz?",
+    "opciones": [
+      "Cuando el emisor expone la totalidad del mensaje clínico sin interrupciones.",
+      "Cuando el canal utilizado carece de interferencias o barreras ambientales.",
+      "Cuando el receptor interpreta el mensaje en los términos pretendidos por el emisor.",
+      "Cuando el receptor manifiesta verbalmente su adhesión terapéutica plena."
+    ],
+    "correcta": 2
+  },
+  {
+    "enunciado": "Respecto a la formación continuada de los profesionales sanitarios según el texto, ¿cuál es su finalidad primordial?",
+    "opciones": [
+      "Sustituir las competencias técnicas asistenciales por habilidades relacionales básicas.",
+      "Afrontar cualquier situación desde una perspectiva humanística ofreciendo calidad técnica y humana.",
+      "Delegar la toma de decisiones clínicas y éticas en los comités de participación ciudadana.",
+      "Restringir la comunicación de malas noticias a unidades de cuidados intensivos y urgencias."
+    ],
+    "correcta": 1
+  },
+  {
+    "enunciado": "¿Quiénes son considerados el corazón del sistema de salud?",
+    "opciones": [
+      "Los profesionales sanitarios",
+      "Los edificios grandes",
+      "Las máquinas de rayos",
+      "Las camas vacías"
+    ],
+    "correcta": 0
+  },
+  {
+    "enunciado": "¿Cómo debe hablar un médico para que un niño le entienda?",
+    "opciones": [
+      "Con palabras difíciles",
+      "En voz muy baja",
+      "Con palabras sencillas",
+      "Sin mirarle a la cara"
+    ],
+    "correcta": 2
+  },
+  {
+    "enunciado": "¿Quién es la persona que envía un mensaje a otra?",
+    "opciones": [
+      "El receptor",
+      "El emisor",
+      "El canal",
+      "El código"
+    ],
+    "correcta": 1
+  },
+  {
+    "enunciado": "¿Cómo se llama el cuidado donde los padres abrazan al bebé en el pecho?",
+    "opciones": [
+      "Método canguro",
+      "Salto de rana",
+      "Carrera de osos",
+      "Nido de pájaro"
+    ],
+    "correcta": 0
+  },
+  {
+    "enunciado": "¿Qué ocurre cuando un enfermo entiende bien los consejos del médico?",
+    "opciones": [
+      "Se cuida y recupera mejor",
+      "Se confunde más",
+      "Toma peores decisiones",
+      "Se enfada con todos"
+    ],
+    "correcta": 0
+  },
+  {
+    "enunciado": "¿En qué momento deben aprender los sanitarios a comunicarse con cariño?",
+    "opciones": [
+      "Solo al jubilarse",
+      "Nunca en su vida",
+      "Durante toda su formación",
+      "Solo los fines de semana"
+    ],
+    "correcta": 2
+  },
+  {
+    "enunciado": "¿Cómo se llama la información que queremos contar o transmitir?",
+    "opciones": [
+      "El canal",
+      "El receptor",
+      "El emisor",
+      "El mensaje"
+    ],
+    "correcta": 3
+  }
+]

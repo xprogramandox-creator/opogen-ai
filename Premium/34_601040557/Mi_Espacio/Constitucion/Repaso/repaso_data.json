@@ -1,0 +1,145 @@
+[
+  {
+    "enunciado": "A tenor del artículo 113.2 de la Constitución, ¿qué exigencia formal preceptiva debe concurrir para proponer una moción de censura?",
+    "opciones": [
+      "Ser suscrita por la mayoría absoluta del Congreso.",
+      "Ser avalada por al menos una quinta parte de los Diputados.",
+      "Incluir preceptivamente un candidato a la Presidencia del Gobierno.",
+      "Contar con el dictamen favorable de la Mesa del Congreso."
+    ],
+    "correcta": 2,
+    "explicacion": "Conforme al artículo 113.2, la moción «deberá ser propuesta al menos por la décima parte de los Diputados, y habrá de incluir un candidato a la Presidencia del Gobierno»."
+  },
+  {
+    "enunciado": "De acuerdo con el artículo 115.1 de la Constitución, la propuesta de disolución de las Cámaras requiere formalmente:",
+    "opciones": [
+      "Aprobación vinculante del Consejo de Ministros y refrendo del Presidente del Congreso.",
+      "Previa deliberación del Consejo de Ministros, actuando el Presidente bajo su exclusiva responsabilidad.",
+      "Acuerdo motivado del Consejo de Ministros y posterior ratificación del Senado.",
+      "Autorización previa de las Mesas de ambas Cámaras."
+    ],
+    "correcta": 1,
+    "explicacion": "El artículo 115.1 indica que corresponde al Presidente del Gobierno «previa deliberación del Consejo de Ministros, y bajo su exclusiva responsabilidad», proponer la disolución de las Cámaras."
+  },
+  {
+    "enunciado": "Para adoptar acuerdos válidos en las Cámaras, ¿qué quórum de asistencia se exige con carácter preceptivo?",
+    "opciones": [
+      "Asistencia de las dos terceras partes de sus miembros.",
+      "Asistencia de la mayoría absoluta de los miembros presentes.",
+      "Asistencia de la mayoría de sus miembros.",
+      "Asistencia reglamentaria de un tercio de sus componentes."
+    ],
+    "correcta": 2,
+    "explicacion": "A tenor del artículo 79.1, para adoptar acuerdos, las Cámaras deben estar reunidas reglamentariamente y con asistencia de la mayoría de sus miembros."
+  },
+  {
+    "enunciado": "Respecto al derecho de asociación, ¿cuál es la eficacia jurídica exigida a su inscripción registral?",
+    "opciones": [
+      "Constitutiva para el reconocimiento formal de su personalidad.",
+      "A los solos efectos de publicidad.",
+      "De convalidación administrativa obligatoria para el inicio de actividades.",
+      "Declarativa de no incurrir en fines paramilitares o delictivos."
+    ],
+    "correcta": 1,
+    "explicacion": "El artículo 22.3 establece literalmente que 'Las asociaciones constituidas al amparo de este artículo deberán inscribirse en un registro a los solos efectos de publicidad'."
+  },
+  {
+    "enunciado": "Conforme al artículo 108 de la Constitución, ¿ante qué órgano responde solidariamente el Gobierno de su gestión política?",
+    "opciones": [
+      "Ante las Cortes Generales.",
+      "Ante el Congreso de los Diputados.",
+      "Ante el Congreso de los Diputados y el Senado conjuntamente.",
+      "Ante el Jefe del Estado y las Cortes Generales."
+    ],
+    "correcta": 1,
+    "explicacion": "El artículo 108 de la Constitución Española dispone textualmente que «El Gobierno responde solidariamente en su gestión política ante el Congreso de los Diputados»."
+  },
+  {
+    "enunciado": "En relación con la tramitación de la moción de censura (artículo 113.3), ¿en qué plazo computado desde su presentación pueden formalizarse mociones alternativas?",
+    "opciones": [
+      "En los tres primeros días.",
+      "En cualquier momento antes de la votación definitiva.",
+      "En las primeras cuarenta y ocho horas tras admitirse a trámite.",
+      "En los dos primeros días del plazo previo a la votación."
+    ],
+    "correcta": 3,
+    "explicacion": "El artículo 113.3 dispone que la moción no podrá ser votada hasta que transcurran cinco días desde su presentación, añadiendo que «En los dos primeros días de dicho plazo podrán presentarse mociones alternativas»."
+  },
+  {
+    "enunciado": "Conforme al artículo 82.2, ¿mediante qué instrumento debe otorgarse la delegación legislativa para refundir varios textos legales?",
+    "opciones": [
+      "Ley de bases exclusivamente.",
+      "Ley ordinaria.",
+      "Decreto-ley acordado en Consejo de Ministros.",
+      "Ley marco aprobada por mayoría cualificada."
+    ],
+    "correcta": 1,
+    "explicacion": "El artículo 82.2 indica que la delegación legislativa se otorgará por una ley ordinaria cuando se trate de refundir varios textos legales en uno solo."
+  },
+  {
+    "enunciado": "¿En qué supuesto concreto puede la autoridad prohibir una manifestación en lugares de tránsito público?",
+    "opciones": [
+      "Por falta de solicitud tempestiva de autorización previa.",
+      "Cuando coincida con actos electorales legalmente previstos.",
+      "Cuando existan razones fundadas de alteración del orden público, con peligro para personas o bienes.",
+      "Por mera concurrencia simultánea con otra manifestación en el mismo itinerario."
+    ],
+    "correcta": 2,
+    "explicacion": "El artículo 21.2 determina que la autoridad solo podrá prohibirlas cuando 'existan razones fundadas de alteración del orden público, con peligro para personas o bienes'."
+  },
+  {
+    "enunciado": "La suspensión de actividades o disolución de una asociación válidamente constituida requiere:",
+    "opciones": [
+      "Resolución judicial motivada.",
+      "Resolución administrativa firme con previa audiencia del interesado.",
+      "Decreto del órgano competente de la administración registral.",
+      "Dictamen vinculante del Ministerio Fiscal en vía contenciosa."
+    ],
+    "correcta": 0,
+    "explicacion": "El artículo 22.4 prescribe taxativamente que las asociaciones 'sólo podrán ser disueltas o suspendidas en sus actividades en virtud de resolución judicial motivada'."
+  },
+  {
+    "enunciado": "¿Hasta qué momento ejercen sus funciones las Diputaciones Permanentes en caso de disolución de las Cámaras?",
+    "opciones": [
+      "Hasta el día de la celebración de las elecciones generales.",
+      "Hasta la constitución de las nuevas Cortes Generales.",
+      "Hasta la expiración improrrogable del mandato parlamentario.",
+      "Hasta la publicación oficial de los resultados electorales."
+    ],
+    "correcta": 1,
+    "explicacion": "El artículo 78.3 dispone que, expirado el mandato o en caso de disolución, las Diputaciones Permanentes seguirán ejerciendo sus funciones hasta la constitución de las nuevas Cortes Generales."
+  },
+  {
+    "enunciado": "¿En qué título y capítulo de la Constitución Española se ubica sistemáticamente la regulación 'De los Tratados Internacionales'?",
+    "opciones": [
+      "Título III, Capítulo Primero.",
+      "Título III, Capítulo Tercero.",
+      "Título IV, Capítulo Segundo.",
+      "Título V, Capítulo Primero."
+    ],
+    "correcta": 1,
+    "explicacion": "Según el índice sistemático, el Capítulo Tercero del Título III (De las Cortes Generales) está dedicado a 'De los Tratados Internacionales'."
+  },
+  {
+    "enunciado": "Conforme al artículo 53.2 de la Constitución, ¿qué precepto situado fuera de la Sección primera del Capítulo segundo es susceptible de recurso de amparo?",
+    "opciones": [
+      "El artículo 30 respecto a la objeción de conciencia.",
+      "El artículo 37 relativo al conflicto colectivo.",
+      "El artículo 14 referente al principio de igualdad ante la ley.",
+      "El artículo 52 en materia de organizaciones profesionales."
+    ],
+    "correcta": 0,
+    "explicacion": "El artículo 53.2 establece expresamente que el recurso de amparo ante el Tribunal Constitucional será aplicable a la objeción de conciencia reconocida en el artículo 30."
+  },
+  {
+    "enunciado": "En la estructura formal de la Constitución Española, ¿qué rúbrica ostenta el Título V?",
+    "opciones": [
+      "Del Poder Judicial.",
+      "Del Gobierno y de la Administración.",
+      "De las relaciones entre el Gobierno y las Cortes Generales.",
+      "Economía y Hacienda."
+    ],
+    "correcta": 2,
+    "explicacion": "El Título V se rubrica 'De las relaciones entre el Gobierno y las Cortes Generales', sucediendo al Título IV ('Del Gobierno y de la Administración') y precediendo al Título VI ('Del Poder Judicial')."
+  }
+]

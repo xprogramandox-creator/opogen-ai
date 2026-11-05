@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "Según el texto, ¿para qué se definió la palabra bioética y en qué principio se cimenta la medicina?",
+      "opciones": [
+        "Se definió para señalar la necesidad de diálogo entre humanistas y profesionales de la ciencia; la medicina se cimenta en el principio de proporcionar salud a personas vulnerables.",
+        "Se definió para delimitar las competencias de los directivos sanitarios; la medicina se cimenta en el principio de justicia distributiva.",
+        "Se definió para regular la investigación con seres humanos; la medicina se cimenta en el principio de autonomía del paciente.",
+        "Se definió para sustituir la ética médica; la medicina se cimenta en el principio de no maleficencia."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿A qué principio de la bioética corresponde el aforismo «primum non nocere» y el respeto a la integridad de la persona como ser humano?",
+      "opciones": [
+        "Principio de beneficencia.",
+        "Principio de autonomía.",
+        "Principio de no maleficencia.",
+        "Principio de justicia."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "En relación con el modelo clásico paternalista descrito en el material, ¿cuál de las siguientes afirmaciones se ajusta a su contenido?",
+      "opciones": [
+        "El profesional imponía su visión del bien sin contar con la autorización del paciente.",
+        "El paciente decidía de forma autónoma sin intervención del profesional.",
+        "Se fundamentaba exclusivamente en el principio de justicia distributiva.",
+        "Exigía el consentimiento informado como requisito previo a toda actuación."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "En relación con el origen de la bioética como disciplina, ¿qué comisión e informe se citan en el material y cuál fue su tarea inicial?",
+      "opciones": [
+        "Una comisión creada en 1974 en EEUU que asumió la tarea de identificar los principios éticos básicos que guiarían la investigación con seres humanos, dando lugar al informe Belmont.",
+        "Una comisión europea de 1974 que elaboró el informe Belmont para regular la práctica asistencial en hospitales.",
+        "Una comisión estadounidense posterior a 1974 que añadió el principio de no maleficencia al informe Belmont.",
+        "Una comisión creada en 1974 en EEUU que redactó el informe Belmont para establecer los principios de la deontología profesional."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "¿Cuál fue la evolución de los principios de la bioética según el material?",
+      "opciones": [
+        "Inicialmente eran cuatro principios y posteriormente se suprimió el de justicia.",
+        "Inicialmente había tres principios (beneficencia, autonomía y justicia) y más tarde se añadió el de no maleficencia.",
+        "Inicialmente había tres principios (beneficencia, no maleficencia y justicia) y más tarde se añadió el de autonomía.",
+        "Inicialmente había dos principios (autonomía y justicia) y más tarde se añadieron beneficencia y no maleficencia."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el texto, la ética en salud orienta y exige a dos colectivos principales. ¿Cuáles son?",
+      "opciones": [
+        "Los investigadores y los comités de ética asistencial.",
+        "Los pacientes y sus familiares.",
+        "Los agentes de la salud y los directivos y ejecutivos que administran los centros sanitarios.",
+        "Los humanistas y los profesionales de la ciencia."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "De conformidad con el material, ¿cuál es la función que se atribuye a la bioética en relación con la humanización de los servicios de salud?",
+      "opciones": [
+        "Sustituir los principios de la deontología profesional por criterios de gestión clínica.",
+        "Facilitar instrumentos para razonar y discutir sobre cómo ofrecer cuidados de calidad que mantengan la dignidad humana y la calidad de vida.",
+        "Garantizar la prolongación de la vida por encima de cualquier consideración de calidad de vida.",
+        "Imponer a los agentes de salud un código sancionador de conductas asistenciales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el material, ¿qué teoría propia ha construido la bioética como conjunto de principios éticos destinados a orientar la resolución de conflictos en la práctica biomédica?",
+      "opciones": [
+        "La teoría hipocrática clásica.",
+        "El principalismo.",
+        "La ética práctica aristotélica.",
+        "El paternalismo clínico."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Quiénes formularon los cuatro principios de la bioética recogidos en el material (autonomía, no maleficencia, beneficencia y justicia)?",
+      "opciones": [
+        "Beauchamp y Childress, en 1979.",
+        "Hipócrates y Galeno, en la tradición clásica.",
+        "Aristóteles y Platón, en la ética práctica.",
+        "Kant y Mill, en la ética teórica moderna."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Conforme al material, ¿qué principio bioético se configura como regla del consentimiento libre e informado, impidiendo que se impongan decisiones al paciente por ignorancia o por fuerza?",
+      "opciones": [
+        "El principio de beneficencia, en tanto que obliga al profesional a procurar el bien del paciente.",
+        "El principio de autonomía, que comprende el derecho a equivocarse en la elección.",
+        "El principio de no maleficencia, identificado con el aforismo primum non nocere.",
+        "El principio de justicia, orientado a la resolución de conflictos en contextos plurales."
+      ],
+      "correcta": 1
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

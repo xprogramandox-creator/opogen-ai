@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En relación con los ingresos programados en UCI y la acogida de la familia, el protocolo contempla:",
+      "opciones": [
+        "Prohibir cualquier visita previa al ingreso para evitar interferencias en la organización de la unidad.",
+        "Permitir visitas previas al ingreso con el fin de minimizar el estrés que genera el ingreso en la unidad.",
+        "Autorizar visitas previas únicamente cuando el paciente lo solicite por escrito.",
+        "Sustituir las visitas previas por material informativo entregado a la familia."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al protocolo de acogida en UCI, ¿en qué supuesto se justifica la aplicación de barreras de protección individual a los familiares visitantes?",
+      "opciones": [
+        "De forma generalizada durante toda la estancia, para minimizar el riesgo de infecciones cruzadas.",
+        "Únicamente cuando el paciente presente infección por microorganismos con mecanismos de resistencia, como KPC, para asegurar el aislamiento de contacto.",
+        "Siempre que el familiar solicite acompañar al paciente durante un procedimiento invasivo.",
+        "Cuando el paciente se encuentre incapacitado y la familia deba participar en la toma de decisiones."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Respecto a la lactancia materna en unidades de críticos pediátricos y neonatales, el protocolo establece que:",
+      "opciones": [
+        "Se permitirá con carácter general, sin necesidad de valorar las condiciones del lactante ni de la madre.",
+        "Se permitirá exclusivamente en UCIN, quedando excluida en las UCIP.",
+        "Se permitirá siempre que las condiciones del lactante y de la madre sean adecuadas.",
+        "Quedará supeditada a la autorización expresa del facultativo responsable del ingreso."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el texto, ¿qué efecto concreto se llega a asegurar por algunos autores en relación con la cercanía de un ser querido al paciente en UCI?",
+      "opciones": [
+        "La reducción de la estancia media en la unidad de cuidados intensivos.",
+        "La mejora de la actividad cardíaca de los pacientes.",
+        "La disminución de la necesidad de sedación farmacológica.",
+        "La reducción de las infecciones asociadas a la asistencia sanitaria."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué experiencia previa se invoca en el texto como fundamento para plantear la adaptación del modelo de puertas abiertas a las UCI de adultos?",
+      "opciones": [
+        "La de las Unidades de Cuidados Intensivos pediátricas y neonatales, donde la familia se considera pilar fundamental del cuidado íntegro.",
+        "La de las unidades de hospitalización convencional, donde la visita se flexibilizó sin incidencias reseñables.",
+        "La de los servicios de urgencias, que ya aplicaban horarios de visita ampliados con resultados positivos.",
+        "La de las unidades de cuidados paliativos, donde la familia participa en los cuidados desde hace décadas."
+      ],
+      "correcta": 0
+    },
+    {
+      "enunciado": "Según el texto, ¿cuál fue el verdadero motivo por el que el modelo restrictivo de visitas en UCI se mantuvo implantado durante tanto tiempo?",
+      "opciones": [
+        "La evidencia científica demostraba que perjudicaba la seguridad del paciente.",
+        "La costumbre y la falta de crítica sobre los inconvenientes de dicho modelo.",
+        "La limitada estructura del box y la vulneración de la intimidad de otros pacientes.",
+        "La mayor dificultad para realizar los cuidados enfermeros que generaba en los profesionales."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "En materia de participación de los familiares en los cuidados del paciente crítico, ¿cuál de las siguientes actuaciones se contempla expresamente en el protocolo?",
+      "opciones": [
+        "Imponer la implicación de la familia en los cuidados, con independencia de su voluntad.",
+        "Valorar la estructura familiar para identificar potenciales cuidadores, siempre que estos lo deseen.",
+        "Limitar la formación de los familiares a los aspectos meramente informativos del ingreso.",
+        "Reservar la participación familiar exclusivamente a los ingresos no programados."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Cuando el paciente crítico se encuentra incapacitado, la toma de decisiones sobre el tratamiento o cualquier procedimiento debe:",
+      "opciones": [
+        "Adoptarse de forma unilateral por el equipo sanitario, dada la urgencia vital.",
+        "Delegarse íntegramente en el familiar de mayor grado de parentesco.",
+        "Compartirse con la familia, apoyándose en herramientas validadas para la ayuda en la toma de decisiones.",
+        "Suspenderse hasta que el paciente recupere su capacidad de obrar."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Respecto a las barreras percibidas por los profesionales para flexibilizar los horarios en UCI, ¿qué afirma el texto que demuestra la evidencia?",
+      "opciones": [
+        "Que dichas barreras se confirman y justifican el mantenimiento de las restricciones de visita.",
+        "Que solo la limitada estructura del box constituye un obstáculo real e insalvable.",
+        "Que la evidencia demuestra todo lo contrario, ya que las acciones que disminuyen el estrés favorecen la seguridad del paciente y su familia.",
+        "Que la mayor ansiedad familiar ante procedimientos invasivos es el único efecto adverso documentado."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "¿En qué guía de buenas prácticas se basan la mayoría de protocolos o Guías de Práctica Clínica para desarrollar sus objetivos y estrategias, según el texto?",
+      "opciones": [
+        "En la guía de buenas prácticas del Plan HU-CI.",
+        "En las recomendaciones de la Sociedad Española de Medicina Intensiva.",
+        "En los protocolos de las Unidades de Cuidados Intensivos pediátricas y neonatales.",
+        "En las guías de práctica clínica de las unidades de hospitalización convencional."
+      ],
+      "correcta": 0
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Humanizacion",
+  "textoContexto": "Examen de OpoGen"
+}

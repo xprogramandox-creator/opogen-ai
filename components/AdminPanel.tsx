@@ -1,0 +1,1080 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  BarChart3,
+  Download,
+  FileText,
+  Pencil,
+  Plus,
+  RefreshCw,
+  RotateCcw,
+  Trash2,
+  Users,
+} from "lucide-react";
+
+type UsuarioAdmin = {
+  clave: string;
+  nombre: string;
+  apellidos: string;
+  correo: string;
+  telefono: string;
+  rol: "freemium" | "premium";
+  plan: string;
+  emailVerificado: boolean;
+  fechaRegistro: string;
+  fechaPago: string | null;
+  fechaCaducidad: string | null;
+  precioBase: number;
+  iva: number;
+  total: number;
+  estado: string;
+};
+
+type Pago = {
+  id: number;
+  usuarioClave: string;
+  usuarioNombre: string;
+  fecha: string;
+  concepto: string;
+  plan: string;
+  precioBase: number;
+  iva: number;
+  total: number;
+};
+
+type Resumen = {
+  usuariosTotales: number;
+  free: number;
+  premium: number;
+  nuevosDia: number;
+  nuevosSemana: number;
+  nuevosMes: number;
+  nuevosAno: number;
+  noRenovados: number;
+  gananciasDia: number;
+  gananciasSemana: number;
+  gananciasMes: number;
+  gananciasAno: number;
+  ivaDia: number;
+  ivaSemana: number;
+  ivaMes: number;
+  ivaAno: number;
+  proximos7: number;
+  proximos15: number;
+  proximos30: number;
+};
+
+type EstadoIA = {
+  deepseek: {
+    disponible: boolean;
+    saldo?: number;
+    moneda?: string;
+    saldos?: Array<{ moneda: string; saldo: number }>;
+    codigo?: string;
+    error?: string;
+  };
+  gemini: {
+    estado: "ok" | "error";
+    detalle?: string;
+  };
+  actualizadoEn?: string;
+};
+
+const FORM_VACIO = {
+  claveOriginal: "",
+  nombre: "",
+  apellidos: "",
+  correo: "",
+  telefono: "",
+  rol: "freemium" as "freemium" | "premium",
+  plan: "",
+  password: "",
+  precioBase: "0",
+  iva: "0",
+  fechaPago: "",
+  fechaCaducidad: "",
+  registrarPago: false,
+};
+
+function dinero(valor: number): string {
+  return `${valor.toFixed(2).replace(".", ",")} €`;
+}
+
+function fecha(iso: string | null): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("es-ES");
+}
+
+export default function AdminPanel() {
+  const tIA = useTranslations("AdminIA");
+  const tExport = useTranslations("AdminExport");
+  const tReset = useTranslations("AdminReset");
+  const tLaunch = useTranslations("AdminLaunch");
+  const locale = useLocale();
+  const [tab, setTab] = useState("resumen");
+  const [csrf, setCsrf] = useState("");
+  const [cargando, setCargando] = useState(true);
+  const [actualizando, setActualizando] = useState(false);
+  const [accesoDenegado, setAccesoDenegado] = useState(false);
+  const [error, setError] = useState("");
+  const [resumen, setResumen] = useState<Resumen | null>(null);
+  const [estadoIA, setEstadoIA] = useState<EstadoIA | null>(null);
+  const [cargandoIA, setCargandoIA] = useState(false);
+  const [errorIA, setErrorIA] = useState("");
+  const [resetPendiente, setResetPendiente] = useState<
+    "facturacion" | "estadisticas" | "uso" | null
+  >(null);
+  const [reiniciando, setReiniciando] = useState(false);
+  const [limpiezaAbierta, setLimpiezaAbierta] = useState(false);
+  const [limpiando, setLimpiando] = useState(false);
+  const [pagos, setPagos] = useState<Pago[]>([]);
+  const [pagosMensuales, setPagosMensuales] = useState<
+    Array<{ mes: string; base: number; iva: number; total: number; facturas: number }>
+  >([]);
+  const [uso, setUso] = useState<
+    Array<{ zona: string; usos: number; usuariosUnicos: number; duracionTotal: number }>
+  >([]);
+  const [logs, setLogs] = useState<
+    Array<{ id: number; administrador: string; accion: string; detalle: string; fecha: string; ip: string }>
+  >([]);
+  const [iva, setIva] = useState("21");
+  const [usuarios, setUsuarios] = useState<UsuarioAdmin[]>([]);
+  const [totalUsuarios, setTotalUsuarios] = useState(0);
+  const [pagina, setPagina] = useState(1);
+  const [filtros, setFiltros] = useState({
+    busqueda: "",
+    tipo: "",
+    estado: "",
+    plan: "",
+  });
+  const [modal, setModal] = useState<"crear" | "editar" | "eliminar" | null>(null);
+  const [seleccionado, setSeleccionado] = useState<UsuarioAdmin | null>(null);
+  const [form, setForm] = useState(FORM_VACIO);
+  const [guardando, setGuardando] = useState(false);
+  const [camposPdf, setCamposPdf] = useState<string[]>([
+    "datosPersonales",
+    "plan",
+    "precio",
+    "iva",
+    "total",
+    "fechas",
+  ]);
+  const [filtrosPdf, setFiltrosPdf] = useState({
+    desde: "",
+    hasta: "",
+    tipo: "",
+    plan: "",
+    estado: "",
+  });
+
+  const pedir = useCallback(
+    async (url: string, opciones: RequestInit = {}) => {
+      const cabeceras = new Headers(opciones.headers);
+      if (csrf) cabeceras.set("X-CSRF-Token", csrf);
+      if (opciones.body) cabeceras.set("Content-Type", "application/json");
+      const respuesta = await fetch(url, {
+        ...opciones,
+        headers: cabeceras,
+        cache: "no-store",
+      });
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok) {
+        const errorPeticion = new Error(
+          typeof datos.error === "string"
+            ? datos.error
+            : "Error en la petición.",
+        ) as Error & { status?: number };
+        errorPeticion.status = respuesta.status;
+        throw errorPeticion;
+      }
+      return datos;
+    },
+    [csrf],
+  );
+
+  const cargarEstadoIA = useCallback(async () => {
+    setCargandoIA(true);
+    setErrorIA("");
+
+    try {
+      const datos = (await pedir(
+        `/api/admin/saldo-ia?_=${Date.now()}`,
+      )) as EstadoIA;
+      setEstadoIA(datos);
+    } catch (err) {
+      setErrorIA(
+        err instanceof Error
+          ? err.message
+          : tIA("error"),
+      );
+    } finally {
+      setCargandoIA(false);
+    }
+  }, [pedir, tIA]);
+
+  const cargarResumen = useCallback(async () => {
+    const datos = await pedir(
+      `/api/admin/panel?_=${Date.now()}`,
+    );
+    setResumen(datos.resumen);
+    setPagos(datos.pagos || []);
+    setPagosMensuales(datos.pagosMensuales || []);
+    setUso(datos.uso || []);
+    setLogs(datos.logs || []);
+    setIva(String(datos.iva ?? 21));
+  }, [pedir]);
+
+  const cargarUsuarios = useCallback(async () => {
+    const params = new URLSearchParams({
+      ...filtros,
+      pagina: String(pagina),
+      porPagina: "25",
+      _: String(Date.now()),
+    });
+    const datos = await pedir(`/api/admin/panel/usuarios?${params}`);
+    setUsuarios(datos.usuarios || []);
+    setTotalUsuarios(datos.total || 0);
+  }, [filtros, pagina, pedir]);
+
+  useEffect(() => {
+    let activo = true;
+    void fetch("/api/auth/csrf")
+      .then((r) => r.json())
+      .then((datos) => {
+        if (activo) setCsrf(String(datos.csrfToken || ""));
+      })
+      .catch(() => {});
+    return () => {
+      activo = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!csrf) return;
+
+    const id = window.setTimeout(() => {
+      Promise.all([
+        cargarResumen(),
+        cargarUsuarios(),
+        cargarEstadoIA(),
+      ])
+        .then(() => setAccesoDenegado(false))
+        .catch((err) => {
+          setError(
+            err instanceof Error ? err.message : "Error al cargar.",
+          );
+
+          if (
+            (err as Error & { status?: number }).status === 403
+          ) {
+            setAccesoDenegado(true);
+          }
+        })
+        .finally(() => setCargando(false));
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, [csrf, cargarEstadoIA, cargarResumen, cargarUsuarios]);
+
+  const abrirEditar = (usuario: UsuarioAdmin) => {
+    setSeleccionado(usuario);
+    setForm({
+      claveOriginal: usuario.clave,
+      nombre: usuario.nombre,
+      apellidos: usuario.apellidos,
+      correo: usuario.correo,
+      telefono: usuario.telefono,
+      rol: usuario.rol,
+      plan: usuario.plan,
+      password: "",
+      precioBase: String(usuario.precioBase),
+      iva: String(usuario.iva),
+      fechaPago: usuario.fechaPago?.slice(0, 10) || "",
+      fechaCaducidad: usuario.fechaCaducidad?.slice(0, 10) || "",
+      registrarPago: false,
+    });
+    setModal("editar");
+  };
+
+  const guardarUsuario = async (evento: React.FormEvent) => {
+    evento.preventDefault();
+    setGuardando(true);
+    setError("");
+
+    try {
+      await pedir("/api/admin/panel/usuarios", {
+        method: "POST",
+        body: JSON.stringify({
+          modo: modal === "crear" ? "crear" : "editar",
+          ...form,
+          precioBase: Number(form.precioBase),
+          iva: Number(form.iva),
+        }),
+      });
+      setModal(null);
+      await Promise.all([cargarResumen(), cargarUsuarios()]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo guardar.");
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const eliminar = async () => {
+    if (!seleccionado) return;
+    setGuardando(true);
+    setError("");
+    try {
+      await pedir(
+        `/api/admin/panel/usuarios?clave=${encodeURIComponent(seleccionado.clave)}`,
+        { method: "DELETE" },
+      );
+      setModal(null);
+      await Promise.all([cargarResumen(), cargarUsuarios()]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo eliminar.");
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const guardarConfig = async () => {
+    try {
+      await pedir("/api/admin/panel/config", {
+        method: "POST",
+        body: JSON.stringify({ iva: Number(iva) }),
+      });
+      await cargarResumen();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo guardar el IVA.");
+    }
+  };
+
+  const exportar = async (plantilla = false) => {
+    try {
+      const respuesta = await fetch("/api/admin/panel/exportar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrf,
+        },
+        body: JSON.stringify({
+          campos: camposPdf,
+          filtros: filtrosPdf,
+          plantilla: plantilla ? "hacienda" : "general",
+        }),
+      });
+      if (!respuesta.ok) {
+        const datos = await respuesta.json().catch(() => ({}));
+        throw new Error(datos.error || "No se pudo generar el PDF.");
+      }
+      const blob = await respuesta.blob();
+      const url = URL.createObjectURL(blob);
+      const enlace = document.createElement("a");
+      enlace.href = url;
+      enlace.download = plantilla ? "datos-hacienda.pdf" : "informe-admin.pdf";
+      document.body.appendChild(enlace);
+      enlace.click();
+      enlace.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo exportar.");
+    }
+  };
+
+  const reiniciarContadores = async (): Promise<void> => {
+    if (!resetPendiente || reiniciando) return;
+
+    setReiniciando(true);
+    setError("");
+
+    try {
+      const esUso = resetPendiente === "uso";
+
+      await pedir(
+        esUso
+          ? "/api/admin/panel/reiniciar-uso"
+          : "/api/admin/panel/reiniciar-contadores",
+        {
+          method: "POST",
+          ...(esUso
+            ? {}
+            : {
+                body: JSON.stringify({
+                  contexto: resetPendiente,
+                }),
+              }),
+        },
+      );
+      setResetPendiente(null);
+      await Promise.all([cargarResumen(), cargarUsuarios()]);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : tReset("error"),
+      );
+    } finally {
+      setReiniciando(false);
+    }
+  };
+
+  const limpiarDatosLanzamiento = async (): Promise<void> => {
+    if (limpiando) return;
+
+    setLimpiando(true);
+    setError("");
+
+    try {
+      await pedir("/api/admin/panel/limpieza-lanzamiento", {
+        method: "POST",
+      });
+      setLimpiezaAbierta(false);
+      await Promise.all([cargarResumen(), cargarUsuarios()]);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : tLaunch("error"),
+      );
+    } finally {
+      setLimpiando(false);
+    }
+  };
+
+  const paginas = Math.max(1, Math.ceil(totalUsuarios / 25));
+  const tabs = useMemo(
+    () => [
+      ["resumen", "Resumen", BarChart3],
+      ["usuarios", "Usuarios", Users],
+      ["estadisticas", "Estadísticas", BarChart3],
+      ["facturacion", "Facturación", FileText],
+      ["exportar", "Exportar", Download],
+    ] as const,
+    [],
+  );
+
+  if (accesoDenegado) {
+    return (
+      <main className="min-h-app bg-transparent px-4 py-16 sm:px-6">
+        <section className="mx-auto max-w-xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-8 text-center shadow-[var(--sombra)]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--azul)]">
+            Administración
+          </p>
+          <h1 className="mt-2 text-3xl font-bold text-[var(--txt)]">
+            Sesión de administrador no válida
+          </h1>
+          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
+            La sesión actual ya no pertenece a la cuenta administradora.
+            Esto ocurre si has iniciado sesión con otro usuario en otra
+            pestaña. Vuelve a entrar con la cuenta Admin.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/dashboard"
+              className="rounded-xl bg-[var(--azul)] px-5 py-2.5 text-sm font-bold text-white"
+            >
+              Ir a iniciar sesión
+            </Link>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="rounded-xl border border-[var(--th)] px-5 py-2.5 text-sm font-bold text-[var(--txt)]"
+            >
+              Reintentar
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const saldoDeepSeek =
+    estadoIA?.deepseek.disponible &&
+    typeof estadoIA.deepseek.saldo === "number"
+      ? estadoIA.deepseek.saldo
+      : null;
+  const monedaDeepSeek = estadoIA?.deepseek.moneda || "USD";
+  const saldoBajo =
+    saldoDeepSeek !== null && saldoDeepSeek < 5;
+  const geminiOk = estadoIA?.gemini.estado === "ok";
+
+  function formatearSaldo(valor: number, moneda: string): string {
+    try {
+      return new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: moneda,
+        maximumFractionDigits: 2,
+      }).format(valor);
+    } catch {
+      return `${valor.toFixed(2)} ${moneda}`;
+    }
+  }
+
+  return (
+    <main className="min-h-app bg-transparent px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-bold text-[var(--txt2)]">
+              Hola Admin
+            </p>
+            <h1 className="mt-1 text-3xl font-bold text-[var(--txt)] sm:text-4xl">
+              Panel Admin
+            </h1>
+            <p className="mt-1 text-sm text-[var(--txt2)]">
+              Administración de OpoGen AI · Usuarios, suscripciones, uso,
+              facturación y Hacienda.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={actualizando}
+            onClick={async () => {
+              setError("");
+              setActualizando(true);
+
+              try {
+                await Promise.all([
+                  cargarResumen(),
+                  cargarUsuarios(),
+                  cargarEstadoIA(),
+                ]);
+                setAccesoDenegado(false);
+              } catch (err) {
+                setError(
+                  err instanceof Error
+                    ? err.message
+                    : "No se pudo actualizar el panel.",
+                );
+
+                if (
+                  (err as Error & { status?: number }).status === 403
+                ) {
+                  setAccesoDenegado(true);
+                }
+              } finally {
+                setActualizando(false);
+              }
+            }}
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--txt)] disabled:cursor-wait disabled:opacity-70"
+          >
+            <RefreshCw
+              className={`h-4 w-4 ${actualizando ? "animate-spin" : ""}`}
+            />
+            {actualizando ? "Actualizando…" : "Actualizar"}
+          </button>
+        </header>
+
+        {error ? (
+          <p className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3 text-sm font-semibold text-red-700">
+            {error}
+          </p>
+        ) : null}
+
+        <nav className="mb-6 flex flex-wrap gap-2">
+          {tabs.map(([id, etiqueta, Icono]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setTab(id)}
+              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold ${
+                tab === id
+                  ? "bg-[var(--azul)] text-white"
+                  : "border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)]"
+              }`}
+            >
+              <Icono className="h-4 w-4" /> {etiqueta}
+            </button>
+          ))}
+        </nav>
+
+        {cargando && !resumen ? (
+          <p className="text-[var(--txt2)]">Cargando panel…</p>
+        ) : null}
+
+        {tab === "resumen" && resumen ? (
+          <section className="space-y-5">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[
+                ["Usuarios totales", resumen.usuariosTotales],
+                ["Free", resumen.free],
+                ["Premium", resumen.premium],
+                ["No renovados", resumen.noRenovados],
+                ["Nuevos hoy", resumen.nuevosDia],
+                ["Nuevos esta semana", resumen.nuevosSemana],
+                ["Nuevos este mes", resumen.nuevosMes],
+                ["Nuevos este año", resumen.nuevosAno],
+              ].map(([etiqueta, valor]) => (
+                <div key={String(etiqueta)} className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4">
+                  <p className="text-xs font-semibold text-[var(--txt3)]">{etiqueta}</p>
+                  <p className="mt-1 text-2xl font-bold text-[var(--txt)]">{valor}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h2 className="font-bold text-[var(--txt)]">
+                  {tIA("title")}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => void cargarEstadoIA()}
+                  disabled={cargandoIA}
+                  className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 py-2 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave)] disabled:cursor-wait disabled:opacity-70"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${
+                      cargandoIA ? "animate-spin" : ""
+                    }`}
+                  />
+                  {cargandoIA ? tIA("refreshing") : tIA("refresh")}
+                </button>
+              </div>
+
+              {errorIA ? (
+                <p className="mt-3 rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">
+                  {errorIA}
+                </p>
+              ) : null}
+
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-xl bg-[var(--card2)] p-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-[var(--txt3)]">
+                    {tIA("deepseekBalance")}
+                  </p>
+                  {cargandoIA && !estadoIA ? (
+                    <p className="mt-3 text-sm text-[var(--txt3)]">
+                      {tIA("loading")}
+                    </p>
+                  ) : estadoIA?.deepseek.disponible &&
+                    saldoDeepSeek !== null ? (
+                    <>
+                      <p
+                        className={`mt-2 text-3xl font-black ${
+                          saldoBajo
+                            ? "text-red-500"
+                            : "text-[var(--txt)]"
+                        }`}
+                      >
+                        {formatearSaldo(saldoDeepSeek, monedaDeepSeek)}
+                      </p>
+                      {saldoBajo ? (
+                        <p className="mt-1 text-sm font-bold text-red-500">
+                          {tIA("reloadSoon")}
+                        </p>
+                      ) : null}
+                    </>
+                  ) : (
+                    <p className="mt-3 text-sm font-semibold text-red-500">
+                      {estadoIA?.deepseek.codigo === "NO_CONFIGURADA"
+                        ? tIA("notConfigured")
+                        : estadoIA?.deepseek.error || tIA("unavailable")}
+                    </p>
+                  )}
+                </div>
+
+                <div className="rounded-xl bg-[var(--card2)] p-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-[var(--txt3)]">
+                    {tIA("gemini")}
+                  </p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <span
+                      className={`h-3 w-3 shrink-0 rounded-full ${
+                        geminiOk ? "bg-emerald-500" : "bg-red-500"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm font-semibold text-[var(--txt2)]">
+                      {geminiOk
+                        ? tIA("available")
+                        : tIA("unavailable")}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-4 text-xs text-[var(--txt3)]">
+                {tIA("updatedAt", {
+                  hora: estadoIA?.actualizadoEn
+                    ? new Date(estadoIA.actualizadoEn).toLocaleTimeString(
+                        locale,
+                      )
+                    : "—",
+                })}
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+                <h2 className="font-bold text-[var(--txt)]">Ganancias e IVA</h2>
+                <div className="mt-3 grid gap-2 text-sm">
+                  {[
+                    ["Hoy", resumen.gananciasDia, resumen.ivaDia],
+                    ["Semana", resumen.gananciasSemana, resumen.ivaSemana],
+                    ["Mes", resumen.gananciasMes, resumen.ivaMes],
+                    ["Año", resumen.gananciasAno, resumen.ivaAno],
+                  ].map(([periodo, base, ivaPeriodo]) => (
+                    <div key={String(periodo)} className="flex items-center justify-between rounded-lg bg-[var(--card2)] px-3 py-2">
+                      <span>{periodo}</span>
+                      <span className="font-bold">
+                        {dinero(Number(base))} + IVA {dinero(Number(ivaPeriodo))}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+                <h2 className="font-bold text-[var(--txt)]">Próximos a caducar</h2>
+                <div className="mt-3 grid grid-cols-3 gap-3 text-center">
+                  {[["7 días", resumen.proximos7], ["15 días", resumen.proximos15], ["30 días", resumen.proximos30]].map(([etiqueta, valor]) => (
+                    <div key={String(etiqueta)} className="rounded-xl bg-[var(--card2)] p-3">
+                      <p className="text-xs">{etiqueta}</p>
+                      <p className="text-2xl font-bold">{valor}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <label className="text-xs font-bold text-[var(--txt2)]">IVA general (%)</label>
+                  <div className="mt-1 flex gap-2">
+                    <input value={iva} onChange={(e) => setIva(e.target.value)} className="w-24 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm" />
+                    <button type="button" onClick={() => void guardarConfig()} className="rounded-lg bg-[var(--azul)] px-3 py-2 text-xs font-bold text-white">Guardar IVA</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <h2 className="font-bold text-[var(--txt)]">Últimas acciones administrativas</h2>
+              <div className="mt-3 space-y-2 text-xs">
+                {logs.slice(0, 8).map((log) => (
+                  <div key={log.id} className="flex flex-wrap justify-between gap-2 rounded-lg bg-[var(--card2)] px-3 py-2">
+                    <span><strong>{log.accion}</strong> · {log.detalle}</span>
+                    <span className="text-[var(--txt3)]">{new Date(log.fecha).toLocaleString("es-ES")} · {log.ip}</span>
+                  </div>
+                ))}
+                {logs.length === 0 ? <p className="text-[var(--txt3)]">Sin acciones registradas.</p> : null}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-red-900/30 bg-red-950/5 p-5">
+              <h2 className="font-bold text-[var(--txt)]">
+                {tLaunch("title")}
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm text-[var(--txt2)]">
+                {tLaunch("description")}
+              </p>
+              <button
+                type="button"
+                onClick={() => setLimpiezaAbierta(true)}
+                className="mt-4 inline-flex items-center gap-2 rounded-xl border border-red-900/40 bg-red-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-red-800"
+              >
+                <Trash2 className="h-4 w-4" />
+                {tLaunch("button")}
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "usuarios" ? (
+          <section className="space-y-4">
+            <div className="flex flex-wrap gap-2">
+              <input value={filtros.busqueda} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, busqueda: e.target.value })); }} placeholder="Buscar nombre, correo o teléfono" className="min-w-[240px] flex-1 rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm" />
+              <select value={filtros.tipo} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, tipo: e.target.value })); }} className="rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm">
+                <option value="">Todos</option><option value="freemium">Free</option><option value="premium">Premium</option>
+              </select>
+              <select value={filtros.estado} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, estado: e.target.value })); }} className="rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm">
+                <option value="">Todos los estados</option><option value="Activa">Activa</option><option value="Caducada">Caducada</option>
+              </select>
+              <select value={filtros.plan} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, plan: e.target.value })); }} className="rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm">
+                <option value="">Todos los planes</option><option value="mensual">1 mes</option><option value="semestral">6 meses</option><option value="anual">12 meses</option><option value="ilimitado">Ilimitado</option>
+              </select>
+              <button type="button" onClick={() => { setForm(FORM_VACIO); setModal("crear"); }} className="inline-flex items-center gap-2 rounded-xl bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white"><Plus className="h-4 w-4" /> Crear usuario</button>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+              <table className="w-full min-w-[1100px] text-left text-xs">
+                <thead className="bg-[var(--card2)] text-[var(--txt3)]">
+                  <tr>{["ID", "Usuario", "Cuenta", "Plan", "Base", "IVA", "Total", "Registro", "Pago", "Caducidad", "Estado", "Acciones"].map((h) => <th key={h} className="px-3 py-3 font-bold">{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {usuarios.map((usuario) => (
+                    <tr key={usuario.clave} className="border-t border-[var(--th)]">
+                      <td className="px-3 py-3 font-mono">{usuario.clave}</td>
+                      <td className="px-3 py-3"><strong>{usuario.nombre} {usuario.apellidos}</strong><br /><span className="text-[var(--txt3)]">{usuario.correo}</span></td>
+                      <td className="px-3 py-3">{usuario.rol === "premium" ? "Premium" : "Free"}</td>
+                      <td className="px-3 py-3">{usuario.rol === "premium" ? usuario.plan : "—"}</td>
+                      <td className="px-3 py-3">{dinero(usuario.precioBase)}</td>
+                      <td className="px-3 py-3">{dinero(usuario.iva)}</td>
+                      <td className="px-3 py-3 font-bold">{dinero(usuario.total)}</td>
+                      <td className="px-3 py-3">{fecha(usuario.fechaRegistro)}</td>
+                      <td className="px-3 py-3">{fecha(usuario.fechaPago)}</td>
+                      <td className="px-3 py-3">{usuario.plan === "ilimitado" ? "Sin límite" : fecha(usuario.fechaCaducidad)}</td>
+                      <td className="px-3 py-3">{usuario.estado}</td>
+                      <td className="px-3 py-3"><div className="flex gap-2"><button type="button" onClick={() => abrirEditar(usuario)} title="Editar" className="rounded-lg p-1.5 text-[var(--azul)] hover:bg-[var(--suave)]"><Pencil className="h-4 w-4" /></button><button type="button" onClick={() => { setSeleccionado(usuario); setModal("eliminar"); }} title="Eliminar" className="rounded-lg p-1.5 text-red-500 hover:bg-red-50"><Trash2 className="h-4 w-4" /></button></div></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <span>{totalUsuarios} usuarios · página {pagina} de {paginas}</span>
+              <div className="flex gap-2">
+                <button type="button" disabled={pagina <= 1} onClick={() => setPagina((p) => Math.max(1, p - 1))} className="rounded-lg border border-[var(--th)] px-3 py-1.5 disabled:opacity-40">Anterior</button>
+                <button type="button" disabled={pagina >= paginas} onClick={() => setPagina((p) => p + 1)} className="rounded-lg border border-[var(--th)] px-3 py-1.5 disabled:opacity-40">Siguiente</button>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "estadisticas" ? (
+          <section className="grid gap-4 lg:grid-cols-2">
+            <div className="flex justify-end lg:col-span-2">
+              <button
+                type="button"
+                onClick={() => setResetPendiente("estadisticas")}
+                className="inline-flex items-center gap-2 rounded-xl border border-red-900/40 bg-red-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-red-800"
+              >
+                <RotateCcw className="h-4 w-4" />
+                {tReset("resetStats")}
+              </button>
+            </div>
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="font-bold text-[var(--txt)]">Uso por zona</h2>
+                <button
+                  type="button"
+                  onClick={() => setResetPendiente("uso")}
+                  className="inline-flex items-center gap-2 rounded-lg border border-red-900/40 bg-red-700 px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-red-800"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  {tReset("resetUsage")}
+                </button>
+              </div>
+              <div className="mt-3 space-y-2 text-sm">
+                {uso.map((item) => (
+                  <div key={item.zona} className="rounded-lg bg-[var(--card2)] p-3">
+                    <div className="flex justify-between"><strong>{item.zona}</strong><span>{item.usos} usos</span></div>
+                    <div className="mt-1 text-xs text-[var(--txt3)]">{item.usuariosUnicos} usuarios únicos · {Math.round(item.duracionTotal / 60)} min</div>
+                  </div>
+                ))}
+                {uso.length === 0 ? <p className="text-[var(--txt3)]">Sin datos de uso todavía.</p> : null}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <h2 className="font-bold text-[var(--txt)]">Crecimiento de usuarios</h2>
+              <div className="mt-4 space-y-2">
+                {[["Hoy", resumen?.nuevosDia || 0], ["Semana", resumen?.nuevosSemana || 0], ["Mes", resumen?.nuevosMes || 0], ["Año", resumen?.nuevosAno || 0]].map(([etiqueta, valor]) => (
+                  <div key={String(etiqueta)} className="flex items-center gap-2 text-xs"><span className="w-16">{etiqueta}</span><div className="h-3 flex-1 rounded-full bg-[var(--card2)]"><div className="h-3 rounded-full bg-[var(--azul)]" style={{ width: `${Math.min(100, Number(valor) * 8)}%` }} /></div><strong>{valor}</strong></div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "facturacion" ? (
+          <section className="space-y-4">
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setResetPendiente("facturacion")}
+                className="inline-flex items-center gap-2 rounded-xl border border-red-900/40 bg-red-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-red-800"
+              >
+                <RotateCcw className="h-4 w-4" />
+                {tReset("resetBilling")}
+              </button>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">Base anual</p><p className="text-2xl font-bold">{dinero(resumen?.gananciasAno || 0)}</p></div>
+              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">IVA anual</p><p className="text-2xl font-bold">{dinero(resumen?.ivaAno || 0)}</p></div>
+              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">Total anual</p><p className="text-2xl font-bold">{dinero((resumen?.gananciasAno || 0) + (resumen?.ivaAno || 0))}</p></div>
+            </div>
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <h2 className="font-bold">Facturación mensual · EUR</h2>
+              <table className="mt-3 w-full text-left text-xs">
+                <thead><tr className="text-[var(--txt3)]">{["Mes", "Base", "IVA", "Total", "Facturas"].map((h) => <th key={h} className="py-2">{h}</th>)}</tr></thead>
+                <tbody>{pagosMensuales.map((fila) => <tr key={fila.mes} className="border-t border-[var(--th)]"><td className="py-2">{fila.mes}</td><td>{dinero(fila.base)}</td><td>{dinero(fila.iva)}</td><td className="font-bold">{dinero(fila.total)}</td><td>{fila.facturas}</td></tr>)}</tbody>
+              </table>
+            </div>
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <h2 className="font-bold">Histórico de pagos</h2>
+              <div className="mt-3 max-h-96 overflow-auto">
+                <table className="w-full min-w-[700px] text-left text-xs">
+                  <thead><tr className="text-[var(--txt3)]">{["Fecha", "Usuario", "Concepto", "Plan", "Base", "IVA", "Total"].map((h) => <th key={h} className="py-2">{h}</th>)}</tr></thead>
+                  <tbody>{pagos.map((pago) => <tr key={pago.id} className="border-t border-[var(--th)]"><td className="py-2">{fecha(pago.fecha)}</td><td>{pago.usuarioNombre}</td><td>{pago.concepto}</td><td>{pago.plan}</td><td>{dinero(pago.precioBase)}</td><td>{dinero(pago.iva)}</td><td className="font-bold">{dinero(pago.total)}</td></tr>)}</tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "exportar" ? (
+          <section className="space-y-4 rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <h2 className="text-xl font-bold">Exportación personalizada</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <p className="mb-2 text-sm font-bold">Datos a incluir</p>
+                {[["datosPersonales", tExport("personalData")], ["plan", "Plan"], ["precio", "Precio base"], ["iva", "IVA"], ["total", "Total"], ["fechas", "Fechas"], ["zonaUso", "Estado / uso"]].map(([id, etiqueta]) => (
+                  <label key={id} className="mb-1 flex items-center gap-2 text-sm"><input type="checkbox" checked={camposPdf.includes(id)} onChange={(e) => setCamposPdf((prev) => e.target.checked ? [...prev, id] : prev.filter((c) => c !== id))} /> {etiqueta}</label>
+                ))}
+                <p className="mt-2 text-xs leading-relaxed text-[var(--txt3)]">
+                  {tExport("personalDataHint")}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <label>Desde<input type="date" value={filtrosPdf.desde} onChange={(e) => setFiltrosPdf((f) => ({ ...f, desde: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5" /></label>
+                <label>Hasta<input type="date" value={filtrosPdf.hasta} onChange={(e) => setFiltrosPdf((f) => ({ ...f, hasta: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5" /></label>
+                <label>Tipo<select value={filtrosPdf.tipo} onChange={(e) => setFiltrosPdf((f) => ({ ...f, tipo: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5"><option value="">Todos</option><option value="freemium">Free</option><option value="premium">Premium</option></select></label>
+                <label>Plan<select value={filtrosPdf.plan} onChange={(e) => setFiltrosPdf((f) => ({ ...f, plan: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5"><option value="">Todos</option><option value="mensual">1 mes</option><option value="semestral">6 meses</option><option value="anual">12 meses</option><option value="ilimitado">Ilimitado</option></select></label>
+                <label>Estado<select value={filtrosPdf.estado} onChange={(e) => setFiltrosPdf((f) => ({ ...f, estado: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5"><option value="">Todos</option><option value="Activa">Activa</option><option value="Caducada">Caducada</option></select></label>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={() => void exportar(false)} className="inline-flex items-center gap-2 rounded-xl bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white"><Download className="h-4 w-4" /> Descargar PDF</button>
+              <button type="button" onClick={() => void exportar(true)} className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white"><FileText className="h-4 w-4" /> Datos para Hacienda</button>
+              <button type="button" onClick={() => window.print()} className="rounded-xl border border-[var(--th)] px-4 py-2 text-sm font-bold">Imprimir panel</button>
+            </div>
+          </section>
+        ) : null}
+      </div>
+
+      {limpiezaAbierta ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="limpieza-lanzamiento-titulo"
+            className="w-full max-w-lg rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-2xl"
+          >
+            <h2
+              id="limpieza-lanzamiento-titulo"
+              className="text-xl font-bold text-[var(--txt)]"
+            >
+              {tLaunch("warningTitle")}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-[var(--txt2)]">
+              {tLaunch("warningMessage")}
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setLimpiezaAbierta(false)}
+                disabled={limpiando}
+                className="rounded-xl border border-[var(--th)] px-4 py-2 text-sm font-bold text-[var(--txt2)] hover:bg-[var(--suave)] disabled:cursor-wait disabled:opacity-60"
+              >
+                {tLaunch("cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={() => void limpiarDatosLanzamiento()}
+                disabled={limpiando}
+                className="inline-flex items-center gap-2 rounded-xl bg-red-700 px-4 py-2 text-sm font-bold text-white hover:bg-red-800 disabled:cursor-wait disabled:opacity-60"
+              >
+                {limpiando ? (
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+                {limpiando ? tLaunch("cleaning") : tLaunch("confirm")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {resetPendiente ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reset-contadores-titulo"
+            className="w-full max-w-md rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-2xl"
+          >
+            <h2
+              id="reset-contadores-titulo"
+              className="text-xl font-bold text-[var(--txt)]"
+            >
+              {resetPendiente === "uso"
+                ? tReset("warningTitleUsage")
+                : tReset("warningTitle")}
+            </h2>
+            <p className="mt-2 text-sm text-[var(--txt2)]">
+              {resetPendiente === "uso"
+                ? tReset("warningMessageUsage")
+                : tReset("warningMessage")}
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setResetPendiente(null)}
+                disabled={reiniciando}
+                className="rounded-xl border border-[var(--th)] px-4 py-2 text-sm font-bold text-[var(--txt2)] hover:bg-[var(--suave)] disabled:cursor-wait disabled:opacity-60"
+              >
+                {tReset("cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={() => void reiniciarContadores()}
+                disabled={reiniciando}
+                className="inline-flex items-center gap-2 rounded-xl bg-red-700 px-4 py-2 text-sm font-bold text-white hover:bg-red-800 disabled:cursor-wait disabled:opacity-60"
+              >
+                {reiniciando ? (
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                ) : (
+                  <RotateCcw className="h-4 w-4" />
+                )}
+                {reiniciando ? tReset("resetting") : tReset("confirm")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {modal ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-[var(--card)] p-5 shadow-2xl">
+            {modal === "eliminar" ? (
+              <>
+                <h2 className="text-xl font-bold">Eliminar usuario</h2>
+                <p className="mt-2 text-sm">¿Eliminar definitivamente a <strong>{seleccionado?.nombre} {seleccionado?.apellidos}</strong>? Esta acción no se puede deshacer.</p>
+                <div className="mt-5 flex justify-end gap-2"><button type="button" onClick={() => setModal(null)} className="rounded-lg border px-4 py-2 text-sm">Cancelar</button><button type="button" disabled={guardando} onClick={() => void eliminar()} className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white">Eliminar</button></div>
+              </>
+            ) : (
+              <form onSubmit={guardarUsuario} className="space-y-3">
+                <h2 className="text-xl font-bold">{modal === "crear" ? "Crear usuario" : "Editar usuario"}</h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="text-sm">Nombre<input required value={form.nombre} onChange={(e) => setForm((f) => ({ ...f, nombre: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Apellidos<input value={form.apellidos} onChange={(e) => setForm((f) => ({ ...f, apellidos: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Correo<input required type="email" value={form.correo} onChange={(e) => setForm((f) => ({ ...f, correo: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Teléfono / ID<input required disabled={modal === "editar"} value={form.telefono} onChange={(e) => setForm((f) => ({ ...f, telefono: e.target.value }))} placeholder="34_600000000" className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 disabled:opacity-60" /></label>
+                  <label className="text-sm">Rol<select value={form.rol} onChange={(e) => setForm((f) => ({ ...f, rol: e.target.value as "freemium" | "premium" }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2"><option value="freemium">Free</option><option value="premium">Premium</option></select></label>
+                  <label className="text-sm">Plan<select value={form.plan} onChange={(e) => setForm((f) => ({ ...f, plan: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2"><option value="">Sin plan</option><option value="mensual">1 mes</option><option value="semestral">6 meses</option><option value="anual">12 meses</option><option value="ilimitado">Ilimitado</option></select></label>
+                  <label className="text-sm">Precio base<input type="number" min="0" step="0.01" value={form.precioBase} onChange={(e) => {
+                    const valor = e.target.value;
+                    const base = Number(valor);
+                    const ivaCalculado = Number.isFinite(base)
+                      ? Math.round(base * (Number(iva) / 100) * 100) / 100
+                      : 0;
+                    setForm((f) => ({
+                      ...f,
+                      precioBase: valor,
+                      iva: String(ivaCalculado),
+                    }));
+                  }} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">IVA<input type="number" min="0" step="0.01" value={form.iva} onChange={(e) => setForm((f) => ({ ...f, iva: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Fecha de pago<input type="date" value={form.fechaPago} onChange={(e) => setForm((f) => ({ ...f, fechaPago: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Fecha de caducidad<input type="date" value={form.fechaCaducidad} onChange={(e) => setForm((f) => ({ ...f, fechaCaducidad: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="text-sm">Contraseña {modal === "editar" ? "(opcional)" : ""}<input type="password" required={modal === "crear"} value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
+                  <label className="flex items-center gap-2 self-end text-sm"><input type="checkbox" checked={form.registrarPago} onChange={(e) => setForm((f) => ({ ...f, registrarPago: e.target.checked }))} /> Registrar pago en histórico</label>
+                </div>
+                <div className="flex justify-end gap-2 pt-2"><button type="button" onClick={() => setModal(null)} className="rounded-lg border px-4 py-2 text-sm">Cancelar</button><button type="submit" disabled={guardando} className="rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white">{guardando ? "Guardando…" : "Guardar"}</button></div>
+              </form>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </main>
+  );
+}

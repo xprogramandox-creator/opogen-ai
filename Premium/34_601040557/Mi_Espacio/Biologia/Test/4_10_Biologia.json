@@ -1,0 +1,107 @@
+{
+  "preguntas": [
+    {
+      "enunciado": "En relación con la lista de verificación quirúrgica, ¿quién es normalmente el encargado de realizar los controles de seguridad durante la operación?",
+      "opciones": [
+        "El cirujano principal, de forma exclusiva.",
+        "El anestesista, por su competencia sobre la vía aérea.",
+        "El enfermero circulante, sin perjuicio de que cualquier clínico participante pueda chequearla.",
+        "El responsable de calidad del centro hospitalario."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el texto, ¿a qué se atribuye la mayor probabilidad de efectos adversos en países en vías de desarrollo con economías en transición?",
+      "opciones": [
+        "Exclusivamente a la falta de motivación del personal sanitario.",
+        "Al mal estado de las infraestructuras, la calidad de los medicamentos, los equipos, el control de infecciones y la actuación deficiente del personal sanitario.",
+        "Únicamente al incremento del número de ingresos hospitalarios.",
+        "A la aplicación de estrategias de seguridad importadas de otros sistemas sanitarios."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Qué conclusión extrajeron Bates et al. en sus estudios sobre los efectos adversos relacionados con los medicamentos?",
+      "opciones": [
+        "Que la mayoría de los efectos adversos se debían a errores de prescripción médica.",
+        "Que aproximadamente un 40% de los efectos adversos estaban relacionados con la administración.",
+        "Que los efectos adversos se reducían con listados de buenas prácticas en cirugía.",
+        "Que el sexto correcto eliminaba los errores de administración."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "De acuerdo con el texto, ¿a qué se denomina el «sexto correcto» en la administración de medicamentos?",
+      "opciones": [
+        "A la comprobación de la caducidad del fármaco antes de su administración.",
+        "Al registro de la administración en la historia clínica.",
+        "A la verificación de la esterilidad del material de administración.",
+        "A la confirmación de la identidad del profesional que administra."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Conforme al material, ¿cuál es el papel de los sistemas sanitarios en relación con las prácticas seguras?",
+      "opciones": [
+        "Sustituir a los profesionales en la prestación directa de los cuidados.",
+        "Proporcionar herramientas que faciliten el desarrollo, la evaluación y seguimiento de las prácticas seguras, instaurándolas en los centros y unidades.",
+        "Limitarse a registrar los efectos adversos una vez producidos.",
+        "Delegar en las organizaciones internacionales la implantación de dichas prácticas."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el material, ¿cuál es el objetivo único y prioritario de las estrategias para ofrecer seguridad en el paciente?",
+      "opciones": [
+        "Aumentar el número de profesionales sanitarios en las unidades.",
+        "Mejorar la calidad asistencial proporcionando cuidados seguros y disminuyendo las posibles incidencias.",
+        "Reducir el gasto sanitario derivado de los ingresos hospitalarios.",
+        "Homologar los protocolos con los de países en vías de desarrollo."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes ítems corresponde a la segunda fase de la lista de verificación, esto es, la posterior a la inducción anestésica y anterior al cierre de la herida?",
+      "opciones": [
+        "Comprobar si el paciente presenta una vía aérea difícil o riesgo de aspiración.",
+        "Confirmar que el consentimiento informado está firmado.",
+        "Comprobar si se ha realizado profilaxis antibiótica.",
+        "Confirmar el sitio quirúrgico antes de la inducción."
+      ],
+      "correcta": 2
+    },
+    {
+      "enunciado": "Según el manual de la OMS de verificación de la seguridad quirúrgica, ¿en qué fase se comprueba la colocación del pulsioxímetro?",
+      "opciones": [
+        "En la fase posterior a la inducción anestésica y anterior al cierre de la herida.",
+        "En la fase previa a la inducción de la anestesia.",
+        "En la fase de cierre de la herida quirúrgica.",
+        "En cualquiera de las tres fases, siempre que lo confirme el enfermero circulante."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "Según el material, ¿en qué escalón de la pirámide de necesidades humanas de Abraham Maslow se sitúa la necesidad de seguridad?",
+      "opciones": [
+        "En el primero, junto a las necesidades fisiológicas.",
+        "En el segundo, una vez suplidas las necesidades fisiológicas.",
+        "En el tercero, por encima de las necesidades de afiliación.",
+        "En el cuarto, vinculado a las necesidades de estima."
+      ],
+      "correcta": 1
+    },
+    {
+      "enunciado": "De acuerdo con las investigaciones citadas en el material, ¿qué porcentaje de los ingresos hospitalarios se atribuye a errores con la medicación?",
+      "opciones": [
+        "Entre el 0,1 y el 1 %.",
+        "Entre el 1 y el 10 %.",
+        "Entre el 10 y el 25 %.",
+        "Entre el 25 y el 50 %."
+      ],
+      "correcta": 1
+    }
+  ],
+  "numPreguntas": 10,
+  "carpeta": "Biologia",
+  "textoContexto": "Examen de OpoGen"
+}

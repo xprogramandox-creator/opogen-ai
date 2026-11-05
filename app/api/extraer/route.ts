@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import { extractText } from "unpdf";
 import { extractRawText } from "mammoth";
+import { obtenerIpCliente } from "@/lib/ip";
 
 export const maxDuration = 60;
 
@@ -17,6 +19,72 @@ const MAX_TEXTO_TOTAL = 700_000;
 
 const PETICIONES_POR_MINUTO = 12;
 const VENTANA_LIMITE_MS = 60_000;
+
+/*
+ * Caché de TEXTO extraído (nunca de preguntas). Evita volver a pagar la
+ * lectura del archivo cuando se sube el mismo documento otra vez.
+ */
+type DocumentoExtraido = {
+  nombre: string;
+  texto: string;
+  tipo: string;
+};
+
+type EntradaTextoCache = {
+  documentos: DocumentoExtraido[];
+  totalCaracteres: number;
+  ts: number;
+};
+
+const cacheTexto = new Map<string, EntradaTextoCache>();
+const MAX_ENTRADAS_CACHE_TEXTO = 30;
+const TTL_CACHE_TEXTO_MS = 6 * 60 * 60 * 1000;
+
+function leerCacheTexto(clave: string): EntradaTextoCache | null {
+  const entrada = cacheTexto.get(clave);
+
+  if (!entrada) {
+    return null;
+  }
+
+  if (Date.now() - entrada.ts > TTL_CACHE_TEXTO_MS) {
+    cacheTexto.delete(clave);
+    return null;
+  }
+
+  return entrada;
+}
+
+function guardarCacheTexto(
+  clave: string,
+  entrada: Omit<EntradaTextoCache, "ts">,
+): void {
+  if (entrada.documentos.length === 0) {
+    return;
+  }
+
+  if (cacheTexto.size >= MAX_ENTRADAS_CACHE_TEXTO) {
+    const primera = cacheTexto.keys().next().value;
+
+    if (primera) {
+      cacheTexto.delete(primera);
+    }
+  }
+
+  cacheTexto.set(clave, { ...entrada, ts: Date.now() });
+}
+
+/** Huella del contenido de los archivos (nombre, tamaño, tipo y bytes). */
+async function claveDeArchivos(archivos: File[]): Promise<string> {
+  const hash = createHash("sha256");
+
+  for (const archivo of archivos) {
+    hash.update(`${archivo.name}\0${archivo.size}\0${archivo.type}\0`);
+    hash.update(new Uint8Array(await archivo.arrayBuffer()));
+  }
+
+  return hash.digest("hex");
+}
 
 const MIME_POR_EXTENSION: Record<string, string> = {
   // Documentos
@@ -94,12 +162,7 @@ type RespuestaGemini = {
 };
 
 function obtenerIp(req: Request): string {
-  const cabecera =
-    req.headers.get("x-forwarded-for") ||
-    req.headers.get("x-real-ip") ||
-    "desconocida";
-
-  return cabecera.split(",")[0]?.trim() || "desconocida";
+  return obtenerIpCliente(req);
 }
 
 function exceedsLimite(req: Request): boolean {
@@ -234,8 +297,8 @@ function comprobarFirma(
   mime: string,
 ): boolean {
   if (mime === "application/pdf") {
-    const inicio = new TextDecoder("latin1").decode(bytes);
-    return inicio.includes("%PDF-");
+    const inicio = new TextDecoder("latin1").decode(bytes.slice(0, 5));
+    return inicio === "%PDF-";
   }
 
   if (
@@ -347,7 +410,7 @@ async function transcribirConGemini(
   }
 
   const modelo =
-    process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
+    process.env.GEMINI_MODEL?.trim() || "gemini-3.5-flash-lite";
 
   const base64 = Buffer.from(await file.arrayBuffer()).toString("base64");
 
@@ -604,11 +667,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const documentos: Array<{
-      nombre: string;
-      texto: string;
-      tipo: string;
-    }> = [];
+    // Solo se cachea el texto extraído, nunca las preguntas generadas.
+    const claveTexto = await claveDeArchivos(archivos);
+    const textoCacheado = leerCacheTexto(claveTexto);
+
+    if (textoCacheado) {
+      return NextResponse.json({
+        documentos: textoCacheado.documentos,
+        totalCaracteres: textoCacheado.totalCaracteres,
+        desdeCacheTexto: true,
+      });
+    }
+
+    const documentos: DocumentoExtraido[] = [];
 
     let totalCaracteres = 0;
 
@@ -646,6 +717,8 @@ export async function POST(req: Request) {
         tipo: mime,
       });
     }
+
+    guardarCacheTexto(claveTexto, { documentos, totalCaracteres });
 
     return NextResponse.json({
       documentos,
