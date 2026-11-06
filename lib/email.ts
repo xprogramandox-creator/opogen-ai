@@ -3,16 +3,21 @@ type ResultadoEnvio = {
   motivo?: string;
 };
 
-const REMITENTE_POR_DEFECTO =
-  "OpoGen AI <notificaciones@notificaciones.security-privacy-mask-meta.site>";
-
 /**
- * Remitente común para verificación, recuperación y contacto.
- * EMAIL_FROM puede sobrescribirlo, pero el valor por defecto ya usa
- * el dominio verificado de OpoGen AI.
+ * Remitente obligatorio para verificación, recuperación y contacto.
+ * Debe configurarse en EMAIL_FROM con un dominio verificado en Resend.
  */
-function obtenerRemitente(): string {
-  return process.env.EMAIL_FROM?.trim() || REMITENTE_POR_DEFECTO;
+function obtenerRemitente(): string | null {
+  const remitente = process.env.EMAIL_FROM?.trim();
+
+  if (!remitente) {
+    console.error(
+      "[email] Falta EMAIL_FROM. Configura un remitente verificado en Resend.",
+    );
+    return null;
+  }
+
+  return remitente;
 }
 
 function escaparHtml(texto: string): string {
@@ -28,7 +33,7 @@ function escaparHtml(texto: string): string {
  *
  * Variables necesarias:
  * - RESEND_API_KEY
- * - EMAIL_FROM (opcional; por defecto el dominio verificado de OpoGen AI)
+ * - EMAIL_FROM (obligatoria; remitente verificado)
  */
 export async function enviarCorreoRestablecimiento(
   destino: string,
@@ -41,7 +46,17 @@ export async function enviarCorreoRestablecimiento(
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
   }
 
+  if (!remitente) {
+    return { enviado: false, motivo: "EMAIL_FROM no configurada" };
+  }
+
   const enlaceSeguro = escaparHtml(enlace);
+
+  console.log("[email] Enviando restablecimiento", {
+    from: remitente,
+    to: [destino],
+    subject: "Restablece tu contraseña de OpoGen AI",
+  });
 
   try {
     const respuesta = await fetch("https://api.resend.com/emails", {
@@ -88,7 +103,17 @@ export async function enviarCorreoVerificacion(
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
   }
 
+  if (!remitente) {
+    return { enviado: false, motivo: "EMAIL_FROM no configurada" };
+  }
+
   const enlaceSeguro = escaparHtml(enlace);
+
+  console.log("[email] Enviando verificación de cuenta", {
+    from: remitente,
+    to: [destino],
+    subject: "Verifica tu cuenta en OpoGen AI",
+  });
 
   try {
     const respuesta = await fetch("https://api.resend.com/emails", {
@@ -138,12 +163,23 @@ export async function enviarCorreoContacto(datos: {
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
   }
 
+  if (!remitente) {
+    return { enviado: false, motivo: "EMAIL_FROM no configurada" };
+  }
+
   const nombreSeguro = escaparHtml(datos.nombre);
   const correoSeguro = escaparHtml(datos.correo);
   const asuntoSeguro = escaparHtml(datos.asunto);
   const mensajeSeguro = escaparHtml(datos.mensaje);
   const destinatario =
     process.env.CONTACT_EMAIL?.trim() || "soporte@opogenai.com";
+
+  console.log("[email] Enviando mensaje de contacto", {
+    from: remitente,
+    to: [destinatario],
+    replyTo: datos.correo,
+    subject: `[Contacto OpoGen] ${datos.asunto}`,
+  });
 
   try {
     const respuesta = await fetch("https://api.resend.com/emails", {
