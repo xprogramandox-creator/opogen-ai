@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { existsSync } from "node:fs";
 import {
   crearSesion,
   esClaveUsuarioValida,
@@ -7,6 +8,7 @@ import {
   rutaArchivoUsuario,
   verificarPassword,
 } from "@/lib/auth-server";
+import { mensajeError } from "@/lib/errores";
 import { obtenerIpCliente } from "@/lib/ip";
 import { consumirLimite, reiniciarLimite } from "@/lib/rate-limit";
 import { ratelimitLogin } from "@/lib/ratelimit";
@@ -118,7 +120,17 @@ export async function POST(request: Request) {
     );
   }
 
-  const usuario = await leerUsuario(clave);
+  let errorLectura: unknown = null;
+  const usuario = await leerUsuario(clave).catch((error) => {
+    errorLectura = error;
+    console.error("[login] Error leyendo datos.txt", {
+      clave,
+      dataDir: process.env.DATA_DIR || "(no definido)",
+      error: mensajeError(error),
+    });
+
+    return null;
+  });
   let passwordCorrecta = false;
 
   if (usuario) {
@@ -127,12 +139,44 @@ export async function POST(request: Request) {
         password,
         usuario.passwordHash,
       );
-    } catch {
+    } catch (error) {
+      console.error("[login] Error verificando Argon2id", {
+        clave,
+        error: mensajeError(error),
+      });
       passwordCorrecta = false;
     }
   }
 
   if (!usuario || !passwordCorrecta) {
+    if (errorLectura) {
+      return respuestaError(
+        `No se pudo leer la cuenta: ${mensajeError(errorLectura)}`,
+        500,
+      );
+    }
+
+    const rutas = (["premium", "freemium"] as const).map(
+      (plan) => ({
+        plan,
+        ruta: rutaArchivoUsuario(clave, plan),
+        existe: existsSync(rutaArchivoUsuario(clave, plan)),
+      }),
+    );
+
+    console.warn("[login] Fallo de autenticación", {
+      clave,
+      dataDir: process.env.DATA_DIR || "(no definido)",
+      cwd: process.cwd(),
+      usuarioEncontrado: Boolean(usuario),
+      passwordCorrecta,
+      hashPresente: Boolean(usuario?.passwordHash),
+      hashLongitud: usuario?.passwordHash.length ?? 0,
+      hashPrefijo: usuario?.passwordHash.slice(0, 12) ?? "",
+      emailVerificado: usuario?.emailVerificado,
+      rutas,
+    });
+
     return respuestaError("Teléfono o contraseña incorrectos.", 401);
   }
 

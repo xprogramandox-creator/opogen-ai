@@ -259,6 +259,7 @@ function parsearDatos(
   const valores = new Map<string, string>();
 
   for (const linea of texto
+    .replace(/^\uFEFF/, "")
     .replace(/\r\n/g, "\n")
     .replace(/\r/g, "\n")
     .split("\n")) {
@@ -281,7 +282,12 @@ function parsearDatos(
   const nombre = valores.get("usuario")?.trim() || "";
   const apellidos = valores.get("apellidos")?.trim() || undefined;
   const telefono = valores.get("telefono")?.trim() || "";
-  const passwordHash = valores.get("contraseña") || "";
+  const passwordHash =
+    valores.get("contraseña")?.trim() ||
+    valores.get("contrasena")?.trim() ||
+    valores.get("password")?.trim() ||
+    valores.get("passwordhash")?.trim() ||
+    "";
   const correo = valores.get("correo")?.trim() || "";
   const rolTexto = valores.get("rol")?.trim().toLowerCase() || "";
   const rol = esPlanUsuario(rolTexto) ? rolTexto : planPorDefecto;
