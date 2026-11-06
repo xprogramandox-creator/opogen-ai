@@ -3,7 +3,7 @@ import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import * as argon2 from "argon2";
 
-const raiz = process.cwd();
+const raiz = path.resolve(process.env.DATA_DIR?.trim() || process.cwd());
 const telefono = (process.env.ADMIN_TELEFONO || "34_601040557").trim();
 const password = process.env.ADMIN_PASSWORD || "Admin1234!";
 const nombre = process.env.ADMIN_NOMBRE || "Manuel";

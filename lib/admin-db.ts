@@ -3,8 +3,9 @@ import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { listarUsuarios } from "@/lib/auth-server";
 import type { UsuarioRegistrado } from "@/lib/auth-server";
+import { RUTA_DATOS } from "@/lib/rutas";
 
-const DIRECTORIO = path.join(process.cwd(), ".admin");
+const DIRECTORIO = path.join(RUTA_DATOS, ".admin");
 const ARCHIVO = path.join(DIRECTORIO, "panel.sqlite");
 const IVA_POR_DEFECTO = 21;
 

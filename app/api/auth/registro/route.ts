@@ -30,6 +30,7 @@ import {
 } from "@/lib/validacion";
 import { enviarCorreoVerificacion } from "@/lib/email";
 import { obtenerUrlBase } from "@/lib/url-base";
+import { codigoError, mensajeError } from "@/lib/errores";
 
 const MAX_REGISTROS_POR_IP = 7;
 const VENTANA_REGISTROS_MS = 60 * 60 * 1000;
@@ -335,6 +336,15 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("[registro] No se pudo preparar el registro:", error);
-    return respuestaError("No se pudo crear la cuenta.", 500);
+
+    const codigo = codigoError(error);
+    const detalle = mensajeError(error);
+
+    return respuestaError(
+      `No se pudo crear la cuenta: ${
+        codigo ? `${codigo} · ` : ""
+      }${detalle}`,
+      500,
+    );
   }
 }

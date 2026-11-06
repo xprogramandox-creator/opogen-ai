@@ -1,8 +1,9 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import lockfile from "proper-lockfile";
+import { RUTA_DATOS } from "@/lib/rutas";
 
-const CARPETA_BLOQUEOS = path.join(process.cwd(), ".locks");
+const CARPETA_BLOQUEOS = path.join(RUTA_DATOS, ".locks");
 const CLAVE_USUARIO = /^\d{1,4}_\d{4,15}$/;
 
 /**

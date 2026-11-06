@@ -2,12 +2,13 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { sanearNombreCarpeta } from "@/lib/saneamiento-carpetas";
+import { RUTA_DATOS } from "@/lib/rutas";
 
 export type PlanUsuario = "premium" | "freemium";
 
 /** Carpetas raíz donde viven las cuentas según su plan. */
-export const CARPETA_PREMIUM = path.join(process.cwd(), "Premium");
-export const CARPETA_FREEMIUM = path.join(process.cwd(), "Freemium");
+export const CARPETA_PREMIUM = path.join(RUTA_DATOS, "Premium");
+export const CARPETA_FREEMIUM = path.join(RUTA_DATOS, "Freemium");
 
 export const SUB_CARPETA_ESPACIO = "Mi_Espacio";
 export const PREFIJO_TEST_MIXTO = "Test Mixtos - ";
