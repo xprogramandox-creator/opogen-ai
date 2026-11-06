@@ -1,12 +1,1 @@
-Usuario: Admin
-Telefono: 34_601040557
-Contraseña: $argon2id$v=19$m=19456,p=1,t=2$296Dgo09jAWPV52tRbmvfA$Cn2X+1VeOBuF+zQDPybnMm2+YFZ0FOAl7DkiL0wu2hw
-Correo: xprogramandox@gmail.com
-Rol: premium
-Apellidos: Pujante Noguera
-EmailVerificado: true
-StripeCustomerId: cus_VXOU8MIAyGXqMf
-StripeSubscriptionId: sub_1UWJhZI5YopvqVk9ahv4kv0M
-PlanContratado: ilimitado
-FechaCaducidad: Sin límite
-FechaInicio: 2026-11-01T18:44:50.040Z
+
