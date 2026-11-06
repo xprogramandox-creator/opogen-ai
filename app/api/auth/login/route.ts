@@ -229,7 +229,20 @@ export async function POST(request: Request) {
   }
 
   reiniciarLimite(`login:${ip}:${clave}`);
-  await crearSesion(clave);
+
+  try {
+    await crearSesion(clave);
+  } catch (error) {
+    console.error("[login] No se pudo crear la sesión", {
+      clave,
+      error: mensajeError(error),
+    });
+
+    return respuestaError(
+      `No se pudo crear la sesión: ${mensajeError(error)}`,
+      500,
+    );
+  }
 
   return NextResponse.json({
     ok: true,
