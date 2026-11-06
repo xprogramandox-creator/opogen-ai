@@ -28,11 +28,11 @@ Además de las variables ya usadas por OpoGen AI, el panel utiliza:
 AUTH_SECRET=una-cadena-larga-y-aleatoria
 
 # Datos del administrador inicial (solo para seed:admin)
-ADMIN_TELEFONO=34_601040557
-ADMIN_PASSWORD=CambiaEstaClave123!
-ADMIN_NOMBRE=Manuel
-ADMIN_APELLIDOS=Pujante Noguera
-ADMIN_CORREO=soporte@opogenai.com
+ADMIN_TELEFONO=
+ADMIN_PASSWORD=
+ADMIN_NOMBRE=
+ADMIN_APELLIDOS=
+ADMIN_CORREO=
 ```
 
 No se debe versionar `.env.local`.
