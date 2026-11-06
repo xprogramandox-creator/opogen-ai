@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { existsSync } from "node:fs";
 import {
   crearSesion,
   esClaveUsuarioValida,
-  leerUsuario,
+  leerUsuarioParaLogin,
   purgarUsuariosFreemiumObsoletos,
   rutaArchivoUsuario,
   verificarPassword,
@@ -120,18 +119,34 @@ export async function POST(request: Request) {
     );
   }
 
-  let errorLectura: unknown = null;
-  const usuario = await leerUsuario(clave).catch((error) => {
-    errorLectura = error;
+  let lectura;
+
+  try {
+    lectura = await leerUsuarioParaLogin(clave);
+  } catch (error) {
     console.error("[login] Error leyendo datos.txt", {
       clave,
       dataDir: process.env.DATA_DIR || "(no definido)",
       error: mensajeError(error),
     });
 
-    return null;
-  });
+    return respuestaError(
+      `No se pudo leer la cuenta: ${mensajeError(error)}`,
+      500,
+    );
+  }
+
+  const usuario = lectura.usuario;
   let passwordCorrecta = false;
+
+  console.log("[login] Búsqueda de usuario", {
+    clave,
+    dataDir: process.env.DATA_DIR || "(no definido)",
+    ruta: lectura.ruta,
+    existe: lectura.existe,
+    errorLectura: lectura.error,
+    usuarioEncontrado: Boolean(usuario),
+  });
 
   if (usuario) {
     try {
@@ -139,45 +154,42 @@ export async function POST(request: Request) {
         password,
         usuario.passwordHash,
       );
+
+      console.log("[login] Resultado Argon2id", {
+        clave,
+        ruta: lectura.ruta,
+        passwordCorrecta,
+        hashLongitud: usuario.passwordHash.length,
+        hashPrefijo: usuario.passwordHash.slice(0, 12),
+      });
     } catch (error) {
       console.error("[login] Error verificando Argon2id", {
         clave,
+        ruta: lectura.ruta,
         error: mensajeError(error),
       });
       passwordCorrecta = false;
     }
   }
 
-  if (!usuario || !passwordCorrecta) {
-    if (errorLectura) {
+  if (!usuario) {
+    if (lectura.existe) {
       return respuestaError(
-        `No se pudo leer la cuenta: ${mensajeError(errorLectura)}`,
+        `La cuenta existe en ${lectura.ruta}, pero no se pudo leer: ${
+          lectura.error || "formato no válido"
+        }`,
         500,
       );
     }
 
-    const rutas = (["premium", "freemium"] as const).map(
-      (plan) => ({
-        plan,
-        ruta: rutaArchivoUsuario(clave, plan),
-        existe: existsSync(rutaArchivoUsuario(clave, plan)),
-      }),
+    return respuestaError(
+      `Usuario no encontrado. Buscado en ${lectura.ruta}`,
+      404,
     );
+  }
 
-    console.warn("[login] Fallo de autenticación", {
-      clave,
-      dataDir: process.env.DATA_DIR || "(no definido)",
-      cwd: process.cwd(),
-      usuarioEncontrado: Boolean(usuario),
-      passwordCorrecta,
-      hashPresente: Boolean(usuario?.passwordHash),
-      hashLongitud: usuario?.passwordHash.length ?? 0,
-      hashPrefijo: usuario?.passwordHash.slice(0, 12) ?? "",
-      emailVerificado: usuario?.emailVerificado,
-      rutas,
-    });
-
-    return respuestaError("Teléfono o contraseña incorrectos.", 401);
+  if (!passwordCorrecta) {
+    return respuestaError("Contraseña incorrecta.", 401);
   }
 
   if (

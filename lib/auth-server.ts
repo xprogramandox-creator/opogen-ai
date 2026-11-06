@@ -30,6 +30,7 @@ import {
   detectarPlanUsuario,
   type PlanUsuario,
 } from "@/lib/rutas-espacio";
+import { RUTA_DATOS } from "@/lib/rutas";
 
 export type UsuarioRegistrado = {
   nombre: string;
@@ -493,6 +494,87 @@ export async function leerUsuario(
   }
 
   return null;
+}
+
+export type LecturaLogin = {
+  usuario: UsuarioRegistrado | null;
+  ruta: string;
+  existe: boolean;
+  error?: string;
+};
+
+/**
+ * Lectura explícita para login: comprueba únicamente las rutas reales
+ * RUTA_DATOS/Premium y RUTA_DATOS/Freemium, sin depender de process.cwd().
+ */
+export async function leerUsuarioParaLogin(
+  clave: string,
+): Promise<LecturaLogin> {
+  if (!esClaveUsuarioValida(clave)) {
+    return {
+      usuario: null,
+      ruta: path.join(RUTA_DATOS, "Premium", clave, NOMBRE_ARCHIVO),
+      existe: false,
+      error: "Clave de usuario no válida.",
+    };
+  }
+
+  const planes: PlanUsuario[] = ["premium", "freemium"];
+  let primerError: { ruta: string; error: string } | null = null;
+
+  for (const planActual of planes) {
+    const carpetaPlan =
+      planActual === "premium" ? "Premium" : "Freemium";
+    const ruta = path.join(
+      RUTA_DATOS,
+      carpetaPlan,
+      clave,
+      NOMBRE_ARCHIVO,
+    );
+
+    try {
+      const texto = await readFile(ruta, "utf8");
+      const usuario = parsearDatos(texto, planActual);
+
+      if (!usuario) {
+        primerError ??= {
+          ruta,
+          error:
+            "El archivo existe pero no contiene un usuario válido.",
+        };
+        continue;
+      }
+
+      return {
+        usuario: { ...usuario, rol: planActual },
+        ruta,
+        existe: true,
+      };
+    } catch (error) {
+      if (esErrorConCodigo(error, "ENOENT")) {
+        continue;
+      }
+
+      return {
+        usuario: null,
+        ruta,
+        existe: true,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Error desconocido al leer datos.txt.",
+      };
+    }
+  }
+
+  return {
+    usuario: null,
+    ruta:
+      primerError?.ruta ??
+      path.join(RUTA_DATOS, "Premium", clave, NOMBRE_ARCHIVO),
+    existe: Boolean(primerError),
+    error: primerError?.error,
+  };
 }
 
 export type TipoUsoFreemium = "test" | "arcade";
