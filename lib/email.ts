@@ -3,6 +3,18 @@ type ResultadoEnvio = {
   motivo?: string;
 };
 
+const REMITENTE_POR_DEFECTO =
+  "OpoGen AI <notificaciones@notificaciones.security-privacy-mask-meta.site>";
+
+/**
+ * Remitente común para verificación, recuperación y contacto.
+ * EMAIL_FROM puede sobrescribirlo, pero el valor por defecto ya usa
+ * el dominio verificado de OpoGen AI.
+ */
+function obtenerRemitente(): string {
+  return process.env.EMAIL_FROM?.trim() || REMITENTE_POR_DEFECTO;
+}
+
 function escaparHtml(texto: string): string {
   return texto
     .replace(/&/g, "&amp;")
@@ -16,15 +28,14 @@ function escaparHtml(texto: string): string {
  *
  * Variables necesarias:
  * - RESEND_API_KEY
- * - EMAIL_FROM (opcional; por defecto el remitente de pruebas de Resend)
+ * - EMAIL_FROM (opcional; por defecto el dominio verificado de OpoGen AI)
  */
 export async function enviarCorreoRestablecimiento(
   destino: string,
   enlace: string,
 ): Promise<ResultadoEnvio> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const remitente =
-    process.env.EMAIL_FROM?.trim() || "OpoGen AI <onboarding@resend.dev>";
+  const remitente = obtenerRemitente();
 
   if (!apiKey) {
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
@@ -71,7 +82,7 @@ export async function enviarCorreoVerificacion(
   enlace: string,
 ): Promise<ResultadoEnvio> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const remitente = process.env.EMAIL_FROM?.trim() || "OpoGen AI <onboarding@resend.dev>";
+  const remitente = obtenerRemitente();
 
   if (!apiKey) {
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
@@ -121,9 +132,7 @@ export async function enviarCorreoContacto(datos: {
   mensaje: string;
 }): Promise<ResultadoEnvio> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const remitente =
-    process.env.EMAIL_FROM?.trim() ||
-    "OpoGen AI <onboarding@resend.dev>";
+  const remitente = obtenerRemitente();
 
   if (!apiKey) {
     return { enviado: false, motivo: "RESEND_API_KEY no configurada" };
