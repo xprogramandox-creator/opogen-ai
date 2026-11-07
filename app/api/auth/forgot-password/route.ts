@@ -100,6 +100,9 @@ export async function POST(request: Request) {
     );
 
     const baseUrl = obtenerUrlBase(new URL(request.url).origin);
+  console.log("[forgot-password] URL base de recuperación", {
+    baseUrl,
+  });
     const enlace = `${baseUrl}/reset-password?token=${token}`;
 
     try {

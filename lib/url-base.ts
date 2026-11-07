@@ -16,6 +16,13 @@ function esUrlLocal(url: string): boolean {
   }
 }
 
+function leerEntorno(nombre: string): string {
+  // Acceso con corchetes para que Next/Turbopack no sustituya el valor
+  // NEXT_PUBLIC_* por el valor que existiera durante el build.
+  const entorno = process.env as Record<string, string | undefined>;
+  return entorno[nombre]?.trim() || "";
+}
+
 /**
  * URL pública usada en los enlaces de los correos.
  *
@@ -29,9 +36,9 @@ function esUrlLocal(url: string): boolean {
  */
 export function obtenerUrlBase(origenSolicitud?: string): string {
   const configurada =
-    process.env.NEXT_PUBLIC_APP_URL?.trim() ||
-    process.env.APP_URL?.trim() ||
-    process.env.NEXT_PUBLIC_BASE_URL?.trim();
+    leerEntorno("NEXT_PUBLIC_APP_URL") ||
+    leerEntorno("APP_URL") ||
+    leerEntorno("NEXT_PUBLIC_BASE_URL");
 
   if (configurada) {
     return normalizar(configurada);

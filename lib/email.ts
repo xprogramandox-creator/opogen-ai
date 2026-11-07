@@ -28,6 +28,14 @@ function escaparHtml(texto: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function obtenerUrlBaseEnlace(enlace: string): string {
+  try {
+    return new URL(enlace).origin;
+  } catch {
+    return "(URL no válida)";
+  }
+}
+
 /**
  * Envía el enlace de restablecimiento con Resend (API HTTP, sin dependencias).
  *
@@ -56,6 +64,7 @@ export async function enviarCorreoRestablecimiento(
     from: remitente,
     to: [destino],
     subject: "Restablece tu contraseña de OpoGen AI",
+    urlBase: obtenerUrlBaseEnlace(enlace),
   });
 
   try {
@@ -113,6 +122,7 @@ export async function enviarCorreoVerificacion(
     from: remitente,
     to: [destino],
     subject: "Verifica tu cuenta en OpoGen AI",
+    urlBase: obtenerUrlBaseEnlace(enlace),
   });
 
   try {

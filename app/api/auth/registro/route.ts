@@ -311,6 +311,10 @@ export async function POST(request: Request) {
     );
 
     const baseUrl = obtenerUrlBase(new URL(request.url).origin);
+    console.log("[registro] URL base de verificación", {
+      baseUrl,
+      nextPublicAppUrl: process.env["NEXT_PUBLIC_APP_URL"] || "",
+    });
     const enlace = `${baseUrl}/api/auth/verificar?token=${tokenVerificacion}`;
 
     try {
