@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Check, Crown, Gem } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useSesion } from "@/components/SessionProvider";
+import { useAuthModal } from "@/components/AuthModalProvider";
 import type { PlanStripe } from "@/lib/plan-pendiente";
 
 const planes = [
@@ -31,6 +33,8 @@ export default function TarjetaOferta() {
   const t = useTranslations("Dashboard");
   const locale = useLocale();
   const router = useRouter();
+  const { sesion, cargando } = useSesion();
+  const { abrirAuth } = useAuthModal();
 
   const formatoMoneda = new Intl.NumberFormat(locale, {
     style: "currency",
@@ -40,7 +44,19 @@ export default function TarjetaOferta() {
   });
 
   function elegirPlan(id: (typeof planes)[number]["id"]) {
-    router.push(`/checkout?plan=${PLAN_STRIPE[id]}`);
+    if (cargando) return;
+
+    if (sesion) {
+      router.push(`/checkout?plan=${PLAN_STRIPE[id]}`);
+      return;
+    }
+
+    // Invitado: registro completo con el plan y la duración ya elegidos.
+    // AuthDialog continúa automáticamente hacia Stripe tras crear la cuenta.
+    abrirAuth("registro", {
+      plan: "premium",
+      duracion: PLAN_STRIPE[id],
+    });
   }
 
   return (

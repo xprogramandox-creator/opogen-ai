@@ -15,9 +15,11 @@ import { useVentanaPersistente } from "@/hooks/useVentanaPersistente";
 
 export type ModoAuth = "login" | "registro";
 export type PlanAuth = "freemium" | "premium";
+export type DuracionAuth = "mensual" | "semestral" | "anual";
 
 type OpcionesAuth = {
   plan?: PlanAuth;
+  duracion?: DuracionAuth;
   verificado?: boolean;
   tokenInvalido?: boolean;
 };
@@ -30,6 +32,7 @@ type AuthModalContextValue = {
 type EstadoAuth = {
   modo: ModoAuth;
   plan?: PlanAuth;
+  duracion?: DuracionAuth;
   verificado?: boolean;
   tokenInvalido?: boolean;
 };
@@ -135,12 +138,14 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
         <AuthDialog
           modo={estado.modo}
           planInicial={estado.plan}
+          duracionInicial={estado.duracion}
           verificado={estado.verificado}
           tokenInvalido={estado.tokenInvalido}
           onClose={cerrarAuth}
           onCambiarModo={(modo) =>
             abrirAuth(modo, {
               plan: estado.plan,
+              duracion: estado.duracion,
               verificado: estado.verificado,
               tokenInvalido: estado.tokenInvalido,
             })

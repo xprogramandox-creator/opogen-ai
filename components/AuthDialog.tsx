@@ -76,10 +76,12 @@ function FormularioRegistro({
   onClose,
   onSesionIniciada,
   planInicial,
+  duracionInicial,
 }: {
   onClose: () => void;
   onSesionIniciada: (nombre: string, rol?: RolUsuario) => void;
   planInicial?: PlanRegistro;
+  duracionInicial?: "mensual" | "semestral" | "anual";
 }) {
   const router = useRouter();
   const t = useTranslations("Auth");
@@ -93,7 +95,7 @@ function FormularioRegistro({
   const [plan, setPlan] = useState<PlanRegistro | "">(planInicial ?? "");
   const [duracion, setDuracion] = useState<
     "mensual" | "semestral" | "anual"
-  >("mensual");
+  >(duracionInicial ?? "mensual");
   const [dni, setDni] = useState("");
   const [calle, setCalle] = useState("");
   const [numeroVia, setNumeroVia] = useState("");
@@ -874,6 +876,7 @@ type AuthDialogProps = {
   verificado?: boolean;
   tokenInvalido?: boolean;
   planInicial?: PlanRegistro;
+  duracionInicial?: "mensual" | "semestral" | "anual";
 };
 
 export default function AuthDialog({
@@ -883,6 +886,7 @@ export default function AuthDialog({
   verificado,
   tokenInvalido,
   planInicial,
+  duracionInicial,
 }: AuthDialogProps) {
   const tAuth = useTranslations("Auth");
   const { iniciarSesion } = useSesion();
@@ -924,6 +928,7 @@ export default function AuthDialog({
         onClose={onClose}
         onSesionIniciada={iniciarSesion}
         planInicial={planInicial}
+        duracionInicial={duracionInicial}
       />
       <p className="mt-4 text-center text-sm text-[var(--txt3)]">
         {tAuth("hasAccount")}{" "}
