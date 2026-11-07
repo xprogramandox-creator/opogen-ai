@@ -4,6 +4,7 @@ import { DatabaseSync } from "node:sqlite";
 import { listarUsuarios } from "@/lib/auth-server";
 import type { UsuarioRegistrado } from "@/lib/auth-server";
 import { RUTA_DATOS } from "@/lib/rutas";
+import { diaAnalitico } from "@/lib/analitica";
 
 const DIRECTORIO = path.join(RUTA_DATOS, ".admin");
 const ARCHIVO = path.join(DIRECTORIO, "panel.sqlite");
@@ -154,6 +155,17 @@ function abrirDb(): DatabaseSync {
         expira INTEGER NOT NULL,
         creado TEXT NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS analitica_sesiones (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        usuario_clave TEXT NOT NULL DEFAULT '',
+        usuario_nombre TEXT NOT NULL DEFAULT '',
+        rol TEXT NOT NULL CHECK (rol IN ('premium', 'freemium', 'invitado')),
+        dia TEXT NOT NULL,
+        primera_visita TEXT NOT NULL,
+        ultima_actividad TEXT NOT NULL,
+        UNIQUE(session_id, dia)
+      );
       CREATE INDEX IF NOT EXISTS idx_pendientes_clave ON registros_pendientes(clave);
       CREATE INDEX IF NOT EXISTS idx_pendientes_correo ON registros_pendientes(correo);
       CREATE INDEX IF NOT EXISTS idx_usuarios_rol ON usuarios(rol);
@@ -161,6 +173,8 @@ function abrirDb(): DatabaseSync {
       CREATE INDEX IF NOT EXISTS idx_pagos_fecha ON pagos(fecha);
       CREATE INDEX IF NOT EXISTS idx_uso_fecha ON uso_zonas(fecha);
       CREATE INDEX IF NOT EXISTS idx_logs_fecha ON logs_admin(fecha);
+      CREATE INDEX IF NOT EXISTS idx_analitica_ultima ON analitica_sesiones(ultima_actividad);
+      CREATE INDEX IF NOT EXISTS idx_analitica_dia_rol ON analitica_sesiones(dia, rol);
     `);
 
     // Migración aditiva para instalaciones que ya tenían la tabla creada.
@@ -1005,6 +1019,144 @@ export function resumenUso(): Array<{
     usuariosUnicos: number;
     duracionTotal: number;
   }>;
+}
+
+export function registrarActividadAnalitica(
+  sessionId: string,
+  usuario: UsuarioRegistrado | null,
+): void {
+  const db = abrirDb();
+  const ahora = new Date().toISOString();
+  const dia = diaAnalitico();
+  const sessionFinal = usuario
+    ? `user:${usuario.clave}`
+    : `anon:${sessionId}`;
+  const rol = usuario?.rol || "invitado";
+  const usuarioClave = usuario?.clave || "";
+  const usuarioNombre = usuario
+    ? `${usuario.nombre} ${usuario.apellidos || ""}`.trim()
+    : "";
+
+  db.prepare(
+    `INSERT INTO analitica_sesiones (
+      session_id, usuario_clave, usuario_nombre, rol, dia,
+      primera_visita, ultima_actividad
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(session_id, dia) DO UPDATE SET
+      usuario_clave = excluded.usuario_clave,
+      usuario_nombre = excluded.usuario_nombre,
+      rol = excluded.rol,
+      ultima_actividad = excluded.ultima_actividad`,
+  ).run(
+    sessionFinal,
+    usuarioClave,
+    usuarioNombre,
+    rol,
+    dia,
+    ahora,
+    ahora,
+  );
+}
+
+export function obtenerAnaliticaAdmin(fecha?: string): {
+  activos: {
+    premium: Array<{
+      clave: string;
+      nombre: string;
+      ultimaActividad: string;
+    }>;
+    freemium: Array<{
+      clave: string;
+      nombre: string;
+      ultimaActividad: string;
+    }>;
+    invitados: number;
+  };
+  accesos: {
+    dia: string;
+    premium: number;
+    freemium: number;
+    invitados: number;
+  };
+} {
+  const db = abrirDb();
+  const dia = fecha || diaAnalitico();
+  const limiteActivo = new Date(
+    Date.now() - 5 * 60 * 1000,
+  ).toISOString();
+
+  const activos = db
+    .prepare(
+      `SELECT usuario_clave AS clave,
+              MAX(usuario_nombre) AS nombre,
+              MAX(ultima_actividad) AS ultimaActividad,
+              rol
+       FROM analitica_sesiones
+       WHERE ultima_actividad >= ?
+         AND rol IN ('premium', 'freemium')
+         AND usuario_clave <> ''
+       GROUP BY usuario_clave
+       ORDER BY nombre COLLATE NOCASE`,
+    )
+    .all(limiteActivo) as Array<{
+    clave: string;
+    nombre: string;
+    ultimaActividad: string;
+    rol: "premium" | "freemium";
+  }>;
+
+  const invitadosActivos = db
+    .prepare(
+      `SELECT COUNT(DISTINCT session_id) AS total
+       FROM analitica_sesiones
+       WHERE ultima_actividad >= ?
+         AND rol = 'invitado'`,
+    )
+    .get(limiteActivo) as { total?: number };
+
+  const accesos = db
+    .prepare(
+      `SELECT rol, COUNT(*) AS total
+       FROM analitica_sesiones
+       WHERE dia = ?
+       GROUP BY rol`,
+    )
+    .all(dia) as Array<{
+    rol: "premium" | "freemium" | "invitado";
+    total: number;
+  }>;
+
+  return {
+    activos: {
+      premium: activos
+        .filter((usuario) => usuario.rol === "premium")
+        .map(({ clave, nombre, ultimaActividad }) => ({
+          clave,
+          nombre,
+          ultimaActividad,
+        })),
+      freemium: activos
+        .filter((usuario) => usuario.rol === "freemium")
+        .map(({ clave, nombre, ultimaActividad }) => ({
+          clave,
+          nombre,
+          ultimaActividad,
+        })),
+      invitados: Number(invitadosActivos.total || 0),
+    },
+    accesos: {
+      dia,
+      premium:
+        accesos.find((acceso) => acceso.rol === "premium")?.total ||
+        0,
+      freemium:
+        accesos.find((acceso) => acceso.rol === "freemium")?.total ||
+        0,
+      invitados:
+        accesos.find((acceso) => acceso.rol === "invitado")?.total ||
+        0,
+    },
+  };
 }
 
 export function pagosMensuales(): Array<{

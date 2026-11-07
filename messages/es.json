@@ -638,5 +638,21 @@
     "cleaning": "Limpiando…",
     "success": "Datos de prueba archivados correctamente.",
     "error": "No se pudieron archivar los datos de prueba."
+  },
+  "AdminAnalytics": {
+    "title": "Usuarios en tiempo real",
+    "premiumActive": "Premium activos",
+    "freeActive": "Free activos",
+    "guestsOnline": "Invitados en la web",
+    "guestsOnlineHint": "Visitantes anónimos ahora",
+    "noActiveUsers": "Sin actividad en los últimos 5 minutos",
+    "accessTitle": "Estadísticas de acceso",
+    "selectDate": "Selecciona un día",
+    "premiumAccess": "Premium",
+    "freeAccess": "Free",
+    "guestAccess": "Invitados",
+    "lastActivity": "Última actividad",
+    "loading": "Cargando analítica…",
+    "error": "No se pudieron cargar las estadísticas."
   }
 }

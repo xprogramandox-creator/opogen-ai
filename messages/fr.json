@@ -638,5 +638,21 @@
     "cleaning": "Suppression…",
     "success": "Données de test archivées avec succès.",
     "error": "Impossible d'archiver les données de test."
+  },
+  "AdminAnalytics": {
+    "title": "Utilisateurs en temps réel",
+    "premiumActive": "Premium actifs",
+    "freeActive": "Free actifs",
+    "guestsOnline": "Invités sur le site",
+    "guestsOnlineHint": "Visiteurs anonymes en ce moment",
+    "noActiveUsers": "Aucune activité depuis 5 minutes",
+    "accessTitle": "Statistiques d'accès",
+    "selectDate": "Sélectionner un jour",
+    "premiumAccess": "Premium",
+    "freeAccess": "Free",
+    "guestAccess": "Invités",
+    "lastActivity": "Dernière activité",
+    "loading": "Chargement de l'analytique…",
+    "error": "Impossible de charger les statistiques."
   }
 }

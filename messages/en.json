@@ -638,5 +638,21 @@
     "cleaning": "Clearing…",
     "success": "Test data archived successfully.",
     "error": "Could not archive test data."
+  },
+  "AdminAnalytics": {
+    "title": "Real-time users",
+    "premiumActive": "Active Premium",
+    "freeActive": "Active Free",
+    "guestsOnline": "Guests on site",
+    "guestsOnlineHint": "Anonymous visitors right now",
+    "noActiveUsers": "No activity in the last 5 minutes",
+    "accessTitle": "Access statistics",
+    "selectDate": "Select a day",
+    "premiumAccess": "Premium",
+    "freeAccess": "Free",
+    "guestAccess": "Guests",
+    "lastActivity": "Last activity",
+    "loading": "Loading analytics…",
+    "error": "Could not load statistics."
   }
 }

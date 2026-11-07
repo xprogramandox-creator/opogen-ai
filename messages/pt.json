@@ -638,5 +638,21 @@
     "cleaning": "A limpar…",
     "success": "Dados de teste arquivados com sucesso.",
     "error": "Não foi possível arquivar os dados de teste."
+  },
+  "AdminAnalytics": {
+    "title": "Utilizadores em tempo real",
+    "premiumActive": "Premium ativos",
+    "freeActive": "Free ativos",
+    "guestsOnline": "Convidados no site",
+    "guestsOnlineHint": "Visitantes anónimos agora",
+    "noActiveUsers": "Sem atividade nos últimos 5 minutos",
+    "accessTitle": "Estatísticas de acesso",
+    "selectDate": "Seleciona um dia",
+    "premiumAccess": "Premium",
+    "freeAccess": "Free",
+    "guestAccess": "Convidados",
+    "lastActivity": "Última atividade",
+    "loading": "A carregar análise…",
+    "error": "Não foi possível carregar as estatísticas."
   }
 }

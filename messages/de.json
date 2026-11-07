@@ -638,5 +638,21 @@
     "cleaning": "Wird gelöscht…",
     "success": "Testdaten erfolgreich archiviert.",
     "error": "Testdaten konnten nicht archiviert werden."
+  },
+  "AdminAnalytics": {
+    "title": "Echtzeit-Benutzer",
+    "premiumActive": "Aktive Premium",
+    "freeActive": "Aktive Free",
+    "guestsOnline": "Gäste auf der Website",
+    "guestsOnlineHint": "Anonyme Besucher gerade jetzt",
+    "noActiveUsers": "Keine Aktivität in den letzten 5 Minuten",
+    "accessTitle": "Zugriffsstatistiken",
+    "selectDate": "Tag auswählen",
+    "premiumAccess": "Premium",
+    "freeAccess": "Free",
+    "guestAccess": "Gäste",
+    "lastActivity": "Letzte Aktivität",
+    "loading": "Analytik wird geladen…",
+    "error": "Statistiken konnten nicht geladen werden."
   }
 }

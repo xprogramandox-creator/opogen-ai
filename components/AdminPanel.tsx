@@ -83,6 +83,26 @@ type EstadoIA = {
   actualizadoEn?: string;
 };
 
+type UsuarioActivo = {
+  clave: string;
+  nombre: string;
+  ultimaActividad: string;
+};
+
+type AnaliticaAdmin = {
+  activos: {
+    premium: UsuarioActivo[];
+    freemium: UsuarioActivo[];
+    invitados: number;
+  };
+  accesos: {
+    dia: string;
+    premium: number;
+    freemium: number;
+    invitados: number;
+  };
+};
+
 const FORM_VACIO = {
   claveOriginal: "",
   nombre: "",
@@ -113,6 +133,7 @@ export default function AdminPanel() {
   const tExport = useTranslations("AdminExport");
   const tReset = useTranslations("AdminReset");
   const tLaunch = useTranslations("AdminLaunch");
+  const tAnalitica = useTranslations("AdminAnalytics");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -130,6 +151,14 @@ export default function AdminPanel() {
   const [reiniciando, setReiniciando] = useState(false);
   const [limpiezaAbierta, setLimpiezaAbierta] = useState(false);
   const [limpiando, setLimpiando] = useState(false);
+  const [analitica, setAnalitica] = useState<AnaliticaAdmin | null>(null);
+  const [cargandoAnalitica, setCargandoAnalitica] = useState(false);
+  const [errorAnalitica, setErrorAnalitica] = useState("");
+  const [fechaAnalitica, setFechaAnalitica] = useState(() =>
+    new Date().toLocaleDateString("en-CA", {
+      timeZone: "Europe/Madrid",
+    }),
+  );
   const [pagos, setPagos] = useState<Pago[]>([]);
   const [pagosMensuales, setPagosMensuales] = useState<
     Array<{ mes: string; base: number; iva: number; total: number; facturas: number }>
@@ -239,6 +268,29 @@ export default function AdminPanel() {
     setTotalUsuarios(datos.total || 0);
   }, [filtros, pagina, pedir]);
 
+  const cargarAnalitica = useCallback(
+    async (fecha = fechaAnalitica) => {
+      setCargandoAnalitica(true);
+      setErrorAnalitica("");
+
+      try {
+        const datos = (await pedir(
+          `/api/admin/analitica?fecha=${encodeURIComponent(fecha)}&_=${Date.now()}`,
+        )) as AnaliticaAdmin;
+        setAnalitica(datos);
+      } catch (err) {
+        setErrorAnalitica(
+          err instanceof Error
+            ? err.message
+            : tAnalitica("error"),
+        );
+      } finally {
+        setCargandoAnalitica(false);
+      }
+    },
+    [fechaAnalitica, pedir, tAnalitica],
+  );
+
   useEffect(() => {
     let activo = true;
     void fetch("/api/auth/csrf")
@@ -260,6 +312,7 @@ export default function AdminPanel() {
         cargarResumen(),
         cargarUsuarios(),
         cargarEstadoIA(),
+        cargarAnalitica(),
       ])
         .then(() => setAccesoDenegado(false))
         .catch((err) => {
@@ -277,7 +330,17 @@ export default function AdminPanel() {
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [csrf, cargarEstadoIA, cargarResumen, cargarUsuarios]);
+  }, [csrf, cargarAnalitica, cargarEstadoIA, cargarResumen, cargarUsuarios]);
+
+  useEffect(() => {
+    if (!csrf) return;
+
+    const id = window.setInterval(() => {
+      void cargarAnalitica();
+    }, 30_000);
+
+    return () => window.clearInterval(id);
+  }, [csrf, cargarAnalitica]);
 
   const abrirEditar = (usuario: UsuarioAdmin) => {
     setSeleccionado(usuario);
@@ -538,6 +601,7 @@ export default function AdminPanel() {
                   cargarResumen(),
                   cargarUsuarios(),
                   cargarEstadoIA(),
+                  cargarAnalitica(),
                 ]);
                 setAccesoDenegado(false);
               } catch (err) {
@@ -610,6 +674,125 @@ export default function AdminPanel() {
                   <p className="mt-1 text-2xl font-bold text-[var(--txt)]">{valor}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="font-bold text-[var(--txt)]">
+                  {tAnalitica("title")}
+                </h2>
+                {cargandoAnalitica && !analitica ? (
+                  <span className="text-xs text-[var(--txt3)]">
+                    {tAnalitica("loading")}
+                  </span>
+                ) : null}
+              </div>
+
+              {errorAnalitica ? (
+                <p className="mt-2 text-sm font-semibold text-red-500">
+                  {errorAnalitica}
+                </p>
+              ) : null}
+
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                {(
+                  [
+                    ["premiumActive", analitica?.activos.premium || []],
+                    ["freeActive", analitica?.activos.freemium || []],
+                  ] as const
+                ).map(([titulo, usuariosActivos]) => (
+                  <div
+                    key={titulo}
+                    className="rounded-xl bg-[var(--card2)] p-4"
+                  >
+                    <h3 className="text-sm font-bold text-[var(--azul)]">
+                      {tAnalitica(titulo)}
+                    </h3>
+                    <p className="mt-1 text-2xl font-black text-[var(--txt)]">
+                      {usuariosActivos.length}
+                    </p>
+                    <div className="mt-2 space-y-1 text-xs text-[var(--txt2)]">
+                      {usuariosActivos.length === 0 ? (
+                        <p className="text-[var(--txt3)]">
+                          {tAnalitica("noActiveUsers")}
+                        </p>
+                      ) : (
+                        usuariosActivos.map((usuario) => (
+                          <div
+                            key={usuario.clave}
+                            className="flex items-center justify-between gap-2"
+                          >
+                            <span className="truncate">
+                              {usuario.nombre || usuario.clave}
+                            </span>
+                            <span className="shrink-0 text-[var(--txt3)]">
+                              {new Date(
+                                usuario.ultimaActividad,
+                              ).toLocaleTimeString(locale, {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="rounded-xl bg-[var(--card2)] p-4">
+                  <h3 className="text-sm font-bold text-[var(--azul)]">
+                    {tAnalitica("guestsOnline")}
+                  </h3>
+                  <p className="mt-1 text-4xl font-black text-[var(--txt)]">
+                    {analitica?.activos.invitados || 0}
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--txt3)]">
+                    {tAnalitica("guestsOnlineHint")}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <h2 className="font-bold text-[var(--txt)]">
+                  {tAnalitica("accessTitle")}
+                </h2>
+                <label className="text-xs font-bold text-[var(--txt2)]">
+                  {tAnalitica("selectDate")}
+                  <input
+                    type="date"
+                    value={fechaAnalitica}
+                    onChange={(event) => {
+                      const fecha = event.target.value;
+                      setFechaAnalitica(fecha);
+                      void cargarAnalitica(fecha);
+                    }}
+                    className="ml-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5 text-sm text-[var(--txt)]"
+                  />
+                </label>
+              </div>
+
+              <div className="mt-4 grid grid-cols-3 gap-3">
+                {[
+                  ["premiumAccess", analitica?.accesos.premium || 0],
+                  ["freeAccess", analitica?.accesos.freemium || 0],
+                  ["guestAccess", analitica?.accesos.invitados || 0],
+                ].map(([etiqueta, valor]) => (
+                  <div
+                    key={String(etiqueta)}
+                    className="rounded-xl bg-[var(--card2)] p-4 text-center"
+                  >
+                    <p className="text-xs font-semibold text-[var(--txt3)]">
+                      {tAnalitica(String(etiqueta))}
+                    </p>
+                    <p className="mt-1 text-3xl font-black text-[var(--azul)]">
+                      {valor}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
