@@ -742,6 +742,10 @@ function FormularioLogin({
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
+  const [noVerificado, setNoVerificado] = useState(false);
+  const [correoReenvio, setCorreoReenvio] = useState("");
+  const [reenviando, setReenviando] = useState(false);
+  const [mensajeReenvio, setMensajeReenvio] = useState("");
 
   useEffect(() => {
     void fetch("/api/auth/csrf", { credentials: "include" }).catch(() => {});
@@ -764,6 +768,8 @@ function FormularioLogin({
 
     setEnviando(true);
     setError("");
+    setNoVerificado(false);
+    setMensajeReenvio("");
 
     try {
       const respuesta = await fetch("/api/auth/login", {
@@ -784,9 +790,7 @@ function FormularioLogin({
       if (!respuesta.ok) {
         const errorMsg = leerError(datos, t("errors.invalidCredentials"));
         if (respuesta.status === 403) {
-          setError(
-            t("errors.verifyEmail"),
-          );
+          setNoVerificado(true);
           return;
         }
         setError(errorMsg);
@@ -801,6 +805,63 @@ function FormularioLogin({
       setError(t("errors.connection"));
     } finally {
       setEnviando(false);
+    }
+  }
+
+  async function reenviarVerificacion() {
+    const correo = correoReenvio.trim();
+
+    if (!correoValido(correo)) {
+      setMensajeReenvio(t("resendInvalidEmail"));
+      return;
+    }
+
+    setReenviando(true);
+    setMensajeReenvio("");
+
+    try {
+      const respuesta = await fetch(
+        "/api/auth/reenviar-verificacion",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": obtenerCookieCSRF(),
+          },
+          body: JSON.stringify({ correo }),
+        },
+      );
+
+      const datos = (await respuesta
+        .json()
+        .catch(() => ({}))) as {
+        codigo?: unknown;
+      };
+
+      if (!respuesta.ok) {
+        const codigo =
+          typeof datos.codigo === "string" ? datos.codigo : "";
+
+        if (codigo === "LIMITE_REENVIOS") {
+          setMensajeReenvio(t("resendTooMany"));
+        } else if (codigo === "YA_VERIFICADO") {
+          setMensajeReenvio(t("resendAlreadyVerified"));
+        } else if (codigo === "NO_ENCONTRADO") {
+          setMensajeReenvio(t("resendNotFound"));
+        } else if (codigo === "CORREO_INVALIDO") {
+          setMensajeReenvio(t("resendInvalidEmail"));
+        } else {
+          setMensajeReenvio(t("resendError"));
+        }
+        return;
+      }
+
+      setMensajeReenvio(t("resendSuccess"));
+    } catch {
+      setMensajeReenvio(t("resendError"));
+    } finally {
+      setReenviando(false);
     }
   }
 
@@ -848,6 +909,48 @@ function FormularioLogin({
         >
           {error}
         </p>
+      ) : null}
+
+      {noVerificado ? (
+        <div className="rounded-xl border border-[var(--ambar-b)] bg-[var(--ambar)] p-3 text-sm text-[var(--ambar-t)]">
+          <p className="font-semibold">{t("verificationRequired")}</p>
+
+          <label
+            htmlFor="login-correo-reenvio"
+            className="mt-3 block text-xs font-bold"
+          >
+            {t("emailLabel")}
+          </label>
+
+          <input
+            id="login-correo-reenvio"
+            type="email"
+            autoComplete="email"
+            value={correoReenvio}
+            onChange={(evento) =>
+              setCorreoReenvio(evento.target.value)
+            }
+            placeholder={t("emailPlaceholder")}
+            className="mt-1 h-10 w-full rounded-lg border border-[var(--ambar-b)] bg-[var(--card)] px-3 text-sm text-[var(--txt)] outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul)]/30"
+          />
+
+          <button
+            type="button"
+            disabled={reenviando}
+            onClick={() => void reenviarVerificacion()}
+            className="mt-2 w-full rounded-lg bg-[var(--azul)] px-3 py-2 text-xs font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {reenviando
+              ? t("resendVerificationSending")
+              : t("resendVerification")}
+          </button>
+
+          {mensajeReenvio ? (
+            <p role="status" className="mt-2 text-xs font-medium">
+              {mensajeReenvio}
+            </p>
+          ) : null}
+        </div>
       ) : null}
 
       <button

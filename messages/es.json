@@ -134,7 +134,16 @@
     "forgotPassword": "¿Has olvidado tu contraseña?",
     "firstNameLabel": "Nombre",
     "lastNameLabel": "Apellidos",
-    "premiumVerificationNote": "Al finalizar el pago, te enviaremos un correo para verificar tu cuenta. Debes verificarlo antes de poder entrar."
+    "premiumVerificationNote": "Al finalizar el pago, te enviaremos un correo para verificar tu cuenta. Debes verificarlo antes de poder entrar.",
+    "verificationRequired": "Tu cuenta no está verificada. Revisa tu correo o pulsa aquí para reenviar el enlace.",
+    "resendVerification": "Reenviar correo de verificación",
+    "resendVerificationSending": "Enviando…",
+    "resendSuccess": "Te hemos enviado un nuevo enlace de verificación. Revisa tu bandeja de entrada y la carpeta de Spam.",
+    "resendTooMany": "Has solicitado demasiados reenvíos. Inténtalo de nuevo en una hora.",
+    "resendNotFound": "No encontramos ninguna cuenta pendiente con ese correo.",
+    "resendAlreadyVerified": "Esta cuenta ya está verificada. Puedes iniciar sesión.",
+    "resendInvalidEmail": "Escribe un correo electrónico válido.",
+    "resendError": "No se pudo reenviar el correo. Inténtalo de nuevo."
   },
   "Dashboard": {
     "planPremium": "Plan Premium",

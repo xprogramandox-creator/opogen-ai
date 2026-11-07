@@ -1318,6 +1318,28 @@ export function obtenerPendientePorClave(
   }
 }
 
+export function obtenerPendientePorCorreo(correo: string): {
+  usuario: UsuarioRegistrado;
+  token: string;
+} | null {
+  const fila = abrirDb()
+    .prepare(
+      "SELECT * FROM registros_pendientes WHERE lower(correo) = lower(?) AND expira > ? ORDER BY creado DESC LIMIT 1",
+    )
+    .get(correo, Date.now()) as FilaPendiente | undefined;
+
+  if (!fila) return null;
+
+  try {
+    return {
+      usuario: JSON.parse(fila.datos_json) as UsuarioRegistrado,
+      token: fila.token,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function existePendientePorClaveOCorreo(
   clave: string,
   correo: string,

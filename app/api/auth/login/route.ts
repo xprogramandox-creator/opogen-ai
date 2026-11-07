@@ -8,6 +8,7 @@ import {
   verificarPassword,
 } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
+import { obtenerPendientePorClave } from "@/lib/admin-db";
 import { obtenerIpCliente } from "@/lib/ip";
 import { consumirLimite, reiniciarLimite } from "@/lib/rate-limit";
 import { ratelimitLogin } from "@/lib/ratelimit";
@@ -182,6 +183,36 @@ export async function POST(request: Request) {
       );
     }
 
+    // Registro pendiente: todavía no existe datos.txt, pero el teléfono
+    // y la contraseña permiten detectar que falta verificar el correo.
+    const pendiente = obtenerPendientePorClave(clave);
+
+    if (pendiente) {
+      let passwordPendienteCorrecta = false;
+
+      try {
+        passwordPendienteCorrecta = await verificarPassword(
+          password,
+          pendiente.passwordHash,
+        );
+      } catch {
+        passwordPendienteCorrecta = false;
+      }
+
+      if (!passwordPendienteCorrecta) {
+        return respuestaError("Contraseña incorrecta.", 401);
+      }
+
+      return NextResponse.json(
+        {
+          error:
+            "Debes verificar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada.",
+          codigo: "EMAIL_NO_VERIFICADO",
+        },
+        { status: 403 },
+      );
+    }
+
     return respuestaError(
       `Usuario no encontrado. Buscado en ${lectura.ruta}`,
       404,
@@ -223,6 +254,7 @@ export async function POST(request: Request) {
       {
         error:
           "Debes verificar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada",
+        codigo: "EMAIL_NO_VERIFICADO",
       },
       { status: 403 },
     );

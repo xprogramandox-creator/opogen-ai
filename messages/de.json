@@ -134,7 +134,16 @@
     "forgotPassword": "Passwort vergessen?",
     "firstNameLabel": "Vorname",
     "lastNameLabel": "Nachname",
-    "premiumVerificationNote": "Nach der Zahlung senden wir dir eine E-Mail zur Bestätigung deines Kontos. Du musst sie bestätigen, bevor du dich anmelden kannst."
+    "premiumVerificationNote": "Nach der Zahlung senden wir dir eine E-Mail zur Bestätigung deines Kontos. Du musst sie bestätigen, bevor du dich anmelden kannst.",
+    "verificationRequired": "Dein Konto ist nicht bestätigt. Prüfe deine E-Mail oder klicke hier, um den Link erneut zu senden.",
+    "resendVerification": "Bestätigungs-E-Mail erneut senden",
+    "resendVerificationSending": "Wird gesendet…",
+    "resendSuccess": "Wir haben dir einen neuen Bestätigungslink gesendet. Prüfe deinen Posteingang und den Spam-Ordner.",
+    "resendTooMany": "Du hast zu viele erneute Sendungen angefordert. Versuche es in einer Stunde erneut.",
+    "resendNotFound": "Wir konnten kein ausstehendes Konto mit dieser E-Mail-Adresse finden.",
+    "resendAlreadyVerified": "Dieses Konto ist bereits bestätigt. Du kannst dich anmelden.",
+    "resendInvalidEmail": "Gib eine gültige E-Mail-Adresse ein.",
+    "resendError": "Die E-Mail konnte nicht erneut gesendet werden. Versuche es erneut."
   },
   "Dashboard": {
     "planPremium": "Premium-Tarif",

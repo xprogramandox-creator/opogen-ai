@@ -134,7 +134,16 @@
     "forgotPassword": "Forgot your password?",
     "firstNameLabel": "First name",
     "lastNameLabel": "Last name",
-    "premiumVerificationNote": "After payment, we will send you an email to verify your account. You must verify it before you can sign in."
+    "premiumVerificationNote": "After payment, we will send you an email to verify your account. You must verify it before you can sign in.",
+    "verificationRequired": "Your account is not verified. Check your email or click here to resend the link.",
+    "resendVerification": "Resend verification email",
+    "resendVerificationSending": "Sending…",
+    "resendSuccess": "We have sent you a new verification link. Check your inbox and Spam folder.",
+    "resendTooMany": "You have requested too many resends. Please try again in an hour.",
+    "resendNotFound": "We could not find a pending account with that email address.",
+    "resendAlreadyVerified": "This account is already verified. You can sign in.",
+    "resendInvalidEmail": "Enter a valid email address.",
+    "resendError": "Could not resend the email. Please try again."
   },
   "Dashboard": {
     "planPremium": "Premium plan",

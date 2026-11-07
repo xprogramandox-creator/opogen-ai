@@ -134,7 +134,16 @@
     "forgotPassword": "Mot de passe oublié ?",
     "firstNameLabel": "Prénom",
     "lastNameLabel": "Nom",
-    "premiumVerificationNote": "Après le paiement, nous vous enverrons un e-mail pour vérifier votre compte. Vous devrez le vérifier avant de pouvoir vous connecter."
+    "premiumVerificationNote": "Après le paiement, nous vous enverrons un e-mail pour vérifier votre compte. Vous devrez le vérifier avant de pouvoir vous connecter.",
+    "verificationRequired": "Votre compte n'est pas vérifié. Consultez votre courriel ou cliquez ici pour renvoyer le lien.",
+    "resendVerification": "Renvoyer le courriel de vérification",
+    "resendVerificationSending": "Envoi…",
+    "resendSuccess": "Nous vous avons envoyé un nouveau lien de vérification. Consultez votre boîte de réception et le dossier Spam.",
+    "resendTooMany": "Vous avez demandé trop de renvois. Réessayez dans une heure.",
+    "resendNotFound": "Nous n'avons trouvé aucun compte en attente avec cette adresse électronique.",
+    "resendAlreadyVerified": "Ce compte est déjà vérifié. Vous pouvez vous connecter.",
+    "resendInvalidEmail": "Saisissez une adresse électronique valide.",
+    "resendError": "Impossible de renvoyer le courriel. Réessayez."
   },
   "Dashboard": {
     "planPremium": "Forfait Premium",
