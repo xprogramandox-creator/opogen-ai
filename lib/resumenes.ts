@@ -10,12 +10,11 @@ import {
   rutaEspacioUsuario,
 } from "@/lib/rutas-espacio";
 
-export const MAX_CARACTERES_RESUMEN = 60_000;
-const MAX_CARACTERES_FRAGMENTO = 8_000;
-const MAX_CARACTERES_RESUMEN_CORTO = 12_000;
-const SOLAPE_CARACTERES = 250;
-const MAX_TOKENS_MAPA = 350;
-const MAX_TOKENS_FINAL = 900;
+export const MAX_CARACTERES_RESUMEN = 500_000;
+const MAX_CARACTERES_FRAGMENTO = 15_000;
+const MAX_CARACTERES_RESUMEN_CORTO = MAX_CARACTERES_FRAGMENTO;
+const MAX_TOKENS_MAPA = 700;
+const MAX_TOKENS_FINAL = 6_000;
 
 export class ResumenError extends Error {
   status: number;
@@ -83,7 +82,34 @@ export function dividirEnFragmentos(texto: string): string[] {
     return [texto];
   }
 
-  const parrafos = texto.split(/\n{2,}/);
+  const parrafos = texto
+    .split(/\n{2,}/)
+    .map((parrafo) => parrafo.trim())
+    .filter(Boolean);
+
+  const unidades: string[] = [];
+
+  for (const parrafo of parrafos) {
+    if (parrafo.length <= MAX_CARACTERES_FRAGMENTO) {
+      unidades.push(parrafo);
+      continue;
+    }
+
+    // Si un párrafo no cabe, se divide por frases completas. Nunca se
+    // trocea una frase por la mitad.
+    const oraciones =
+      parrafo.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g) ??
+      [parrafo];
+
+    for (const oracion of oraciones) {
+      const limpia = oracion.trim();
+
+      if (limpia) {
+        unidades.push(limpia);
+      }
+    }
+  }
+
   const fragmentos: string[] = [];
   let actual = "";
 
@@ -97,58 +123,22 @@ export function dividirEnFragmentos(texto: string): string[] {
     actual = "";
   };
 
-  const agregarBloque = (bloque: string) => {
-    const pieza = bloque.trim();
-
-    if (!pieza) return;
-
-    if (pieza.length > MAX_CARACTERES_FRAGMENTO) {
-      const oraciones =
-        pieza.match(/[^.!?]+[.!?]+|[^.!?]+$/g) ?? [pieza];
-
-      for (const oracion of oraciones) {
-        if (oracion.length > MAX_CARACTERES_FRAGMENTO) {
-          for (
-            let inicio = 0;
-            inicio < oracion.length;
-            inicio += MAX_CARACTERES_FRAGMENTO
-          ) {
-            agregarBloque(
-              oracion.slice(inicio, inicio + MAX_CARACTERES_FRAGMENTO),
-            );
-          }
-          continue;
-        }
-
-        agregarBloque(oracion);
-      }
-      return;
-    }
-
-    if (actual.length + pieza.length + 2 <= MAX_CARACTERES_FRAGMENTO) {
-      actual = actual ? `${actual}\n\n${pieza}` : pieza;
-      return;
+  for (const unidad of unidades) {
+    if (
+      actual.length + unidad.length + 2 <=
+      MAX_CARACTERES_FRAGMENTO
+    ) {
+      actual = actual ? `${actual}\n\n${unidad}` : unidad;
+      continue;
     }
 
     cerrarFragmento();
-    actual = pieza;
-  };
-
-  for (const parrafo of parrafos) {
-    agregarBloque(parrafo);
+    actual = unidad;
   }
 
   cerrarFragmento();
 
-  // Solape controlado para no perder el hilo entre fragmentos.
-  return fragmentos.map((fragmento, indice) => {
-    if (indice === 0) return fragmento;
-
-    const anterior = fragmentos[indice - 1];
-    const solape = anterior.slice(-SOLAPE_CARACTERES);
-
-    return `${solape}\n\n${fragmento}`;
-  });
+  return fragmentos.length > 0 ? fragmentos : [texto];
 }
 
 async function llamarDeepSeek(
@@ -241,11 +231,11 @@ const SYSTEM_RESUMEN =
   "Eres un sintetizador académico. Devuelve únicamente Markdown esquemático, sin introducción, sin conclusiones y sin repetir el enunciado. Usa ## y ###, viñetas breves y conserva nombres, fechas y datos clave. No inventes información.";
 
 function promptMapa(fragmento: string): string {
-  return `Extrae las ideas y datos esenciales de este fragmento en notas de viñeta. Máximo 120 palabras. No añadas introducción ni cierre.\n\nFRAGMENTO:\n${fragmento}`;
+  return `Extrae las ideas y datos esenciales de este fragmento en notas de viñeta. Puedes usar hasta 250 palabras si el fragmento lo necesita. No añadas introducción ni cierre. No cortes frases a la mitad.\n\nFRAGMENTO:\n${fragmento}`;
 }
 
 function promptFinal(texto: string): string {
-  return `Elabora un resumen de estudio esquemático en Markdown a partir del siguiente contenido. Usa títulos ##/### y viñetas. Máximo 700 palabras. No inventes datos.\n\nCONTENIDO:\n${texto}`;
+  return `Elabora un resumen de estudio esquemático en Markdown a partir del siguiente contenido. Usa títulos ##/### y viñetas. Prioriza la completitud: no tienes un límite fijo de 700 palabras y puedes extenderte si el documento es largo. No inventes datos y no cortes frases a la mitad.\n\nCONTENIDO:\n${texto}`;
 }
 
 export async function generarResumenMarkdown(
@@ -253,10 +243,16 @@ export async function generarResumenMarkdown(
 ): Promise<string> {
   const fragmentos = dividirEnFragmentos(texto);
 
+  console.log("[Resumen] Estrategia de generación", {
+    caracteres: texto.length,
+    fragmentos: fragmentos.length,
+    maxFragmento: Math.max(...fragmentos.map((f) => f.length)),
+  });
+
   if (fragmentos.length === 1) {
     return llamarDeepSeek(
       SYSTEM_RESUMEN,
-      promptFinal(texto),
+      promptFinal(fragmentos[0]),
       MAX_TOKENS_FINAL,
     );
   }
@@ -272,6 +268,8 @@ export async function generarResumenMarkdown(
     notas.push(nota);
   }
 
+  // Reduce: se unen todas las notas completas y se sintetizan una sola vez.
+  // No se recorta el resultado ni se corta ninguna frase por caracteres.
   return llamarDeepSeek(
     SYSTEM_RESUMEN,
     promptFinal(notas.join("\n\n")),
