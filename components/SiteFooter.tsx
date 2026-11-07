@@ -1,12 +1,15 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
-const enlacesLegales = [
-  { etiqueta: "Aviso Legal", href: "/legal/aviso-legal" },
-  { etiqueta: "Política de Privacidad", href: "/legal/privacidad" },
-  { etiqueta: "Contacto", href: "/contacto" },
-];
+export default async function SiteFooter() {
+  const t = await getTranslations("Footer");
 
-export default function SiteFooter() {
+  const enlacesLegales = [
+    { etiqueta: t("legalNotice"), href: "/legal/aviso-legal" },
+    { etiqueta: t("privacy"), href: "/legal/privacidad" },
+    { etiqueta: t("contact"), href: "/contacto" },
+  ];
+
   return (
     <footer className="relative z-10 border-t border-[var(--th)] bg-[var(--card)] text-[var(--txt3)] backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-8 sm:px-6 sm:py-10 md:flex-row md:items-start md:justify-between md:gap-12">
@@ -14,7 +17,7 @@ export default function SiteFooter() {
           <Link
             href="/"
             className="inline-flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
-            aria-label="OpoGen AI, página de inicio"
+            aria-label={t("home")}
           >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--azul)] text-white shadow-sm">
               <svg
@@ -35,7 +38,7 @@ export default function SiteFooter() {
             </span>
 
             <span className="text-lg font-semibold text-[var(--txt)]">
-              <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]">
                 OpoGen
               </span>{" "}
               <span className="text-[var(--azul)]">AI</span>
@@ -43,24 +46,24 @@ export default function SiteFooter() {
           </Link>
 
           <p className="mt-3 text-sm leading-relaxed">
-            Tu compañero de estudio inteligente.
+            {t("tagline")}
           </p>
         </div>
 
-        <nav aria-label="Enlaces legales" className="md:pt-1">
+        <nav aria-label={t("legalInfo")} className="md:pt-1">
           <h2 className="mb-3 text-xs font-semibold text-[var(--txt)]">
-            Información legal
+            {t("legalInfo")}
           </h2>
 
           <ul className="flex flex-col gap-2.5 text-sm sm:flex-row sm:flex-wrap sm:gap-x-6">
             {enlacesLegales.map((enlace) => (
-              <li key={enlace.etiqueta}>
-                <a
+              <li key={enlace.href}>
+                <Link
                   href={enlace.href}
                   className="rounded-md transition-colors hover:text-[var(--azul)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
                 >
                   {enlace.etiqueta}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -69,7 +72,13 @@ export default function SiteFooter() {
 
       <div className="border-t border-[var(--th)]">
         <div className="mx-auto w-full max-w-7xl px-5 py-5 text-center text-xs sm:px-6">
-          <p>© 2026 <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text font-semibold text-transparent">OpoGen</span> AI. Todos los derechos reservados.</p>
+          <p>
+            © 2026{" "}
+            <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text font-semibold text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]">
+              OpoGen
+            </span>{" "}
+            AI. {t("rights")}
+          </p>
         </div>
       </div>
     </footer>

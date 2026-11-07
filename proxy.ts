@@ -58,6 +58,27 @@ export default function proxy(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("x-opogen-locale", locale);
 
+  // Las páginas no localizadas pueden recibir un prefijo de idioma
+  // (/en/legal/aviso-legal). Se reescribe internamente a la ruta real
+  // (/legal/aviso-legal) manteniendo el idioma en la URL y en la cabecera.
+  const primerSegmento = pathname.split("/")[1];
+
+  if (esLocale(primerSegmento)) {
+    const url = request.nextUrl.clone();
+    url.pathname =
+      pathname.replace(new RegExp(`^/${primerSegmento}`), "") || "/";
+
+    const response = NextResponse.rewrite(url, {
+      request: { headers },
+    });
+    response.cookies.set(LOCALE_COOKIE, primerSegmento, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+    return response;
+  }
+
   const response = NextResponse.next({ request: { headers } });
   response.cookies.set(LOCALE_COOKIE, locale, {
     path: "/",
