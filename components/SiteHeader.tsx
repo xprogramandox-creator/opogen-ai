@@ -21,7 +21,7 @@ export default function SiteHeader({
       className="sticky top-0 z-50 w-full border-b border-[var(--th)]"
       style={{ backgroundColor: "var(--fondo)" }}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-6">
+      <div className="mx-auto flex min-h-[72px] w-full max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
           {backHref ? (
             <Link

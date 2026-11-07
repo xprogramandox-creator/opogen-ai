@@ -69,7 +69,7 @@ export default function AuthControls() {
       <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
         <nav
           aria-label="Navegación principal"
-          className="mx-auto hidden min-w-0 items-center gap-1 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] lg:flex sm:gap-2 [&::-webkit-scrollbar]:hidden"
+          className="mx-auto hidden min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1 lg:flex"
         >
           {pathname !== "/" ? (
             <Link
@@ -78,8 +78,8 @@ export default function AuthControls() {
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
               title="Inicio"
             >
-              <Home className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">{t("home")}</span>
+              <Home className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">{t("home")}</span>
             </Link>
           ) : null}
           {sesion.rol === "freemium" ? (
@@ -89,8 +89,8 @@ export default function AuthControls() {
               title={MENSAJE_SOLO_PREMIUM}
               className={`${CLASE_BOTON_CABECERA} cursor-not-allowed border border-[var(--th)] bg-[var(--card2)] text-[var(--txt3)] opacity-70`}
             >
-              <Lock className="h-4 w-4 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">{t("mySpace")}</span>
+              <Lock className="h-4 w-4 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">{t("mySpace")}</span>
             </span>
           ) : (
             <Link
@@ -99,8 +99,8 @@ export default function AuthControls() {
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
               title="Acceder a Mi Espacio"
             >
-              <Briefcase className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">{t("mySpace")}</span>
+              <Briefcase className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">{t("mySpace")}</span>
             </Link>
           )}
           {sesion.rol === "freemium" ? (
@@ -110,8 +110,8 @@ export default function AuthControls() {
               title={MENSAJE_SOLO_PREMIUM}
               className={`${CLASE_BOTON_CABECERA} cursor-not-allowed border border-[var(--th)] bg-[var(--card2)] text-[var(--txt3)] opacity-70`}
             >
-              <Lock className="h-4 w-4 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">{t("stats")}</span>
+              <Lock className="h-4 w-4 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">{t("stats")}</span>
             </span>
           ) : (
             <Link
@@ -120,8 +120,8 @@ export default function AuthControls() {
               title="Ver mis estadísticas"
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
             >
-              <BarChart3 className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">{t("stats")}</span>
+              <BarChart3 className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">{t("stats")}</span>
             </Link>
           )}
           <Link
@@ -130,8 +130,8 @@ export default function AuthControls() {
             title="Crear un test"
             className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
           >
-            <ClipboardCheck className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-            <span className="hidden lg:inline">{t("test")}</span>
+            <ClipboardCheck className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+            <span className="hidden xl:inline">{t("test")}</span>
           </Link>
           <Link
             href="/arcade"
@@ -144,8 +144,8 @@ export default function AuthControls() {
             }
             className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
           >
-            <Gamepad2 className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-            <span className="hidden lg:inline">{t("arcade")}</span>
+            <Gamepad2 className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+            <span className="hidden xl:inline">{t("arcade")}</span>
           </Link>
 
           {sesion.rol === "premium" ? (
@@ -218,8 +218,8 @@ export default function AuthControls() {
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
               title="Inicio"
             >
-              <Home className="h-5 w-5 shrink-0 lg:mr-1.5" strokeWidth={2} aria-hidden="true" />
-              <span className="hidden lg:inline">Inicio</span>
+              <Home className="h-5 w-5 shrink-0 xl:mr-1.5" strokeWidth={2} aria-hidden="true" />
+              <span className="hidden xl:inline">Inicio</span>
             </Link>
           ) : null}
           <button
