@@ -340,7 +340,19 @@
     "createMixedTitle": "Create mixed test",
     "generatingSummaryQuestions": "Generating questions from your summaries…",
     "generatingSummaryHint": "This may take a few extra seconds.",
-    "selectionBlocked": "You cannot mix PDFs and summaries in the same mixed test."
+    "selectionBlocked": "You cannot mix PDFs and summaries in the same mixed test.",
+    "subfolderTest": "Tests",
+    "subfolderMixed": "Mixed tests",
+    "subfolderSummaries": "Summaries",
+    "subfolderRetrievals": "Retrievals",
+    "chooseSubfolder": "Choose a subfolder to view its contents.",
+    "backTo": "Back to {name}",
+    "breadcrumb": "Breadcrumb",
+    "emptyTests": "There are no tests in this folder.",
+    "emptyMixed": "There are no mixed tests in this folder.",
+    "emptyRetrievals": "There are no retrievals in this folder.",
+    "refreshFolders": "Refresh folders",
+    "deleteFolder": "Delete folder"
   },
   "Arcade": {
     "playNow": "Play now",

@@ -340,7 +340,19 @@
     "createMixedTitle": "Gemischten Test erstellen",
     "generatingSummaryQuestions": "Fragen aus den Zusammenfassungen werden erstellt…",
     "generatingSummaryHint": "Dies kann einige Sekunden länger dauern.",
-    "selectionBlocked": "Du kannst PDFs und Zusammenfassungen nicht im selben gemischten Test mischen."
+    "selectionBlocked": "Du kannst PDFs und Zusammenfassungen nicht im selben gemischten Test mischen.",
+    "subfolderTest": "Tests",
+    "subfolderMixed": "Gemischte Tests",
+    "subfolderSummaries": "Zusammenfassungen",
+    "subfolderRetrievals": "Wiederholungen",
+    "chooseSubfolder": "Wähle einen Unterordner, um seinen Inhalt anzuzeigen.",
+    "backTo": "Zurück zu {name}",
+    "breadcrumb": "Navigationspfad",
+    "emptyTests": "In diesem Ordner gibt es keine Tests.",
+    "emptyMixed": "In diesem Ordner gibt es keine gemischten Tests.",
+    "emptyRetrievals": "In diesem Ordner gibt es keine Wiederholungen.",
+    "refreshFolders": "Ordner aktualisieren",
+    "deleteFolder": "Ordner löschen"
   },
   "Arcade": {
     "playNow": "Jetzt spielen",

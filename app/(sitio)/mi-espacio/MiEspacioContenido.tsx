@@ -1,7 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { Folder, FolderPlus, FileText, RefreshCw, ShieldAlert, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  ChevronDown,
+  ChevronRight,
+  Folder,
+  FolderPlus,
+  Layers,
+  RefreshCw,
+  ShieldAlert,
+  Trash2,
+} from "lucide-react";
 import { TestExamen } from "@/components/TestExamen";
 import type { Pregunta } from "@/components/TestExamen";
 import ModalConfirmacion from "@/components/ModalConfirmacion";
@@ -14,8 +25,7 @@ import { mensajeError } from "@/lib/errores";
 import { normalizarPreguntas } from "@/lib/tipos";
 import { useVentanaPersistente } from "@/hooks/useVentanaPersistente";
 
-type SnapshotTest = {
-  id: string;
+type SnapshotTest = {  id: string;
   preguntas: Pregunta[];
   textoContexto: string;
   esMixto: boolean;
@@ -30,6 +40,13 @@ type SnapshotTest = {
 const PREFIJO_FALLOS = "Fallos - ";
 const PREFIJO_MIXTOS = "Test Mixtos - ";
 const PREFIJO_MIXTOS_LEGADO = "Simulacros - ";
+
+type SubcarpetaActiva =
+  | "test"
+  | "mixtos"
+  | "resumenes"
+  | "recuperaciones"
+  | null;
 
 function nuevoIdTest(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -162,9 +179,10 @@ export default function MiEspacioPage() {
   const t = useTranslations("MiEspacio");
   const { notificar } = useNotification();
   const [carpetas, setCarpetas] = useState<string[]>([]);
-  const [mixtosConContenido, setMixtosConContenido] = useState<string[]>([]);
-  const [carpetasConRepaso, setCarpetasConRepaso] = useState<string[]>([]);
   const [carpetaActiva, setCarpetaActiva] = useState<string | null>(null);
+  const [subcarpetaActiva, setSubcarpetaActiva] =
+    useState<SubcarpetaActiva>(null);
+  const estructurasAseguradas = useRef<Set<string>>(new Set());
   const [archivos, setArchivos] = useState<string[]>([]);
   const [seleccionados, setSeleccionados] = useState<string[]>([]);
   const [resumenesSeleccionados, setResumenesSeleccionados] =
@@ -257,6 +275,56 @@ export default function MiEspacioPage() {
     setModoPracticaAbierto(false);
   }, [cerrarVentanaTestPersistida]);
 
+  const asegurarEstructura = useCallback(async (nombre: string) => {
+    if (estructurasAseguradas.current.has(nombre)) return;
+
+    estructurasAseguradas.current.add(nombre);
+
+    try {
+      const respuesta = await fetch("/api/carpetas/estructura", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carpeta: nombre }),
+      });
+
+      if (!respuesta.ok) {
+        estructurasAseguradas.current.delete(nombre);
+      }
+    } catch {
+      estructurasAseguradas.current.delete(nombre);
+    }
+  }, []);
+
+  function alternarCarpetaMadre(nombre: string) {
+    if (carpetaActiva === nombre) {
+      setCarpetaActiva(null);
+      setSubcarpetaActiva(null);
+      setArchivos([]);
+      setSeleccionados([]);
+      setResumenesSeleccionados([]);
+      return;
+    }
+
+    setCarpetaActiva(nombre);
+    setSubcarpetaActiva(null);
+    setArchivos([]);
+    setSeleccionados([]);
+    setResumenesSeleccionados([]);
+    void asegurarEstructura(nombre);
+  }
+
+  function abrirSubcarpeta(tipo: Exclude<SubcarpetaActiva, null>) {
+    if (!carpetaActiva) return;
+
+    setSubcarpetaActiva(tipo);
+    setSeleccionados([]);
+    setResumenesSeleccionados([]);
+
+    if (tipo === "resumenes") {
+      setArchivos([]);
+    }
+  }
+
   const cargarCarpetas = useCallback(async () => {
     try {
       const res = await fetch("/api/carpetas", { cache: "no-store" });
@@ -271,8 +339,6 @@ export default function MiEspacioPage() {
       }
 
       setCarpetas(listaDeTextos(datos.carpetas));
-      setMixtosConContenido(listaDeTextos(datos.mixtosConContenido));
-      setCarpetasConRepaso(listaDeTextos(datos.carpetasConRepaso));
     } catch (err) {
       setError(mensajeError(err));
     } finally {
@@ -427,20 +493,27 @@ export default function MiEspacioPage() {
   }, [carpetas]);
 
   useEffect(() => {
-    if (!carpetaActiva) {
+    if (!carpetaActiva || !subcarpetaActiva) {
+      return;
+    }
+
+    if (subcarpetaActiva === "resumenes") {
       return;
     }
 
     const id = window.setTimeout(() => {
-      if (carpetaActiva.startsWith(PREFIJO_FALLOS)) {
-        void abrirModoPractica(carpetaActiva);
-      } else {
-        void cargarArchivos(carpetaActiva);
-      }
+      const carpetaLogica =
+        subcarpetaActiva === "mixtos"
+          ? `${PREFIJO_MIXTOS}${carpetaActiva}`
+          : subcarpetaActiva === "recuperaciones"
+            ? `${PREFIJO_FALLOS}${carpetaActiva}`
+            : carpetaActiva;
+
+      void cargarArchivos(carpetaLogica);
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [carpetaActiva, abrirModoPractica, cargarArchivos]);
+  }, [carpetaActiva, subcarpetaActiva, cargarArchivos]);
 
   async function eliminarCarpeta(e: React.MouseEvent, carpeta: string) {
     e.stopPropagation();
@@ -935,56 +1008,35 @@ export default function MiEspacioPage() {
     );
   }
 
-  const carpetasOrdenadas = useMemo(
-    () => ordenarCarpetasJerarquico(carpetas),
+  const permiteTestMixto =
+    Boolean(carpetaActiva) && subcarpetaActiva === "test";
+
+  const carpetasMadre = useMemo(
+    () =>
+      [...carpetas]
+        .filter((carpeta) => !esCarpetaEspecial(carpeta))
+        .sort((a, b) =>
+          a.localeCompare(b, "es", { numeric: true }),
+        ),
     [carpetas],
   );
 
-  const permiteTestMixto =
-    carpetaActiva !== null &&
-    !carpetaActiva.startsWith(PREFIJO_MIXTOS) &&
-    !carpetaActiva.startsWith(PREFIJO_MIXTOS_LEGADO) &&
-    !carpetaActiva.startsWith(PREFIJO_FALLOS);
+  const archivosMostrados = [...archivos].sort((a, b) => {
+    if (a === "repaso.pdf") return 1;
+    if (b === "repaso.pdf") return -1;
+    return a.localeCompare(b, "es", { numeric: true });
+  });
 
-  const carpetasMadre = [...carpetas]
-    .filter((carpeta) => !esCarpetaEspecial(carpeta))
-    .sort((a, b) =>
-      a.localeCompare(b, "es", { numeric: true }),
-    );
-
-  const carpetaMixtosActiva =
-    carpetaActiva !== null
-      ? carpetas.find(
-          (carpeta) =>
-            (carpeta.startsWith(PREFIJO_MIXTOS) ||
-              carpeta.startsWith(PREFIJO_MIXTOS_LEGADO)) &&
-            carpeta
-              .replace(PREFIJO_MIXTOS, "")
-              .replace(PREFIJO_MIXTOS_LEGADO, "") === carpetaActiva,
-        )
-      : undefined;
-
-  const moverRepasoAlSidebar =
-    permiteTestMixto &&
-    Boolean(carpetaMixtosActiva) &&
-    mixtosConContenido.includes(carpetaMixtosActiva ?? "") &&
-    carpetaActiva !== null &&
-    carpetasConRepaso.includes(carpetaActiva) &&
-    archivos.includes("repaso.pdf");
-
-  const archivosMostrados = [...archivos]
-    .filter(
-      (archivo) =>
-        !(moverRepasoAlSidebar && archivo === "repaso.pdf"),
-    )
-    .sort((a, b) => {
-      if (a === "repaso.pdf") return 1;
-      if (b === "repaso.pdf") return -1;
-      return a.localeCompare(b, "es", { numeric: true });
-    });
-
-  const mostrarRepasoBajoMixtos =
-    moverRepasoAlSidebar && Boolean(carpetaMixtosActiva);
+  const nombreSubcarpeta =
+    subcarpetaActiva === "test"
+      ? t("subfolderTest")
+      : subcarpetaActiva === "mixtos"
+        ? t("subfolderMixed")
+        : subcarpetaActiva === "resumenes"
+          ? t("subfolderSummaries")
+          : subcarpetaActiva === "recuperaciones"
+            ? t("subfolderRetrievals")
+            : "";
 
   const todosSeleccionados =
     archivosMostrados.length > 0 &&
@@ -1015,147 +1067,87 @@ export default function MiEspacioPage() {
 
               <div className="mt-6 space-y-2">
                 <div className="flex items-center justify-between px-2">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--txt3)]">{t("myFolders")}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--txt3)]">
+                    {t("myFolders")}
+                  </p>
                   <button
                     type="button"
-                    onClick={() => {
-                      void cargarCarpetas();
-                      if (carpetaActiva) void cargarArchivos(carpetaActiva);
-                    }}
+                    onClick={() => void cargarCarpetas()}
                     className="inline-flex items-center gap-1 rounded-md p-1 text-xs font-semibold text-[var(--txt3)] transition-colors hover:text-[var(--txt)]"
-                    title="Actualizar carpetas"
-                    aria-label="Actualizar carpetas"
+                    title={t("refreshFolders")}
+                    aria-label={t("refreshFolders")}
                   >
                     <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
                   </button>
                 </div>
+
                 <div className="max-h-[60vh] overflow-y-auto space-y-1 pr-2">
-                  {carpetas.length === 0 && !cargando && <p className="px-2 py-4 text-xs text-center text-[var(--txt3)] italic">{t("noFolders")}</p>}
-                  {carpetasOrdenadas.map((carpeta) => {
-                    const esCarpetaFallos = carpeta.startsWith(PREFIJO_FALLOS);
-                    const esCarpetaMixtos =
-                      carpeta.startsWith(PREFIJO_MIXTOS) ||
-                      carpeta.startsWith(PREFIJO_MIXTOS_LEGADO);
-                    const esCarpetaMadre = !esCarpetaFallos && !esCarpetaMixtos;
-                    const esHija = esCarpetaEspecial(carpeta);
-                    const estaActiva = carpetaActiva === carpeta;
-                    const nombreMostrar = esCarpetaFallos
-                      ? t("mistakesReview", {
-                          name: carpeta.replace(PREFIJO_FALLOS, ""),
-                        })
-                      : carpeta.replace(PREFIJO_MIXTOS_LEGADO, PREFIJO_MIXTOS);
+                  {carpetasMadre.length === 0 && !cargando ? (
+                    <p className="px-2 py-4 text-xs text-center text-[var(--txt3)] italic">
+                      {t("noFolders")}
+                    </p>
+                  ) : null}
 
-                    const claseFondo = esCarpetaFallos
-                      ? "border-red-500/25 bg-red-500/10 text-red-600 dark:text-red-300"
-                      : esCarpetaMixtos
-                        ? "border-[var(--azul)] bg-[var(--sel)] text-[var(--azul)]"
-                        : "border-[var(--azul)]/25 bg-[var(--azul)]/10 text-[var(--txt)]";
-
-                    const claseEstado = estaActiva
-                      ? esCarpetaFallos
-                        ? "bg-red-600/15 font-bold ring-1 ring-red-500/40"
-                        : esCarpetaMixtos
-                          ? "font-bold ring-1 ring-[var(--azul)]"
-                          : "bg-[var(--sel)] font-bold ring-1 ring-[var(--azul)]/30"
-                      : esCarpetaMadre
-                        ? "font-bold hover:bg-[var(--azul)]/20"
-                        : "hover:bg-[var(--suave)] hover:text-[var(--txt)]";
+                  {carpetasMadre.map((carpeta) => {
+                    const abierta = carpetaActiva === carpeta;
 
                     return (
                       <div key={carpeta} className="space-y-1">
-                        <div title={nombreMostrar} className={`flex min-w-0 items-center gap-2 rounded-lg border py-2 text-sm transition-colors group ${esHija ? "ml-0 pl-6 pr-3" : "px-3"} ${claseFondo} ${claseEstado}`}>
-                        <button onClick={(e) => eliminarCarpeta(e, carpeta)} className="shrink-0 p-1 text-[var(--txt3)] opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity" title="Eliminar carpeta">
-                          <Trash2 className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
-                        </button>
-                        <button onClick={async () => {
-                          if (esCarpetaFallos) {
-                            const nombreOriginal = carpeta.replace(PREFIJO_FALLOS, "");
-                            try {
-                              const res = await fetch(
-                                `/api/fallos/obtener?carpeta=${encodeURIComponent(nombreOriginal)}`,
-                              );
-                              const datos = await leerRespuesta(res);
-                              const preguntas = normalizarPreguntas(
-                                datos.preguntas,
-                              );
+                        <div
+                          className={`group flex min-w-0 items-center gap-1 rounded-lg border py-1.5 pr-1 text-sm transition-colors ${
+                            abierta
+                              ? "border-[var(--azul)]/40 bg-[var(--sel)] font-bold ring-1 ring-[var(--azul)]/20"
+                              : "border-[var(--th)] bg-[var(--card2)] font-semibold hover:border-[var(--azul)]/30 hover:bg-[var(--suave)]"
+                          }`}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => alternarCarpetaMadre(carpeta)}
+                            className="flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5 text-left"
+                            aria-expanded={abierta}
+                          >
+                            {abierta ? (
+                              <ChevronDown className="h-4 w-4 shrink-0 text-[var(--azul)]" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4 shrink-0 text-[var(--txt3)]" />
+                            )}
+                            <Folder className="h-4 w-4 shrink-0 text-[var(--azul)]" />
+                            <span className="truncate">{carpeta}</span>
+                          </button>
 
-                              if (preguntas.length > 0) {
-                                setCarpetaPractica(nombreOriginal);
-                                setPreguntasPracticaRestantes(preguntas);
-                                setPreguntasPractica([preguntas[0]]);
-                                setTotalPreguntasPractica(preguntas.length);
-                                setModoPracticaAbierto(true);
-                                setTestModalAbierto(true);
-                                setCarpetaActiva(carpeta);
-                                guardarVentanaTest({
-                                  preguntas: [],
-                                  textoContexto: "Repaso de Fallos",
-                                  esMixto: false,
-                                  modoPractica: true,
-                                  carpetaActiva: carpeta,
-                                  carpetaPractica: nombreOriginal,
-                                  preguntasPractica: [preguntas[0]],
-                                  preguntasPracticaRestantes: preguntas,
-                                  totalPreguntasPractica: preguntas.length,
-                                });
-                                return;
-                              }
-                            } catch (err) {
-                              notificar({
-                                titulo: "No se pudo abrir el repaso",
-                                mensaje: mensajeError(err),
-                                tipo: "peligro",
-                              });
-                            }
-                          }
-                          setCarpetaActiva(carpeta);
-                        }} className="flex min-w-0 flex-1 items-center gap-3 text-left">
-                          {esCarpetaFallos ? (
-                            <ShieldAlert className="h-5 w-5 shrink-0 text-red-500" strokeWidth={2} aria-hidden="true" />
-                          ) : (
-                            <Folder className={`h-5 w-5 shrink-0 ${esCarpetaMixtos ? "text-[var(--azul)]" : "text-[var(--azul)]"}`} strokeWidth={2} aria-hidden="true" />
-                          )}
-                          <span className="truncate">{nombreMostrar}</span>
-                        </button>
+                          <button
+                            type="button"
+                            onClick={(evento) => eliminarCarpeta(evento, carpeta)}
+                            className="shrink-0 p-1 text-[var(--txt3)] opacity-0 transition-opacity hover:text-red-500 group-hover:opacity-100"
+                            title={t("deleteFolder")}
+                            aria-label={t("deleteFolder")}
+                          >
+                            <Trash2 className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                          </button>
                         </div>
 
-                        {mostrarRepasoBajoMixtos &&
-                        esCarpetaMixtos &&
-                        carpeta === carpetaMixtosActiva ? (
-                          <div className="group sticky bottom-0 z-10 ml-8 flex items-center gap-1 bg-[var(--card)] pt-1">
-                            <button
-                              type="button"
-                              onClick={eliminarRepasoFallos}
-                              className="shrink-0 p-1 text-[var(--txt3)] opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity"
-                              title="Eliminar repaso.pdf"
-                              aria-label="Eliminar repaso.pdf"
-                            >
-                              <Trash2
-                                className="h-5 w-5"
-                                strokeWidth={2}
-                                aria-hidden="true"
-                              />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                void abrirRepasoFallos(
-                                  carpetaActiva || "",
-                                )
-                              }
-                              className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-[var(--th)] bg-white px-2.5 py-2 text-left text-xs font-semibold text-slate-800 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
-                              title="repaso.pdf"
-                            >
-                              <FileText
-                                className="h-5 w-5 shrink-0 text-red-500"
-                                strokeWidth={2}
-                                aria-hidden="true"
-                              />
-                              <span className="min-w-0 whitespace-normal leading-tight">
-                                Repaso de Fallos
-                              </span>
-                            </button>
+                        {abierta ? (
+                          <div className="ml-3 space-y-0.5 border-l border-[var(--azul)]/25 pl-2">
+                            {([
+                              ["test", t("subfolderTest"), Folder],
+                              ["mixtos", t("subfolderMixed"), Layers],
+                              ["resumenes", t("subfolderSummaries"), BookOpen],
+                              ["recuperaciones", t("subfolderRetrievals"), ShieldAlert],
+                            ] as const).map(([tipo, etiqueta, Icono]) => (
+                              <button
+                                key={tipo}
+                                type="button"
+                                onClick={() => abrirSubcarpeta(tipo)}
+                                className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors ${
+                                  subcarpetaActiva === tipo
+                                    ? "bg-[var(--azul)] font-bold text-white"
+                                    : "text-[var(--txt2)] hover:bg-[var(--suave)] hover:text-[var(--azul)]"
+                                }`}
+                              >
+                                <Icono className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden="true" />
+                                <span className="truncate">{etiqueta}</span>
+                              </button>
+                            ))}
                           </div>
                         ) : null}
                       </div>
@@ -1168,44 +1160,108 @@ export default function MiEspacioPage() {
 
           <div className="flex-1">
             <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-8 shadow-[var(--sombra)] backdrop-blur-xl">
+              <nav
+                aria-label={t("breadcrumb")}
+                className="mb-4 flex flex-wrap items-center gap-1 text-xs font-semibold text-[var(--txt3)]"
+              >
+                <span>Mi Espacio</span>
+                {carpetaActiva ? (
+                  <>
+                    <span aria-hidden="true">/</span>
+                    <button
+                      type="button"
+                      onClick={() => setSubcarpetaActiva(null)}
+                      className="text-[var(--azul)] hover:underline"
+                    >
+                      {carpetaActiva}
+                    </button>
+                  </>
+                ) : null}
+                {nombreSubcarpeta ? (
+                  <>
+                    <span aria-hidden="true">/</span>
+                    <span className="text-[var(--txt)]">{nombreSubcarpeta}</span>
+                  </>
+                ) : null}
+              </nav>
+
               {!carpetaActiva ? (
                 <div className="text-center py-12">
                   <h2 className="text-2xl font-bold mb-4">{t("welcomeTitle")}</h2>
                   <p className="text-[var(--txt3)]">{t("welcomeText")}</p>
                 </div>
+              ) : !subcarpetaActiva ? (
+                <div className="py-4">
+                  <h2 className="text-2xl font-bold">{carpetaActiva}</h2>
+                  <p className="mt-2 text-sm text-[var(--txt3)]">
+                    {t("chooseSubfolder")}
+                  </p>
+
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {([
+                      ["test", t("subfolderTest"), Folder],
+                      ["mixtos", t("subfolderMixed"), Layers],
+                      ["resumenes", t("subfolderSummaries"), BookOpen],
+                      ["recuperaciones", t("subfolderRetrievals"), ShieldAlert],
+                    ] as const).map(([tipo, etiqueta, Icono]) => (
+                      <button
+                        key={tipo}
+                        type="button"
+                        onClick={() => abrirSubcarpeta(tipo)}
+                        className="flex items-center gap-3 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4 text-left transition-colors hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]"
+                      >
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
+                          <Icono className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+                        </span>
+                        <span className="font-bold text-[var(--txt)]">{etiqueta}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setCarpetaActiva(null)}
+                    className="mt-6 text-sm font-semibold text-[var(--txt3)] hover:text-[var(--txt)]"
+                  >
+                    {t("closeFolder")}
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[var(--th)] pb-4 gap-4">
-                    <h2 className="text-2xl font-bold">
-                      {carpetaActiva.startsWith("Fallos - ") 
-                        ? t("mistakesReview", {
-                            name: carpetaActiva.replace("Fallos - ", ""),
-                          })
-                        : t("folder", {
-                            name: carpetaActiva.replace("Simulacros - ", "Test Mixtos - "),
-                          })
-                      }
-                    </h2>
+                  <div className="flex flex-col gap-4 border-b border-[var(--th)] pb-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => setSubcarpetaActiva(null)}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[var(--azul)] hover:underline"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                        {t("backTo", { name: carpetaActiva })}
+                      </button>
+                      <h2 className="mt-1 truncate text-2xl font-bold">
+                        {nombreSubcarpeta}
+                      </h2>
+                    </div>
+
                     <div className="flex items-center gap-3">
-                      {permiteTestMixto && (
+                      {permiteTestMixto ? (
                         <button
                           onClick={() => {
                             setErrorMixto("");
                             setMostrarSelectorMixto(true);
                           }}
                           disabled={totalSeleccionados === 0}
-                          title={
-                            totalSeleccionados === 0
-                              ? "Marca al menos un PDF o un resumen para crear el test mixto"
-                              : `Crear un test con ${totalSeleccionados} archivo(s)`
-                          }
-                          className="rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--azul-hover)] transition-colors shadow-sm disabled:cursor-not-allowed disabled:bg-[var(--suave2)] disabled:text-[var(--txt3)] disabled:shadow-none disabled:hover:bg-[var(--suave2)]"
+                          className="rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[var(--azul-hover)] disabled:cursor-not-allowed disabled:bg-[var(--suave2)] disabled:text-[var(--txt3)]"
                         >
-                          {t("createMixed")}{totalSeleccionados > 0 ? ` (${totalSeleccionados})` : ""}
+                          {t("createMixed")}
+                          {totalSeleccionados > 0 ? ` (${totalSeleccionados})` : ""}
                         </button>
-                      )}
-                      
-                      <button onClick={() => setCarpetaActiva(null)} className="rounded-lg bg-gray-600 px-4 py-2 text-sm font-bold text-white hover:bg-gray-700 transition-colors shadow-sm">
+                      ) : null}
+
+                      <button
+                        onClick={() => setCarpetaActiva(null)}
+                        className="rounded-lg bg-gray-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-gray-700"
+                      >
                         {t("closeFolder")}
                       </button>
                     </div>
@@ -1213,7 +1269,7 @@ export default function MiEspacioPage() {
 
                   {/* Altura reservada + overlay: al cambiar de carpeta no se
                       desmonta la lista, así el panel no colapsa ni "salta". */}
-                  <div className="relative min-h-[18rem] [overflow-anchor:none]">
+                  <div className={`relative min-h-[18rem] [overflow-anchor:none] ${subcarpetaActiva === "resumenes" ? "hidden" : ""}`}>
                     {cargandoArchivos && (
                       <div
                         role="status"
@@ -1336,12 +1392,18 @@ export default function MiEspacioPage() {
                     </div>
                     ) : !cargandoArchivos ? (
                       <div className="flex min-h-[14rem] items-center justify-center text-center">
-                        <p className="text-[var(--txt3)] italic">Esta carpeta está vacía.</p>
+                        <p className="text-[var(--txt3)] italic">
+                          {subcarpetaActiva === "recuperaciones"
+                            ? t("emptyRetrievals")
+                            : subcarpetaActiva === "mixtos"
+                              ? t("emptyMixed")
+                              : t("emptyTests")}
+                        </p>
                       </div>
                     ) : null}
                   </div>
 
-                  {permiteTestMixto && carpetaActiva ? (
+                  {subcarpetaActiva === "resumenes" && carpetaActiva ? (
                     <ListaResumenes
                       carpeta={carpetaActiva}
                       seleccionados={resumenesSeleccionados}

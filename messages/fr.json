@@ -340,7 +340,19 @@
     "createMixedTitle": "Créer un test mixte",
     "generatingSummaryQuestions": "Génération des questions des résumés…",
     "generatingSummaryHint": "Cela peut prendre quelques secondes de plus.",
-    "selectionBlocked": "Vous ne pouvez pas mélanger des PDF et des résumés dans le même test mixte."
+    "selectionBlocked": "Vous ne pouvez pas mélanger des PDF et des résumés dans le même test mixte.",
+    "subfolderTest": "Tests",
+    "subfolderMixed": "Tests mixtes",
+    "subfolderSummaries": "Résumés",
+    "subfolderRetrievals": "Récupérations",
+    "chooseSubfolder": "Choisissez un sous-dossier pour voir son contenu.",
+    "backTo": "Retour à {name}",
+    "breadcrumb": "Fil d'Ariane",
+    "emptyTests": "Il n'y a pas de tests dans ce dossier.",
+    "emptyMixed": "Il n'y a pas de tests mixtes dans ce dossier.",
+    "emptyRetrievals": "Il n'y a pas de récupérations dans ce dossier.",
+    "refreshFolders": "Actualiser les dossiers",
+    "deleteFolder": "Supprimer le dossier"
   },
   "Arcade": {
     "playNow": "Jouer maintenant",

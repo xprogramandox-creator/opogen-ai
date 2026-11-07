@@ -340,7 +340,19 @@
     "createMixedTitle": "Crea test misto",
     "generatingSummaryQuestions": "Generazione delle domande dai riassunti…",
     "generatingSummaryHint": "Potrebbe richiedere qualche secondo in più.",
-    "selectionBlocked": "Non puoi mescolare PDF e riassunti nello stesso test misto."
+    "selectionBlocked": "Non puoi mescolare PDF e riassunti nello stesso test misto.",
+    "subfolderTest": "Test",
+    "subfolderMixed": "Test misti",
+    "subfolderSummaries": "Riassunti",
+    "subfolderRetrievals": "Recuperi",
+    "chooseSubfolder": "Scegli una sottocartella per visualizzarne il contenuto.",
+    "backTo": "Torna a {name}",
+    "breadcrumb": "Percorso di navigazione",
+    "emptyTests": "Non ci sono test in questa cartella.",
+    "emptyMixed": "Non ci sono test misti in questa cartella.",
+    "emptyRetrievals": "Non ci sono recuperi in questa cartella.",
+    "refreshFolders": "Aggiorna cartelle",
+    "deleteFolder": "Elimina cartella"
   },
   "Arcade": {
     "playNow": "Gioca ora",
