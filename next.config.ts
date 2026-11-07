@@ -47,6 +47,9 @@ const nextConfig: NextConfig = {
 
   experimental: {
     agentFeedback: true,
+    serverActions: {
+      allowedOrigins: ["opogenai.com", "www.opogenai.com"],
+    },
   },
 
   turbopack: {
