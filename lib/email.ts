@@ -171,8 +171,7 @@ export async function enviarCorreoContacto(datos: {
   const correoSeguro = escaparHtml(datos.correo);
   const asuntoSeguro = escaparHtml(datos.asunto);
   const mensajeSeguro = escaparHtml(datos.mensaje);
-  const destinatario =
-    process.env.CONTACT_EMAIL?.trim() || "soporte@opogenai.com";
+  const destinatario = "soporte@opogenai.com";
 
   console.log("[email] Enviando mensaje de contacto", {
     from: remitente,

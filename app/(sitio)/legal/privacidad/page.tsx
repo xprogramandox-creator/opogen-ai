@@ -4,14 +4,14 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Política de Privacidad",
   description:
-    "Política de Privacidad de OpoGen AI: datos que recogemos, finalidades, base legal, conservación y derechos de los usuarios.",
+    "Política de Privacidad de OpoGen AI: responsable, finalidades, base legal, destinatarios, conservación, cookies y derechos.",
 };
 
 export default function PoliticaPrivacidadPage() {
   return (
-    <main id="contenido" className="bg-app min-h-app font-sans">
+    <main id="contenido" className="min-h-app bg-transparent font-sans">
       <section className="mx-auto max-w-3xl px-5 py-10 sm:px-6 sm:py-14">
-        <article className="rounded-3xl bg-[var(--card)] p-8 shadow-[var(--sombra)]">
+        <article className="rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-10">
           <Link
             href="/"
             className="mb-7 inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 py-2 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
@@ -20,232 +20,352 @@ export default function PoliticaPrivacidadPage() {
             Volver
           </Link>
 
-          <h1 className="text-balance text-3xl font-bold tracking-tight text-[var(--txt)] sm:text-4xl">
+          <h1 className="font-serif text-balance text-3xl font-medium tracking-tight text-[var(--txt)] sm:text-4xl">
             Política de Privacidad
           </h1>
 
-          <p className="mt-5 leading-relaxed text-[var(--txt2)]">
-            En OpoGen AI nos tomamos muy en serio tu privacidad. Esta política
-            te explica qué datos recogemos, cómo los usamos y cómo los
-            protegemos, en cumplimiento del Reglamento General de Protección
-            de Datos (RGPD) y la Ley Orgánica de Protección de Datos y
-            Garantía de los Derechos Digitales (LOPDGDD).
+          <p className="mt-4 text-sm text-[var(--txt3)]">
+            Última actualización: [Fecha de última actualización]
           </p>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            1. Responsable del Tratamiento
+          <p className="mt-6 text-base leading-8 text-[var(--txt2)]">
+            En OpoGen AI tratamos los datos personales conforme al Reglamento
+            (UE) 2016/679 (RGPD) y a la Ley Orgánica 3/2018 (LOPDGDD). Esta
+            política explica qué datos recogemos, con qué finalidad, durante
+            cuánto tiempo y cómo puedes ejercer tus derechos.
+          </p>
+
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            1. Responsable del tratamiento
           </h2>
 
-          <ul className="mt-3 list-disc space-y-1.5 pl-6 leading-relaxed text-[var(--txt2)]">
+          <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
               <strong className="text-[var(--txt)]">Identidad:</strong>{" "}
-              opogenai (Manuel Pujante Noguera)
+              [Manuel Pujante Noguera]
             </li>
             <li>
-              <strong className="text-[var(--txt)]">NIF:</strong> 27457112B
+              <strong className="text-[var(--txt)]">NIF:</strong>{" "}
+              [27457112B]
             </li>
             <li>
               <strong className="text-[var(--txt)]">Dirección:</strong>{" "}
-              Calle Gracia 20 4ºB, 02005 Albacete, España
+              [Calle Gracia]
             </li>
             <li>
-              <strong className="text-[var(--txt)]">
-                Correo electrónico:
-              </strong>{" "}
-              soporte@opogenai.com
+              <strong className="text-[var(--txt)]">Correo:</strong>{" "}
+              <a
+                href="mailto:soporte@opogenai.com"
+                className="font-semibold text-[var(--azul)] underline underline-offset-4 hover:text-[var(--azul-hover)]"
+              >
+                soporte@opogenai.com
+              </a>
             </li>
           </ul>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            2. ¿Qué datos recogemos y para qué?
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            2. Datos que recogemos
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            En OpoGen AI tratamos los datos personales con las siguientes
-            finalidades:
-          </p>
-
-          <ul className="mt-3 list-disc space-y-3 pl-6 leading-relaxed text-[var(--txt2)]">
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
-              <strong className="text-[var(--txt)]">
-                Datos de registro:
-              </strong>{" "}
-              Nombre, apellidos, número de teléfono y correo electrónico. Se
-              utilizan para crear y gestionar tu cuenta de usuario, así como
-              para enviarte correos de verificación o recuperación de
-              contraseña.
+              <strong className="text-[var(--txt)]">Datos de registro:</strong>{" "}
+              nombre, apellidos, teléfono y correo electrónico.
             </li>
             <li>
               <strong className="text-[var(--txt)]">
-                Datos de facturación (solo Plan Premium):
+                Datos de facturación:
               </strong>{" "}
-              DNI/NIE, dirección completa, ciudad, provincia, país y código
-              postal. Se utilizan exclusivamente para la gestión fiscal y
-              contable de tu suscripción.
+              documento de identidad, dirección, ciudad, provincia, país y
+              código postal, solo para usuarios Premium.
             </li>
             <li>
-              <strong className="text-[var(--txt)]">
-                Datos de uso:
-              </strong>{" "}
-              Los archivos (PDFs, textos, imágenes) que subes a la
-              plataforma, así como los resultados de tus tests y estadísticas
-              de estudio. Se utilizan para generar los exámenes
-              personalizados y mostrarte tu progreso.
+              <strong className="text-[var(--txt)]">Datos de uso:</strong>{" "}
+              tests, resultados, estadísticas de estudio y archivos que subes
+              a la plataforma.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Datos técnicos:</strong>{" "}
+              cookies de sesión, CSRF, preferencia de tema e identificadores
+              anónimos de analítica.
             </li>
           </ul>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            3. Base Legal para el Tratamiento
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            3. Finalidad del tratamiento
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            La base legal para el tratamiento de tus datos es:
-          </p>
-
-          <ul className="mt-3 list-disc space-y-1.5 pl-6 leading-relaxed text-[var(--txt2)]">
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
+            <li>Crear, verificar y gestionar tu cuenta de usuario.</li>
             <li>
-              <strong className="text-[var(--txt)]">
-                La ejecución de un contrato:
-              </strong>{" "}
-              Para la gestión de tu cuenta y la prestación del servicio de
-              generación de tests.
+              Enviar correos de verificación, recuperación de contraseña y
+              comunicaciones necesarias del servicio.
             </li>
             <li>
-              <strong className="text-[var(--txt)]">
-                El consentimiento:
-              </strong>{" "}
-              Para el envío de correos de verificación y la aceptación de
-              esta política.
+              Generar tests, resúmenes, estadísticas y demás funcionalidades
+              solicitadas.
             </li>
             <li>
-              <strong className="text-[var(--txt)]">
-                El cumplimiento de una obligación legal:
-              </strong>{" "}
-              Para la emisión de facturas y el cumplimiento de obligaciones
-              fiscales (en el caso de usuarios Premium).
+              Gestionar pagos, suscripciones, facturación y obligaciones
+              fiscales.
+            </li>
+            <li>
+              Prevenir fraudes, abusos y accesos no autorizados, y mantener la
+              seguridad de la plataforma.
+            </li>
+            <li>
+              Elaborar estadísticas agregadas de uso y mejorar el servicio.
             </li>
           </ul>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            4. ¿Compartimos tus datos con terceros?
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            4. Base legal
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Para poder ofrecerte el servicio, OpoGen AI utiliza los servicios
-            de terceros proveedores que cumplen con el RGPD:
-          </p>
-
-          <ul className="mt-3 list-disc space-y-3 pl-6 leading-relaxed text-[var(--txt2)]">
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
-              <strong className="text-[var(--txt)]">Stripe:</strong> Utilizado
-              para procesar los pagos de las suscripciones. Stripe no
-              almacena los datos de tu tarjeta en nuestros servidores, sino
-              que los gestiona de forma segura.
+              <strong className="text-[var(--txt)]">
+                Ejecución de un contrato:
+              </strong>{" "}
+              para gestionar tu cuenta y prestar los servicios solicitados.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Consentimiento:</strong>{" "}
+              para el envío de determinadas comunicaciones y para el
+              tratamiento de datos opcional.
             </li>
             <li>
               <strong className="text-[var(--txt)]">
-                Proveedores de Inteligencia Artificial (DeepSeek, Groq,
-                Gemini):
+                Cumplimiento de una obligación legal:
               </strong>{" "}
-              Los textos de tus apuntes son procesados por estos modelos para
-              generar las preguntas. Estos proveedores no utilizan tus datos
-              para fines publicitarios ni los almacenan de forma permanente.
+              para facturación, contabilidad y obligaciones fiscales.
             </li>
             <li>
-              <strong className="text-[var(--txt)]">Resend:</strong> Utilizado
-              para el envío de correos electrónicos transaccionales
-              (verificación, recuperación de contraseña).
+              <strong className="text-[var(--txt)]">
+                Interés legítimo:
+              </strong>{" "}
+              para seguridad, prevención de abusos y mejora del servicio,
+              siempre que no prevalezcan tus derechos.
             </li>
           </ul>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            5. Conservación de los datos
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            5. Destinatarios y proveedores
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Tus datos se conservarán mientras tu cuenta esté activa.
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            No vendemos tus datos. Para prestar el servicio utilizamos
+            proveedores que actúan como encargados del tratamiento o
+            responsables independientes:
           </p>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Si eres usuario Freemium y no te suscribes, tus datos y archivos
-            se conservarán mientras tu cuenta esté activa.
-          </p>
-
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Si tu cuenta Premium caduca y pasas a ser Freemium, tus archivos
-            se conservarán durante 30 días. Pasado ese tiempo, se borrarán de
-            forma automática para liberar espacio en el servidor.
-          </p>
-
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Los datos de facturación se conservarán durante el tiempo exigido
-            por la legislación fiscal (generalmente, 5 años).
-          </p>
-
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            6. Menores de edad y la Zona Kids
-          </h2>
-
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            La Zona Kids está diseñada para menores de entre 3 y 12 años. En
-            cumplimiento de la LOPDGDD, si un menor se registra en la
-            plataforma, se presume que cuenta con el consentimiento de sus
-            padres o tutores legales. Si eres padre, madre o tutor y
-            descubres que tu hijo ha proporcionado datos sin tu
-            consentimiento, puedes contactarnos para solicitar su eliminación.
-          </p>
-
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            7. Tus derechos
-          </h2>
-
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Como usuario, tienes derecho a:
-          </p>
-
-          <ul className="mt-3 list-disc space-y-1.5 pl-6 leading-relaxed text-[var(--txt2)]">
-            <li>Acceder a tus datos personales.</li>
-            <li>Rectificar los datos inexactos.</li>
-            <li>Suprimir tus datos (derecho al olvido).</li>
-            <li>Limitar u oponerte al tratamiento de tus datos.</li>
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
-              Portabilidad: solicitar una copia de tus datos en un formato
-              estructurado.
+              <strong className="text-[var(--txt)]">Stripe:</strong>{" "}
+              procesamiento de pagos y suscripciones. Los datos de la tarjeta
+              se gestionan directamente en Stripe.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">DeepSeek:</strong>{" "}
+              generación de preguntas y procesamiento de texto.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Gemini:</strong>{" "}
+              generación y comprobaciones mediante inteligencia artificial.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Resend:</strong> envío de
+              correos transaccionales de verificación y recuperación.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Groq:</strong> proveedor de
+              respaldo de inteligencia artificial, cuando se utilice.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Hetzner:</strong>{" "}
+              alojamiento de la aplicación y de los archivos en servidores
+              propios.
             </li>
           </ul>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            Para ejercer cualquiera de estos derechos, puedes escribirnos a:{" "}
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Algunos proveedores pueden estar fuera del Espacio Económico
+            Europeo. En esos casos se aplican garantías contractuales y
+            medidas equivalentes conforme al RGPD.
+          </p>
+
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            6. Plazo de conservación
+          </h2>
+
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
+            <li>
+              Los datos de la cuenta se conservan mientras la cuenta esté
+              activa y durante los plazos legales aplicables.
+            </li>
+            <li>
+              Los datos de facturación se conservan durante el tiempo exigido
+              por la legislación fiscal, generalmente cinco años.
+            </li>
+            <li>
+              Si una cuenta Premium pasa a Freemium, los archivos se
+              conservan durante 30 días y después se eliminan.
+            </li>
+            <li>
+              Los datos anónimos de analítica se conservan durante un periodo
+              limitado y no permiten identificar a la persona.
+            </li>
+            <li>
+              Las copias de seguridad se conservan durante el periodo
+              necesario para garantizar la recuperación del servicio.
+            </li>
+          </ul>
+
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            7. Almacenamiento de archivos
+          </h2>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Los archivos que subes se almacenan en servidores propios
+            contratados con Hetzner, dentro de un volumen persistente de la
+            aplicación. Cada cuenta dispone de su propia carpeta y sus
+            archivos no se mezclan con los de otras personas usuarias.
+          </p>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Para generar preguntas, enviamos a los proveedores de inteligencia
+            artificial únicamente el texto necesario para la tarea solicitada.
+            No cedemos el archivo completo ni utilizamos tus apuntes para
+            fines publicitarios.
+          </p>
+
+          <h2
+            id="cookies"
+            className="mt-10 scroll-mt-28 font-serif text-2xl font-medium text-[var(--azul)]"
+          >
+            8. Cookies y almacenamiento local
+          </h2>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Utilizamos cookies y tecnologías equivalentes estrictamente
+            necesarias para el funcionamiento del servicio:
+          </p>
+
+          <ul className="mt-4 list-disc space-y-3 pl-6 text-base leading-8 text-[var(--txt2)]">
+            <li>
+              <strong className="text-[var(--txt)]">
+                Cookie de sesión:
+              </strong>{" "}
+              mantiene tu sesión iniciada y es imprescindible para acceder a
+              tu cuenta.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Cookie CSRF:</strong>{" "}
+              protege los formularios frente a peticiones no autorizadas.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Preferencia de tema:</strong>{" "}
+              recuerda si utilizas el modo claro u oscuro.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">
+                Almacenamiento de sesión:
+              </strong>{" "}
+              usamos `sessionStorage` para un identificador anónimo de
+              analítica y para recordar el email durante el flujo de pago.
+              Se elimina al cerrar la pestaña.
+            </li>
+            <li>
+              <strong className="text-[var(--txt)]">Cookies de Stripe:</strong>{" "}
+              pueden establecerse durante el proceso de pago en el dominio de
+              Stripe.
+            </li>
+          </ul>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            No utilizamos cookies publicitarias ni de perfilado. Puedes
+            configurar o eliminar las cookies desde tu navegador, aunque
+            bloquear las cookies necesarias puede impedir el acceso a la
+            cuenta.
+          </p>
+
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            9. Derechos de las personas usuarias
+          </h2>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Puedes ejercer los siguientes derechos:
+          </p>
+
+          <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-[var(--txt2)]">
+            <li>Acceso a tus datos personales.</li>
+            <li>Rectificación de datos inexactos o incompletos.</li>
+            <li>Supresión de tus datos cuando ya no sean necesarios.</li>
+            <li>Limitación u oposición al tratamiento.</li>
+            <li>Portabilidad de tus datos en un formato estructurado.</li>
+            <li>Retirada del consentimiento en cualquier momento.</li>
+            <li>
+              Reclamación ante la Agencia Española de Protección de Datos
+              (AEPD).
+            </li>
+          </ul>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Para ejercerlos, escribe a{" "}
             <a
               href="mailto:soporte@opogenai.com"
               className="font-semibold text-[var(--azul)] underline underline-offset-4 hover:text-[var(--azul-hover)]"
             >
               soporte@opogenai.com
-            </a>
-            , indicando en el asunto &quot;Protección de Datos&quot;.
+            </a>{" "}
+            indicando el derecho que deseas ejercer y adjuntando la
+            información necesaria para identificarte.
           </p>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            8. Seguridad de los datos
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            10. Seguridad
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            En OpoGen AI hemos implementado medidas técnicas y organizativas
-            para garantizar la seguridad de tus datos, incluyendo el cifrado
-            de contraseñas con Argon2id, protección contra ataques CSRF, y
-            limitación de intentos de acceso. Sin embargo, ningún sistema es
-            100% seguro, por lo que te recomendamos que mantengas tu
-            contraseña a salvo.
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Aplicamos medidas técnicas y organizativas para proteger la
+            información: contraseñas con Argon2id, protección CSRF, límites
+            de intentos, control de acceso al servidor y copias de seguridad.
+            Ningún sistema es completamente infalible, por lo que te
+            recomendamos custodiar tu contraseña y no compartirla.
           </p>
 
-          <h2 className="mt-8 text-xl font-bold text-[var(--txt)]">
-            9. Cambios en la Política de Privacidad
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            11. Menores y Zona Kids
           </h2>
 
-          <p className="mt-3 leading-relaxed text-[var(--txt2)]">
-            OpoGen AI se reserva el derecho a modificar esta Política de
-            Privacidad para adaptarla a novedades legislativas o cambios en el
-            servicio. Te recomendamos que la revises periódicamente.
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            La Zona Kids está dirigida a menores de entre 3 y 12 años. Si un
+            menor se registra, se presume que cuenta con el consentimiento de
+            sus padres, madres o tutores legales. Si eres tutor y detectas
+            datos de un menor sin autorización, puedes solicitarnos su
+            eliminación en soporte@opogenai.com.
+          </p>
+
+          <h2 className="mt-10 font-serif text-2xl font-medium text-[var(--azul)]">
+            12. Cambios en esta política
+          </h2>
+
+          <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
+            Podemos actualizar esta Política de Privacidad para adaptarla a
+            cambios legislativos o del servicio. Publicaremos la versión
+            vigente con su fecha de actualización y, cuando el cambio sea
+            relevante, lo comunicaremos por los medios habituales.
+          </p>
+
+          <p className="mt-10 border-t border-[var(--th)] pt-6 text-sm leading-7 text-[var(--txt3)]">
+            Esta política se complementa con el{" "}
+            <Link
+              href="/legal/aviso-legal"
+              className="font-semibold text-[var(--azul)] underline underline-offset-4"
+            >
+              Aviso Legal
+            </Link>
+            .
           </p>
         </article>
       </section>

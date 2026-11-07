@@ -654,5 +654,24 @@
     "lastActivity": "Última actividad",
     "loading": "Cargando analítica…",
     "error": "No se pudieron cargar las estadísticas."
+  },
+  "Contacto": {
+    "back": "Volver",
+    "title": "Contacta con nosotros",
+    "intro": "¿Tienes alguna duda, problema técnico o sugerencia? Rellena el formulario y te responderemos lo antes posible.",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "message": "Mensaje",
+    "submit": "Enviar mensaje",
+    "sending": "Enviando…",
+    "success": "¡Mensaje enviado! Te responderemos pronto.",
+    "errors": {
+      "required": "Completa todos los campos.",
+      "invalidEmail": "El correo electrónico no es válido.",
+      "messageTooLong": "El mensaje es demasiado largo.",
+      "sendFailed": "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+      "generic": "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+      "connection": "Error de conexión. Inténtalo de nuevo."
+    }
   }
 }

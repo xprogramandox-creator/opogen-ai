@@ -654,5 +654,24 @@
     "lastActivity": "Last activity",
     "loading": "Loading analytics…",
     "error": "Could not load statistics."
+  },
+  "Contacto": {
+    "back": "Back",
+    "title": "Contact us",
+    "intro": "Do you have a question, a technical issue or a suggestion? Fill in the form and we will get back to you as soon as possible.",
+    "name": "Name",
+    "email": "Email address",
+    "message": "Message",
+    "submit": "Send message",
+    "sending": "Sending…",
+    "success": "Message sent! We will get back to you soon.",
+    "errors": {
+      "required": "Fill in all fields.",
+      "invalidEmail": "The email address is not valid.",
+      "messageTooLong": "The message is too long.",
+      "sendFailed": "Could not send the message. Please try again.",
+      "generic": "Could not send the message. Please try again.",
+      "connection": "Connection error. Please try again."
+    }
   }
 }
