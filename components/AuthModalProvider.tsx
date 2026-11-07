@@ -102,7 +102,7 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
 
     const id = window.setTimeout(() => {
       cerrarAuth();
-    }, 5_000);
+    }, 500);
 
     return () => window.clearTimeout(id);
   }, [cerrarAuth]);
