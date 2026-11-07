@@ -50,18 +50,13 @@ function paginaResultado({
       box-shadow: 0 18px 45px rgba(20, 33, 61, 0.12);
       text-align: center;
     }
-    .icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      margin-bottom: 16px;
-      background: ${error ? "#fbe9e7" : "#e8f0fb"};
-      color: ${error ? "#b42318" : "#1d4ed8"};
-      font-family: system-ui, sans-serif;
-      font-size: 28px;
+    .logo {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto 20px;
+      object-fit: contain;
     }
     h1 {
       margin: 0 0 14px;
@@ -87,7 +82,13 @@ function paginaResultado({
 </head>
 <body>
   <main>
-    <div class="icon" aria-hidden="true">${error ? "!" : "✓"}</div>
+    <img
+      src="/opogen-logo.png"
+      alt="OpoGen AI"
+      class="logo"
+      width="200"
+      height="109"
+    />
     <h1>${titulo}</h1>
     <p>${mensaje}</p>
     <small>OpoGen AI</small>
