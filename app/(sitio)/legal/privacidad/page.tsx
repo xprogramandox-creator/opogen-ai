@@ -25,7 +25,7 @@ export default function PoliticaPrivacidadPage() {
           </h1>
 
           <p className="mt-4 text-sm text-[var(--txt3)]">
-            Última actualización: [Fecha de última actualización]
+            Última actualización: 7 de noviembre de 2026
           </p>
 
           <p className="mt-6 text-base leading-8 text-[var(--txt2)]">
@@ -42,15 +42,15 @@ export default function PoliticaPrivacidadPage() {
           <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
               <strong className="text-[var(--txt)]">Identidad:</strong>{" "}
-              [Manuel Pujante Noguera]
+              Manuel Pujante Noguera
             </li>
             <li>
               <strong className="text-[var(--txt)]">NIF:</strong>{" "}
-              [27457112B]
+              27457112B
             </li>
             <li>
               <strong className="text-[var(--txt)]">Dirección:</strong>{" "}
-              [Calle Gracia]
+              Calle Gracia
             </li>
             <li>
               <strong className="text-[var(--txt)]">Correo:</strong>{" "}

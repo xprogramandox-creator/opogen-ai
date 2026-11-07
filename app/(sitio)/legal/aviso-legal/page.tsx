@@ -25,7 +25,7 @@ export default function AvisoLegalPage() {
           </h1>
 
           <p className="mt-4 text-sm text-[var(--txt3)]">
-            Última actualización: [Fecha de última actualización]
+            Última actualización: 7 de noviembre de 2026
           </p>
 
           <p className="mt-6 text-base leading-8 text-[var(--txt2)]">
@@ -42,15 +42,15 @@ export default function AvisoLegalPage() {
           <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-[var(--txt2)]">
             <li>
               <strong className="text-[var(--txt)]">Titular:</strong>{" "}
-              [Manuel Pujante Noguera]
+              Manuel Pujante Noguera
             </li>
             <li>
               <strong className="text-[var(--txt)]">NIF:</strong>{" "}
-              [27457112B]
+              27457112B
             </li>
             <li>
               <strong className="text-[var(--txt)]">Domicilio:</strong>{" "}
-              [Calle Gracia]
+              Calle Gracia
             </li>
             <li>
               <strong className="text-[var(--txt)]">Correo electrónico:</strong>{" "}
@@ -111,7 +111,7 @@ export default function AvisoLegalPage() {
           <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
             Todos los contenidos propios de esta web —textos, diseños,
             logotipos, código fuente, estructura, imágenes y elementos
-            gráficos— son titularidad de [Manuel Pujante Noguera] o se
+            gráficos— son titularidad de Manuel Pujante Noguera o se
             utilizan con autorización. Queda prohibida su reproducción,
             distribución, comunicación pública o transformación sin
             autorización expresa y por escrito.
@@ -193,7 +193,7 @@ export default function AvisoLegalPage() {
           <p className="mt-4 text-base leading-8 text-[var(--txt2)]">
             La relación entre el titular y la persona usuaria se rige por la
             legislación española. Para la resolución de controversias, las
-            partes se someten a los Juzgados y Tribunales de [Albacete],
+            partes se someten a los Juzgados y Tribunales de Albacete,
             salvo que la normativa aplicable establezca otro fuero.
           </p>
 
