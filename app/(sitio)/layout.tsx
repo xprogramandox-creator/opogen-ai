@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import InactivityGuard from "@/components/InactivityGuard";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import AnaliticaTracker from "@/components/AnaliticaTracker";
+import CargandoPagina from "@/components/CargandoPagina";
 
 export default function SitioLayout({
   children,
@@ -14,7 +16,9 @@ export default function SitioLayout({
       <AnaliticaTracker />
       <InactivityGuard />
       <SiteHeader showBrand />
-      {children}
+      <Suspense fallback={<CargandoPagina />}>
+        {children}
+      </Suspense>
       <SiteFooter />
     </>
   );

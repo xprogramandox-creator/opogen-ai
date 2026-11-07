@@ -39,9 +39,29 @@ type EstadoAuth = {
 
 const AuthModalContext = createContext<AuthModalContextValue | null>(null);
 
+function AuthDialogCargando() {
+  return (
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/45 p-4">
+      <div
+        role="status"
+        aria-live="polite"
+        className="w-full max-w-md animate-pulse rounded-3xl border border-[var(--th)] bg-[var(--card)] p-7 shadow-2xl"
+      >
+        <span className="sr-only">Cargando formulario…</span>
+        <div className="h-7 w-40 rounded-lg bg-[var(--suave2)]" />
+        <div className="mt-5 h-11 w-full rounded-xl bg-[var(--suave2)]" />
+        <div className="mt-3 h-11 w-full rounded-xl bg-[var(--suave2)]" />
+        <div className="mt-3 h-11 w-full rounded-xl bg-[var(--suave2)]" />
+        <div className="mt-5 h-11 w-full rounded-xl bg-[var(--suave2)]" />
+      </div>
+    </div>
+  );
+}
+
 // El diálogo (formularios incluidos) solo se descarga cuando se abre.
 const AuthDialog = dynamic(() => import("@/components/AuthDialog"), {
   ssr: false,
+  loading: () => <AuthDialogCargando />,
 });
 
 export function AuthModalProvider({ children }: { children: ReactNode }) {
