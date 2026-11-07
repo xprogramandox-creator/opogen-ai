@@ -71,6 +71,22 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
     cerrarAuthPersistente();
   }, [cerrarAuthPersistente]);
 
+  // Al volver de Stripe, el modal puede restaurarse desde sessionStorage.
+  // Se cierra automáticamente pasados 5 segundos para dejar ver el Dashboard.
+  useEffect(() => {
+    const parametros = new URLSearchParams(window.location.search);
+
+    if (parametros.get("checkout") !== "success") {
+      return;
+    }
+
+    const id = window.setTimeout(() => {
+      cerrarAuth();
+    }, 5_000);
+
+    return () => window.clearTimeout(id);
+  }, [cerrarAuth]);
+
   useEffect(() => {
     if (cargando || sesion) return;
 
