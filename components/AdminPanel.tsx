@@ -7,11 +7,13 @@ import {
   BarChart3,
   Download,
   FileText,
+  MailWarning,
   Pencil,
   Plus,
   RefreshCw,
   RotateCcw,
   Trash2,
+  UserCheck,
   Users,
 } from "lucide-react";
 
@@ -103,6 +105,17 @@ type AnaliticaAdmin = {
   };
 };
 
+type PendienteVerificacion = {
+  clave: string;
+  nombre: string;
+  telefono: string;
+  correo: string;
+  fechaRegistro: string;
+  rol: "freemium" | "premium";
+  plan: string;
+  origen: "pendiente" | "archivo";
+};
+
 const FORM_VACIO = {
   claveOriginal: "",
   nombre: "",
@@ -134,6 +147,7 @@ export default function AdminPanel() {
   const tReset = useTranslations("AdminReset");
   const tLaunch = useTranslations("AdminLaunch");
   const tAnalitica = useTranslations("AdminAnalytics");
+  const tPendientes = useTranslations("AdminPending");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -159,6 +173,12 @@ export default function AdminPanel() {
       timeZone: "Europe/Madrid",
     }),
   );
+  const [pendientes, setPendientes] = useState<
+    PendienteVerificacion[]
+  >([]);
+  const [cargandoPendientes, setCargandoPendientes] = useState(false);
+  const [errorPendientes, setErrorPendientes] = useState("");
+  const [procesandoPendiente, setProcesandoPendiente] = useState("");
   const [pagos, setPagos] = useState<Pago[]>([]);
   const [pagosMensuales, setPagosMensuales] = useState<
     Array<{ mes: string; base: number; iva: number; total: number; facturas: number }>
@@ -268,6 +288,57 @@ export default function AdminPanel() {
     setTotalUsuarios(datos.total || 0);
   }, [filtros, pagina, pedir]);
 
+  const cargarPendientes = useCallback(async () => {
+    setCargandoPendientes(true);
+    setErrorPendientes("");
+
+    try {
+      const datos = (await pedir(
+        `/api/admin/panel/pendientes?_=${Date.now()}`,
+      )) as { pendientes?: PendienteVerificacion[] };
+      setPendientes(datos.pendientes || []);
+    } catch (err) {
+      setErrorPendientes(
+        err instanceof Error
+          ? err.message
+          : tPendientes("error"),
+      );
+    } finally {
+      setCargandoPendientes(false);
+    }
+  }, [pedir, tPendientes]);
+
+  async function accionPendiente(
+    clave: string,
+    accion: "verificar" | "eliminar",
+  ) {
+    if (
+      accion === "eliminar" &&
+      !window.confirm(tPendientes("confirmDelete"))
+    ) {
+      return;
+    }
+
+    setProcesandoPendiente(clave);
+    setErrorPendientes("");
+
+    try {
+      await pedir("/api/admin/panel/pendientes", {
+        method: "POST",
+        body: JSON.stringify({ clave, accion }),
+      });
+      await cargarPendientes();
+      setError("");
+    } catch (err) {
+      setErrorPendientes(
+        err instanceof Error
+          ? err.message
+          : tPendientes("error"),
+      );
+    } finally {
+      setProcesandoPendiente("");
+    }
+  }
   const cargarAnalitica = useCallback(
     async (fecha = fechaAnalitica) => {
       setCargandoAnalitica(true);
@@ -313,6 +384,7 @@ export default function AdminPanel() {
         cargarUsuarios(),
         cargarEstadoIA(),
         cargarAnalitica(),
+        cargarPendientes(),
       ])
         .then(() => setAccesoDenegado(false))
         .catch((err) => {
@@ -330,7 +402,7 @@ export default function AdminPanel() {
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [csrf, cargarAnalitica, cargarEstadoIA, cargarResumen, cargarUsuarios]);
+  }, [csrf, cargarAnalitica, cargarEstadoIA, cargarPendientes, cargarResumen, cargarUsuarios]);
 
   useEffect(() => {
     if (!csrf) return;
@@ -509,11 +581,12 @@ export default function AdminPanel() {
     () => [
       ["resumen", "Resumen", BarChart3],
       ["usuarios", "Usuarios", Users],
+      ["pendientes", tPendientes("tab"), MailWarning],
       ["estadisticas", "Estadísticas", BarChart3],
       ["facturacion", "Facturación", FileText],
       ["exportar", "Exportar", Download],
     ] as const,
-    [],
+    [tPendientes],
   );
 
   if (accesoDenegado) {
@@ -602,6 +675,7 @@ export default function AdminPanel() {
                   cargarUsuarios(),
                   cargarEstadoIA(),
                   cargarAnalitica(),
+                  cargarPendientes(),
                 ]);
                 setAccesoDenegado(false);
               } catch (err) {
@@ -1008,6 +1082,127 @@ export default function AdminPanel() {
                 <button type="button" disabled={pagina <= 1} onClick={() => setPagina((p) => Math.max(1, p - 1))} className="rounded-lg border border-[var(--th)] px-3 py-1.5 disabled:opacity-40">Anterior</button>
                 <button type="button" disabled={pagina >= paginas} onClick={() => setPagina((p) => p + 1)} className="rounded-lg border border-[var(--th)] px-3 py-1.5 disabled:opacity-40">Siguiente</button>
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "pendientes" ? (
+          <section className="space-y-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-xl font-bold text-[var(--txt)]">
+                  {tPendientes("title")}
+                </h2>
+                <p className="mt-1 text-sm text-[var(--txt2)]">
+                  {tPendientes("subtitle")}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => void cargarPendientes()}
+                disabled={cargandoPendientes}
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--txt)] disabled:opacity-50"
+              >
+                <RefreshCw
+                  className={`h-4 w-4 ${cargandoPendientes ? "animate-spin" : ""}`}
+                />
+                {tPendientes("refresh")}
+              </button>
+            </div>
+
+            {errorPendientes ? (
+              <p className="rounded-xl border border-[var(--err-b)] bg-[var(--err)] px-4 py-3 text-sm font-medium text-[var(--err-t)]">
+                {errorPendientes}
+              </p>
+            ) : null}
+
+            <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+              <table className="w-full min-w-[760px] text-left text-xs">
+                <thead className="bg-[var(--card2)] text-[var(--txt3)]">
+                  <tr>
+                    {[
+                      tPendientes("name"),
+                      tPendientes("phone"),
+                      tPendientes("email"),
+                      tPendientes("registered"),
+                      tPendientes("actions"),
+                    ].map((titulo) => (
+                      <th key={titulo} className="px-3 py-3 font-bold">
+                        {titulo}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendientes.map((pendiente) => (
+                    <tr
+                      key={pendiente.clave}
+                      className="border-t border-[var(--th)]"
+                    >
+                      <td className="px-3 py-3">
+                        <strong>{pendiente.nombre}</strong>
+                        <br />
+                        <span className="text-[var(--txt3)]">
+                          {pendiente.origen === "pendiente"
+                            ? tPendientes("pendingSource")
+                            : tPendientes("fileSource")}
+                        </span>
+                      </td>
+                      <td className="px-3 py-3">{pendiente.telefono}</td>
+                      <td className="px-3 py-3">{pendiente.correo}</td>
+                      <td className="px-3 py-3">
+                        {new Date(
+                          pendiente.fechaRegistro,
+                        ).toLocaleDateString(locale, {
+                          dateStyle: "medium",
+                        })}
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            disabled={
+                              procesandoPendiente === pendiente.clave
+                            }
+                            onClick={() =>
+                              void accionPendiente(
+                                pendiente.clave,
+                                "verificar",
+                              )
+                            }
+                            className="inline-flex items-center gap-1 rounded-lg bg-[var(--azul)] px-2.5 py-1.5 font-bold text-[var(--btn-txt)] disabled:opacity-50"
+                          >
+                            <UserCheck className="h-3.5 w-3.5" />
+                            {tPendientes("verify")}
+                          </button>
+                          <button
+                            type="button"
+                            disabled={
+                              procesandoPendiente === pendiente.clave
+                            }
+                            onClick={() =>
+                              void accionPendiente(
+                                pendiente.clave,
+                                "eliminar",
+                              )
+                            }
+                            className="inline-flex items-center gap-1 rounded-lg border border-[var(--err-b)] bg-[var(--err)] px-2.5 py-1.5 font-bold text-[var(--err-t)] disabled:opacity-50"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            {tPendientes("delete")}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {!cargandoPendientes && pendientes.length === 0 ? (
+                <p className="px-4 py-8 text-center text-sm text-[var(--txt3)]">
+                  {tPendientes("empty")}
+                </p>
+              ) : null}
             </div>
           </section>
         ) : null}

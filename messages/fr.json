@@ -708,5 +708,23 @@
     "rights": "Tous droits réservés.",
     "home": "OpoGen AI, page d'accueil",
     "tagline": "Votre compagnon d'étude intelligent."
+  },
+  "AdminPending": {
+    "tab": "En attente",
+    "title": "Utilisateurs en attente de vérification",
+    "subtitle": "Inscriptions qui n'ont pas encore confirmé leur adresse électronique.",
+    "name": "Nom",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "registered": "Inscription",
+    "actions": "Actions",
+    "verify": "Vérifier manuellement",
+    "delete": "Supprimer l'utilisateur",
+    "refresh": "Actualiser",
+    "pendingSource": "En attente",
+    "fileSource": "Compte existant",
+    "empty": "Aucun utilisateur en attente de vérification.",
+    "confirmDelete": "Supprimer définitivement cet utilisateur et toutes ses données ?",
+    "error": "Impossible de charger les utilisateurs en attente."
   }
 }

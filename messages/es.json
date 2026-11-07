@@ -708,5 +708,23 @@
     "rights": "Todos los derechos reservados.",
     "home": "OpoGen AI, página de inicio",
     "tagline": "Tu compañero de estudio inteligente."
+  },
+  "AdminPending": {
+    "tab": "Pendientes",
+    "title": "Usuarios Pendientes de Verificación",
+    "subtitle": "Registros que todavía no han confirmado su correo electrónico.",
+    "name": "Nombre",
+    "phone": "Teléfono",
+    "email": "Email",
+    "registered": "Registro",
+    "actions": "Acciones",
+    "verify": "Verificar manualmente",
+    "delete": "Eliminar usuario",
+    "refresh": "Actualizar",
+    "pendingSource": "Pendiente",
+    "fileSource": "Cuenta existente",
+    "empty": "No hay usuarios pendientes de verificación.",
+    "confirmDelete": "¿Eliminar definitivamente este usuario y todos sus datos?",
+    "error": "No se pudieron cargar los usuarios pendientes."
   }
 }

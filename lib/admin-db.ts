@@ -1234,6 +1234,7 @@ type FilaPendiente = {
   correo: string;
   datos_json: string;
   expira: number;
+  creado: string;
 };
 
 export function limpiarPendientesExpirados(): number {
@@ -1340,6 +1341,111 @@ export function obtenerPendientePorCorreo(correo: string): {
   }
 }
 
+export type PendienteVerificacion = {
+  clave: string;
+  nombre: string;
+  telefono: string;
+  correo: string;
+  fechaRegistro: string;
+  rol: "freemium" | "premium";
+  plan: string;
+  origen: "pendiente" | "archivo";
+};
+
+export async function listarPendientesVerificacion(): Promise<
+  PendienteVerificacion[]
+> {
+  const db = abrirDb();
+  const pendientes = new Map<string, PendienteVerificacion>();
+
+  const filasPendientes = db
+    .prepare(
+      "SELECT * FROM registros_pendientes WHERE expira > ? ORDER BY creado DESC",
+    )
+    .all(Date.now()) as FilaPendiente[];
+
+  for (const fila of filasPendientes) {
+    try {
+      const usuario = JSON.parse(
+        fila.datos_json,
+      ) as UsuarioRegistrado;
+
+      pendientes.set(fila.clave, {
+        clave: fila.clave,
+        nombre:
+          `${usuario.nombre || ""} ${usuario.apellidos || ""}`.trim() ||
+          fila.clave,
+        telefono: usuario.telefono || fila.clave,
+        correo: usuario.correo || fila.correo,
+        fechaRegistro: fila.creado,
+        rol: usuario.rol === "premium" ? "premium" : "freemium",
+        plan: usuario.planContratado || "",
+        origen: "pendiente",
+      });
+    } catch {
+      // Se ignora un JSON corrupto; el registro sigue visible en SQLite.
+    }
+  }
+
+  const filasUsuarios = db
+    .prepare(
+      "SELECT * FROM usuarios WHERE email_verificado = 0",
+    )
+    .all() as FilaUsuario[];
+
+  for (const fila of filasUsuarios) {
+    if (pendientes.has(fila.clave)) continue;
+
+    pendientes.set(fila.clave, {
+      clave: fila.clave,
+      nombre:
+        fila.nombre_completo ||
+        `${fila.nombre} ${fila.apellidos || ""}`.trim() ||
+        fila.clave,
+      telefono: fila.telefono || fila.clave,
+      correo: fila.correo,
+      fechaRegistro: fila.fecha_registro,
+      rol: fila.rol === "premium" ? "premium" : "freemium",
+      plan: fila.plan || "",
+      origen: "archivo",
+    });
+  }
+
+  // Archivos que aún no están indexados en SQLite y siguen sin verificar.
+  const usuarios = await listarUsuarios();
+
+  for (const { usuario, rutaArchivo } of usuarios) {
+    if (pendientes.has(usuario.clave)) continue;
+    if (usuario.emailVerificado !== false) continue;
+
+    let fechaRegistro = new Date().toISOString();
+
+    try {
+      const { stat } = await import("node:fs/promises");
+      fechaRegistro = (await stat(rutaArchivo)).birthtime.toISOString();
+    } catch {
+      // Se conserva la fecha actual.
+    }
+
+    pendientes.set(usuario.clave, {
+      clave: usuario.clave,
+      nombre:
+        `${usuario.nombre} ${usuario.apellidos || ""}`.trim() ||
+        usuario.clave,
+      telefono: usuario.telefono,
+      correo: usuario.correo,
+      fechaRegistro,
+      rol: usuario.rol === "premium" ? "premium" : "freemium",
+      plan: usuario.planContratado || "",
+      origen: "archivo",
+    });
+  }
+
+  return [...pendientes.values()].sort((a, b) =>
+    a.fechaRegistro.localeCompare(b.fechaRegistro),
+  );
+}
+
 export function existePendientePorClaveOCorreo(
   clave: string,
   correo: string,
@@ -1359,5 +1465,11 @@ export function eliminarRegistroPendiente(token: string): void {
   abrirDb()
     .prepare("DELETE FROM registros_pendientes WHERE token = ?")
     .run(token);
+}
+
+export function eliminarPendientesPorClave(clave: string): void {
+  abrirDb()
+    .prepare("DELETE FROM registros_pendientes WHERE clave = ?")
+    .run(clave);
 }
 

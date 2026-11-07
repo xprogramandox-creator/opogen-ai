@@ -708,5 +708,23 @@
     "rights": "Alle Rechte vorbehalten.",
     "home": "OpoGen AI, Startseite",
     "tagline": "Dein intelligenter Lernbegleiter."
+  },
+  "AdminPending": {
+    "tab": "Ausstehend",
+    "title": "Benutzer ausstehender Bestätigung",
+    "subtitle": "Registrierungen, die ihre E-Mail-Adresse noch nicht bestätigt haben.",
+    "name": "Name",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "registered": "Registriert",
+    "actions": "Aktionen",
+    "verify": "Manuell bestätigen",
+    "delete": "Benutzer löschen",
+    "refresh": "Aktualisieren",
+    "pendingSource": "Ausstehend",
+    "fileSource": "Bestehendes Konto",
+    "empty": "Keine Benutzer ausstehender Bestätigung.",
+    "confirmDelete": "Diesen Benutzer und alle seine Daten endgültig löschen?",
+    "error": "Ausstehende Benutzer konnten nicht geladen werden."
   }
 }

@@ -708,5 +708,23 @@
     "rights": "All rights reserved.",
     "home": "OpoGen AI, home page",
     "tagline": "Your intelligent study companion."
+  },
+  "AdminPending": {
+    "tab": "Pending",
+    "title": "Users Pending Verification",
+    "subtitle": "Registrations that have not confirmed their email address yet.",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "registered": "Registered",
+    "actions": "Actions",
+    "verify": "Verify manually",
+    "delete": "Delete user",
+    "refresh": "Refresh",
+    "pendingSource": "Pending",
+    "fileSource": "Existing account",
+    "empty": "There are no users pending verification.",
+    "confirmDelete": "Permanently delete this user and all their data?",
+    "error": "Could not load pending users."
   }
 }
