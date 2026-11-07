@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import AuthControls from "@/components/AuthControls";
+import LogoOpoGen from "@/components/LogoOpoGen";
 import SelectorIdioma from "@/components/SelectorIdioma";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -54,11 +55,7 @@ export default function SiteHeader({
               className="flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:gap-3"
               aria-label="OpoGen AI, página de inicio"
             >
-              <img
-                src="/opogen-logo-nuevo.png"
-                alt="OpoGen AI"
-                className="h-12 w-auto max-w-[180px] shrink-0 rounded-lg bg-white object-contain shadow-sm sm:h-16"
-              />
+              <LogoOpoGen />
 
               <span className="whitespace-nowrap text-base font-semibold text-[var(--txt)] sm:text-2xl">
                 <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
