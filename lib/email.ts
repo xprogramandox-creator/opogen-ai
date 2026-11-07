@@ -123,6 +123,7 @@ export async function enviarCorreoVerificacion(
     to: [destino],
     subject: "Verifica tu cuenta en OpoGen AI",
     urlBase: obtenerUrlBaseEnlace(enlace),
+    enlaceFinal: enlace,
   });
 
   try {

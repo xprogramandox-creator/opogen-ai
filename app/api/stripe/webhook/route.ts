@@ -21,7 +21,7 @@ import {
 } from "@/lib/admin-db";
 import { enviarCorreoVerificacion } from "@/lib/email";
 import { stripe } from "@/lib/stripe";
-import { obtenerUrlBase } from "@/lib/url-base";
+import { crearEnlaceVerificacion } from "@/lib/url-base";
 
 const MESES_PLAN = {
   mensual: 1,
@@ -177,10 +177,10 @@ export async function POST(request: Request) {
       const verificacion = await crearVerificacionPendiente(userId);
 
       if (verificacion) {
-        const baseUrl = obtenerUrlBase(
+        const enlace = crearEnlaceVerificacion(
+          verificacion.token,
           new URL(request.url).origin,
         );
-        const enlace = `${baseUrl}/api/auth/verificar?token=${verificacion.token}`;
 
         try {
           await enviarCorreoVerificacion(verificacion.correo, enlace);

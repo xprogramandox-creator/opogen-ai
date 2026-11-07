@@ -29,7 +29,7 @@ import {
   passwordValida,
 } from "@/lib/validacion";
 import { enviarCorreoVerificacion } from "@/lib/email";
-import { obtenerUrlBase } from "@/lib/url-base";
+import { crearEnlaceVerificacion } from "@/lib/url-base";
 import { codigoError, mensajeError } from "@/lib/errores";
 
 const MAX_REGISTROS_POR_IP = 7;
@@ -310,12 +310,13 @@ export async function POST(request: Request) {
       tokenVerificacionExpira,
     );
 
-    const baseUrl = obtenerUrlBase(new URL(request.url).origin);
-    console.log("[registro] URL base de verificación", {
-      baseUrl,
-      nextPublicAppUrl: process.env["NEXT_PUBLIC_APP_URL"] || "",
+    const enlace = crearEnlaceVerificacion(
+      tokenVerificacion,
+      new URL(request.url).origin,
+    );
+    console.log("[registro] Enlace final de verificación", {
+      enlace,
     });
-    const enlace = `${baseUrl}/api/auth/verificar?token=${tokenVerificacion}`;
 
     try {
       await enviarCorreoVerificacion(correo, enlace);

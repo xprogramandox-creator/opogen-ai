@@ -41,7 +41,18 @@ export function obtenerUrlBase(origenSolicitud?: string): string {
     leerEntorno("NEXT_PUBLIC_BASE_URL");
 
   if (configurada) {
-    return normalizar(configurada);
+    const url = normalizar(configurada);
+
+    // Una URL local en producción rompería todos los correos. Aunque la
+    // variable esté mal configurada, nunca enviamos enlaces a localhost.
+    if (process.env.NODE_ENV === "production" && esUrlLocal(url)) {
+      console.error(
+        "[url-base] NEXT_PUBLIC_APP_URL apunta a localhost en producción; se usa https://opogenai.com",
+      );
+      return "https://opogenai.com";
+    }
+
+    return url;
   }
 
   if (origenSolicitud && !esUrlLocal(origenSolicitud)) {
@@ -53,4 +64,16 @@ export function obtenerUrlBase(origenSolicitud?: string): string {
   }
 
   return "https://opogenai.com";
+}
+
+export function crearEnlaceVerificacion(
+  token: string,
+  origenSolicitud?: string,
+): string {
+  const url = new URL(
+    "/api/auth/verificar",
+    obtenerUrlBase(origenSolicitud),
+  );
+  url.searchParams.set("token", token);
+  return url.toString();
 }
