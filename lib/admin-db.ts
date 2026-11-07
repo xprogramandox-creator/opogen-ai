@@ -486,6 +486,30 @@ export async function sincronizarUsuarios(): Promise<void> {
   }
 }
 
+export function eliminarUsuarioAdmin(clave: string): void {
+  const db = abrirDb();
+
+  db.exec("BEGIN");
+
+  try {
+    db.prepare("DELETE FROM usuarios WHERE clave = ?").run(clave);
+    db.prepare("DELETE FROM pagos WHERE usuario_clave = ?").run(clave);
+    db.prepare("DELETE FROM uso_zonas WHERE usuario_clave = ?").run(
+      clave,
+    );
+    db.prepare("DELETE FROM registros_pendientes WHERE clave = ?").run(
+      clave,
+    );
+    db.prepare(
+      "DELETE FROM analitica_sesiones WHERE usuario_clave = ?",
+    ).run(clave);
+    db.exec("COMMIT");
+  } catch (error) {
+    db.exec("ROLLBACK");
+    throw error;
+  }
+}
+
 export function registrarLog(
   administrador: string,
   accion: string,

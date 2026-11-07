@@ -8,9 +8,13 @@ import {
   hashPassword,
   leerUsuario,
   migrarUsuarioAPremium,
-  rutaArchivoUsuario,
 } from "@/lib/auth-server";
 import {
+  CARPETA_FREEMIUM,
+  CARPETA_PREMIUM,
+} from "@/lib/rutas-espacio";
+import {
+  eliminarUsuarioAdmin,
   guardarPreciosUsuario,
   listarUsuariosAdmin,
   obtenerIvaConfig,
@@ -19,6 +23,7 @@ import {
   registrarPago,
   sincronizarUsuarios,
 } from "@/lib/admin-db";
+import { stripe } from "@/lib/stripe";
 import {
   exigirAdminPanel,
   limitarAccionAdmin,
@@ -334,11 +339,58 @@ export async function DELETE(request: Request) {
       );
     }
 
-    await rm(path.dirname(rutaArchivoUsuario(clave)), {
-      recursive: true,
-      force: true,
+    const carpetasUsuario = [
+      path.join(CARPETA_PREMIUM, clave),
+      path.join(CARPETA_FREEMIUM, clave),
+    ];
+
+    for (const carpeta of carpetasUsuario) {
+      await rm(carpeta, {
+        recursive: true,
+        force: true,
+      });
+      console.log("[admin] Carpeta física eliminada", {
+        clave,
+        carpeta,
+      });
+    }
+
+    eliminarUsuarioAdmin(clave);
+    console.log("[admin] Registro y datos locales eliminados en SQLite", {
+      clave,
     });
+
     await sincronizarUsuarios();
+
+    let stripeCustomerEliminado = false;
+
+    if (usuario.stripeCustomerId) {
+      try {
+        if (usuario.stripeSubscriptionId) {
+          await stripe.subscriptions
+            .cancel(usuario.stripeSubscriptionId)
+            .catch((error) => {
+              console.warn(
+                "[admin] No se pudo cancelar la suscripción de Stripe",
+                error,
+              );
+            });
+        }
+
+        await stripe.customers.del(usuario.stripeCustomerId);
+        stripeCustomerEliminado = true;
+        console.log("[admin] Cliente de Stripe eliminado", {
+          clave,
+          stripeCustomerId: usuario.stripeCustomerId,
+        });
+      } catch (error) {
+        console.error(
+          "[admin] No se pudo eliminar el cliente de Stripe",
+          error,
+        );
+      }
+    }
+
     registrarLog(
       acceso.admin.clave,
       "Eliminar usuario",
@@ -346,7 +398,12 @@ export async function DELETE(request: Request) {
       acceso.ip,
     );
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      carpetaEliminada: true,
+      registroEliminado: true,
+      stripeCustomerEliminado,
+    });
   } catch (error) {
     return NextResponse.json(
       {
