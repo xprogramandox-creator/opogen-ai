@@ -23,6 +23,8 @@ function leerEntorno(nombre: string): string {
   return entorno[nombre]?.trim() || "";
 }
 
+const DOMINIO_PRODUCCION = "https://opogenai.com";
+
 /**
  * URL pública usada en los enlaces de los correos.
  *
@@ -31,8 +33,9 @@ function leerEntorno(nombre: string): string {
  * 2. APP_URL
  * 3. NEXT_PUBLIC_BASE_URL
  * 4. Origen real de la petición, si no es localhost
- * 5. localhost en desarrollo
- * 6. Dominio de producción
+ * 5. Dominio de producción
+ *
+ * Nunca se devuelve localhost, ni siquiera en desarrollo.
  */
 export function obtenerUrlBase(origenSolicitud?: string): string {
   const configurada =
@@ -43,13 +46,11 @@ export function obtenerUrlBase(origenSolicitud?: string): string {
   if (configurada) {
     const url = normalizar(configurada);
 
-    // Una URL local en producción rompería todos los correos. Aunque la
-    // variable esté mal configurada, nunca enviamos enlaces a localhost.
-    if (process.env.NODE_ENV === "production" && esUrlLocal(url)) {
+    if (esUrlLocal(url)) {
       console.error(
-        "[url-base] NEXT_PUBLIC_APP_URL apunta a localhost en producción; se usa https://opogenai.com",
+        "[url-base] La URL configurada apunta a localhost; se usa https://opogenai.com",
       );
-      return "https://opogenai.com";
+      return DOMINIO_PRODUCCION;
     }
 
     return url;
@@ -59,11 +60,7 @@ export function obtenerUrlBase(origenSolicitud?: string): string {
     return normalizar(origenSolicitud);
   }
 
-  if (process.env.NODE_ENV === "development") {
-    return "http://localhost:3000";
-  }
-
-  return "https://opogenai.com";
+  return DOMINIO_PRODUCCION;
 }
 
 export function crearEnlaceVerificacion(
