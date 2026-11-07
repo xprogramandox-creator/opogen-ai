@@ -24,6 +24,7 @@ import {
   PASSWORD_MAXIMA_BYTES,
   passwordValida,
 } from "@/lib/validacion";
+import { CLAVE_EMAIL_VERIFICACION } from "@/lib/verificacion-pago";
 
 export type ModoAuthDialog = "login" | "registro";
 type PlanRegistro = "freemium" | "premium";
@@ -206,6 +207,15 @@ function FormularioRegistro({
         };
 
         if (pago.ok && typeof datosPago.url === "string") {
+          try {
+            window.sessionStorage.setItem(
+              CLAVE_EMAIL_VERIFICACION,
+              correo.trim(),
+            );
+          } catch {
+            // Sin sessionStorage se mantiene el aviso sin email.
+          }
+
           window.location.assign(datosPago.url);
           return;
         }
@@ -706,6 +716,12 @@ function FormularioRegistro({
       >
         {enviando ? t("submittingRegister") : t("submitRegister")}
       </button>
+
+      {esPremium ? (
+        <p className="text-center text-xs leading-relaxed text-[var(--txt3)]">
+          {t("premiumVerificationNote")}
+        </p>
+      ) : null}
     </form>
   );
 }

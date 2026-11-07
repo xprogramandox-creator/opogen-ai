@@ -133,7 +133,8 @@
     },
     "forgotPassword": "Esqueceu-se da palavra-passe?",
     "firstNameLabel": "Nome",
-    "lastNameLabel": "Apelidos"
+    "lastNameLabel": "Apelidos",
+    "premiumVerificationNote": "Após o pagamento, enviaremos um e-mail para verificar a tua conta. Tens de a verificar antes de poderes iniciar sessão."
   },
   "Dashboard": {
     "planPremium": "Plano Premium",
@@ -217,7 +218,9 @@
       "premiumOnly": "Exclusivo para utilizadores Premium.",
       "enter": "Entrar!",
       "discover": "Descobrir Premium"
-    }
+    },
+    "paymentVerification": "Pagamento concluído! Enviámos um e-mail de verificação para {email}. Verifica a tua caixa de entrada (e a pasta Spam) e clica na ligação para ativar a tua conta. Depois de verificada, poderás iniciar sessão com o teu telefone e palavra-passe.",
+    "paymentVerificationFallbackEmail": "o teu endereço de e-mail"
   },
   "CrearTest": {
     "title": "Crie o seu exame personalizado",

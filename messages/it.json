@@ -133,7 +133,8 @@
     },
     "forgotPassword": "Hai dimenticato la password?",
     "firstNameLabel": "Nome",
-    "lastNameLabel": "Cognome"
+    "lastNameLabel": "Cognome",
+    "premiumVerificationNote": "Al termine del pagamento, ti invieremo un'email per verificare il tuo account. Devi verificarlo prima di poter accedere."
   },
   "Dashboard": {
     "planPremium": "Piano Premium",
@@ -217,7 +218,9 @@
       "premiumOnly": "Esclusivo per gli utenti Premium.",
       "enter": "Entra!",
       "discover": "Scopri Premium"
-    }
+    },
+    "paymentVerification": "Pagamento completato! Ti abbiamo inviato un'email di verifica a {email}. Controlla la posta in arrivo (e la cartella Spam) e clicca sul link per attivare il tuo account. Una volta verificato, potrai accedere con telefono e password.",
+    "paymentVerificationFallbackEmail": "il tuo indirizzo email"
   },
   "CrearTest": {
     "title": "Crea il tuo esame personalizzato",

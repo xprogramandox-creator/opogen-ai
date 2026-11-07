@@ -14,6 +14,7 @@ import { getTranslations } from "next-intl/server";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import TarjetaOferta from "@/components/TarjetaOferta";
 import CheckoutPendiente from "@/components/CheckoutPendiente";
+import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
 import BotonAscenderAmigo from "@/components/BotonAscenderAmigo";
 import GestionUsuarios from "@/components/GestionUsuarios";
 import BannerResumenes from "@/components/BannerResumenes";
@@ -57,7 +58,7 @@ const accesosRapidos = [
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ aviso?: string }>;
+  searchParams: Promise<{ aviso?: string; checkout?: string }>;
 }) {
   const params = await searchParams;
   const usuario = await obtenerUsuarioSesion();
@@ -83,6 +84,10 @@ export default async function DashboardPage({
     <main id="contenido" className="min-h-app bg-transparent font-sans">
       <CheckoutPendiente />
       <section className="mx-auto max-w-5xl px-5 py-10 sm:px-6 sm:py-14">
+        <AvisoVerificacionPago
+          mostrar={params.checkout === "success"}
+        />
+
         {mostrarAvisoPremium ? (
           <div
             role="alert"

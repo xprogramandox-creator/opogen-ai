@@ -133,7 +133,8 @@
     },
     "forgotPassword": "Passwort vergessen?",
     "firstNameLabel": "Vorname",
-    "lastNameLabel": "Nachname"
+    "lastNameLabel": "Nachname",
+    "premiumVerificationNote": "Nach der Zahlung senden wir dir eine E-Mail zur Bestätigung deines Kontos. Du musst sie bestätigen, bevor du dich anmelden kannst."
   },
   "Dashboard": {
     "planPremium": "Premium-Tarif",
@@ -217,7 +218,9 @@
       "premiumOnly": "Nur für Premium-Nutzer.",
       "enter": "Los!",
       "discover": "Premium entdecken"
-    }
+    },
+    "paymentVerification": "Zahlung abgeschlossen! Wir haben eine Bestätigungs-E-Mail an {email} gesendet. Prüfe deinen Posteingang (und den Spam-Ordner) und klicke auf den Link, um dein Konto zu aktivieren. Nach der Bestätigung kannst du dich mit Telefonnummer und Passwort anmelden.",
+    "paymentVerificationFallbackEmail": "deine E-Mail-Adresse"
   },
   "CrearTest": {
     "title": "Erstelle deine persönliche Prüfung",

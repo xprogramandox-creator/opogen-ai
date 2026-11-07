@@ -133,7 +133,8 @@
     },
     "forgotPassword": "Mot de passe oublié ?",
     "firstNameLabel": "Prénom",
-    "lastNameLabel": "Nom"
+    "lastNameLabel": "Nom",
+    "premiumVerificationNote": "Après le paiement, nous vous enverrons un e-mail pour vérifier votre compte. Vous devrez le vérifier avant de pouvoir vous connecter."
   },
   "Dashboard": {
     "planPremium": "Forfait Premium",
@@ -217,7 +218,9 @@
       "premiumOnly": "Réservé aux utilisateurs Premium.",
       "enter": "Entrer !",
       "discover": "Découvrir Premium"
-    }
+    },
+    "paymentVerification": "Paiement effectué ! Nous avons envoyé un e-mail de vérification à {email}. Consultez votre boîte de réception (et le dossier Spam) et cliquez sur le lien pour activer votre compte. Une fois vérifié, vous pourrez vous connecter avec votre téléphone et votre mot de passe.",
+    "paymentVerificationFallbackEmail": "votre adresse e-mail"
   },
   "CrearTest": {
     "title": "Créez votre examen personnalisé",

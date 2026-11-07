@@ -133,7 +133,8 @@
     },
     "forgotPassword": "Forgot your password?",
     "firstNameLabel": "First name",
-    "lastNameLabel": "Last name"
+    "lastNameLabel": "Last name",
+    "premiumVerificationNote": "After payment, we will send you an email to verify your account. You must verify it before you can sign in."
   },
   "Dashboard": {
     "planPremium": "Premium plan",
@@ -217,7 +218,9 @@
       "premiumOnly": "Premium users only.",
       "enter": "Enter!",
       "discover": "Discover Premium"
-    }
+    },
+    "paymentVerification": "Payment complete! We have sent a verification email to {email}. Check your inbox (and Spam folder) and click the link to activate your account. Once verified, you can sign in with your phone number and password.",
+    "paymentVerificationFallbackEmail": "your email address"
   },
   "CrearTest": {
     "title": "Create your custom exam",
