@@ -363,12 +363,11 @@ export async function eliminarDescuento(
   }
 
   try {
-    // El SDK de esta versión no expone promotionCodes.del; se usa la API
-    // HTTP oficial para borrar el Promotion Code.
-    await stripe.rawRequest(
-      "DELETE",
-      `/v1/promotion_codes/${encodeURIComponent(promotionCodeId)}`,
-    );
+    // El SDK actual no expone promotionCodes.del. Se desactiva el código
+    // para impedir nuevos usos y se elimina el cupón subyacente.
+    await stripe.promotionCodes.update(promotionCodeId, {
+      active: false,
+    });
   } catch (error) {
     if (!esNoEncontrado(error)) throw error;
   }
