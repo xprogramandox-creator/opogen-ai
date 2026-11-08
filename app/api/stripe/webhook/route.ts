@@ -145,6 +145,13 @@ export async function POST(request: Request) {
     }
 
     try {
+      let precioReal: {
+        base: number;
+        iva: number;
+        total: number;
+        fecha: string;
+      } | null = null;
+
       // Si el pago se completó antes de verificar el correo, el usuario aún
       // solo existe como registro pendiente. Se materializa ahora.
       if (!(await leerUsuario(userId))) {
@@ -223,6 +230,15 @@ export async function POST(request: Request) {
           totalPagado ?? undefined,
         );
 
+        precioReal = {
+          base: baseRedondeada,
+          iva: ivaPago,
+          total:
+            totalPagado ??
+            Math.round((baseRedondeada + ivaPago) * 100) / 100,
+          fecha: fechaInicio.toISOString(),
+        };
+
         const usuarioAdmin = obtenerUsuarioAdmin(userId);
 
         if (usuarioAdmin) {
@@ -273,6 +289,25 @@ export async function POST(request: Request) {
       console.log("[Stripe webhook] Índice del panel sincronizado", {
         userId,
       });
+
+      // La sincronización puede recalcular el precio canónico si el plan
+      // cambió. El importe realmente cobrado por Stripe debe prevalecer
+      // siempre sobre ese valor de catálogo.
+      if (precioReal) {
+        guardarPreciosUsuario(
+          userId,
+          precioReal.base,
+          precioReal.iva,
+          precioReal.fecha,
+          precioReal.total,
+        );
+        console.log("[Stripe webhook] Importe real reaplicado", {
+          userId,
+          precioBase: precioReal.base,
+          iva: precioReal.iva,
+          total: precioReal.total,
+        });
+      }
     } catch (error) {
       console.error("[Stripe webhook] Error al migrar a Premium", error);
       return NextResponse.json(
