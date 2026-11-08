@@ -738,5 +738,37 @@
     "empty": "Nessun utente in attesa di verifica.",
     "confirmDelete": "Eliminare definitivamente questo utente e tutti i suoi dati?",
     "error": "Impossibile caricare gli utenti in attesa."
+  },
+  "AdminDiscounts": {
+    "tab": "Sconti",
+    "createTitle": "Crea codice sconto",
+    "code": "Codice",
+    "type": "Tipo di sconto",
+    "percent": "Percentuale (%)",
+    "amount": "Importo fisso (€)",
+    "value": "Valore",
+    "startDate": "Data di inizio",
+    "endDate": "Data di fine",
+    "active": "Attivo",
+    "create": "Crea sconto",
+    "saving": "Salvataggio…",
+    "listTitle": "Codici sconto",
+    "discount": "Sconto",
+    "status": "Stato",
+    "uses": "Utilizzi",
+    "actions": "Azioni",
+    "activate": "Attiva",
+    "deactivate": "Disattiva",
+    "refresh": "Aggiorna",
+    "empty": "Nessun codice sconto.",
+    "error": "Impossibile caricare gli sconti.",
+    "createError": "Impossibile creare lo sconto.",
+    "updateError": "Impossibile aggiornare lo sconto.",
+    "statuses": {
+      "Activo": "Attivo",
+      "Programado": "Programmato",
+      "Caducado": "Scaduto",
+      "Inactivo": "Inattivo"
+    }
   }
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import {
   BarChart3,
+  BadgePercent,
   Download,
   FileText,
   MailWarning,
@@ -116,6 +117,16 @@ type PendienteVerificacion = {
   origen: "pendiente" | "archivo";
 };
 
+type DescuentoAdmin = {
+  promotionCodeId: string;
+  codigo: string;
+  descuento: string;
+  fechaInicio: string;
+  fechaFin: string | null;
+  estado: "Activo" | "Programado" | "Caducado" | "Inactivo";
+  usos: number;
+};
+
 const FORM_VACIO = {
   claveOriginal: "",
   nombre: "",
@@ -148,6 +159,7 @@ export default function AdminPanel() {
   const tLaunch = useTranslations("AdminLaunch");
   const tAnalitica = useTranslations("AdminAnalytics");
   const tPendientes = useTranslations("AdminPending");
+  const tDescuentos = useTranslations("AdminDiscounts");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -179,6 +191,20 @@ export default function AdminPanel() {
   const [cargandoPendientes, setCargandoPendientes] = useState(false);
   const [errorPendientes, setErrorPendientes] = useState("");
   const [procesandoPendiente, setProcesandoPendiente] = useState("");
+  const [descuentos, setDescuentos] = useState<DescuentoAdmin[]>([]);
+  const [cargandoDescuentos, setCargandoDescuentos] = useState(false);
+  const [errorDescuentos, setErrorDescuentos] = useState("");
+  const [guardandoDescuento, setGuardandoDescuento] = useState(false);
+  const [formDescuento, setFormDescuento] = useState({
+    codigo: "",
+    tipo: "porcentaje" as "porcentaje" | "importe",
+    valor: "20",
+    fechaInicio: new Date().toLocaleDateString("en-CA", {
+      timeZone: "Europe/Madrid",
+    }),
+    fechaFin: "",
+    activo: true,
+  });
   const [pagos, setPagos] = useState<Pago[]>([]);
   const [pagosMensuales, setPagosMensuales] = useState<
     Array<{ mes: string; base: number; iva: number; total: number; facturas: number }>
@@ -339,6 +365,90 @@ export default function AdminPanel() {
       setProcesandoPendiente("");
     }
   }
+  const cargarDescuentos = useCallback(async () => {
+    setCargandoDescuentos(true);
+    setErrorDescuentos("");
+
+    try {
+      const datos = (await pedir(
+        `/api/admin/descuentos?_=${Date.now()}`,
+      )) as { descuentos?: DescuentoAdmin[] };
+      setDescuentos(datos.descuentos || []);
+    } catch (err) {
+      setErrorDescuentos(
+        err instanceof Error
+          ? err.message
+          : tDescuentos("error"),
+      );
+    } finally {
+      setCargandoDescuentos(false);
+    }
+  }, [pedir, tDescuentos]);
+
+  async function crearDescuento(evento: React.FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
+    setErrorDescuentos("");
+    setGuardandoDescuento(true);
+
+    try {
+      await pedir("/api/admin/descuentos", {
+        method: "POST",
+        body: JSON.stringify({
+          codigo: formDescuento.codigo,
+          tipo: formDescuento.tipo,
+          valor: Number(formDescuento.valor),
+          fechaInicio: formDescuento.fechaInicio,
+          fechaFin: formDescuento.fechaFin || null,
+          activo: formDescuento.activo,
+        }),
+      });
+
+      setFormDescuento((prev) => ({
+        ...prev,
+        codigo: "",
+        valor: prev.tipo === "porcentaje" ? "20" : "5",
+        fechaFin: "",
+      }));
+      await cargarDescuentos();
+    } catch (err) {
+      setErrorDescuentos(
+        err instanceof Error
+          ? err.message
+          : tDescuentos("createError"),
+      );
+    } finally {
+      setGuardandoDescuento(false);
+    }
+  }
+
+  async function alternarDescuento(
+    descuento: DescuentoAdmin,
+  ) {
+    setErrorDescuentos("");
+    setGuardandoDescuento(true);
+
+    try {
+      await pedir("/api/admin/descuentos", {
+        method: "PATCH",
+        body: JSON.stringify({
+          promotionCodeId: descuento.promotionCodeId,
+          activo:
+            descuento.estado !== "Activo" &&
+            descuento.estado !== "Programado",
+        }),
+      });
+      await cargarDescuentos();
+    } catch (err) {
+      setErrorDescuentos(
+        err instanceof Error
+          ? err.message
+          : tDescuentos("updateError"),
+      );
+    } finally {
+      setGuardandoDescuento(false);
+    }
+  }
+
   const cargarAnalitica = useCallback(
     async (fecha = fechaAnalitica) => {
       setCargandoAnalitica(true);
@@ -385,6 +495,7 @@ export default function AdminPanel() {
         cargarEstadoIA(),
         cargarAnalitica(),
         cargarPendientes(),
+        cargarDescuentos(),
       ])
         .then(() => setAccesoDenegado(false))
         .catch((err) => {
@@ -402,7 +513,7 @@ export default function AdminPanel() {
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [csrf, cargarAnalitica, cargarEstadoIA, cargarPendientes, cargarResumen, cargarUsuarios]);
+  }, [csrf, cargarAnalitica, cargarDescuentos, cargarEstadoIA, cargarPendientes, cargarResumen, cargarUsuarios]);
 
   useEffect(() => {
     if (!csrf) return;
@@ -582,11 +693,12 @@ export default function AdminPanel() {
       ["resumen", "Resumen", BarChart3],
       ["usuarios", "Usuarios", Users],
       ["pendientes", tPendientes("tab"), MailWarning],
+      ["descuentos", tDescuentos("tab"), BadgePercent],
       ["estadisticas", "Estadísticas", BarChart3],
       ["facturacion", "Facturación", FileText],
       ["exportar", "Exportar", Download],
     ] as const,
-    [tPendientes],
+    [tDescuentos, tPendientes],
   );
 
   if (accesoDenegado) {
@@ -676,6 +788,7 @@ export default function AdminPanel() {
                   cargarEstadoIA(),
                   cargarAnalitica(),
                   cargarPendientes(),
+                  cargarDescuentos(),
                 ]);
                 setAccesoDenegado(false);
               } catch (err) {
@@ -1203,6 +1316,225 @@ export default function AdminPanel() {
                   {tPendientes("empty")}
                 </p>
               ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "descuentos" ? (
+          <section className="grid gap-5 lg:grid-cols-[22rem_1fr]">
+            <form
+              onSubmit={crearDescuento}
+              className="space-y-3 rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5"
+            >
+              <h2 className="text-xl font-bold text-[var(--txt)]">
+                {tDescuentos("createTitle")}
+              </h2>
+
+              <label className="block text-sm font-semibold text-[var(--txt2)]">
+                {tDescuentos("code")}
+                <input
+                  required
+                  value={formDescuento.codigo}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({
+                      ...f,
+                      codigo: e.target.value.toUpperCase(),
+                    }))
+                  }
+                  placeholder="OPOGEN20"
+                  className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm text-[var(--txt)]"
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--txt2)]">
+                {tDescuentos("type")}
+                <select
+                  value={formDescuento.tipo}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({
+                      ...f,
+                      tipo: e.target.value as "porcentaje" | "importe",
+                    }))
+                  }
+                  className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm text-[var(--txt)]"
+                >
+                  <option value="porcentaje">{tDescuentos("percent")}</option>
+                  <option value="importe">{tDescuentos("amount")}</option>
+                </select>
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--txt2)]">
+                {tDescuentos("value")}
+                <input
+                  required
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={formDescuento.valor}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({ ...f, valor: e.target.value }))
+                  }
+                  className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm text-[var(--txt)]"
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--txt2)]">
+                {tDescuentos("startDate")}
+                <input
+                  required
+                  type="date"
+                  value={formDescuento.fechaInicio}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({
+                      ...f,
+                      fechaInicio: e.target.value,
+                    }))
+                  }
+                  className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm text-[var(--txt)]"
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--txt2)]">
+                {tDescuentos("endDate")}
+                <input
+                  type="date"
+                  value={formDescuento.fechaFin}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({
+                      ...f,
+                      fechaFin: e.target.value,
+                    }))
+                  }
+                  className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2 text-sm text-[var(--txt)]"
+                />
+              </label>
+
+              <label className="flex items-center gap-2 text-sm font-semibold text-[var(--txt2)]">
+                <input
+                  type="checkbox"
+                  checked={formDescuento.activo}
+                  onChange={(e) =>
+                    setFormDescuento((f) => ({
+                      ...f,
+                      activo: e.target.checked,
+                    }))
+                  }
+                  className="h-4 w-4 accent-[var(--azul)]"
+                />
+                {tDescuentos("active")}
+              </label>
+
+              {errorDescuentos ? (
+                <p className="rounded-lg bg-[var(--err)] px-3 py-2 text-xs font-semibold text-[var(--err-t)]">
+                  {errorDescuentos}
+                </p>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={guardandoDescuento}
+                className="w-full rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] disabled:opacity-50"
+              >
+                {guardandoDescuento
+                  ? tDescuentos("saving")
+                  : tDescuentos("create")}
+              </button>
+            </form>
+
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-xl font-bold text-[var(--txt)]">
+                  {tDescuentos("listTitle")}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => void cargarDescuentos()}
+                  disabled={cargandoDescuentos}
+                  className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm font-bold text-[var(--txt)] disabled:opacity-50"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${cargandoDescuentos ? "animate-spin" : ""}`}
+                  />
+                  {tDescuentos("refresh")}
+                </button>
+              </div>
+
+              <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+                <table className="w-full min-w-[720px] text-left text-xs">
+                  <thead className="bg-[var(--card2)] text-[var(--txt3)]">
+                    <tr>
+                      {[
+                        tDescuentos("code"),
+                        tDescuentos("discount"),
+                        tDescuentos("startDate"),
+                        tDescuentos("endDate"),
+                        tDescuentos("status"),
+                        tDescuentos("uses"),
+                        tDescuentos("actions"),
+                      ].map((titulo) => (
+                        <th key={titulo} className="px-3 py-3 font-bold">
+                          {titulo}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {descuentos.map((descuento) => {
+                      const claseEstado =
+                        descuento.estado === "Activo"
+                          ? "bg-[var(--ok)] text-[var(--ok-t)]"
+                          : descuento.estado === "Programado"
+                            ? "bg-[var(--sel)] text-[var(--azul)]"
+                            : descuento.estado === "Caducado"
+                              ? "bg-[var(--ambar)] text-[var(--ambar-t)]"
+                              : "bg-[var(--suave2)] text-[var(--txt3)]";
+
+                      return (
+                        <tr
+                          key={descuento.promotionCodeId}
+                          className="border-t border-[var(--th)]"
+                        >
+                          <td className="px-3 py-3 font-mono font-bold">
+                            {descuento.codigo}
+                          </td>
+                          <td className="px-3 py-3">{descuento.descuento}</td>
+                          <td className="px-3 py-3">{descuento.fechaInicio}</td>
+                          <td className="px-3 py-3">
+                            {descuento.fechaFin || "—"}
+                          </td>
+                          <td className="px-3 py-3">
+                            <span
+                              className={`inline-flex rounded-full px-2 py-1 text-[10px] font-bold ${claseEstado}`}
+                            >
+                              {tDescuentos(`statuses.${descuento.estado}`)}
+                            </span>
+                          </td>
+                          <td className="px-3 py-3">{descuento.usos}</td>
+                          <td className="px-3 py-3">
+                            <button
+                              type="button"
+                              disabled={guardandoDescuento}
+                              onClick={() => void alternarDescuento(descuento)}
+                              className="rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2.5 py-1.5 font-bold text-[var(--txt)] disabled:opacity-50"
+                            >
+                              {descuento.estado === "Activo" ||
+                              descuento.estado === "Programado"
+                                ? tDescuentos("deactivate")
+                                : tDescuentos("activate")}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+
+                {!cargandoDescuentos && descuentos.length === 0 ? (
+                  <p className="px-4 py-8 text-center text-sm text-[var(--txt3)]">
+                    {tDescuentos("empty")}
+                  </p>
+                ) : null}
+              </div>
             </div>
           </section>
         ) : null}

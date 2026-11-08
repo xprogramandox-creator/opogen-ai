@@ -738,5 +738,37 @@
     "empty": "Keine Benutzer ausstehender Bestätigung.",
     "confirmDelete": "Diesen Benutzer und alle seine Daten endgültig löschen?",
     "error": "Ausstehende Benutzer konnten nicht geladen werden."
+  },
+  "AdminDiscounts": {
+    "tab": "Rabatte",
+    "createTitle": "Rabattcode erstellen",
+    "code": "Code",
+    "type": "Rabattart",
+    "percent": "Prozentsatz (%)",
+    "amount": "Festbetrag (€)",
+    "value": "Wert",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "active": "Aktiv",
+    "create": "Rabatt erstellen",
+    "saving": "Wird gespeichert…",
+    "listTitle": "Rabattcodes",
+    "discount": "Rabatt",
+    "status": "Status",
+    "uses": "Nutzungen",
+    "actions": "Aktionen",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren",
+    "refresh": "Aktualisieren",
+    "empty": "Keine Rabattcodes vorhanden.",
+    "error": "Rabatte konnten nicht geladen werden.",
+    "createError": "Rabatt konnte nicht erstellt werden.",
+    "updateError": "Rabatt konnte nicht aktualisiert werden.",
+    "statuses": {
+      "Activo": "Aktiv",
+      "Programado": "Geplant",
+      "Caducado": "Abgelaufen",
+      "Inactivo": "Inaktiv"
+    }
   }
 }

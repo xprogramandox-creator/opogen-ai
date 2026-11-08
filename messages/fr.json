@@ -738,5 +738,37 @@
     "empty": "Aucun utilisateur en attente de vérification.",
     "confirmDelete": "Supprimer définitivement cet utilisateur et toutes ses données ?",
     "error": "Impossible de charger les utilisateurs en attente."
+  },
+  "AdminDiscounts": {
+    "tab": "Réductions",
+    "createTitle": "Créer un code de réduction",
+    "code": "Code",
+    "type": "Type de réduction",
+    "percent": "Pourcentage (%)",
+    "amount": "Montant fixe (€)",
+    "value": "Valeur",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "active": "Actif",
+    "create": "Créer la réduction",
+    "saving": "Enregistrement…",
+    "listTitle": "Codes de réduction",
+    "discount": "Réduction",
+    "status": "Statut",
+    "uses": "Utilisations",
+    "actions": "Actions",
+    "activate": "Activer",
+    "deactivate": "Désactiver",
+    "refresh": "Actualiser",
+    "empty": "Aucun code de réduction.",
+    "error": "Impossible de charger les réductions.",
+    "createError": "Impossible de créer la réduction.",
+    "updateError": "Impossible de mettre à jour la réduction.",
+    "statuses": {
+      "Activo": "Actif",
+      "Programado": "Programmé",
+      "Caducado": "Expiré",
+      "Inactivo": "Inactif"
+    }
   }
 }

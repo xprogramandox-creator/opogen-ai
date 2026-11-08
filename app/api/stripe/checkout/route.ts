@@ -10,6 +10,7 @@ import {
   esPlanStripe,
 } from "@/lib/stripe-precios";
 import { obtenerUrlBase } from "@/lib/url-base";
+import { sincronizarPromocionesVigentes } from "@/lib/descuentos";
 
 export async function POST(request: Request) {
   const cuerpo: unknown = await request.json().catch(() => null);
@@ -73,11 +74,16 @@ export async function POST(request: Request) {
   };
 
   try {
+    await sincronizarPromocionesVigentes().catch((error) => {
+      console.warn("[Stripe checkout] No se sincronizaron los descuentos", error);
+    });
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: PRECIOS_STRIPE[plan], quantity: 1 }],
       success_url: `${origen}/dashboard?checkout=success`,
       cancel_url: `${origen}/premium?checkout=cancel`,
+      allow_promotion_codes: true,
       metadata,
       subscription_data: { metadata },
       client_reference_id: usuario.clave,

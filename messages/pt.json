@@ -738,5 +738,37 @@
     "empty": "Não existem utilizadores pendentes de verificação.",
     "confirmDelete": "Eliminar definitivamente este utilizador e todos os seus dados?",
     "error": "Não foi possível carregar os utilizadores pendentes."
+  },
+  "AdminDiscounts": {
+    "tab": "Descontos",
+    "createTitle": "Criar código de desconto",
+    "code": "Código",
+    "type": "Tipo de desconto",
+    "percent": "Percentagem (%)",
+    "amount": "Valor fixo (€)",
+    "value": "Valor",
+    "startDate": "Data de início",
+    "endDate": "Data de fim",
+    "active": "Ativo",
+    "create": "Criar desconto",
+    "saving": "A guardar…",
+    "listTitle": "Códigos de desconto",
+    "discount": "Desconto",
+    "status": "Estado",
+    "uses": "Utilizações",
+    "actions": "Ações",
+    "activate": "Ativar",
+    "deactivate": "Desativar",
+    "refresh": "Atualizar",
+    "empty": "Não existem códigos de desconto.",
+    "error": "Não foi possível carregar os descontos.",
+    "createError": "Não foi possível criar o desconto.",
+    "updateError": "Não foi possível atualizar o desconto.",
+    "statuses": {
+      "Activo": "Ativo",
+      "Programado": "Programado",
+      "Caducado": "Expirado",
+      "Inactivo": "Inativo"
+    }
   }
 }

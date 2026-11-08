@@ -738,5 +738,37 @@
     "empty": "There are no users pending verification.",
     "confirmDelete": "Permanently delete this user and all their data?",
     "error": "Could not load pending users."
+  },
+  "AdminDiscounts": {
+    "tab": "Discounts",
+    "createTitle": "Create discount code",
+    "code": "Code",
+    "type": "Discount type",
+    "percent": "Percentage (%)",
+    "amount": "Fixed amount (€)",
+    "value": "Value",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "active": "Active",
+    "create": "Create discount",
+    "saving": "Saving…",
+    "listTitle": "Discount codes",
+    "discount": "Discount",
+    "status": "Status",
+    "uses": "Uses",
+    "actions": "Actions",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "refresh": "Refresh",
+    "empty": "There are no discount codes.",
+    "error": "Could not load discounts.",
+    "createError": "Could not create the discount.",
+    "updateError": "Could not update the discount.",
+    "statuses": {
+      "Activo": "Active",
+      "Programado": "Scheduled",
+      "Caducado": "Expired",
+      "Inactivo": "Inactive"
+    }
   }
 }

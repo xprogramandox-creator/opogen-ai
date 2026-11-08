@@ -166,6 +166,18 @@ function abrirDb(): DatabaseSync {
         ultima_actividad TEXT NOT NULL,
         UNIQUE(session_id, dia)
       );
+      CREATE TABLE IF NOT EXISTS descuentos_stripe (
+        codigo TEXT PRIMARY KEY,
+        promotion_code_id TEXT NOT NULL UNIQUE,
+        coupon_id TEXT NOT NULL,
+        tipo TEXT NOT NULL CHECK (tipo IN ('porcentaje', 'importe')),
+        valor REAL NOT NULL,
+        fecha_inicio TEXT NOT NULL,
+        fecha_fin TEXT,
+        activo_manual INTEGER NOT NULL DEFAULT 1,
+        creado TEXT NOT NULL,
+        actualizado TEXT NOT NULL
+      );
       CREATE INDEX IF NOT EXISTS idx_pendientes_clave ON registros_pendientes(clave);
       CREATE INDEX IF NOT EXISTS idx_pendientes_correo ON registros_pendientes(correo);
       CREATE INDEX IF NOT EXISTS idx_usuarios_rol ON usuarios(rol);
@@ -510,8 +522,111 @@ export function eliminarUsuarioAdmin(clave: string): void {
   }
 }
 
-export function registrarLog(
-  administrador: string,
+export type DescuentoStripeDb = {
+  codigo: string;
+  promotionCodeId: string;
+  couponId: string;
+  tipo: "porcentaje" | "importe";
+  valor: number;
+  fechaInicio: string;
+  fechaFin: string | null;
+  activoManual: boolean;
+  creado: string;
+  actualizado: string;
+};
+
+type FilaDescuentoStripe = {
+  codigo: string;
+  promotion_code_id: string;
+  coupon_id: string;
+  tipo: string;
+  valor: number;
+  fecha_inicio: string;
+  fecha_fin: string | null;
+  activo_manual: number;
+  creado: string;
+  actualizado: string;
+};
+
+function mapearDescuento(
+  fila: FilaDescuentoStripe,
+): DescuentoStripeDb {
+  return {
+    codigo: fila.codigo,
+    promotionCodeId: fila.promotion_code_id,
+    couponId: fila.coupon_id,
+    tipo: fila.tipo === "importe" ? "importe" : "porcentaje",
+    valor: numero(fila.valor),
+    fechaInicio: fila.fecha_inicio,
+    fechaFin: fila.fecha_fin,
+    activoManual: Boolean(fila.activo_manual),
+    creado: fila.creado,
+    actualizado: fila.actualizado,
+  };
+}
+
+export function guardarDescuentoStripe(
+  descuento: Omit<DescuentoStripeDb, "creado" | "actualizado">,
+): void {
+  const ahora = new Date().toISOString();
+
+  abrirDb()
+    .prepare(
+      `INSERT INTO descuentos_stripe (
+        codigo, promotion_code_id, coupon_id, tipo, valor,
+        fecha_inicio, fecha_fin, activo_manual, creado, actualizado
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .run(
+      descuento.codigo,
+      descuento.promotionCodeId,
+      descuento.couponId,
+      descuento.tipo,
+      descuento.valor,
+      descuento.fechaInicio,
+      descuento.fechaFin,
+      descuento.activoManual ? 1 : 0,
+      ahora,
+      ahora,
+    );
+}
+
+export function listarDescuentosStripeDb(): DescuentoStripeDb[] {
+  const filas = abrirDb()
+    .prepare("SELECT * FROM descuentos_stripe ORDER BY creado DESC")
+    .all() as FilaDescuentoStripe[];
+
+  return filas.map(mapearDescuento);
+}
+
+export function actualizarActivoDescuentoStripe(
+  promotionCodeId: string,
+  activo: boolean,
+): void {
+  abrirDb()
+    .prepare(
+      `UPDATE descuentos_stripe
+       SET activo_manual = ?, actualizado = ?
+       WHERE promotion_code_id = ?`,
+    )
+    .run(
+      activo ? 1 : 0,
+      new Date().toISOString(),
+      promotionCodeId,
+    );
+}
+
+export function eliminarDescuentoStripeDb(
+  promotionCodeId: string,
+): void {
+  abrirDb()
+    .prepare(
+      "DELETE FROM descuentos_stripe WHERE promotion_code_id = ?",
+    )
+    .run(promotionCodeId);
+}
+
+export function registrarLog(  administrador: string,
   accion: string,
   detalle: string,
   ip: string,

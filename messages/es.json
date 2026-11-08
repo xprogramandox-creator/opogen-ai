@@ -738,5 +738,37 @@
     "empty": "No hay usuarios pendientes de verificación.",
     "confirmDelete": "¿Eliminar definitivamente este usuario y todos sus datos?",
     "error": "No se pudieron cargar los usuarios pendientes."
+  },
+  "AdminDiscounts": {
+    "tab": "Descuentos",
+    "createTitle": "Crear código de descuento",
+    "code": "Código",
+    "type": "Tipo de descuento",
+    "percent": "Porcentaje (%)",
+    "amount": "Cantidad fija (€)",
+    "value": "Valor",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "active": "Activo",
+    "create": "Crear descuento",
+    "saving": "Guardando…",
+    "listTitle": "Códigos de descuento",
+    "discount": "Descuento",
+    "status": "Estado",
+    "uses": "Usos",
+    "actions": "Acciones",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "refresh": "Actualizar",
+    "empty": "No hay códigos de descuento.",
+    "error": "No se pudieron cargar los descuentos.",
+    "createError": "No se pudo crear el descuento.",
+    "updateError": "No se pudo actualizar el descuento.",
+    "statuses": {
+      "Activo": "Activo",
+      "Programado": "Programado",
+      "Caducado": "Caducado",
+      "Inactivo": "Inactivo"
+    }
   }
 }
