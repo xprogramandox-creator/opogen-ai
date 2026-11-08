@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { rm } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -32,6 +33,8 @@ import {
   verificarCsrfAdmin,
 } from "@/lib/admin-panel-auth";
 import { correoValido, nombreValido } from "@/lib/validacion";
+import { enviarCorreoVerificacion } from "@/lib/email";
+import { crearEnlaceVerificacion } from "@/lib/url-base";
 
 const PLANES = new Set(["", "mensual", "semestral", "anual", "ilimitado"]);
 const ROLES = new Set(["freemium", "premium"]);
@@ -117,6 +120,7 @@ export async function POST(request: Request) {
   const fechaPago = fecha(datos.fechaPago);
   const fechaCaducidad = fecha(datos.fechaCaducidad);
   const registrarPagoNuevo = datos.registrarPago === true;
+  const marcarVerificado = datos.emailVerificado !== false;
 
   if (!ROLES.has(rol)) {
     return NextResponse.json(
@@ -186,6 +190,13 @@ export async function POST(request: Request) {
       }
 
       const ahora = new Date();
+      const tokenVerificacion = marcarVerificado
+        ? undefined
+        : randomUUID();
+      const tokenVerificacionExpira = marcarVerificado
+        ? undefined
+        : Date.now() + 24 * 60 * 60 * 1000;
+
       await guardarUsuario({
         clave,
         telefono: clave,
@@ -194,7 +205,9 @@ export async function POST(request: Request) {
         correo,
         passwordHash: await hashPassword(password),
         rol: rol as "freemium" | "premium",
-        emailVerificado: true,
+        emailVerificado: marcarVerificado,
+        tokenVerificacion,
+        tokenVerificacionExpira,
         fechaInicio:
           rol === "premium" ? fechaPago || ahora.toISOString() : undefined,
         fechaCaducidad:
@@ -205,6 +218,28 @@ export async function POST(request: Request) {
               : undefined,
         planContratado: rol === "premium" ? plan : undefined,
       });
+
+      if (!marcarVerificado && tokenVerificacion) {
+        const enlace = crearEnlaceVerificacion(
+          tokenVerificacion,
+          new URL(request.url).origin,
+        );
+
+        console.log("[admin] Enviando verificación a usuario creado", {
+          clave,
+          correo,
+          enlace,
+        });
+
+        try {
+          await enviarCorreoVerificacion(correo, enlace);
+        } catch (error) {
+          console.error(
+            "[admin] No se pudo enviar el correo de verificación",
+            error,
+          );
+        }
+      }
     } else {
       const usuario = await leerUsuario(clave);
 

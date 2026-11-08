@@ -141,6 +141,7 @@ const FORM_VACIO = {
   fechaPago: "",
   fechaCaducidad: "",
   registrarPago: false,
+  emailVerificado: true,
 };
 
 function dinero(valor: number): string {
@@ -541,6 +542,7 @@ export default function AdminPanel() {
       fechaPago: usuario.fechaPago?.slice(0, 10) || "",
       fechaCaducidad: usuario.fechaCaducidad?.slice(0, 10) || "",
       registrarPago: false,
+      emailVerificado: usuario.emailVerificado,
     });
     setModal("editar");
   };
@@ -1778,6 +1780,21 @@ export default function AdminPanel() {
                   <label className="text-sm">Fecha de caducidad<input type="date" value={form.fechaCaducidad} onChange={(e) => setForm((f) => ({ ...f, fechaCaducidad: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
                   <label className="text-sm">Contraseña {modal === "editar" ? "(opcional)" : ""}<input type="password" required={modal === "crear"} value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} className="mt-1 w-full rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-2" /></label>
                   <label className="flex items-center gap-2 self-end text-sm"><input type="checkbox" checked={form.registrarPago} onChange={(e) => setForm((f) => ({ ...f, registrarPago: e.target.checked }))} /> Registrar pago en histórico</label>
+                  {modal === "crear" ? (
+                    <label className="flex items-center gap-2 self-end text-sm">
+                      <input
+                        type="checkbox"
+                        checked={form.emailVerificado}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            emailVerificado: e.target.checked,
+                          }))
+                        }
+                      />
+                      Marcar como verificado
+                    </label>
+                  ) : null}
                 </div>
                 <div className="flex justify-end gap-2 pt-2"><button type="button" onClick={() => setModal(null)} className="rounded-lg border px-4 py-2 text-sm">Cancelar</button><button type="submit" disabled={guardando} className="rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white">{guardando ? "Guardando…" : "Guardar"}</button></div>
               </form>
