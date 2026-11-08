@@ -240,7 +240,9 @@ export async function listarDescuentos(): Promise<DescuentoAdmin[]> {
   } while (startingAfter);
 
   const vistos = new Set<string>();
-  const resultado: DescuentoAdmin[] = promociones.map(
+  const resultado: DescuentoAdmin[] = promociones
+    .filter((promocion) => db.has(promocion.id))
+    .map(
     (promocion) => {
       vistos.add(promocion.id);
 
@@ -326,15 +328,6 @@ export async function actualizarActivoDescuento(
   actualizarActivoDescuentoStripe(promotionCodeId, activo);
 }
 
-function esNoEncontrado(error: unknown): boolean {
-  return Boolean(
-    error &&
-      typeof error === "object" &&
-      "code" in error &&
-      (error as { code?: string }).code === "resource_missing",
-  );
-}
-
 export async function eliminarDescuento(
   promotionCodeId: string,
 ): Promise<void> {
@@ -344,6 +337,8 @@ export async function eliminarDescuento(
 
   let couponId = fila?.couponId || "";
 
+  // Stripe es best-effort: si el código ya no existe o la API falla, el
+  // borrado local debe continuar igualmente.
   if (!couponId) {
     try {
       const promocion = await stripe.promotionCodes.retrieve(
@@ -358,7 +353,10 @@ export async function eliminarDescuento(
         couponId = cupon;
       }
     } catch (error) {
-      if (!esNoEncontrado(error)) throw error;
+      console.warn(
+        "[descuentos] No se pudo recuperar el cupón en Stripe",
+        error,
+      );
     }
   }
 
@@ -369,18 +367,39 @@ export async function eliminarDescuento(
       active: false,
     });
   } catch (error) {
-    if (!esNoEncontrado(error)) throw error;
+    console.warn(
+      "[descuentos] No se pudo desactivar el Promotion Code; se continúa",
+      error,
+    );
   }
 
   if (couponId) {
     try {
       await stripe.coupons.del(couponId);
     } catch (error) {
-      if (!esNoEncontrado(error)) throw error;
+      console.warn(
+        "[descuentos] No se pudo eliminar el cupón; se continúa",
+        error,
+      );
     }
   }
 
-  eliminarDescuentoStripeDb(promotionCodeId);
+  try {
+    const cambios = eliminarDescuentoStripeDb(promotionCodeId);
+
+    console.log("[descuentos] Código eliminado de SQLite", {
+      promotionCodeId,
+      cambios,
+    });
+  } catch (error) {
+    console.error(
+      "[descuentos] Error obligatorio al borrar SQLite",
+      error,
+    );
+    throw new Error(
+      "No se pudo eliminar el código de la base de datos. Inténtalo de nuevo.",
+    );
+  }
 }
 
 export { estadoDescuento };

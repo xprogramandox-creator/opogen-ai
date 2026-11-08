@@ -620,12 +620,14 @@ export function actualizarActivoDescuentoStripe(
 
 export function eliminarDescuentoStripeDb(
   promotionCodeId: string,
-): void {
-  abrirDb()
+): number {
+  const resultado = abrirDb()
     .prepare(
       "DELETE FROM descuentos_stripe WHERE promotion_code_id = ?",
     )
     .run(promotionCodeId);
+
+  return Number(resultado.changes ?? 0);
 }
 
 export function registrarLog(  administrador: string,
