@@ -64,7 +64,9 @@ export async function GET(request: Request) {
     return acceso;
   }
 
-  await sincronizarUsuarios();
+  // No se sincroniza aquí: sincronizarUsuarios() recalcula precios canónicos
+  // y puede sobrescribir el importe real pagado (descuentos). El listado debe
+  // leer directamente los valores persistidos en SQLite.
   const params = new URL(request.url).searchParams;
   const resultado = listarUsuariosAdmin({
     busqueda: params.get("busqueda") || "",
