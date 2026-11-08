@@ -189,19 +189,38 @@ export async function POST(request: Request) {
           fechaInicio.toISOString(),
         );
 
-        // El importe debe corresponder al plan contratado, no al pago
-        // anterior del usuario.
-        const precioBase = precioBasePlan(plan);
+        // Asegura que el usuario ya existe en el índice administrativo sin
+        // crear un pago con el precio canónico del plan.
+        await sincronizarUsuarios(false);
+
+        const totalCentimos =
+          typeof sesion.amount_total === "number"
+            ? sesion.amount_total
+            : typeof sesion.amount_subtotal === "number"
+              ? sesion.amount_subtotal
+              : null;
+        const totalPagado =
+          totalCentimos === null ? null : totalCentimos / 100;
+        const ivaConfig = obtenerIvaConfig();
+        const precioBase =
+          totalPagado === null
+            ? precioBasePlan(plan)
+            : totalPagado / (1 + ivaConfig / 100);
+        const baseRedondeada =
+          Math.round(precioBase * 100) / 100;
         const ivaPago =
-          Math.round(
-            precioBase * (obtenerIvaConfig() / 100) * 100,
-          ) / 100;
+          totalPagado === null
+            ? Math.round(
+                baseRedondeada * (ivaConfig / 100) * 100,
+              ) / 100
+            : Math.round((totalPagado - baseRedondeada) * 100) / 100;
 
         guardarPreciosUsuario(
           userId,
-          precioBase,
+          baseRedondeada,
           ivaPago,
           fechaInicio.toISOString(),
+          totalPagado ?? undefined,
         );
 
         const usuarioAdmin = obtenerUsuarioAdmin(userId);
@@ -217,6 +236,9 @@ export async function POST(request: Request) {
         console.log("[Stripe webhook] Usuario actualizado a Premium", {
           userId,
           plan,
+          importeStripe: totalPagado,
+          precioBase: baseRedondeada,
+          iva: ivaPago,
           fechaInicio: fechaInicio.toISOString(),
           fechaCaducidad: fechaCaducidad.toISOString(),
         });

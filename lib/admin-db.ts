@@ -330,7 +330,9 @@ function convertir(fila: FilaUsuario): UsuarioAdmin {
 }
 
 /** Sincroniza los usuarios de los archivos con el índice administrativo. */
-export async function sincronizarUsuarios(): Promise<void> {
+export async function sincronizarUsuarios(
+  crearPagos = true,
+): Promise<void> {
   const db = abrirDb();
   const iva = obtenerIva() / 100;
   const usuarios = await listarUsuarios();
@@ -461,7 +463,7 @@ export async function sincronizarUsuarios(): Promise<void> {
       );
     }
 
-    if (usuario.rol === "premium" && plan) {
+    if (crearPagos && usuario.rol === "premium" && plan) {
       const pago = db
         .prepare("SELECT id FROM pagos WHERE usuario_clave = ? LIMIT 1")
         .get(usuario.clave);
@@ -727,9 +729,14 @@ export function guardarPreciosUsuario(
   precioBase: number,
   iva: number,
   fechaPago: string | null,
+  totalPagado?: number,
 ): void {
   const baseRedondeada = redondearMoneda(precioBase);
   const ivaRedondeado = redondearMoneda(iva);
+  const totalRedondeado =
+    typeof totalPagado === "number"
+      ? redondearMoneda(totalPagado)
+      : redondearMoneda(baseRedondeada + ivaRedondeado);
 
   abrirDb().prepare(
     `UPDATE usuarios SET precio_base = ?, iva = ?, total = ?, fecha_pago = ?
@@ -737,7 +744,7 @@ export function guardarPreciosUsuario(
   ).run(
     baseRedondeada,
     ivaRedondeado,
-    redondearMoneda(baseRedondeada + ivaRedondeado),
+    totalRedondeado,
     fechaPago,
     clave,
   );
