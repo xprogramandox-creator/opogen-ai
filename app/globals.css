@@ -356,6 +356,21 @@ button:disabled {
   }
 }
 
+.arcade-loading-title {
+  animation: arcade-loading-pulse 1.8s ease-in-out infinite;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes arcade-loading-pulse {
+  0%,
+  100% {
+    opacity: 0.78;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Letras de la pantalla de carga del Arcade. */
 .letra-encendida {
   display: inline-block;

@@ -1236,19 +1236,17 @@ export default function ArcadePage() {
           <section id="loading" className={`screen ${vista.pantalla === "loading" ? "active" : ""} flex h-full flex-col items-center justify-center`}>
             <h1
               aria-label="Generando la partida"
-              className="px-4 text-center font-sans text-3xl font-bold tracking-tight sm:text-4xl"
+              className="arcade-loading-title bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text px-4 text-center font-sans text-3xl font-bold tracking-tight text-transparent sm:text-4xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, var(--azul) 0%, #7c3aed 50%, #06b6d4 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              <span aria-hidden="true">
-                {"Generando la partida".split("").map((letra, indice) => (
-                  <span
-                    key={`${letra}-${indice}`}
-                    className="letra-encendida bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]"
-                    style={{ animationDelay: `${indice * 0.04}s` }}
-                  >
-                    {letra === " " ? "\u00A0" : letra}
-                  </span>
-                ))}
-              </span>
+              Generando la partida
             </h1>
           </section>
           <section id="game" className={`screen ${vista.pantalla === "game" ? "active" : ""}`}>
