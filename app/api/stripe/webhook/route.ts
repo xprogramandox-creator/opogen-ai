@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import {
   actualizarPlanContratado,
   actualizarSuscripcionUsuario,
+  buscarUsuarioPorCorreo,
   crearVerificacionPendiente,
   degradarUsuarioAFreemium,
   guardarUsuario,
@@ -72,7 +73,10 @@ export async function POST(request: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (error) {
-    console.error("[Stripe webhook] Firma no válida", error);
+    console.error(
+      "[Stripe webhook] Firma no válida. Comprueba que STRIPE_WEBHOOK_SECRET corresponde al endpoint LIVE de Stripe.",
+      error,
+    );
     return NextResponse.json(
       { error: "Firma de Stripe no válida." },
       { status: 400 },
@@ -81,17 +85,62 @@ export async function POST(request: Request) {
 
   if (evento.type === "checkout.session.completed") {
     const sesion = evento.data.object as Stripe.Checkout.Session;
-    const userId = sesion.metadata?.userId;
+    const customerId =
+      typeof sesion.customer === "string"
+        ? sesion.customer
+        : sesion.customer?.id || null;
+    const subscriptionId =
+      typeof sesion.subscription === "string"
+        ? sesion.subscription
+        : sesion.subscription?.id || null;
+    const emailCliente =
+      sesion.customer_details?.email ||
+      sesion.customer_email ||
+      null;
+
+    let userId =
+      sesion.metadata?.userId ||
+      sesion.client_reference_id ||
+      (typeof sesion.subscription !== "string"
+        ? sesion.subscription?.metadata?.userId
+        : undefined) ||
+      "";
+
+    if (!userId && emailCliente) {
+      const encontrado = await buscarUsuarioPorCorreo(emailCliente);
+      userId = encontrado?.usuario.clave || "";
+    }
+
+    console.log("[Stripe webhook] checkout.session.completed", {
+      eventoId: evento.id,
+      sesionId: sesion.id,
+      userId,
+      clientReferenceId: sesion.client_reference_id,
+      emailCliente,
+      customerId,
+      subscriptionId,
+      paymentStatus: sesion.payment_status,
+      amountTotal: sesion.amount_total,
+      currency: sesion.currency,
+      metadata: sesion.metadata,
+    });
 
     if (!userId) {
       console.error(
-        "[Stripe webhook] checkout.session.completed sin metadata.userId",
-        sesion.id,
+        "[Stripe webhook] checkout.session.completed sin userId identificable",
+        {
+          sesionId: sesion.id,
+          clientReferenceId: sesion.client_reference_id,
+          emailCliente,
+        },
       );
-      return NextResponse.json(
-        { error: "Falta metadata.userId." },
-        { status: 400 },
-      );
+
+      // No devolvemos 500: un reintento no puede recuperar un userId que
+      // no venía en la sesión. Queda registrado para revisión manual.
+      return NextResponse.json({
+        received: true,
+        ignored: "sin_user_id",
+      });
     }
 
     try {
@@ -118,18 +167,9 @@ export async function POST(request: Request) {
 
       await migrarUsuarioAPremium(userId);
 
-      const customerId =
-        typeof sesion.customer === "string"
-          ? sesion.customer
-          : sesion.customer?.id;
-      const subscriptionId =
-        typeof sesion.subscription === "string"
-          ? sesion.subscription
-          : sesion.subscription?.id;
-
       await actualizarSuscripcionUsuario(userId, {
-        customerId,
-        subscriptionId,
+        customerId: customerId || undefined,
+        subscriptionId: subscriptionId || undefined,
       });
 
       const plan = sesion.metadata?.plan;
@@ -172,6 +212,18 @@ export async function POST(request: Request) {
             sesion.id,
           );
         }
+
+        console.log("[Stripe webhook] Usuario actualizado a Premium", {
+          userId,
+          plan,
+          fechaInicio: fechaInicio.toISOString(),
+          fechaCaducidad: fechaCaducidad.toISOString(),
+        });
+      } else {
+        console.warn(
+          "[Stripe webhook] Pago completado sin plan válido en metadata",
+          { userId, plan },
+        );
       }
 
       const verificacion = await crearVerificacionPendiente(userId);
