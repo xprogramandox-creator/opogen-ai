@@ -2,19 +2,18 @@
  * IDs de precio de Stripe para cada plan.
  *
  * Se pueden sobrescribir con variables de entorno. Los valores de respaldo
- * son los IDs históricos del proyecto y deben coincidir con el modo de la
- * clave de Stripe (test o live).
+ * son los IDs LIVE actuales del proyecto.
  */
 export const PRECIOS_STRIPE = {
   mensual:
     process.env.STRIPE_PRICE_MENSUAL?.trim() ||
-    "price_1UW1VhI5YopvqVk9GrMsstVS",
+    "price_1UZMIYEcQCiUR7vYJZCg7gVk",
   semestral:
     process.env.STRIPE_PRICE_SEMESTRAL?.trim() ||
-    "price_1UW1aeI5YopvqVk9d2enCalc",
+    "price_1UZMRVEcQCiUR7vYYQQIbTRM",
   anual:
     process.env.STRIPE_PRICE_ANUAL?.trim() ||
-    "price_1UW1c2I5YopvqVk97crubtT0",
+    "price_1UZMTCEcQCiUR7vYotTPE1oz",
 } as const;
 
 export type PlanStripe = keyof typeof PRECIOS_STRIPE;
