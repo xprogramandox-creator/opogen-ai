@@ -19,6 +19,7 @@ import {
   obtenerUsuarioAdmin,
   precioBasePlan,
   registrarPagoUnico,
+  sincronizarUsuarios,
 } from "@/lib/admin-db";
 import { enviarCorreoVerificacion } from "@/lib/email";
 import { stripe } from "@/lib/stripe";
@@ -243,6 +244,13 @@ export async function POST(request: Request) {
           );
         }
       }
+
+      // Refresca el índice del panel para que el cambio de rol no se quede
+      // únicamente en datos.txt.
+      await sincronizarUsuarios();
+      console.log("[Stripe webhook] Índice del panel sincronizado", {
+        userId,
+      });
     } catch (error) {
       console.error("[Stripe webhook] Error al migrar a Premium", error);
       return NextResponse.json(
