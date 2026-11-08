@@ -1,6 +1,7 @@
 import { stripe } from "@/lib/stripe";
 import {
   actualizarActivoDescuentoStripe,
+  eliminarDescuentoStripeDb,
   guardarDescuentoStripe,
   listarDescuentosStripeDb,
 } from "@/lib/admin-db";
@@ -323,6 +324,64 @@ export async function actualizarActivoDescuento(
     active: puedeEstarActivo,
   });
   actualizarActivoDescuentoStripe(promotionCodeId, activo);
+}
+
+function esNoEncontrado(error: unknown): boolean {
+  return Boolean(
+    error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "resource_missing",
+  );
+}
+
+export async function eliminarDescuento(
+  promotionCodeId: string,
+): Promise<void> {
+  const fila = listarDescuentosStripeDb().find(
+    (item) => item.promotionCodeId === promotionCodeId,
+  );
+
+  let couponId = fila?.couponId || "";
+
+  if (!couponId) {
+    try {
+      const promocion = await stripe.promotionCodes.retrieve(
+        promotionCodeId,
+        { expand: ["promotion.coupon"] },
+      );
+      const cupon = promocion.promotion.coupon;
+
+      if (cupon && typeof cupon !== "string") {
+        couponId = cupon.id;
+      } else if (typeof cupon === "string") {
+        couponId = cupon;
+      }
+    } catch (error) {
+      if (!esNoEncontrado(error)) throw error;
+    }
+  }
+
+  try {
+    // El SDK de esta versión no expone promotionCodes.del; se usa la API
+    // HTTP oficial para borrar el Promotion Code.
+    await stripe.rawRequest(
+      "DELETE",
+      `/v1/promotion_codes/${encodeURIComponent(promotionCodeId)}`,
+    );
+  } catch (error) {
+    if (!esNoEncontrado(error)) throw error;
+  }
+
+  if (couponId) {
+    try {
+      await stripe.coupons.del(couponId);
+    } catch (error) {
+      if (!esNoEncontrado(error)) throw error;
+    }
+  }
+
+  eliminarDescuentoStripeDb(promotionCodeId);
 }
 
 export { estadoDescuento };

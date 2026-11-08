@@ -769,6 +769,9 @@
       "Programado": "Programmé",
       "Caducado": "Expiré",
       "Inactivo": "Inactif"
-    }
+    },
+    "delete": "Supprimer",
+    "confirmDelete": "Supprimer ce code de réduction et son coupon Stripe ? Cette action est irréversible.",
+    "deleteError": "Impossible de supprimer la réduction."
   }
 }

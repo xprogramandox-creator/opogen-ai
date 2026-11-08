@@ -769,6 +769,9 @@
       "Programado": "Geplant",
       "Caducado": "Abgelaufen",
       "Inactivo": "Inaktiv"
-    }
+    },
+    "delete": "Löschen",
+    "confirmDelete": "Diesen Rabattcode und seinen Stripe-Coupon löschen? Dies kann nicht rückgängig gemacht werden.",
+    "deleteError": "Der Rabatt konnte nicht gelöscht werden."
   }
 }

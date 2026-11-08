@@ -769,6 +769,9 @@
       "Programado": "Programado",
       "Caducado": "Caducado",
       "Inactivo": "Inactivo"
-    }
+    },
+    "delete": "Eliminar",
+    "confirmDelete": "¿Eliminar este código de descuento y su cupón de Stripe? Esta acción no se puede deshacer.",
+    "deleteError": "No se pudo eliminar el descuento."
   }
 }

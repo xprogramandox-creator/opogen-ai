@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   actualizarActivoDescuento,
   crearDescuento,
+  eliminarDescuento,
   listarDescuentos,
 } from "@/lib/descuentos";
 import {
@@ -137,6 +138,57 @@ export async function POST(request: Request) {
       err instanceof Error
         ? err.message
         : "No se pudo crear el descuento.",
+      502,
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  const acceso = await exigirAdminPanel(request);
+  if (acceso instanceof NextResponse) return acceso;
+
+  if (!(await verificarCsrfAdmin(request))) {
+    return respuestaCsrfInvalida();
+  }
+
+  if (!limitarAccionAdmin(request, "descuentos-eliminar")) {
+    return error("Demasiadas acciones. Espera un minuto.", 429);
+  }
+
+  const cuerpo: unknown = await request.json().catch(() => null);
+
+  if (!cuerpo || typeof cuerpo !== "object") {
+    return error("Solicitud no válida.");
+  }
+
+  const promotionCodeId =
+    typeof (cuerpo as { promotionCodeId?: unknown })
+      .promotionCodeId === "string"
+      ? (cuerpo as { promotionCodeId: string }).promotionCodeId.trim()
+      : "";
+
+  if (!promotionCodeId.startsWith("promo_")) {
+    return error("Código de promoción no válido.");
+  }
+
+  try {
+    await eliminarDescuento(promotionCodeId);
+
+    registrarLog(
+      acceso.admin.clave,
+      "Eliminar descuento",
+      promotionCodeId,
+      acceso.ip,
+    );
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[admin/descuentos] Error al eliminar", err);
+
+    return error(
+      err instanceof Error
+        ? err.message
+        : "No se pudo eliminar el descuento.",
       502,
     );
   }

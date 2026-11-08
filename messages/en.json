@@ -769,6 +769,9 @@
       "Programado": "Scheduled",
       "Caducado": "Expired",
       "Inactivo": "Inactive"
-    }
+    },
+    "delete": "Delete",
+    "confirmDelete": "Delete this discount code and its Stripe coupon? This cannot be undone.",
+    "deleteError": "Could not delete the discount."
   }
 }

@@ -450,6 +450,33 @@ export default function AdminPanel() {
     }
   }
 
+  async function eliminarDescuentoUI(
+    descuento: DescuentoAdmin,
+  ) {
+    if (!window.confirm(tDescuentos("confirmDelete"))) return;
+
+    setErrorDescuentos("");
+    setGuardandoDescuento(true);
+
+    try {
+      await pedir("/api/admin/descuentos", {
+        method: "DELETE",
+        body: JSON.stringify({
+          promotionCodeId: descuento.promotionCodeId,
+        }),
+      });
+      await cargarDescuentos();
+    } catch (err) {
+      setErrorDescuentos(
+        err instanceof Error
+          ? err.message
+          : tDescuentos("deleteError"),
+      );
+    } finally {
+      setGuardandoDescuento(false);
+    }
+  }
+
   const cargarAnalitica = useCallback(
     async (fecha = fechaAnalitica) => {
       setCargandoAnalitica(true);
@@ -1513,17 +1540,32 @@ export default function AdminPanel() {
                           </td>
                           <td className="px-3 py-3">{descuento.usos}</td>
                           <td className="px-3 py-3">
-                            <button
-                              type="button"
-                              disabled={guardandoDescuento}
-                              onClick={() => void alternarDescuento(descuento)}
-                              className="rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2.5 py-1.5 font-bold text-[var(--txt)] disabled:opacity-50"
-                            >
-                              {descuento.estado === "Activo" ||
-                              descuento.estado === "Programado"
-                                ? tDescuentos("deactivate")
-                                : tDescuentos("activate")}
-                            </button>
+                            <div className="flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                disabled={guardandoDescuento}
+                                onClick={() => void alternarDescuento(descuento)}
+                                className="rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2.5 py-1.5 font-bold text-[var(--txt)] disabled:opacity-50"
+                              >
+                                {descuento.estado === "Activo" ||
+                                descuento.estado === "Programado"
+                                  ? tDescuentos("deactivate")
+                                  : tDescuentos("activate")}
+                              </button>
+
+                              <button
+                                type="button"
+                                disabled={guardandoDescuento}
+                                onClick={() =>
+                                  void eliminarDescuentoUI(descuento)
+                                }
+                                title={tDescuentos("delete")}
+                                aria-label={tDescuentos("delete")}
+                                className="rounded-lg border border-[var(--err-b)] bg-[var(--err)] p-1.5 text-[var(--err-t)] disabled:opacity-50"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       );
