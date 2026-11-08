@@ -359,7 +359,9 @@ button:disabled {
 /* Letras de la pantalla de carga del Arcade. */
 .letra-encendida {
   display: inline-block;
-  color: inherit;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
   animation: letra-encendida 0.9s ease-in-out infinite;
   will-change: opacity, transform;
 }
@@ -367,7 +369,7 @@ button:disabled {
 @keyframes letra-encendida {
   0%,
   100% {
-    opacity: 0.45;
+    opacity: 0.65;
     transform: translateY(0);
   }
   50% {

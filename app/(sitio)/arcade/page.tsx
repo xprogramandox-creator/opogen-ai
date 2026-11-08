@@ -1236,13 +1236,13 @@ export default function ArcadePage() {
           <section id="loading" className={`screen ${vista.pantalla === "loading" ? "active" : ""} flex h-full flex-col items-center justify-center`}>
             <h1
               aria-label="Generando la partida"
-              className="bg-gradient-to-r from-[var(--azul)] to-[var(--err-t)] bg-clip-text px-4 text-center text-3xl font-bold tracking-tight text-transparent sm:text-4xl"
+              className="px-4 text-center font-sans text-3xl font-bold tracking-tight sm:text-4xl"
             >
               <span aria-hidden="true">
                 {"Generando la partida".split("").map((letra, indice) => (
                   <span
                     key={`${letra}-${indice}`}
-                    className="letra-encendida"
+                    className="letra-encendida bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]"
                     style={{ animationDelay: `${indice * 0.04}s` }}
                   >
                     {letra === " " ? "\u00A0" : letra}
