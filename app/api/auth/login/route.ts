@@ -22,6 +22,10 @@ import {
 
 const MAX_INTENTOS_LOGIN = 7;
 const VENTANA_INTENTOS_MS = 60 * 60 * 1000;
+const MENSAJE_CREDENCIALES =
+  "Teléfono o contraseña incorrectos.";
+const MENSAJE_ERROR_INTERNO =
+  "No se pudo iniciar sesión. Inténtalo de nuevo.";
 
 function respuestaError(mensaje: string, estado: number) {
   return NextResponse.json({ error: mensaje }, { status: estado });
@@ -131,10 +135,7 @@ export async function POST(request: Request) {
       error: mensajeError(error),
     });
 
-    return respuestaError(
-      `No se pudo leer la cuenta: ${mensajeError(error)}`,
-      500,
-    );
+    return respuestaError(MENSAJE_ERROR_INTERNO, 500);
   }
 
   const usuario = lectura.usuario;
@@ -175,12 +176,9 @@ export async function POST(request: Request) {
 
   if (!usuario) {
     if (lectura.existe) {
-      return respuestaError(
-        `La cuenta existe en ${lectura.ruta}, pero no se pudo leer: ${
-          lectura.error || "formato no válido"
-        }`,
-        500,
-      );
+      // El archivo existe pero no se pudo interpretar. No revelamos la ruta
+      // ni el motivo técnico al cliente.
+      return respuestaError(MENSAJE_CREDENCIALES, 401);
     }
 
     // Registro pendiente: todavía no existe datos.txt, pero el teléfono
@@ -200,7 +198,7 @@ export async function POST(request: Request) {
       }
 
       if (!passwordPendienteCorrecta) {
-        return respuestaError("Contraseña incorrecta.", 401);
+        return respuestaError(MENSAJE_CREDENCIALES, 401);
       }
 
       return NextResponse.json(
@@ -213,14 +211,11 @@ export async function POST(request: Request) {
       );
     }
 
-    return respuestaError(
-      `Usuario no encontrado. Buscado en ${lectura.ruta}`,
-      404,
-    );
+    return respuestaError(MENSAJE_CREDENCIALES, 401);
   }
 
   if (!passwordCorrecta) {
-    return respuestaError("Contraseña incorrecta.", 401);
+    return respuestaError(MENSAJE_CREDENCIALES, 401);
   }
 
   if (
@@ -270,10 +265,7 @@ export async function POST(request: Request) {
       error: mensajeError(error),
     });
 
-    return respuestaError(
-      `No se pudo crear la sesión: ${mensajeError(error)}`,
-      500,
-    );
+    return respuestaError(MENSAJE_ERROR_INTERNO, 500);
   }
 
   return NextResponse.json({
