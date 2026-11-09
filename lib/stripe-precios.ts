@@ -1,19 +1,12 @@
 /**
- * IDs de precio de Stripe para cada plan.
- *
- * Se pueden sobrescribir con variables de entorno. Los valores de respaldo
- * son los IDs LIVE actuales del proyecto.
+ * IDs de precio LIVE de Stripe para cada plan.
+ * Los importes base son 9,00 €, 48,00 € y 69,42 €.
+ * No se leen de variables de entorno para evitar IDs obsoletos.
  */
 export const PRECIOS_STRIPE = {
-  mensual:
-    process.env.STRIPE_PRICE_MENSUAL?.trim() ||
-    "price_1UZzIJEcQCiUR7vYu7tKcYcb",
-  semestral:
-    process.env.STRIPE_PRICE_SEMESTRAL?.trim() ||
-    "price_1UZzIJEcQCiUR7vYuk0ixGWJ",
-  anual:
-    process.env.STRIPE_PRICE_ANUAL?.trim() ||
-    "price_1UZzIKEcQCiUR7vYRO0GwoSV",
+  mensual: "price_1Ua1eaEcQCiUR7vYK4J6AfTJ",
+  semestral: "price_1Ua1eaEcQCiUR7vYjK6MaNki",
+  anual: "price_1Ua1eaEcQCiUR7vYnwjbTaIA",
 } as const;
 
 export type PlanStripe = keyof typeof PRECIOS_STRIPE;
