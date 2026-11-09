@@ -49,7 +49,31 @@ export default function proxy(request: NextRequest) {
     new RegExp(`^/(${LOCALES.join("|")})/?$`).test(pathname);
 
   if (esPortada) {
-    return handleI18nRouting(request);
+    const response = handleI18nRouting(request);
+
+    // next-intl devuelve 307 por defecto. Para SEO usamos 308 permanente.
+    if (response.status === 307) {
+      const destino = response.headers.get("location");
+
+      if (destino) {
+        const permanente = NextResponse.redirect(
+          new URL(destino, request.url),
+          308,
+        );
+
+        for (const cookie of response.cookies.getAll()) {
+          permanente.cookies.set(
+            cookie.name,
+            cookie.value,
+            cookie,
+          );
+        }
+
+        return permanente;
+      }
+    }
+
+    return response;
   }
 
   // En el resto de rutas (que siguen sin prefijo) determinamos el idioma
@@ -57,6 +81,7 @@ export default function proxy(request: NextRequest) {
   const locale = detectarLocale(request);
   const headers = new Headers(request.headers);
   headers.set("x-opogen-locale", locale);
+  headers.set("x-opogen-pathname", pathname);
 
   // Las páginas no localizadas pueden recibir un prefijo de idioma
   // (/en/legal/aviso-legal). Se reescribe internamente a la ruta real

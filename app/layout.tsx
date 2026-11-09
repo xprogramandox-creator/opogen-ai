@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { SessionProvider } from "@/components/SessionProvider";
@@ -30,51 +30,75 @@ const newsreader = Newsreader({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "OpoGen AI | Exámenes tipo test con tus apuntes",
-    template: "%s | OpoGen AI",
-  },
-  description:
-    "Sube tus apuntes y genera exámenes tipo test personalizados para oposiciones, bachillerato, universidad y secundaria.",
-  applicationName: "OpoGen AI",
-  keywords: [
-    "exámenes",
-    "test",
-    "apuntes",
-    "inteligencia artificial",
-    "oposiciones",
-    "estudio",
-  ],
-  authors: [
-    {
-      name: "OpoGen AI",
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const cabeceras = await headers();
+  const pathname = cabeceras.get("x-opogen-pathname") || "/";
+  const sinPrefijo =
+    pathname.replace(
+      /^\/(?:es|en|fr|de|it|pt)(?=\/|$)/,
+      "",
+    ) || "/";
+  const canonicalPath =
+    sinPrefijo === "/"
+      ? `/${locale}`
+      : `/${locale}${sinPrefijo}`;
+  const canonical = new URL(
+    canonicalPath,
+    "https://opogenai.com",
+  ).toString();
+
+  return {
+    metadataBase: new URL("https://opogenai.com"),
+    alternates: {
+      canonical,
     },
-  ],
-  icons: {
-    icon: "/opogen-logo-nuevo.png",
-    shortcut: "/opogen-logo-nuevo.png",
-    apple: "/opogen-logo-nuevo.png",
-  },
-  openGraph: {
-    title: "OpoGen AI",
+    title: {
+      default: "OpoGen AI | Exámenes tipo test con tus apuntes",
+      template: "%s | OpoGen AI",
+    },
     description:
-      "Convierte tus apuntes en exámenes personalizados en segundos.",
-    type: "website",
-    locale: "es_ES",
-    siteName: "OpoGen AI",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "OpoGen AI",
-    description:
-      "Convierte tus apuntes en exámenes personalizados en segundos.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+      "Sube tus apuntes y genera exámenes tipo test personalizados para oposiciones, bachillerato, universidad y secundaria.",
+    applicationName: "OpoGen AI",
+    keywords: [
+      "exámenes",
+      "test",
+      "apuntes",
+      "inteligencia artificial",
+      "oposiciones",
+      "estudio",
+    ],
+    authors: [
+      {
+        name: "OpoGen AI",
+      },
+    ],
+    icons: {
+      icon: "/opogen-logo-nuevo.png",
+      shortcut: "/opogen-logo-nuevo.png",
+      apple: "/opogen-logo-nuevo.png",
+    },
+    openGraph: {
+      title: "OpoGen AI",
+      description:
+        "Convierte tus apuntes en exámenes personalizados en segundos.",
+      type: "website",
+      locale: "es_ES",
+      siteName: "OpoGen AI",
+      url: canonical,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "OpoGen AI",
+      description:
+        "Convierte tus apuntes en exámenes personalizados en segundos.",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
