@@ -779,5 +779,17 @@
   },
   "Checkout": {
     "vatIncluded": "IVA incluído"
+  },
+  "KidsLock": {
+    "title": "Desbloqueia o OpoGen Kids",
+    "subtitle": "Um espaço seguro e divertido para que os teus filhos aprendam a brincar, com todo o conteúdo desbloqueado.",
+    "cta": "Desbloquear o OpoGen Kids",
+    "benefits": {
+      "1": "Conteúdo adaptado à idade: Dos 3 aos 12 anos, com matérias divertidas como animais, espaço, história e matemática.",
+      "2": "Testes e jogos ilimitados: Sem limite de 3 por dia, para praticarem o quanto quiserem.",
+      "3": "Sem distrações: Um ambiente pensado apenas para aprender, sem anúncios nem conteúdo externo.",
+      "4": "Acompanhamento e controlo parental: decides quando e durante quanto tempo usam a plataforma.",
+      "5": "Aprender a brincar: acesso total ao Arcade e aos testes mais divertidos."
+    }
   }
 }

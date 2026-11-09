@@ -779,5 +779,17 @@
   },
   "Checkout": {
     "vatIncluded": "VAT included"
+  },
+  "KidsLock": {
+    "title": "Unlock OpoGen Kids",
+    "subtitle": "A safe and fun space where your children learn by playing, with all content unlocked.",
+    "cta": "Unlock OpoGen Kids",
+    "benefits": {
+      "1": "Age-appropriate content: From ages 3 to 12, with fun subjects such as animals, space, history and maths.",
+      "2": "Unlimited tests and games: No 3-a-day limit, so they can practise as much as they want.",
+      "3": "No distractions: An environment designed only for learning, with no ads or external content.",
+      "4": "Progress tracking and parental control: You decide when and for how long they use the platform.",
+      "5": "Learn by playing: Full access to the Arcade and the most fun tests."
+    }
   }
 }

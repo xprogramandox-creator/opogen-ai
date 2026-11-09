@@ -779,5 +779,17 @@
   },
   "Checkout": {
     "vatIncluded": "inkl. MwSt."
+  },
+  "KidsLock": {
+    "title": "OpoGen Kids freischalten",
+    "subtitle": "Ein sicherer und unterhaltsamer Ort, an dem deine Kinder spielerisch lernen – mit allen freigeschalteten Inhalten.",
+    "cta": "OpoGen Kids freischalten",
+    "benefits": {
+      "1": "Altersgerechte Inhalte: Von 3 bis 12 Jahren, mit spannenden Themen wie Tiere, Weltraum, Geschichte und Mathematik.",
+      "2": "Unbegrenzte Tests und Spiele: Kein Limit von 3 pro Tag, damit sie so viel üben können, wie sie möchten.",
+      "3": "Keine Ablenkungen: Eine Umgebung, die nur zum Lernen gedacht ist – ohne Werbung oder externe Inhalte.",
+      "4": "Fortschritt und elterliche Kontrolle: Du entscheidest, wann und wie lange sie die Plattform nutzen.",
+      "5": "Spielerisch lernen: Voller Zugang zur Arcade und zu den unterhaltsamsten Tests."
+    }
   }
 }
