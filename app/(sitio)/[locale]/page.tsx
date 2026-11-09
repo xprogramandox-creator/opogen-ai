@@ -78,7 +78,7 @@ export default async function LandingPage({
         {/* HERO */}
         <section
           aria-labelledby="titulo-principal"
-          className="relative z-10 border-b border-[#1f1b16]/10 bg-[#f7f4ee] dark:border-[#efe9de]/10 dark:bg-[#12110f]"
+          className="relative z-10 border-b border-[#1f1b16]/10 bg-transparent dark:border-[#efe9de]/10"
         >
           <div className="mx-auto max-w-6xl px-5 pb-20 pt-14 sm:px-6 lg:pb-28 lg:pt-24">
             <div className="animate-fade-in-up grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
