@@ -192,13 +192,13 @@
         },
         "semestral": {
           "name": "6 Monate",
-          "detail": "Du sparst 6 €",
+          "detail": "Du sparst 7,26 €",
           "badge": "Empfohlen",
           "price": "8€"
         },
         "annual": {
           "name": "12 Monate",
-          "detail": "Du sparst 24 €",
+          "detail": "Du sparst 46,68 €",
           "badge": "Bester Preis",
           "price": "7€"
         }

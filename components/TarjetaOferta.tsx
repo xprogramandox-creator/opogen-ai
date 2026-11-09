@@ -16,7 +16,7 @@ const planes = [
 const PRECIOS_BASE: Record<(typeof planes)[number]["id"], number> = {
   monthly: 9,
   semestral: 48,
-  annual: 84,
+  annual: 69.42,
 };
 
 const IVA = 0.21;

@@ -34,7 +34,7 @@ const PLANES: Record<
   },
   anual: {
     nombre: "Plan Anual",
-    precio: "101,64 €",
+    precio: "84,00 €",
     detalle: "Cada 12 meses",
   },
 };

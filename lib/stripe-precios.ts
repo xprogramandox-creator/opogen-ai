@@ -7,13 +7,13 @@
 export const PRECIOS_STRIPE = {
   mensual:
     process.env.STRIPE_PRICE_MENSUAL?.trim() ||
-    "price_1UZMIYEcQCiUR7vYJZCg7gVk",
+    "price_1UZzIJEcQCiUR7vYu7tKcYcb",
   semestral:
     process.env.STRIPE_PRICE_SEMESTRAL?.trim() ||
-    "price_1UZMRVEcQCiUR7vYYQQIbTRM",
+    "price_1UZzIJEcQCiUR7vYuk0ixGWJ",
   anual:
     process.env.STRIPE_PRICE_ANUAL?.trim() ||
-    "price_1UZMTCEcQCiUR7vYotTPE1oz",
+    "price_1UZzIKEcQCiUR7vYRO0GwoSV",
 } as const;
 
 export type PlanStripe = keyof typeof PRECIOS_STRIPE;
