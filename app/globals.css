@@ -9,13 +9,8 @@
 [data-tema="claro"] {
   color-scheme: light;
 
-  --fondo: #f7f4ee;
-  --deg: radial-gradient(
-    1100px 720px at 50% -10%,
-    #fffdf8 0%,
-    #f7f4ee 58%,
-    #f1ece2 100%
-  );
+  --fondo: #fffdf8;
+  --deg: none;
 
   /* Tarjetas */
   --card: #ffffff;
@@ -70,12 +65,7 @@
   color-scheme: dark;
 
   --fondo: #0f172a;
-  --deg: radial-gradient(
-    1100px 720px at 50% -10%,
-    #1e3a5f 0%,
-    #0f172a 58%,
-    #0a1120 100%
-  );
+  --deg: none;
 
   --card: #1e293b;
   --card2: #172033;
@@ -151,7 +141,6 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: var(--fondo);
-  background-image: var(--deg);
   color: var(--txt);
   font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
