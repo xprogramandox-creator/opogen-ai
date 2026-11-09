@@ -62,6 +62,18 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: CONTENT_SECURITY_POLICY,
           },
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "credentialless",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+          {
+            key: "Cross-Origin-Resource-Policy",
+            value: "same-origin",
+          },
         ],
       },
     ];
