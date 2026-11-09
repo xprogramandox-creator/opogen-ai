@@ -54,20 +54,18 @@ export default function KidsPage() {
     >
 
       <section className="relative mx-auto max-w-6xl px-5 py-12 text-center sm:px-8 sm:py-16">
-        <h1 className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-          <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl">
+        <h1 className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[clamp(40px,12vw,66px)] font-semibold leading-none tracking-[-1px] text-[var(--txt)]">
+          <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
             {t("brand")}
           </span>
-          <span className="text-[var(--azul)] text-6xl font-bold tracking-tight sm:text-8xl">
-            {t("brandKids")}
-          </span>
+          <span className="text-[var(--txt)]">{t("brandKids")}</span>
         </h1>
 
         <h2 className="mx-auto mt-8 max-w-3xl text-balance text-3xl font-bold tracking-tight text-[var(--txt)] sm:text-5xl">
           {t("question")}
         </h2>
 
-        <p className="mx-auto mt-4 max-w-xl text-pretty text-base font-medium text-[var(--txt2)] sm:text-lg">
+        <p className="mx-auto mt-0.5 max-w-xl text-pretty text-sm text-[#7b7266] dark:text-[#8a847a]">
           {t("intro")}
         </p>
 

@@ -648,7 +648,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto max-w-4xl">
           <h1
             aria-label={`${t("brandName")} ${t("brandSuffix")}`}
-            className="mb-6 text-center text-[clamp(40px,12vw,66px)] font-semibold leading-none tracking-[-1px] text-[var(--txt)]"
+            className="mb-0 text-center text-[clamp(40px,12vw,66px)] font-semibold leading-none tracking-[-1px] text-[var(--txt)]"
           >
             <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]">
               {t("brandName")}
@@ -656,11 +656,16 @@ export default function Home() {
             {t("brandSuffix")}
           </h1>
 
+          {!examen ? (
+            <p className="mx-auto mb-6 mt-0.5 max-w-xl text-center text-sm text-[#7b7266] dark:text-[#8a847a]">
+              {t("subtitle")}
+            </p>
+          ) : null}
+
           {!examen && (
             <div className="mx-auto max-w-2xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl sm:p-8">
               <div className="mb-8 text-center">
                 <h2 className="mb-2 text-2xl font-bold">{t("title")}</h2>
-                <p className="text-[var(--txt3)]">{t("subtitle")}</p>
               </div>
               <div role="tablist" className="mb-6 flex gap-2 rounded-xl bg-[var(--card2)] p-1">
                 {(["archivo", "texto", "foto"] as const).map((valor) => {
