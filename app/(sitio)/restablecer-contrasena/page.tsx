@@ -128,7 +128,7 @@ function RestablecerContrasenaFormulario() {
 
 export default function RestablecerContrasenaPage() {
   return (
-    <main id="contenido" className="bg-app min-h-app font-sans">
+    <main id="contenido" className="min-h-app bg-transparent font-sans">
         <section className="mx-auto max-w-xl px-5 py-12 sm:px-6 sm:py-16">
           <div className="card rounded-3xl p-6 sm:p-8">
             <h1 className="text-balance text-2xl font-bold tracking-tight text-[var(--txt)] sm:text-3xl">

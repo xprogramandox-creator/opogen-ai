@@ -7,7 +7,6 @@ import { getLocale, getMessages } from "next-intl/server";
 import { SessionProvider } from "@/components/SessionProvider";
 import { AuthModalProvider } from "@/components/AuthModalProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import FondoEscolar from "@/components/FondoEscolar";
 import { NotificationProvider } from "@/components/NotificationProvider";
 import SincronizarTemaCookie from "@/components/SincronizarTemaCookie";
 import RegistrarUsoZona from "@/components/RegistrarUsoZona";
@@ -114,7 +113,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           >
             <SincronizarTemaCookie />
             <RegistrarUsoZona />
-            <FondoEscolar />
             <div className="relative z-10">
               <NotificationProvider>
                 <SessionProvider>
