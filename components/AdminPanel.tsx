@@ -1090,6 +1090,11 @@ export default function AdminPanel() {
                         : tIA("unavailable")}
                     </span>
                   </div>
+                  {!geminiOk && estadoIA?.gemini.detalle ? (
+                    <p className="mt-1 text-xs text-[var(--txt3)]">
+                      {estadoIA.gemini.detalle}
+                    </p>
+                  ) : null}
                 </div>
               </div>
 

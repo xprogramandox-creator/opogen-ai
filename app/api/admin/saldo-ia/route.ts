@@ -142,6 +142,8 @@ async function consultarDeepSeek(): Promise<EstadoDeepSeek> {
 
 async function consultarGemini(): Promise<EstadoGemini> {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const modelo =
+    process.env.GEMINI_MODEL?.trim() || "gemini-3.8-flash";
 
   if (!apiKey) {
     return { estado: "error", detalle: "NO_CONFIGURADA" };
@@ -149,7 +151,7 @@ async function consultarGemini(): Promise<EstadoGemini> {
 
   try {
     const respuesta = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1",
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}`,
       {
         headers: {
           "x-goog-api-key": apiKey,
@@ -161,6 +163,11 @@ async function consultarGemini(): Promise<EstadoGemini> {
     );
 
     if (!respuesta.ok) {
+      console.error("[saldo-ia] Gemini no disponible", {
+        modelo,
+        status: respuesta.status,
+      });
+
       return {
         estado: "error",
         detalle:
@@ -172,6 +179,11 @@ async function consultarGemini(): Promise<EstadoGemini> {
 
     return { estado: "ok" };
   } catch (error) {
+    console.error("[saldo-ia] Error consultando Gemini", {
+      modelo,
+      error,
+    });
+
     return {
       estado: "error",
       detalle:
