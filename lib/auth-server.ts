@@ -430,6 +430,15 @@ export async function guardarUsuario(
     await mkdir(rutaCarpetaRaizPlan(usuario.rol), { recursive: true });
     await mkdir(carpeta, { recursive: true });
 
+    console.log("[usuarios] Guardando datos.txt", {
+      clave: usuario.clave,
+      rol: usuario.rol,
+      dataDir: RUTA_DATOS,
+      carpeta,
+      archivo,
+      bytes: Buffer.byteLength(contenido, "utf8"),
+    });
+
     // Se sobrescribe un archivo vacío o incompleto. Si ya hay un usuario
     // válido, la comprobación anterior lanza UsuarioExistenteError.
     await writeFile(archivo, contenido, {

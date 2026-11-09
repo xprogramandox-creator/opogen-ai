@@ -7,7 +7,7 @@ import { mkdirSync } from "node:fs";
  */
 export const RUTA_DATOS = path.resolve(
   /* turbopackIgnore: true */
-  process.env.DATA_DIR?.trim() || process.cwd(),
+  process.env.DATA_DIR?.trim() || "/app/datos",
 );
 
 // La raíz debe existir antes de crear Premium, Freemium o .admin.
