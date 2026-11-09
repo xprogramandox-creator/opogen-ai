@@ -19,6 +19,8 @@ const PRECIOS_BASE: Record<(typeof planes)[number]["id"], number> = {
   annual: 84,
 };
 
+const IVA = 0.21;
+
 const PLAN_STRIPE: Record<(typeof planes)[number]["id"], PlanStripe> = {
   monthly: "mensual",
   semestral: "semestral",
@@ -85,7 +87,9 @@ export default function TarjetaOferta() {
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {planes.map(({ id, Icono }) => {
             const nombre = t(`offer.plans.${id}.name`);
-            const precio = formatoMoneda.format(PRECIOS_BASE[id]);
+            const precio = formatoMoneda.format(
+              PRECIOS_BASE[id] * (1 + IVA),
+            );
             const detalle = t(`offer.plans.${id}.detail`);
             const badge = t(`offer.plans.${id}.badge`);
             const esRecomendado = id === "semestral";

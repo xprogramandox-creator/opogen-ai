@@ -192,13 +192,13 @@
         },
         "semestral": {
           "name": "6 Meses",
-          "detail": "48€ en total (Ahorras 6€)",
+          "detail": "Ahorras 6 €",
           "badge": "Recomendado",
           "price": "8€"
         },
         "annual": {
           "name": "12 Meses",
-          "detail": "84€ en total (Ahorras 24€)",
+          "detail": "Ahorras 24 €",
           "badge": "Mejor Precio",
           "price": "7€"
         }

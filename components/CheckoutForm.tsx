@@ -24,17 +24,17 @@ const PLANES: Record<
 > = {
   mensual: {
     nombre: "Plan Mensual",
-    precio: "9 €",
+    precio: "10,89 €",
     detalle: "Renovación mensual",
   },
   semestral: {
     nombre: "Plan Semestral",
-    precio: "48 €",
+    precio: "58,08 €",
     detalle: "Cada 6 meses",
   },
   anual: {
     nombre: "Plan Anual",
-    precio: "84 €",
+    precio: "101,64 €",
     detalle: "Cada 12 meses",
   },
 };
