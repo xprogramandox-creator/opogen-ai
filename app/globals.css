@@ -9,13 +9,12 @@
 [data-tema="claro"] {
   color-scheme: light;
 
-  --fondo: #cbd5e1;
+  --fondo: #f7f4ee;
   --deg: radial-gradient(
     1100px 720px at 50% -10%,
-    #f2f8fc 0%,
-    #dce8f2 38%,
-    #cbd5e1 72%,
-    #bccbd9 100%
+    #fffdf8 0%,
+    #f7f4ee 58%,
+    #f1ece2 100%
   );
 
   /* Tarjetas */

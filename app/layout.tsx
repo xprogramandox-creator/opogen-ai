@@ -104,7 +104,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased bg-transparent`}
       suppressHydrationWarning
     >
-      <body className="relative min-h-full bg-transparent text-[var(--txt)]">
+      <body className="relative min-h-full bg-[var(--fondo)] text-[var(--txt)]">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="data-tema"
