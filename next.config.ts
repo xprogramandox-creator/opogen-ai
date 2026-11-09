@@ -22,6 +22,7 @@ const CONTENT_SECURITY_POLICY = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
