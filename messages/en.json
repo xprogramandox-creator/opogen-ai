@@ -322,7 +322,9 @@
     "examRecovered": "Exam recovered from My Space",
     "readingDocuments": "Reading your documents and extracting the content...",
     "unexpected": "An unexpected error occurred.",
-    "recoveringExam": "Recovering exam from My Space..."
+    "recoveringExam": "Recovering exam from My Space...",
+    "brandName": "OpoGen",
+    "brandSuffix": "Test"
   },
   "MiEspacio": {
     "newFolder": "New Folder",

@@ -322,7 +322,9 @@
     "examRecovered": "Examen récupéré depuis Mon espace",
     "readingDocuments": "Lecture de vos documents et extraction du contenu...",
     "unexpected": "Une erreur inattendue s'est produite.",
-    "recoveringExam": "Récupération de l'examen depuis Mon espace..."
+    "recoveringExam": "Récupération de l'examen depuis Mon espace...",
+    "brandName": "OpoGen",
+    "brandSuffix": "Test"
   },
   "MiEspacio": {
     "newFolder": "Nouveau dossier",

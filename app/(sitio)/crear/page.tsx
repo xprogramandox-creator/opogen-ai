@@ -646,6 +646,16 @@ export default function Home() {
   return (
     <main className="bg-transparent relative min-h-app p-4 font-sans text-[var(--txt)] sm:p-6 md:p-12">
         <div className="relative z-10 mx-auto max-w-4xl">
+          <h1
+            aria-label={`${t("brandName")} ${t("brandSuffix")}`}
+            className="mb-6 text-center text-[clamp(40px,12vw,66px)] font-semibold leading-none tracking-[-1px] text-[var(--txt)]"
+          >
+            <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]">
+              {t("brandName")}
+            </span>{" "}
+            {t("brandSuffix")}
+          </h1>
+
           {!examen && (
             <div className="mx-auto max-w-2xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl sm:p-8">
               <div className="mb-8 text-center">

@@ -322,7 +322,9 @@
     "examRecovered": "Exame recuperado do meu espaço",
     "readingDocuments": "A ler os seus documentos e a extrair o conteúdo...",
     "unexpected": "Ocorreu um erro inesperado.",
-    "recoveringExam": "A recuperar exame do meu espaço..."
+    "recoveringExam": "A recuperar exame do meu espaço...",
+    "brandName": "OpoGen",
+    "brandSuffix": "Test"
   },
   "MiEspacio": {
     "newFolder": "Nova pasta",

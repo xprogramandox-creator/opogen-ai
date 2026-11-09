@@ -322,7 +322,9 @@
     "examRecovered": "Prüfung aus Mein Bereich wiederhergestellt",
     "readingDocuments": "Deine Dokumente werden gelesen und der Inhalt extrahiert...",
     "unexpected": "Ein unerwarteter Fehler ist aufgetreten.",
-    "recoveringExam": "Prüfung aus Mein Bereich wird wiederhergestellt..."
+    "recoveringExam": "Prüfung aus Mein Bereich wird wiederhergestellt...",
+    "brandName": "OpoGen",
+    "brandSuffix": "Test"
   },
   "MiEspacio": {
     "newFolder": "Neuer Ordner",

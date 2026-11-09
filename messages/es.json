@@ -322,7 +322,9 @@
     "examRecovered": "Examen recuperado de Mi Espacio",
     "readingDocuments": "Leyendo tus documentos y extrayendo el contenido...",
     "unexpected": "Ha ocurrido un error inesperado.",
-    "recoveringExam": "Recuperando examen de Mi Espacio..."
+    "recoveringExam": "Recuperando examen de Mi Espacio...",
+    "brandName": "OpoGen",
+    "brandSuffix": "Test"
   },
   "MiEspacio": {
     "newFolder": "Nueva Carpeta",
