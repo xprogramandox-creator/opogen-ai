@@ -7,8 +7,8 @@ import { RUTA_DATOS } from "@/lib/rutas";
 export type PlanUsuario = "premium" | "freemium";
 
 /** Carpetas raíz donde viven las cuentas según su plan. */
-export const CARPETA_PREMIUM = path.join(RUTA_DATOS, "Premium");
-export const CARPETA_FREEMIUM = path.join(RUTA_DATOS, "Freemium");
+export const CARPETA_PREMIUM = path.join(/* turbopackIgnore: true */ RUTA_DATOS, "Premium");
+export const CARPETA_FREEMIUM = path.join(/* turbopackIgnore: true */ RUTA_DATOS, "Freemium");
 
 export const SUB_CARPETA_ESPACIO = "Mi_Espacio";
 export const PREFIJO_TEST_MIXTO = "Test Mixtos - ";
@@ -41,7 +41,7 @@ export function rutaCarpetaPlan(
     throw new Error("Clave de usuario no válida.");
   }
 
-  return path.join(rutaCarpetaRaizPlan(plan), clave);
+  return path.join(/* turbopackIgnore: true */ rutaCarpetaRaizPlan(plan), clave);
 }
 
 /**
@@ -55,11 +55,11 @@ export function detectarPlanUsuario(
     return null;
   }
 
-  if (existsSync(path.join(CARPETA_PREMIUM, clave))) {
+  if (existsSync(path.join(/* turbopackIgnore: true */ CARPETA_PREMIUM, clave))) {
     return "premium";
   }
 
-  if (existsSync(path.join(CARPETA_FREEMIUM, clave))) {
+  if (existsSync(path.join(/* turbopackIgnore: true */ CARPETA_FREEMIUM, clave))) {
     return "freemium";
   }
 
@@ -71,7 +71,7 @@ export function rutaEspacioUsuario(
   clave: string,
   plan?: PlanUsuario,
 ): string {
-  return path.join(
+  return path.join(/* turbopackIgnore: true */ 
     rutaBaseUsuario(clave, plan),
     SUB_CARPETA_ESPACIO,
   );
@@ -94,8 +94,8 @@ export function rutaBaseUsuario(
 
 /** `true` si `ruta` está dentro de `base` (o es la propia base). */
 export function estaDentroDe(base: string, ruta: string): boolean {
-  const baseResuelta = path.resolve(base);
-  const rutaResuelta = path.resolve(ruta);
+  const baseResuelta = path.resolve(/* turbopackIgnore: true */ base);
+  const rutaResuelta = path.resolve(/* turbopackIgnore: true */ ruta);
 
   return (
     rutaResuelta === baseResuelta ||
@@ -185,7 +185,7 @@ export async function resolverCarpetaExistente(
   );
 
   for (const candidato of candidatosMadre) {
-    const raiz = path.join(espacio, candidato);
+    const raiz = path.join(/* turbopackIgnore: true */ espacio, candidato);
 
     if (!estaDentroDe(espacio, raiz)) {
       continue;
@@ -196,7 +196,7 @@ export async function resolverCarpetaExistente(
       : esRepaso
         ? SUB_REPASO
         : SUB_TEST;
-    const rutaNueva = path.join(raiz, subcarpeta);
+    const rutaNueva = path.join(/* turbopackIgnore: true */ raiz, subcarpeta);
 
     if (await existeCarpeta(rutaNueva)) {
       return {
@@ -217,7 +217,7 @@ export async function resolverCarpetaExistente(
   // Compatibilidad con las carpetas hermanas antiguas.
   if (esMixto || esRepaso) {
     const prefijo = esMixto ? PREFIJO_TEST_MIXTO : PREFIJO_FALLOS;
-    const rutaAntigua = path.join(
+    const rutaAntigua = path.join(/* turbopackIgnore: true */ 
       espacio,
       `${prefijo}${madre}`,
     );
@@ -260,7 +260,7 @@ export async function resolverRutaGuardado(
   let raiz: string | null = null;
 
   for (const candidato of candidatos) {
-    const ruta = path.join(espacio, candidato);
+    const ruta = path.join(/* turbopackIgnore: true */ espacio, candidato);
 
     if (estaDentroDe(espacio, ruta) && (await existeCarpeta(ruta))) {
       raiz = ruta;
@@ -275,7 +275,7 @@ export async function resolverRutaGuardado(
       throw new Error("El nombre de la carpeta no es válido.");
     }
 
-    raiz = path.join(espacio, nombreFinal);
+    raiz = path.join(/* turbopackIgnore: true */ espacio, nombreFinal);
   }
 
   if (!estaDentroDe(espacio, raiz)) {
@@ -283,7 +283,7 @@ export async function resolverRutaGuardado(
   }
 
   return {
-    ruta: path.join(
+    ruta: path.join(/* turbopackIgnore: true */ 
       raiz,
       esMixto ? SUB_MIXTOS : SUB_TEST,
     ),

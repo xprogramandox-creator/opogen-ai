@@ -6,8 +6,16 @@ import type { UsuarioRegistrado } from "@/lib/auth-server";
 import { RUTA_DATOS } from "@/lib/rutas";
 import { diaAnalitico } from "@/lib/analitica";
 
-const DIRECTORIO = path.join(RUTA_DATOS, ".admin");
-const ARCHIVO = path.join(DIRECTORIO, "panel.sqlite");
+const DIRECTORIO = path.join(
+  /* turbopackIgnore: true */
+  RUTA_DATOS,
+  ".admin",
+);
+const ARCHIVO = path.join(
+  /* turbopackIgnore: true */
+  DIRECTORIO,
+  "panel.sqlite",
+);
 const IVA_POR_DEFECTO = 21;
 
 export type UsuarioAdmin = {
