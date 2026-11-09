@@ -204,3 +204,4 @@ npm run build
 - El sistema de autenticación original usa archivos, no un ORM. SQLite actúa como índice administrativo y almacén de logs, pagos y uso.
 - Los pagos históricos iniciales se generan a partir de los datos de suscripción existentes; las renovaciones futuras deben registrarse desde el panel o desde el webhook de Stripe.
 - El registro de uso se envía al salir de la página o al cambiar de ruta; sesiones cerradas abruptamente pueden no registrar la duración.
+ 
