@@ -212,7 +212,8 @@
       "perMonth": "/Monat",
       "checkoutError": "Die Zahlung konnte nicht gestartet werden. Versuche es erneut.",
       "vat": "+ MwSt. (21 %)",
-      "totalWithVat": "Gesamt inkl. MwSt.: {price}"
+      "totalWithVat": "Gesamt inkl. MwSt.: {price}",
+      "vatIncluded": "inkl. MwSt."
     },
     "premiumExpiresSoon": "Dein Premium-Tarif läuft bald ab: {date}",
     "premiumExpires": "Dein Premium-Tarif läuft am {date} ab",
@@ -773,5 +774,8 @@
     "delete": "Löschen",
     "confirmDelete": "Diesen Rabattcode und seinen Stripe-Coupon löschen? Dies kann nicht rückgängig gemacht werden.",
     "deleteError": "Der Rabatt konnte nicht gelöscht werden."
+  },
+  "Checkout": {
+    "vatIncluded": "inkl. MwSt."
   }
 }

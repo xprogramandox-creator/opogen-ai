@@ -212,7 +212,8 @@
       "perMonth": "/mes",
       "checkoutError": "No se pudo iniciar el pago. Inténtalo de nuevo.",
       "vat": "+ IVA (21%)",
-      "totalWithVat": "Total con IVA: {price}"
+      "totalWithVat": "Total con IVA: {price}",
+      "vatIncluded": "IVA incluido"
     },
     "premiumExpiresSoon": "Tu plan Premium caduca pronto: {date}",
     "premiumExpires": "Tu plan Premium caduca el {date}",
@@ -773,5 +774,8 @@
     "delete": "Eliminar",
     "confirmDelete": "¿Eliminar este código de descuento y su cupón de Stripe? Esta acción no se puede deshacer.",
     "deleteError": "No se pudo eliminar el descuento."
+  },
+  "Checkout": {
+    "vatIncluded": "IVA incluido"
   }
 }

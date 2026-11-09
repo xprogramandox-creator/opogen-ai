@@ -212,7 +212,8 @@
       "perMonth": "/month",
       "checkoutError": "Could not start checkout. Please try again.",
       "vat": "+ VAT (21%)",
-      "totalWithVat": "Total incl. VAT: {price}"
+      "totalWithVat": "Total incl. VAT: {price}",
+      "vatIncluded": "VAT included"
     },
     "premiumExpiresSoon": "Your Premium plan expires soon: {date}",
     "premiumExpires": "Your Premium plan expires on {date}",
@@ -773,5 +774,8 @@
     "delete": "Delete",
     "confirmDelete": "Delete this discount code and its Stripe coupon? This cannot be undone.",
     "deleteError": "Could not delete the discount."
+  },
+  "Checkout": {
+    "vatIncluded": "VAT included"
   }
 }

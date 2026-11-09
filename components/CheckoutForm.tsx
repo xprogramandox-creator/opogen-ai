@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import PhoneField from "@/components/PhoneField";
 import {
   buscarPais,
@@ -23,18 +24,18 @@ const PLANES: Record<
 > = {
   mensual: {
     nombre: "Plan Mensual",
-    precio: "9€",
+    precio: "9 €",
     detalle: "Renovación mensual",
   },
   semestral: {
     nombre: "Plan Semestral",
-    precio: "8€/mes",
-    detalle: "48€ cada 6 meses",
+    precio: "48 €",
+    detalle: "Cada 6 meses",
   },
   anual: {
     nombre: "Plan Anual",
-    precio: "7€/mes",
-    detalle: "84€ al año",
+    precio: "84 €",
+    detalle: "Cada 12 meses",
   },
 };
 
@@ -48,6 +49,7 @@ export default function CheckoutForm({
   plan: PlanCheckout;
   usuario: UsuarioCheckout;
 }) {
+  const t = useTranslations("Checkout");
   const [nombre, setNombre] = useState(usuario?.nombre ?? "");
   const [correo, setCorreo] = useState(usuario?.correo ?? "");
   const [codigo, setCodigo] = useState(
@@ -141,6 +143,9 @@ export default function CheckoutForm({
         </p>
         <p className="mt-1 text-xl font-bold text-[var(--txt)]">
           {datosPlan.nombre} · {datosPlan.precio}
+        </p>
+        <p className="mt-1 text-xs font-medium text-[var(--txt3)]">
+          {t("vatIncluded")}
         </p>
         <p className="mt-1 text-sm text-[var(--txt2)]">
           {datosPlan.detalle}

@@ -19,8 +19,6 @@ const PRECIOS_BASE: Record<(typeof planes)[number]["id"], number> = {
   annual: 84,
 };
 
-const IVA = 0.21;
-
 const PLAN_STRIPE: Record<(typeof planes)[number]["id"], PlanStripe> = {
   monthly: "mensual",
   semestral: "semestral",
@@ -87,12 +85,9 @@ export default function TarjetaOferta() {
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {planes.map(({ id, Icono }) => {
             const nombre = t(`offer.plans.${id}.name`);
-            const precio = t(`offer.plans.${id}.price`);
+            const precio = formatoMoneda.format(PRECIOS_BASE[id]);
             const detalle = t(`offer.plans.${id}.detail`);
             const badge = t(`offer.plans.${id}.badge`);
-            const totalConIva = formatoMoneda.format(
-              PRECIOS_BASE[id] * (1 + IVA),
-            );
             const esRecomendado = id === "semestral";
             const esMejor = id === "annual";
 
@@ -146,17 +141,15 @@ export default function TarjetaOferta() {
                   <span className="text-4xl font-bold tracking-tight">
                     {precio}
                   </span>
-                  <span className="text-sm font-semibold text-[var(--txt3)]">
-                    {t("offer.perMonth")}
-                  </span>
+                  {id === "monthly" ? (
+                    <span className="text-sm font-semibold text-[var(--txt3)]">
+                      {t("offer.perMonth")}
+                    </span>
+                  ) : null}
                 </p>
 
-                <p className="mt-1 text-[11px] font-bold text-[var(--azul)]">
-                  {t("offer.vat")}
-                </p>
-
-                <p className="mt-0.5 text-[11px] font-semibold text-[var(--txt3)]">
-                  {t("offer.totalWithVat", { price: totalConIva })}
+                <p className="mt-1 text-[11px] font-medium text-[var(--txt3)]">
+                  {t("offer.vatIncluded")}
                 </p>
 
                 <p className="mt-1 text-[11px] leading-snug text-[var(--txt2)]">
