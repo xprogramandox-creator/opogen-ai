@@ -421,22 +421,20 @@ export async function guardarUsuario(
 
     const carpeta = rutaCarpetaUsuario(usuario.clave, usuario.rol);
     const archivo = rutaArchivoUsuario(usuario.clave, usuario.rol);
+    const contenido = serializarDatos(usuario);
+
+    if (!contenido.trim()) {
+      throw new Error("El contenido del usuario está vacío.");
+    }
 
     await mkdir(rutaCarpetaRaizPlan(usuario.rol), { recursive: true });
     await mkdir(carpeta, { recursive: true });
 
-    try {
-      await writeFile(archivo, serializarDatos(usuario), {
-        encoding: "utf8",
-        flag: "wx",
-      });
-    } catch (error) {
-      if (esErrorConCodigo(error, "EEXIST")) {
-        throw new UsuarioExistenteError();
-      }
-
-      throw error;
-    }
+    // Se sobrescribe un archivo vacío o incompleto. Si ya hay un usuario
+    // válido, la comprobación anterior lanza UsuarioExistenteError.
+    await writeFile(archivo, contenido, {
+      encoding: "utf8",
+    });
   });
 }
 
