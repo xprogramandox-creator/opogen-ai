@@ -131,6 +131,7 @@ html {
      en los descendientes (un ancestro con overflow crea un contenedor
      de scroll y anula el sticky). */
   overflow-x: hidden;
+  scrollbar-gutter: stable;
   background: var(--fondo);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
