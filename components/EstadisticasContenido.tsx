@@ -45,6 +45,23 @@ function embellecerCarpeta(nombre: string): string {
     .replace(/^Simulacros - /, "Simulacros · ");
 }
 
+const PREFIJOS_NO_MADRE = [
+  "Test Mixtos - ",
+  "Simulacros - ",
+  "Fallos - ",
+  "Test rápido",
+] as const;
+
+function esCarpetaMadreVisible(nombre: string): boolean {
+  const limpio = nombre.trim();
+
+  if (!limpio || limpio === "Sin carpeta") {
+    return false;
+  }
+
+  return !PREFIJOS_NO_MADRE.some((prefijo) => limpio.startsWith(prefijo));
+}
+
 async function contarTestsDeCarpeta(nombre: string): Promise<number> {
   try {
     const res = await fetch(
@@ -173,7 +190,9 @@ export default function EstadisticasContenido() {
         (nombre) =>
           !nombre.startsWith("Fallos - ") &&
           !nombre.startsWith("Test Mixtos - ") &&
-          !nombre.startsWith("Simulacros - "),
+          !nombre.startsWith("Simulacros - ") &&
+          nombre.trim() !== "Test rápido" &&
+          nombre.trim() !== "Sin carpeta",
       );
 
       const nombresFallos = nombres
@@ -224,19 +243,24 @@ export default function EstadisticasContenido() {
   }, [cargarCarpetas]);
 
   const carpetasMadre = useMemo(() => {
-    const conjunto = new Set<string>();
+    const porNombre = new Map<string, string>();
 
-    for (const carpeta of carpetas) {
-      const madre = carpetaMadre(carpeta.nombre);
-      if (madre) conjunto.add(madre);
+    function agregar(nombre: string): void {
+      const madre = carpetaMadre(nombre).trim();
+
+      if (!esCarpetaMadreVisible(madre)) return;
+
+      const clave = madre
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("es");
+      if (!porNombre.has(clave)) porNombre.set(clave, madre);
     }
 
-    for (const entrada of historial) {
-      const madre = carpetaMadre(entrada.carpeta);
-      if (madre) conjunto.add(madre);
-    }
+    for (const carpeta of carpetas) agregar(carpeta.nombre);
+    for (const entrada of historial) agregar(entrada.carpeta);
 
-    return [...conjunto].sort((a, b) =>
+    return [...porNombre.values()].sort((a, b) =>
       a.localeCompare(b, "es", { numeric: true }),
     );
   }, [carpetas, historial]);
