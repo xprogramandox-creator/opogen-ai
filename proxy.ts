@@ -1,10 +1,77 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { CLAVE_ADMIN } from "./lib/planes";
 import { LOCALE_COOKIE, routing } from "./i18n/routing";
 
 const handleI18nRouting = createMiddleware(routing);
 
 const LOCALES = routing.locales;
+const COOKIE_SESION = "opoquiz_sesion";
+const SECRETO_DESARROLLO =
+  "opoquiz-desarrollo-local-sin-valor-real";
+
+function base64UrlABytes(
+  valor: string,
+): Uint8Array<ArrayBuffer> | null {
+  try {
+    const base64 = valor
+      .replace(/-/g, "+")
+      .replace(/_/g, "/")
+      .padEnd(Math.ceil(valor.length / 4) * 4, "=");
+    const binario = atob(base64);
+
+    return Uint8Array.from(binario, (caracter) =>
+      caracter.charCodeAt(0),
+    );
+  } catch {
+    return null;
+  }
+}
+
+async function esSesionAdmin(request: NextRequest): Promise<boolean> {
+  const cookie = request.cookies.get(COOKIE_SESION)?.value;
+
+  if (!cookie) return false;
+
+  const partes = cookie.split(".");
+  if (partes.length !== 2) return false;
+
+  const [datos, firma] = partes;
+  const firmaBytes = base64UrlABytes(firma);
+  const datosBytes = base64UrlABytes(datos);
+
+  if (!firmaBytes || !datosBytes) return false;
+
+  const secreto =
+    process.env.AUTH_SECRET?.trim() ||
+    (process.env.NODE_ENV === "production" ? "" : SECRETO_DESARROLLO);
+
+  if (!secreto) return false;
+
+  try {
+    const clave = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secreto),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["verify"],
+    );
+
+    // La firma se calcula sobre el texto base64url, no sobre la clave.
+    const valida = await crypto.subtle.verify(
+      "HMAC",
+      clave,
+      firmaBytes,
+      new TextEncoder().encode(datos),
+    );
+
+    if (!valida) return false;
+
+    return new TextDecoder().decode(datosBytes) === CLAVE_ADMIN;
+  } catch {
+    return false;
+  }
+}
 
 function esLocale(valor: string | undefined): valor is (typeof LOCALES)[number] {
   return Boolean(valor && LOCALES.includes(valor as (typeof LOCALES)[number]));
@@ -45,35 +112,7 @@ export default async function proxy(request: NextRequest) {
   // El panel de administración no debe revelar su existencia. Comprobamos
   // la sesión antes de renderizar y devolvemos un 404 real si no es admin.
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-    try {
-      const respuesta = await fetch(
-        new URL("/api/auth/session", request.url),
-        {
-          headers: {
-            cookie: request.headers.get("cookie") || "",
-          },
-          cache: "no-store",
-        },
-      );
-      const sesion = (await respuesta.json().catch(() => null)) as {
-        autenticado?: unknown;
-        esAdmin?: unknown;
-      } | null;
-
-      if (
-        !respuesta.ok ||
-        sesion?.autenticado !== true ||
-        sesion.esAdmin !== true
-      ) {
-        return new NextResponse("Página no encontrada", {
-          status: 404,
-          headers: {
-            "Content-Type": "text/plain; charset=utf-8",
-            "Cache-Control": "no-store",
-          },
-        });
-      }
-    } catch {
+    if (!(await esSesionAdmin(request))) {
       return new NextResponse("Página no encontrada", {
         status: 404,
         headers: {
