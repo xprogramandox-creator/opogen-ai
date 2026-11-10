@@ -7,10 +7,10 @@ import { useSesion } from "@/components/SessionProvider";
 import { LogOut } from "lucide-react";
 
 const CLASE_COMPACTA =
-  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] transition-colors hover:bg-[var(--suave2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:w-10";
+  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-red-500 bg-[var(--card)] text-red-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:w-10";
 
 const CLASE_COMPLETA =
-  "inline-flex h-12 w-full items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-5 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto";
+  "inline-flex h-12 w-full items-center justify-center rounded-xl border border-red-500 bg-[var(--card2)] px-5 text-sm font-bold text-red-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto";
 
 export default function LogoutButton({
   compacto = false,
