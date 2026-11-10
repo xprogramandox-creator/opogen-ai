@@ -805,5 +805,29 @@
     "correctAnswer": "Correta: {answer}",
     "result": "Acertaste {correct} de {total}.",
     "back": "Voltar aos temas"
+  },
+  "Bloqueos": {
+    "estadisticas": {
+      "title": "Desbloqueia as tuas Estatísticas",
+      "subtitle": "Vê o teu progresso, respostas certas e erros para saberes o que precisas de rever.",
+      "cta": "Fazer Premium",
+      "benefits": {
+        "1": "Gráficos de evolução por pasta.",
+        "2": "Análise de respostas certas e erros.",
+        "3": "Histórico dos últimos 7 dias.",
+        "4": "Comparação do teu progresso."
+      }
+    },
+    "miEspacio": {
+      "title": "Desbloqueia o Meu Espaço",
+      "subtitle": "Cria pastas, guarda os teus testes e gera resumos com IA.",
+      "cta": "Fazer Premium",
+      "benefits": {
+        "1": "Organiza os teus testes em pastas por tema.",
+        "2": "Guarda os teus PDFs e resumos.",
+        "3": "Cria testes mistos e revisões.",
+        "4": "Acesso ilimitado aos teus ficheiros."
+      }
+    }
   }
 }

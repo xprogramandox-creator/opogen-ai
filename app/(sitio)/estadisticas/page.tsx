@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import EstadisticasContenido from "@/components/EstadisticasContenido";
+import PantallaBloqueo from "@/components/PantallaBloqueo";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 
 export const metadata: Metadata = {
@@ -14,14 +15,21 @@ export const instant = false;
 export default async function EstadisticasPage() {
   const usuario = await obtenerUsuarioSesion();
 
-  if (!usuario) {
-    // No existe una ruta /login: la home abre el modal de inicio de sesión
-    // cuando recibe el parámetro ?login=1.
-    redirect("/?login=1");
-  }
+  if (!usuario || usuario.rol !== "premium") {
+    const t = await getTranslations("Bloqueos.estadisticas");
 
-  if (usuario.rol !== "premium") {
-    redirect("/dashboard?aviso=premium");
+    return (
+      <PantallaBloqueo
+        icono={<span className="text-3xl">📊</span>}
+        titulo={t("title")}
+        subtitulo={t("subtitle")}
+        ventajas={[1, 2, 3, 4].map((indice) =>
+          t(`benefits.${indice}`),
+        )}
+        textoBoton={t("cta")}
+        enlaceBoton="/premium"
+      />
+    );
   }
 
   return (

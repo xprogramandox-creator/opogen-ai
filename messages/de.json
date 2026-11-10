@@ -805,5 +805,29 @@
     "correctAnswer": "Richtig: {answer}",
     "result": "Du hast {correct} von {total} richtig.",
     "back": "Zurück zu den Themen"
+  },
+  "Bloqueos": {
+    "estadisticas": {
+      "title": "Statistiken freischalten",
+      "subtitle": "Sieh dir deinen Fortschritt, deine richtigen Antworten und Fehler an, um zu wissen, was du wiederholen musst.",
+      "cta": "Premium werden",
+      "benefits": {
+        "1": "Fortschrittsdiagramme pro Ordner.",
+        "2": "Analyse richtiger Antworten und Fehler.",
+        "3": "Verlauf der letzten 7 Tage.",
+        "4": "Vergleich deines Fortschritts."
+      }
+    },
+    "miEspacio": {
+      "title": "Meinen Bereich freischalten",
+      "subtitle": "Erstelle Ordner, speichere deine Tests und erstelle Zusammenfassungen mit KI.",
+      "cta": "Premium werden",
+      "benefits": {
+        "1": "Organisiere deine Tests in Ordnern nach Thema.",
+        "2": "Speichere deine PDFs und Zusammenfassungen.",
+        "3": "Erstelle gemischte Tests und Wiederholungen.",
+        "4": "Unbegrenzter Zugriff auf deine Dateien."
+      }
+    }
   }
 }

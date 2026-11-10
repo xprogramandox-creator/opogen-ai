@@ -805,5 +805,29 @@
     "correctAnswer": "Correct: {answer}",
     "result": "You got {correct} out of {total} right.",
     "back": "Back to topics"
+  },
+  "Bloqueos": {
+    "estadisticas": {
+      "title": "Unlock your Statistics",
+      "subtitle": "See your progress, correct answers and mistakes so you know what to review.",
+      "cta": "Go Premium",
+      "benefits": {
+        "1": "Progress charts for each folder.",
+        "2": "Analysis of correct answers and mistakes.",
+        "3": "History from the last 7 days.",
+        "4": "Comparison of your progress."
+      }
+    },
+    "miEspacio": {
+      "title": "Unlock My Space",
+      "subtitle": "Create folders, save your tests and generate AI summaries.",
+      "cta": "Go Premium",
+      "benefits": {
+        "1": "Organise your tests into folders by topic.",
+        "2": "Save your PDFs and summaries.",
+        "3": "Create mixed tests and reviews.",
+        "4": "Unlimited access to your files."
+      }
+    }
   }
 }

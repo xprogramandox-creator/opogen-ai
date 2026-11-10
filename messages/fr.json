@@ -805,5 +805,29 @@
     "correctAnswer": "Bonne réponse : {answer}",
     "result": "Tu as réussi {correct} sur {total}.",
     "back": "Retour aux thèmes"
+  },
+  "Bloqueos": {
+    "estadisticas": {
+      "title": "Débloquez vos Statistiques",
+      "subtitle": "Visualisez votre progression, vos bonnes réponses et vos erreurs pour savoir quoi réviser.",
+      "cta": "Passer Premium",
+      "benefits": {
+        "1": "Graphiques d'évolution par dossier.",
+        "2": "Analyse des bonnes réponses et des erreurs.",
+        "3": "Historique des 7 derniers jours.",
+        "4": "Comparaison de votre progression."
+      }
+    },
+    "miEspacio": {
+      "title": "Débloquez Mon Espace",
+      "subtitle": "Créez des dossiers, enregistrez vos tests et générez des résumés avec l'IA.",
+      "cta": "Passer Premium",
+      "benefits": {
+        "1": "Organisez vos tests dans des dossiers par thème.",
+        "2": "Enregistrez vos PDF et vos résumés.",
+        "3": "Créez des tests mixtes et des révisions.",
+        "4": "Accès illimité à vos fichiers."
+      }
+    }
   }
 }

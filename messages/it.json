@@ -805,5 +805,29 @@
     "correctAnswer": "Corretta: {answer}",
     "result": "Hai indovinato {correct} su {total}.",
     "back": "Torna ai temi"
+  },
+  "Bloqueos": {
+    "estadisticas": {
+      "title": "Sblocca le tue Statistiche",
+      "subtitle": "Visualizza i tuoi progressi, le risposte corrette e gli errori per sapere cosa ripassare.",
+      "cta": "Passa a Premium",
+      "benefits": {
+        "1": "Grafici di evoluzione per cartella.",
+        "2": "Analisi delle risposte corrette e degli errori.",
+        "3": "Cronologia degli ultimi 7 giorni.",
+        "4": "Confronto dei tuoi progressi."
+      }
+    },
+    "miEspacio": {
+      "title": "Sblocca Il Mio Spazio",
+      "subtitle": "Crea cartelle, salva i tuoi test e genera riassunti con l'IA.",
+      "cta": "Passa a Premium",
+      "benefits": {
+        "1": "Organizza i tuoi test in cartelle per argomento.",
+        "2": "Salva i tuoi PDF e riassunti.",
+        "3": "Crea test misti e ripassi.",
+        "4": "Accesso illimitato ai tuoi file."
+      }
+    }
   }
 }
