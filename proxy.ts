@@ -39,8 +39,50 @@ function detectarLocale(request: NextRequest): string {
   return routing.defaultLocale;
 }
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // El panel de administración no debe revelar su existencia. Comprobamos
+  // la sesión antes de renderizar y devolvemos un 404 real si no es admin.
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    try {
+      const respuesta = await fetch(
+        new URL("/api/auth/session", request.url),
+        {
+          headers: {
+            cookie: request.headers.get("cookie") || "",
+          },
+          cache: "no-store",
+        },
+      );
+      const sesion = (await respuesta.json().catch(() => null)) as {
+        autenticado?: unknown;
+        esAdmin?: unknown;
+      } | null;
+
+      if (
+        !respuesta.ok ||
+        sesion?.autenticado !== true ||
+        sesion.esAdmin !== true
+      ) {
+        return new NextResponse("Página no encontrada", {
+          status: 404,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "no-store",
+          },
+        });
+      }
+    } catch {
+      return new NextResponse("Página no encontrada", {
+        status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "no-store",
+        },
+      });
+    }
+  }
 
   // Para la portada (raíz o /es, /en, /fr, /de) delegamos en el middleware
   // oficial de next-intl: negocia Accept-Language, redirige y guarda cookie.

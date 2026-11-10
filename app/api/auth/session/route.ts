@@ -4,6 +4,7 @@ import {
   obtenerUsuarioSesion,
 } from "@/lib/auth-server";
 import { obtenerFechaCaducidadPremium } from "@/lib/suscripcion";
+import { CLAVE_ADMIN } from "@/lib/planes";
 import {
   describirLimiteInvitado,
   leerLimiteInvitado,
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
         nombreCompleto: nombreCompletoUsuario(usuario),
         correo: usuario.correo,
         telefono: usuario.telefono,
+        esAdmin: usuario.clave === CLAVE_ADMIN,
         rol: usuario.rol,
         planContratado: usuario.planContratado ?? null,
         fechaCaducidadPremium,
