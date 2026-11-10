@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   leerUsuario,
   obtenerUsuarioSesion,
+  verificarPassword,
 } from "@/lib/auth-server";
 import { obtenerPendientePorClave } from "@/lib/admin-db";
 import { stripe } from "@/lib/stripe";
@@ -20,6 +21,7 @@ export async function POST(request: Request) {
           plan?: unknown;
           userId?: unknown;
           token?: unknown;
+          password?: unknown;
         })
       : {};
 
@@ -31,7 +33,45 @@ export async function POST(request: Request) {
   }
 
   const plan = datos.plan;
-  let usuario = await obtenerUsuarioSesion();
+  const usuarioSesion = await obtenerUsuarioSesion();
+  let usuario = usuarioSesion;
+
+  // Un usuario con sesión debe confirmar su contraseña antes de pagar.
+  if (usuarioSesion) {
+    const password =
+      typeof datos.password === "string" ? datos.password : "";
+
+    if (!password) {
+      return NextResponse.json(
+        {
+          error: "Introduce tu contraseña para confirmar el pago.",
+          codigo: "PASSWORD_REQUERIDA",
+        },
+        { status: 400 },
+      );
+    }
+
+    let passwordCorrecta = false;
+
+    try {
+      passwordCorrecta = await verificarPassword(
+        password,
+        usuarioSesion.passwordHash,
+      );
+    } catch {
+      passwordCorrecta = false;
+    }
+
+    if (!passwordCorrecta) {
+      return NextResponse.json(
+        {
+          error: "Contraseña incorrecta.",
+          codigo: "PASSWORD_INCORRECTA",
+        },
+        { status: 401 },
+      );
+    }
+  }
 
   // Permite iniciar el pago justo después del registro Premium, antes de
   // verificar el correo, usando el token de verificación recién emitido.

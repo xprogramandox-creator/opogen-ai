@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSesion } from "@/components/SessionProvider";
 import {
   esPlanStripe,
@@ -13,6 +14,7 @@ import {
  */
 export default function CheckoutPendiente() {
   const { sesion, cargando } = useSesion();
+  const router = useRouter();
 
   useEffect(() => {
     if (cargando || !sesion) return;
@@ -37,33 +39,13 @@ export default function CheckoutPendiente() {
 
       if (sesion.rol === "premium") return;
 
-      void (async () => {
-        try {
-          const respuesta = await fetch("/api/stripe/checkout", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ plan }),
-            cache: "no-store",
-          });
-
-          if (!respuesta.ok) return;
-
-          const datos = (await respuesta.json().catch(() => ({}))) as {
-            url?: unknown;
-          };
-
-          if (typeof datos.url === "string") {
-            window.location.assign(datos.url);
-          }
-        } catch {
-          // Si falla, el usuario puede volver a elegir plan desde la tarjeta.
-        }
-      })();
+      // El checkout exige confirmar la contraseña, así que se abre la página
+      // de pago en lugar de iniciar la sesión de Stripe automáticamente.
+      router.push(`/checkout?plan=${plan}`);
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [cargando, sesion]);
+  }, [cargando, router, sesion]);
 
   return null;
 }

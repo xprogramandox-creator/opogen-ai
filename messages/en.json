@@ -778,7 +778,10 @@
     "deleteError": "Could not delete the discount."
   },
   "Checkout": {
-    "vatIncluded": "VAT included"
+    "vatIncluded": "VAT included",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "passwordRequired": "Enter your password to confirm the payment."
   },
   "KidsLock": {
     "title": "Unlock OpoGen Kids",

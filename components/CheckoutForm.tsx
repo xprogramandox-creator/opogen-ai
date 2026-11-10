@@ -45,9 +45,13 @@ const CLASE_CAMPO =
 export default function CheckoutForm({
   plan,
   usuario,
+  modoModal = false,
+  onClose,
 }: {
   plan: PlanCheckout;
   usuario: UsuarioCheckout;
+  modoModal?: boolean;
+  onClose?: () => void;
 }) {
   const t = useTranslations("Checkout");
   const [nombre, setNombre] = useState(usuario?.nombre ?? "");
@@ -58,6 +62,7 @@ export default function CheckoutForm({
   const [numero, setNumero] = useState(
     usuario?.telefono.split("_")[1] ?? "",
   );
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
 
@@ -84,6 +89,9 @@ export default function CheckoutForm({
         setError("Escribe un teléfono válido.");
         return;
       }
+    } else if (!password) {
+      setError(t("passwordRequired"));
+      return;
     }
 
     setEnviando(true);
@@ -103,6 +111,7 @@ export default function CheckoutForm({
           correo,
           codigo,
           numero,
+          ...(usuario ? { password } : {}),
         }),
         cache: "no-store",
       });
@@ -126,6 +135,7 @@ export default function CheckoutForm({
       setCorreo("");
       setCodigo("");
       setNumero("");
+      setPassword("");
 
       window.location.href = datos.url;
     } catch {
@@ -218,6 +228,27 @@ export default function CheckoutForm({
           />
         )}
 
+        {usuario ? (
+          <div>
+            <label
+              htmlFor="checkout-password"
+              className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+            >
+              {t("passwordLabel")}
+            </label>
+            <input
+              id="checkout-password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={CLASE_CAMPO}
+              placeholder={t("passwordPlaceholder")}
+              required
+            />
+          </div>
+        ) : null}
+
         {error ? (
           <p
             role="alert"
@@ -237,6 +268,14 @@ export default function CheckoutForm({
 
         <Link
           href={usuario ? "/dashboard" : "/premium"}
+          onClick={
+            modoModal && onClose
+              ? (evento) => {
+                  evento.preventDefault();
+                  onClose();
+                }
+              : undefined
+          }
           className="block text-center text-sm font-semibold text-[var(--txt2)] underline underline-offset-4 hover:text-[var(--azul)]"
         >
           {usuario ? "Volver al panel" : "Volver a los planes"}

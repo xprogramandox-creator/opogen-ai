@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Crown, Gem } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 import { useAuthModal } from "@/components/AuthModalProvider";
+import CheckoutModal from "@/components/CheckoutModal";
+import type { PlanCheckout } from "@/components/CheckoutForm";
 import type { PlanStripe } from "@/lib/plan-pendiente";
 
 const planes = [
@@ -35,6 +38,8 @@ export default function TarjetaOferta() {
   const router = useRouter();
   const { sesion, cargando } = useSesion();
   const { abrirAuth } = useAuthModal();
+  const [planCheckout, setPlanCheckout] =
+    useState<PlanCheckout | null>(null);
 
   const formatoMoneda = new Intl.NumberFormat(locale, {
     style: "currency",
@@ -47,7 +52,12 @@ export default function TarjetaOferta() {
     if (cargando) return;
 
     if (sesion) {
-      router.push(`/checkout?plan=${PLAN_STRIPE[id]}`);
+      if (!sesion.correo || !sesion.telefono) {
+        router.push(`/checkout?plan=${PLAN_STRIPE[id]}`);
+        return;
+      }
+
+      setPlanCheckout(PLAN_STRIPE[id]);
       return;
     }
 
@@ -60,7 +70,8 @@ export default function TarjetaOferta() {
   }
 
   return (
-    <section
+    <>
+      <section
       aria-labelledby="oferta-premium"
       className="relative mb-8 overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 p-6 shadow-[var(--sombra-fuerte)] sm:p-8"
       style={{
@@ -185,6 +196,19 @@ export default function TarjetaOferta() {
         </ul>
       </div>
     </section>
+
+      {planCheckout && sesion?.correo && sesion.telefono ? (
+        <CheckoutModal
+          plan={planCheckout}
+          usuario={{
+            nombre: sesion.nombre,
+            correo: sesion.correo,
+            telefono: sesion.telefono,
+          }}
+          onClose={() => setPlanCheckout(null)}
+        />
+      ) : null}
+    </>
   );
 }
 

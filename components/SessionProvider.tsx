@@ -18,6 +18,8 @@ type RolUsuario = "premium" | "freemium";
 type SesionUsuario = {
   nombre: string;
   nombreCompleto?: string;
+  correo?: string;
+  telefono?: string;
   rol: RolUsuario;
   planContratado?: string | null;
   fechaCaducidadPremium?: string | null;
@@ -28,6 +30,8 @@ type RespuestaSesion = {
   autenticado?: unknown;
   nombre?: unknown;
   nombreCompleto?: unknown;
+  correo?: unknown;
+  telefono?: unknown;
   rol?: unknown;
   planContratado?: unknown;
   fechaCaducidadPremium?: unknown;
@@ -142,6 +146,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           nombreCompleto:
             typeof datos.nombreCompleto === "string"
               ? datos.nombreCompleto
+              : undefined,
+          correo:
+            typeof datos.correo === "string" ? datos.correo : undefined,
+          telefono:
+            typeof datos.telefono === "string"
+              ? datos.telefono
               : undefined,
           rol: normalizarRol(datos.rol),
           planContratado:

@@ -778,7 +778,10 @@
     "deleteError": "Impossibile eliminare lo sconto."
   },
   "Checkout": {
-    "vatIncluded": "IVA inclusa"
+    "vatIncluded": "IVA inclusa",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Inserisci la password",
+    "passwordRequired": "Inserisci la password per confermare il pagamento."
   },
   "KidsLock": {
     "title": "Sblocca OpoGen Kids",

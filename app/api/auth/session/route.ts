@@ -23,6 +23,8 @@ export async function GET(request: Request) {
         autenticado: true,
         nombre: usuario.nombre,
         nombreCompleto: nombreCompletoUsuario(usuario),
+        correo: usuario.correo,
+        telefono: usuario.telefono,
         rol: usuario.rol,
         planContratado: usuario.planContratado ?? null,
         fechaCaducidadPremium,

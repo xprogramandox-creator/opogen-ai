@@ -778,7 +778,10 @@
     "deleteError": "Der Rabatt konnte nicht gelöscht werden."
   },
   "Checkout": {
-    "vatIncluded": "inkl. MwSt."
+    "vatIncluded": "inkl. MwSt.",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "passwordRequired": "Gib dein Passwort ein, um die Zahlung zu bestätigen."
   },
   "KidsLock": {
     "title": "OpoGen Kids freischalten",

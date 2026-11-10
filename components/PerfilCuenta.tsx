@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Check,
+  Crown,
   KeyRound,
   Pencil,
   Save,
   X,
 } from "lucide-react";
 import PhoneField from "@/components/PhoneField";
+import CheckoutModal from "@/components/CheckoutModal";
 import type { UsuarioPublico } from "@/lib/auth-server";
 import {
   formatearTelefono,
@@ -59,6 +61,7 @@ export default function PerfilCuenta({
   );
 
   const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [checkoutPremium, setCheckoutPremium] = useState(false);
   const [actual, setActual] = useState("");
   const [nueva, setNueva] = useState("");
   const [repetir, setRepetir] = useState("");
@@ -519,6 +522,17 @@ export default function PerfilCuenta({
           ) : null}
 
           <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--th)] pt-6">
+            {usuario.rol !== "premium" ? (
+              <button
+                type="button"
+                onClick={() => setCheckoutPremium(true)}
+                className={`${CLASE_BOTON} bg-[var(--azul)] text-[var(--btn-txt)] hover:bg-[var(--azul-hover)]`}
+              >
+                <Crown className="h-4 w-4" aria-hidden="true" />
+                Hazte Premium
+              </button>
+            ) : null}
+
             <button
               type="button"
               onClick={() => router.push("/dashboard")}
@@ -529,6 +543,18 @@ export default function PerfilCuenta({
           </div>
         </div>
       </section>
+
+      {checkoutPremium ? (
+        <CheckoutModal
+          plan="mensual"
+          usuario={{
+            nombre: usuario.nombre,
+            correo: usuario.correo,
+            telefono: usuario.telefono,
+          }}
+          onClose={() => setCheckoutPremium(false)}
+        />
+      ) : null}
     </main>
   );
 }
