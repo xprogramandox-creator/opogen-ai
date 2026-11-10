@@ -482,7 +482,8 @@
     "puzzleWinText": "¡Muy bien! Has completado el rompecabezas.",
     "puzzleAgain": "Volver a jugar",
     "puzzleMoves": "Movimientos",
-    "gameExit": "Salir"
+    "gameExit": "Salir",
+    "timesTables": "Tablas de Multiplicar"
   },
   "ExamenHero": {
     "exam": "Examen",
@@ -794,5 +795,15 @@
       "4": "Seguimiento y control parental: Tú decides cuándo y cuánto tiempo pasan en la plataforma.",
       "5": "Aprende jugando: Acceso total al Arcade y a los tests más divertidos."
     }
+  },
+  "KidsTables": {
+    "title": "Tablas de Multiplicar",
+    "subtitle": "Elige una tabla y escribe los resultados. ¡Aprende jugando!",
+    "chooseTable": "Elige la tabla",
+    "check": "Corregir",
+    "reset": "Reiniciar",
+    "correctAnswer": "Correcta: {answer}",
+    "result": "Has acertado {correct} de {total}.",
+    "back": "Volver a los temas"
   }
 }

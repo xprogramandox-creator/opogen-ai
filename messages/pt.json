@@ -482,7 +482,8 @@
     "puzzleWinText": "Muito bem! Completaste o puzzle.",
     "puzzleAgain": "Jogar outra vez",
     "puzzleMoves": "Movimentos",
-    "gameExit": "Sair"
+    "gameExit": "Sair",
+    "timesTables": "Tabuada"
   },
   "ExamenHero": {
     "exam": "Exame",
@@ -794,5 +795,15 @@
       "4": "Acompanhamento e controlo parental: decides quando e durante quanto tempo usam a plataforma.",
       "5": "Aprender a brincar: acesso total ao Arcade e aos testes mais divertidos."
     }
+  },
+  "KidsTables": {
+    "title": "Tabuada",
+    "subtitle": "Escolhe uma tabuada e escreve os resultados. Aprende a brincar!",
+    "chooseTable": "Escolhe a tabuada",
+    "check": "Corrigir",
+    "reset": "Reiniciar",
+    "correctAnswer": "Correta: {answer}",
+    "result": "Acertaste {correct} de {total}.",
+    "back": "Voltar aos temas"
   }
 }

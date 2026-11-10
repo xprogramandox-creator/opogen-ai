@@ -71,6 +71,18 @@ export default function KidsTemasPage() {
         </p>
 
         <div className="mt-10 grid grid-cols-2 gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
+          <Link
+            href="/kids/tablas"
+            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
+          >
+            <span className="text-5xl" aria-hidden="true">
+              ✖️
+            </span>
+            <span className="text-base font-bold text-[var(--txt)] sm:text-lg">
+              {t("timesTables")}
+            </span>
+          </Link>
+
           {TEMAS.map((tema) => {
             const nombre = t(tema.clave);
 

@@ -482,7 +482,8 @@
     "puzzleWinText": "Super! Du hast das Puzzle geschafft.",
     "puzzleAgain": "Nochmal spielen",
     "puzzleMoves": "Züge",
-    "gameExit": "Beenden"
+    "gameExit": "Beenden",
+    "timesTables": "Einmaleins"
   },
   "ExamenHero": {
     "exam": "Prüfung",
@@ -794,5 +795,15 @@
       "4": "Fortschritt und elterliche Kontrolle: Du entscheidest, wann und wie lange sie die Plattform nutzen.",
       "5": "Spielerisch lernen: Voller Zugang zur Arcade und zu den unterhaltsamsten Tests."
     }
+  },
+  "KidsTables": {
+    "title": "Einmaleins",
+    "subtitle": "Wähle eine Reihe und schreibe die Ergebnisse. Lerne spielerisch!",
+    "chooseTable": "Wähle die Reihe",
+    "check": "Prüfen",
+    "reset": "Zurücksetzen",
+    "correctAnswer": "Richtig: {answer}",
+    "result": "Du hast {correct} von {total} richtig.",
+    "back": "Zurück zu den Themen"
   }
 }

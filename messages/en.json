@@ -482,7 +482,8 @@
     "puzzleWinText": "Well done! You completed the puzzle.",
     "puzzleAgain": "Play again",
     "puzzleMoves": "Moves",
-    "gameExit": "Exit"
+    "gameExit": "Exit",
+    "timesTables": "Times Tables"
   },
   "ExamenHero": {
     "exam": "Exam",
@@ -794,5 +795,15 @@
       "4": "Progress tracking and parental control: You decide when and for how long they use the platform.",
       "5": "Learn by playing: Full access to the Arcade and the most fun tests."
     }
+  },
+  "KidsTables": {
+    "title": "Times Tables",
+    "subtitle": "Choose a table and write the answers. Learn by playing!",
+    "chooseTable": "Choose a table",
+    "check": "Check",
+    "reset": "Reset",
+    "correctAnswer": "Correct: {answer}",
+    "result": "You got {correct} out of {total} right.",
+    "back": "Back to topics"
   }
 }

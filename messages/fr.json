@@ -482,7 +482,8 @@
     "puzzleWinText": "Bravo ! Tu as terminé le puzzle.",
     "puzzleAgain": "Rejouer",
     "puzzleMoves": "Déplacements",
-    "gameExit": "Quitter"
+    "gameExit": "Quitter",
+    "timesTables": "Tables de multiplication"
   },
   "ExamenHero": {
     "exam": "Examen",
@@ -794,5 +795,15 @@
       "4": "Suivi et contrôle parental : vous décidez quand et combien de temps ils utilisent la plateforme.",
       "5": "Apprendre en jouant : accès complet à l'Arcade et aux tests les plus amusants."
     }
+  },
+  "KidsTables": {
+    "title": "Tables de multiplication",
+    "subtitle": "Choisis une table et écris les résultats. Apprends en jouant !",
+    "chooseTable": "Choisis la table",
+    "check": "Corriger",
+    "reset": "Réinitialiser",
+    "correctAnswer": "Bonne réponse : {answer}",
+    "result": "Tu as réussi {correct} sur {total}.",
+    "back": "Retour aux thèmes"
   }
 }

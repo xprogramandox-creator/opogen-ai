@@ -482,7 +482,8 @@
     "puzzleWinText": "Bravo! Hai completato il puzzle.",
     "puzzleAgain": "Gioca ancora",
     "puzzleMoves": "Mosse",
-    "gameExit": "Esci"
+    "gameExit": "Esci",
+    "timesTables": "Tabelline"
   },
   "ExamenHero": {
     "exam": "Esame",
@@ -794,5 +795,15 @@
       "4": "Monitoraggio e controllo genitoriale: decidi tu quando e per quanto tempo usano la piattaforma.",
       "5": "Imparare giocando: accesso completo all'Arcade e ai test più divertenti."
     }
+  },
+  "KidsTables": {
+    "title": "Tabelline",
+    "subtitle": "Scegli una tabellina e scrivi i risultati. Impara giocando!",
+    "chooseTable": "Scegli la tabellina",
+    "check": "Correggi",
+    "reset": "Ricomincia",
+    "correctAnswer": "Corretta: {answer}",
+    "result": "Hai indovinato {correct} su {total}.",
+    "back": "Torna ai temi"
   }
 }
