@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   HISTORIAL_TESTS_MAX,
+  carpetaMadre,
   normalizarEntradaHistorial,
   type EntradaHistorialTest,
 } from "@/lib/historial-tests";
@@ -74,5 +75,55 @@ export async function agregarHistorialServidor(
       JSON.stringify(actualizado, null, 2),
       "utf8",
     );
+  });
+}
+
+/** Elimina las estadísticas asociadas a una carpeta madre o lógica. */
+export async function eliminarHistorialDeCarpeta(
+  clave: string,
+  nombre: string,
+  plan?: PlanUsuario,
+): Promise<number> {
+  return conBloqueoUsuario(clave, async () => {
+    const historial = await leerHistorialServidor(clave, plan);
+    const nombreLimpio = nombre.trim();
+    const esCarpetaLogica =
+      nombreLimpio.startsWith("Test Mixtos - ") ||
+      nombreLimpio.startsWith("Fallos - ") ||
+      nombreLimpio.startsWith("Simulacros - ");
+
+    function normalizar(valor: string): string {
+      return valor
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLocaleLowerCase("es");
+    }
+
+    const objetivo = normalizar(
+      esCarpetaLogica ? nombreLimpio : carpetaMadre(nombreLimpio),
+    );
+
+    const restantes = historial.filter((entrada) => {
+      const valor = normalizar(
+        esCarpetaLogica
+          ? entrada.carpeta
+          : carpetaMadre(entrada.carpeta),
+      );
+
+      return valor !== objetivo;
+    });
+
+    if (restantes.length === historial.length) {
+      return 0;
+    }
+
+    await writeFile(
+      rutaHistorial(clave, plan),
+      JSON.stringify(restantes, null, 2),
+      "utf8",
+    );
+
+    return historial.length - restantes.length;
   });
 }

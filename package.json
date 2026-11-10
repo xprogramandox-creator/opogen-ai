@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:admin": "node scripts/seed-admin.mjs"
+    "seed:admin": "node scripts/seed-admin.mjs",
+    "limpiar:estadisticas": "node scripts/limpiar-estadisticas.js"
   },
   "dependencies": {
     "@google/genai": "^2.32.0",

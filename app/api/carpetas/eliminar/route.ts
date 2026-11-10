@@ -6,6 +6,7 @@ import { mensajeError } from "@/lib/errores";
 import {
   eliminarFallosDeCarpeta,
 } from "@/lib/fallos-db";
+import { eliminarHistorialDeCarpeta } from "@/lib/historial-servidor";
 import { bloqueoFreemium } from "@/lib/planes-server";
 import {
   estaDentroDe,
@@ -70,6 +71,7 @@ export async function DELETE(req: Request) {
     if (carpetaResuelta) {
       // Al borrar la carpeta se eliminan su índice y su Repaso_Fallos.pdf.
       await eliminarFallosDeCarpeta(clave, nombre);
+      await eliminarHistorialDeCarpeta(clave, nombre);
       algoEliminado = true;
     }
 
