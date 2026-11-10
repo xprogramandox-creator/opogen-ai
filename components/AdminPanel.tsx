@@ -1203,22 +1203,26 @@ export default function AdminPanel() {
                   <tr>{["ID", "Usuario", "Cuenta", "Plan", "Base", "IVA", "Total", "Registro", "Pago", "Caducidad", "Estado", "Acciones"].map((h) => <th key={h} className="px-3 py-3 font-bold">{h}</th>)}</tr>
                 </thead>
                 <tbody>
-                  {usuarios.map((usuario) => (
+                  {usuarios.map((usuario) => {
+                    const sinSuscripcion = !usuario.plan;
+
+                    return (
                     <tr key={usuario.clave} className="border-t border-[var(--th)]">
                       <td className="px-3 py-3 font-mono">{usuario.clave}</td>
                       <td className="px-3 py-3"><strong>{usuario.nombre} {usuario.apellidos}</strong><br /><span className="text-[var(--txt3)]">{usuario.correo}</span></td>
                       <td className="px-3 py-3">{usuario.rol === "premium" ? "Premium" : "Free"}</td>
-                      <td className="px-3 py-3">{usuario.rol === "premium" ? usuario.plan : "—"}</td>
-                      <td className="px-3 py-3">{dinero(usuario.precioBase)}</td>
-                      <td className="px-3 py-3">{dinero(usuario.iva)}</td>
-                      <td className="px-3 py-3 font-bold">{dinero(usuario.total)}</td>
+                      <td className="px-3 py-3">{sinSuscripcion ? "—" : usuario.plan}</td>
+                      <td className="px-3 py-3">{dinero(sinSuscripcion ? 0 : usuario.precioBase)}</td>
+                      <td className="px-3 py-3">{dinero(sinSuscripcion ? 0 : usuario.iva)}</td>
+                      <td className="px-3 py-3 font-bold">{dinero(sinSuscripcion ? 0 : usuario.total)}</td>
                       <td className="px-3 py-3">{fecha(usuario.fechaRegistro)}</td>
                       <td className="px-3 py-3">{fecha(usuario.fechaPago)}</td>
                       <td className="px-3 py-3">{usuario.plan === "ilimitado" ? "Sin límite" : fecha(usuario.fechaCaducidad)}</td>
                       <td className="px-3 py-3">{usuario.estado}</td>
                       <td className="px-3 py-3"><div className="flex gap-2"><button type="button" onClick={() => abrirEditar(usuario)} title="Editar" className="rounded-lg p-1.5 text-[var(--azul)] hover:bg-[var(--suave)]"><Pencil className="h-4 w-4" /></button><button type="button" onClick={() => { setSeleccionado(usuario); setModal("eliminar"); }} title="Eliminar" className="rounded-lg p-1.5 text-red-500 hover:bg-red-50"><Trash2 className="h-4 w-4" /></button></div></td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

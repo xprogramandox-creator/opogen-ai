@@ -35,26 +35,6 @@ import { codigoError, mensajeError } from "@/lib/errores";
 const MAX_REGISTROS_POR_IP = 7;
 const VENTANA_REGISTROS_MS = 60 * 60 * 1000;
 
-const MESES_DURACION = {
-  mensual: 1,
-  semestral: 6,
-  anual: 12,
-} as const;
-
-function sumarMeses(fecha: Date, meses: number): Date {
-  const resultado = new Date(fecha);
-  const dia = resultado.getDate();
-  resultado.setDate(1);
-  resultado.setMonth(resultado.getMonth() + meses);
-  const ultimoDia = new Date(
-    resultado.getFullYear(),
-    resultado.getMonth() + 1,
-    0,
-  ).getDate();
-  resultado.setDate(Math.min(dia, ultimoDia));
-  return resultado;
-}
-
 function respuestaError(mensaje: string, estado: number) {
   return NextResponse.json({ error: mensaje }, { status: estado });
 }
@@ -264,12 +244,6 @@ export async function POST(request: Request) {
     const tokenVerificacion = randomUUID();
     const tokenVerificacionExpira = Date.now() + 24 * 60 * 60 * 1000;
 
-    const fechaInicio = new Date();
-    const fechaCaducidad =
-      plan === "premium" && duracion
-        ? sumarMeses(fechaInicio, MESES_DURACION[duracion])
-        : null;
-
     const usuario: UsuarioRegistrado = {
       nombre,
       apellidos,
@@ -294,13 +268,11 @@ export async function POST(request: Request) {
       provincia,
       pais: paisFacturacion,
       codigoPostal,
-      ...(plan === "premium"
-        ? {
-            planContratado: duracion,
-            fechaInicio: fechaInicio.toISOString(),
-            fechaCaducidad: fechaCaducidad?.toISOString(),
-          }
-        : {}),
+      // El plan solo se activa cuando Stripe confirma el pago. Hasta
+      // entonces la cuenta es Freemium y no tiene suscripción asociada.
+      planContratado: undefined,
+      fechaInicio: undefined,
+      fechaCaducidad: undefined,
     };
 
     // La cuenta real no se crea hasta verificar el correo o completar el pago.

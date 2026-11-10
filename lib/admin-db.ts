@@ -279,7 +279,7 @@ function numero(valor: unknown): number {
 export function precioBasePlan(plan: string): number {
   if (plan === "mensual") return 9;
   if (plan === "semestral") return 48;
-  if (plan === "anual") return 84;
+  if (plan === "anual") return 69.42;
   return 0;
 }
 
@@ -354,6 +354,7 @@ export async function sincronizarUsuarios(
 
     const plan = usuario.planContratado || "";
     const estado = estadoSuscripcion(usuario);
+    const sinSuscripcion = usuario.rol !== "premium" || !plan;
 
     // El precio debe corresponder al plan actual. Si el último pago registrado
     // es de otro plan, el usuario cambió de suscripción y hay que recalcularlo.
@@ -373,29 +374,37 @@ export async function sincronizarUsuarios(
         (ultimoPago.plan || "") !== plan);
 
     const precioBase = redondearMoneda(
-      debeRecalcularPrecio
-        ? precioCanonico
-        : existente
-          ? numero(existente.precio_base)
-          : precioCanonico,
+      sinSuscripcion
+        ? 0
+        : debeRecalcularPrecio
+          ? precioCanonico
+          : existente
+            ? numero(existente.precio_base)
+            : precioCanonico,
     );
     const ivaUsuario = redondearMoneda(
-      debeRecalcularPrecio
-        ? precioBase * iva
-        : existente
-          ? numero(existente.iva)
-          : precioBase * iva,
+      sinSuscripcion
+        ? 0
+        : debeRecalcularPrecio
+          ? precioBase * iva
+          : existente
+            ? numero(existente.iva)
+            : precioBase * iva,
     );
     const total = redondearMoneda(
-      debeRecalcularPrecio
-        ? precioBase + ivaUsuario
-        : existente
-          ? numero(existente.total)
-          : precioBase + ivaUsuario,
+      sinSuscripcion
+        ? 0
+        : debeRecalcularPrecio
+          ? precioBase + ivaUsuario
+          : existente
+            ? numero(existente.total)
+            : precioBase + ivaUsuario,
     );
-    const fechaPago = debeRecalcularPrecio
-      ? usuario.fechaInicio || ahora
-      : existente?.fecha_pago || usuario.fechaInicio || null;
+    const fechaPago = sinSuscripcion
+      ? null
+      : debeRecalcularPrecio
+        ? usuario.fechaInicio || ahora
+        : existente?.fecha_pago || usuario.fechaInicio || null;
 
     if (existente) {
       db.prepare(
