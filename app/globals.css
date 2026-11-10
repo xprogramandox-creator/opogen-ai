@@ -462,6 +462,28 @@ button:disabled {
 }
 
 /* =========================================================
+   KIDS · TABLAS DE MULTIPLICAR
+   ========================================================= */
+@keyframes kids-tabla-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.08) rotate(-1.5deg);
+  }
+  75% {
+    transform: scale(0.98) rotate(1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.kids-tabla-pop {
+  animation: kids-tabla-pop 420ms ease-out;
+}
+
+/* =========================================================
    ACCESIBILIDAD
    ========================================================= */
 .skip-link {
