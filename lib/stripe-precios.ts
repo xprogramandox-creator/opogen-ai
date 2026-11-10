@@ -5,7 +5,7 @@
  */
 export const PRECIOS_STRIPE = {
   mensual: "price_1UZgIiEcQCiUR7vY1oo7urnl",
-  semestral: "price_1Ua1eaEcQCiUR7vYjK6MaNki",
+  semestral: "price_1UZMRVEcQCiUR7vYYQQIbTRM",
   anual: "price_1UZzIKEcQCiUR7vYRO0GwoSV",
 } as const;
 
