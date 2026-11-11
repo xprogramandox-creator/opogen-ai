@@ -393,7 +393,65 @@
     "hint": "Hint",
     "hintLoading": "Your friend is thinking...",
     "hintTitle": "Your friend says:",
-    "howToPlayQuestion": "How do you play?"
+    "howToPlayQuestion": "How do you play?",
+    "tag": "Play and learn with your own notes",
+    "whyTitle": "Why play Arcade?",
+    "whyText": "It is not just a game: it is your training ground. Here you will train response speed, quick reading comprehension and mental agility under pressure. Turn reviewing your notes into a challenge against yourself.",
+    "modes": {
+      "archivos": {
+        "title": "My Files",
+        "description": "Upload your notes and AI will create a test tailored to you.",
+        "detail": "Upload one or more files with your notes and let AI extract the content to create multiple-choice questions. You can choose the difficulty, time per question and number of lives before you start."
+      },
+      "tema": {
+        "title": "Free Topic",
+        "description": "Type any topic and AI will generate the questions.",
+        "detail": "You do not need notes: type a topic, a subject or a concept and AI will generate a complete test with new questions. Ideal for reviewing from memory or practising any subject."
+      },
+      "supervivencia": {
+        "title": "Survival",
+        "description": "Extreme mode. No lives, no mercy.",
+        "detail": "Extreme mode. No lives, no mercy. Show how long you can last without missing a single answer."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Mental agility",
+        "text": "Think fast under pressure."
+      },
+      "comprension": {
+        "title": "Express comprehension",
+        "text": "Grasp the essentials in seconds."
+      },
+      "memoria": {
+        "title": "Long-term memory",
+        "text": "Lock in concepts with emotion."
+      },
+      "estres": {
+        "title": "Stress management",
+        "text": "Stay calm against the clock."
+      }
+    },
+    "loadingTitle": "Generating the game",
+    "score": "Score",
+    "survivalMode": "Survival Mode",
+    "livesCount": "{count} lives",
+    "categoryFallback": "Syllabus",
+    "readingFile": "Reading file",
+    "generatingTest": "Generating test",
+    "preparingFiles": "Preparing files…",
+    "filesSelected": "Selected: {count}",
+    "selectFiles": "Select your files",
+    "useSingular": "use",
+    "usePlural": "uses",
+    "skip": "Skip",
+    "close": "Close",
+    "play": "Play",
+    "howToPlayMode": "How to play: {mode}",
+    "tryAgain": "Good try!",
+    "timeUp": "Time is up. The correct answer was {letter}) {answer}.",
+    "wrongAnswer": "Incorrect. The correct answer was {letter}) {answer}.",
+    "failedQuestion": "You failed question {current}. The correct answer was {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Your statistics",

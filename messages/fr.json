@@ -393,7 +393,65 @@
     "hint": "Indice",
     "hintLoading": "Votre ami réfléchit...",
     "hintTitle": "Votre ami dit :",
-    "howToPlayQuestion": "Comment jouer ?"
+    "howToPlayQuestion": "Comment jouer ?",
+    "tag": "Joue et apprends avec tes propres notes",
+    "whyTitle": "Pourquoi jouer à l'Arcade ?",
+    "whyText": "Ce n'est pas qu'un jeu, c'est ton terrain d'entraînement. Ici, tu entraînes ta vitesse de réponse, ta compréhension rapide et ton agilité mentale sous pression. Transforme la révision de tes notes en défi contre toi-même.",
+    "modes": {
+      "archivos": {
+        "title": "Mes fichiers",
+        "description": "Importe tes notes et l'IA créera un test sur mesure.",
+        "detail": "Importe un ou plusieurs fichiers avec tes notes et laisse l'IA extraire le contenu pour créer des questions à choix multiples. Tu peux choisir la difficulté, le temps par question et le nombre de vies avant de commencer."
+      },
+      "tema": {
+        "title": "Sujet libre",
+        "description": "Écris n'importe quel sujet et l'IA générera les questions.",
+        "detail": "Pas besoin de notes : écris un sujet, une matière ou un concept et l'IA générera un test complet avec de nouvelles questions. Idéal pour réviser de mémoire ou t'entraîner sur n'importe quelle matière."
+      },
+      "supervivencia": {
+        "title": "Survie",
+        "description": "Mode extrême. Sans vies, sans pitié.",
+        "detail": "Mode extrême. Sans vies, sans pitié. Montre combien de temps tu tiens sans rater une seule réponse."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Agilité mentale",
+        "text": "Pense vite sous pression."
+      },
+      "comprension": {
+        "title": "Compréhension express",
+        "text": "Saisis l'essentiel en quelques secondes."
+      },
+      "memoria": {
+        "title": "Mémoire à long terme",
+        "text": "Ancre les concepts avec émotion."
+      },
+      "estres": {
+        "title": "Gestion du stress",
+        "text": "Garde ton calme face au chrono."
+      }
+    },
+    "loadingTitle": "Génération de la partie",
+    "score": "Points",
+    "survivalMode": "Mode Survie",
+    "livesCount": "{count} vies",
+    "categoryFallback": "Programme",
+    "readingFile": "Lecture du fichier",
+    "generatingTest": "Génération du test",
+    "preparingFiles": "Préparation des fichiers…",
+    "filesSelected": "Sélectionné(s) : {count}",
+    "selectFiles": "Sélectionne tes fichiers",
+    "useSingular": "utilisation",
+    "usePlural": "utilisations",
+    "skip": "Passer",
+    "close": "Fermer",
+    "play": "Jouer",
+    "howToPlayMode": "Comment jouer : {mode}",
+    "tryAgain": "Bien essayé !",
+    "timeUp": "Temps écoulé. La bonne réponse était {letter}) {answer}.",
+    "wrongAnswer": "Incorrect. La bonne réponse était {letter}) {answer}.",
+    "failedQuestion": "Tu as raté la question {current}. La bonne réponse était {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Vos statistiques",

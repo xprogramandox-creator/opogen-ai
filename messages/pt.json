@@ -393,7 +393,65 @@
     "hint": "Dica",
     "hintLoading": "O seu amigo está a pensar...",
     "hintTitle": "O seu amigo diz:",
-    "howToPlayQuestion": "Como se joga?"
+    "howToPlayQuestion": "Como se joga?",
+    "tag": "Joga e aprende com os teus apontamentos",
+    "whyTitle": "Porquê jogar no Arcade?",
+    "whyText": "Não é apenas um jogo, é o teu campo de treino. Aqui treinas velocidade de resposta, compreensão rápida e agilidade mental sob pressão. Transforma a revisão dos teus apontamentos num desafio contra ti próprio.",
+    "modes": {
+      "archivos": {
+        "title": "Os meus ficheiros",
+        "description": "Carrega os teus apontamentos e a IA criará um teste à tua medida.",
+        "detail": "Carrega um ou mais ficheiros com os teus apontamentos e deixa a IA extrair o conteúdo para criar perguntas de escolha múltipla. Podes escolher a dificuldade, o tempo por pergunta e o número de vidas antes de começar."
+      },
+      "tema": {
+        "title": "Tema livre",
+        "description": "Escreve qualquer tema e a IA gerará as perguntas.",
+        "detail": "Não precisas de apontamentos: escreve um tema, uma disciplina ou um conceito e a IA gerará um teste completo com perguntas novas. Ideal para rever de memória ou praticar qualquer matéria."
+      },
+      "supervivencia": {
+        "title": "Sobrevivência",
+        "description": "Modo extremo. Sem vidas, sem piedade.",
+        "detail": "Modo extremo. Sem vidas, sem piedade. Mostra quanto tempo aguentas sem falhar uma única resposta."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Agilidade mental",
+        "text": "Pensa rápido sob pressão."
+      },
+      "comprension": {
+        "title": "Compreensão rápida",
+        "text": "Apanha o essencial em segundos."
+      },
+      "memoria": {
+        "title": "Memória a longo prazo",
+        "text": "Fixa conceitos com emoção."
+      },
+      "estres": {
+        "title": "Gestão do stress",
+        "text": "Mantém a calma contra o cronómetro."
+      }
+    },
+    "loadingTitle": "A gerar a partida",
+    "score": "Pontos",
+    "survivalMode": "Modo Sobrevivência",
+    "livesCount": "{count} vidas",
+    "categoryFallback": "Programa",
+    "readingFile": "A ler o ficheiro",
+    "generatingTest": "A gerar o teste",
+    "preparingFiles": "A preparar os ficheiros…",
+    "filesSelected": "Selecionado(s): {count}",
+    "selectFiles": "Seleciona os teus ficheiros",
+    "useSingular": "utilização",
+    "usePlural": "utilizações",
+    "skip": "Saltar",
+    "close": "Fechar",
+    "play": "Jogar",
+    "howToPlayMode": "Como jogar: {mode}",
+    "tryAgain": "Boa tentativa!",
+    "timeUp": "O tempo acabou. A resposta correta era {letter}) {answer}.",
+    "wrongAnswer": "Incorreto. A resposta correta era {letter}) {answer}.",
+    "failedQuestion": "Falhaste a pergunta {current}. A resposta correta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "As suas estatísticas",

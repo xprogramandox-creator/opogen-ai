@@ -393,7 +393,65 @@
     "hint": "Pista",
     "hintLoading": "El amigo está pensando...",
     "hintTitle": "El amigo dice:",
-    "howToPlayQuestion": "¿Cómo se juega?"
+    "howToPlayQuestion": "¿Cómo se juega?",
+    "tag": "Juega y aprende con tus propios apuntes",
+    "whyTitle": "¿Por qué jugar al Arcade?",
+    "whyText": "No es solo un juego, es tu campo de entrenamiento. Aquí entrenarás la velocidad de respuesta, la comprensión lectora exprés y la agilidad mental bajo presión. Convierte el repaso de tus apuntes en un desafío contra ti mismo.",
+    "modes": {
+      "archivos": {
+        "title": "Mis Archivos",
+        "description": "Sube tus apuntes y la IA creará un test a tu medida.",
+        "detail": "Sube uno o varios archivos con tus apuntes y deja que la IA extraiga el contenido para crear preguntas tipo test. Puedes elegir la dificultad, el tiempo por pregunta y el número de vidas antes de empezar."
+      },
+      "tema": {
+        "title": "Tema Libre",
+        "description": "Escribe cualquier tema y la IA generará las preguntas.",
+        "detail": "No necesitas apuntes: escribe un tema, una asignatura o un concepto y la IA generará un test completo con preguntas nuevas. Ideal para repasar de memoria o practicar cualquier materia."
+      },
+      "supervivencia": {
+        "title": "Supervivencia",
+        "description": "Modo extremo. Sin vidas, sin piedad.",
+        "detail": "Modo extremo. Sin vidas, sin piedad. Demuestra cuánto aguantas sin fallar una sola respuesta."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Agilidad mental",
+        "text": "Piensa rápido bajo presión."
+      },
+      "comprension": {
+        "title": "Comprensión exprés",
+        "text": "Capta lo esencial en segundos."
+      },
+      "memoria": {
+        "title": "Memoria a largo plazo",
+        "text": "Fija conceptos con emoción."
+      },
+      "estres": {
+        "title": "Gestión del estrés",
+        "text": "Mantén la calma con el cronómetro."
+      }
+    },
+    "loadingTitle": "Generando la partida",
+    "score": "Puntos",
+    "survivalMode": "Modo Supervivencia",
+    "livesCount": "{count} vidas",
+    "categoryFallback": "Temario",
+    "readingFile": "Leyendo archivo",
+    "generatingTest": "Generando test",
+    "preparingFiles": "Preparando archivos…",
+    "filesSelected": "Seleccionado(s): {count}",
+    "selectFiles": "Selecciona tus archivos",
+    "useSingular": "uso",
+    "usePlural": "usos",
+    "skip": "Saltar",
+    "close": "Cerrar",
+    "play": "Jugar",
+    "howToPlayMode": "Cómo jugar: {mode}",
+    "tryAgain": "¡Buen intento!",
+    "timeUp": "Se acabó el tiempo. La correcta era {letter}) {answer}.",
+    "wrongAnswer": "Incorrecto. La correcta era {letter}) {answer}.",
+    "failedQuestion": "Fallaste en la pregunta {current}. La correcta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Tus estadísticas",

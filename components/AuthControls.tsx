@@ -13,13 +13,13 @@ import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
 import { diasHastaFecha, formatearFecha } from "@/lib/fechas";
 
 const CLASE_BOTON_CABECERA =
-  "inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-2 text-[11px] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:h-10 sm:px-4 sm:text-sm";
+  "inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-1.5 text-[10px] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:h-10 sm:px-2.5 sm:text-xs xl:px-3 xl:text-[13px]";
 
 const CLASE_SESION_CABECERA =
   "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-[var(--ok-b)] bg-[var(--ok)] px-2 text-[11px] font-bold text-[var(--ok-t)] transition-colors hover:bg-[var(--suave2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:h-10 sm:px-4 sm:text-sm";
 
 const CLASE_KIDS =
-  "inline-flex h-9 shrink-0 items-center justify-center gap-1 rounded-full bg-[var(--azul)] px-3 text-xs font-bold text-white shadow-md transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:h-10 sm:text-sm";
+  "inline-flex h-9 shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full bg-[var(--azul)] px-2.5 text-[11px] font-bold text-white shadow-md transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:h-10 sm:text-xs xl:px-3 xl:text-sm";
 
 const CLASE_KIDS_MOVIL =
   "inline-flex h-12 w-full items-center justify-center gap-1 rounded-2xl bg-[var(--azul)] px-4 text-base font-bold text-white shadow-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2";
@@ -69,7 +69,7 @@ export default function AuthControls() {
       <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
         <nav
           aria-label="Navegación principal"
-          className="mx-auto hidden min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1 lg:flex"
+          className="mx-auto hidden min-w-0 max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 lg:flex xl:flex-nowrap xl:gap-x-2"
         >
           {pathname !== "/" ? (
             <Link

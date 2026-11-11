@@ -393,7 +393,65 @@
     "hint": "Indizio",
     "hintLoading": "Il tuo amico sta pensando...",
     "hintTitle": "Il tuo amico dice:",
-    "howToPlayQuestion": "Come si gioca?"
+    "howToPlayQuestion": "Come si gioca?",
+    "tag": "Gioca e impara con i tuoi appunti",
+    "whyTitle": "Perché giocare all'Arcade?",
+    "whyText": "Non è solo un gioco, è il tuo campo di allenamento. Qui alleni velocità di risposta, comprensione rapida e agilità mentale sotto pressione. Trasforma il ripasso dei tuoi appunti in una sfida contro te stesso.",
+    "modes": {
+      "archivos": {
+        "title": "I miei file",
+        "description": "Carica i tuoi appunti e l'IA creerà un test su misura.",
+        "detail": "Carica uno o più file con i tuoi appunti e lascia che l'IA estragga il contenuto per creare domande a risposta multipla. Puoi scegliere difficoltà, tempo per domanda e numero di vite prima di iniziare."
+      },
+      "tema": {
+        "title": "Tema libero",
+        "description": "Scrivi qualsiasi argomento e l'IA genererà le domande.",
+        "detail": "Non servono appunti: scrivi un argomento, una materia o un concetto e l'IA genererà un test completo con nuove domande. Ideale per ripassare a memoria o esercitarti su qualsiasi materia."
+      },
+      "supervivencia": {
+        "title": "Sopravvivenza",
+        "description": "Modalità estrema. Senza vite, senza pietà.",
+        "detail": "Modalità estrema. Senza vite, senza pietà. Dimostra quanto resisti senza sbagliare una sola risposta."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Agilità mentale",
+        "text": "Pensa veloce sotto pressione."
+      },
+      "comprension": {
+        "title": "Comprensione rapida",
+        "text": "Cogli l'essenziale in pochi secondi."
+      },
+      "memoria": {
+        "title": "Memoria a lungo termine",
+        "text": "Fissa i concetti con emozione."
+      },
+      "estres": {
+        "title": "Gestione dello stress",
+        "text": "Mantieni la calma contro il cronometro."
+      }
+    },
+    "loadingTitle": "Generazione della partita",
+    "score": "Punti",
+    "survivalMode": "Modalità Sopravvivenza",
+    "livesCount": "{count} vite",
+    "categoryFallback": "Programma",
+    "readingFile": "Lettura del file",
+    "generatingTest": "Generazione del test",
+    "preparingFiles": "Preparazione dei file…",
+    "filesSelected": "Selezionati: {count}",
+    "selectFiles": "Seleziona i tuoi file",
+    "useSingular": "uso",
+    "usePlural": "usi",
+    "skip": "Salta",
+    "close": "Chiudi",
+    "play": "Gioca",
+    "howToPlayMode": "Come si gioca: {mode}",
+    "tryAgain": "Bel tentativo!",
+    "timeUp": "Tempo scaduto. La risposta corretta era {letter}) {answer}.",
+    "wrongAnswer": "Sbagliato. La risposta corretta era {letter}) {answer}.",
+    "failedQuestion": "Hai sbagliato la domanda {current}. La risposta corretta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Le tue statistiche",

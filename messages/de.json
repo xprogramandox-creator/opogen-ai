@@ -393,7 +393,65 @@
     "hint": "Tipp",
     "hintLoading": "Dein Freund denkt nach...",
     "hintTitle": "Dein Freund sagt:",
-    "howToPlayQuestion": "Wie spielt man?"
+    "howToPlayQuestion": "Wie spielt man?",
+    "tag": "Spiele und lerne mit deinen eigenen Notizen",
+    "whyTitle": "Warum Arcade spielen?",
+    "whyText": "Es ist nicht nur ein Spiel, sondern dein Trainingsplatz. Hier trainierst du Reaktionsgeschwindigkeit, schnelles Leseverständnis und geistige Beweglichkeit unter Druck. Mach aus dem Wiederholen deiner Notizen eine Herausforderung gegen dich selbst.",
+    "modes": {
+      "archivos": {
+        "title": "Meine Dateien",
+        "description": "Lade deine Notizen hoch und die KI erstellt einen Test für dich.",
+        "detail": "Lade eine oder mehrere Dateien mit deinen Notizen hoch und lass die KI den Inhalt extrahieren, um Multiple-Choice-Fragen zu erstellen. Du kannst Schwierigkeit, Zeit pro Frage und Anzahl der Leben vor dem Start wählen."
+      },
+      "tema": {
+        "title": "Freies Thema",
+        "description": "Schreibe ein beliebiges Thema und die KI erstellt die Fragen.",
+        "detail": "Du brauchst keine Notizen: Schreibe ein Thema, ein Fach oder ein Konzept und die KI erstellt einen kompletten Test mit neuen Fragen. Ideal zum Wiederholen aus dem Gedächtnis oder zum Üben jedes Fachs."
+      },
+      "supervivencia": {
+        "title": "Überleben",
+        "description": "Extremer Modus. Keine Leben, keine Gnade.",
+        "detail": "Extremer Modus. Keine Leben, keine Gnade. Zeig, wie lange du ohne einen einzigen Fehler durchhältst."
+      }
+    },
+    "benefits": {
+      "agilidad": {
+        "title": "Geistige Beweglichkeit",
+        "text": "Denke schnell unter Druck."
+      },
+      "comprension": {
+        "title": "Schnelles Verständnis",
+        "text": "Erfasse das Wesentliche in Sekunden."
+      },
+      "memoria": {
+        "title": "Langzeitgedächtnis",
+        "text": "Verankere Konzepte mit Emotionen."
+      },
+      "estres": {
+        "title": "Stressbewältigung",
+        "text": "Bleib ruhig gegen die Uhr."
+      }
+    },
+    "loadingTitle": "Spiel wird erstellt",
+    "score": "Punkte",
+    "survivalMode": "Überlebensmodus",
+    "livesCount": "{count} Leben",
+    "categoryFallback": "Stoff",
+    "readingFile": "Datei wird gelesen",
+    "generatingTest": "Test wird erstellt",
+    "preparingFiles": "Dateien werden vorbereitet…",
+    "filesSelected": "Ausgewählt: {count}",
+    "selectFiles": "Wähle deine Dateien",
+    "useSingular": "Nutzung",
+    "usePlural": "Nutzungen",
+    "skip": "Überspringen",
+    "close": "Schließen",
+    "play": "Spielen",
+    "howToPlayMode": "So wird gespielt: {mode}",
+    "tryAgain": "Guter Versuch!",
+    "timeUp": "Zeit abgelaufen. Die richtige Antwort war {letter}) {answer}.",
+    "wrongAnswer": "Falsch. Die richtige Antwort war {letter}) {answer}.",
+    "failedQuestion": "Du hast Frage {current} verfehlt. Die richtige Antwort war {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Deine Statistiken",

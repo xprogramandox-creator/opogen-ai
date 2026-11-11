@@ -49,59 +49,17 @@ type ModoExplicado = "archivos" | "tema" | "supervivencia";
 const MODOS_INFO: Array<{
   id: ModoExplicado;
   icono: string;
-  titulo: string;
-  descripcion: string;
-  detalle: string;
 }> = [
-  {
-    id: "archivos",
-    icono: "📁",
-    titulo: "Mis Archivos",
-    descripcion:
-      "Sube tus apuntes y la IA creará un test a tu medida.",
-    detalle:
-      "Sube uno o varios archivos con tus apuntes y deja que la IA extraiga el contenido para crear preguntas tipo test. Puedes elegir la dificultad, el tiempo por pregunta y el número de vidas antes de empezar.",
-  },
-  {
-    id: "tema",
-    icono: "✍️",
-    titulo: "Tema Libre",
-    descripcion:
-      "Escribe cualquier tema y la IA generará las preguntas.",
-    detalle:
-      "No necesitas apuntes: escribe un tema, una asignatura o un concepto y la IA generará un test completo con preguntas nuevas. Ideal para repasar de memoria o practicar cualquier materia.",
-  },
-  {
-    id: "supervivencia",
-    icono: "🔥",
-    titulo: "Supervivencia",
-    descripcion: "Modo extremo. Sin vidas, sin piedad.",
-    detalle:
-      "Modo extremo. Sin vidas, sin piedad. Demuestra cuánto aguantas sin fallar una sola respuesta.",
-  },
+  { id: "archivos", icono: "📁" },
+  { id: "tema", icono: "✍️" },
+  { id: "supervivencia", icono: "🔥" },
 ];
 
 const BENEFICIOS_INFO = [
-  {
-    icono: "⚡",
-    titulo: "Agilidad mental",
-    texto: "Piensa rápido bajo presión.",
-  },
-  {
-    icono: "📖",
-    titulo: "Comprensión exprés",
-    texto: "Capta lo esencial en segundos.",
-  },
-  {
-    icono: "🧠",
-    titulo: "Memoria a largo plazo",
-    texto: "Fija conceptos con emoción.",
-  },
-  {
-    icono: "🧘",
-    titulo: "Gestión del estrés",
-    texto: "Mantén la calma con el cronómetro.",
-  },
+  { id: "agilidad", icono: "⚡" },
+  { id: "comprension", icono: "📖" },
+  { id: "memoria", icono: "🧠" },
+  { id: "estres", icono: "🧘" },
 ] as const;
 
 type PreguntaFuente = {
@@ -225,7 +183,7 @@ function crearEstadoInicial(): EstadoArcade {
     destello: null,
     flotantes: [],
     tiempo: 15,
-    subtituloResultado: "¡Buen intento!",
+    subtituloResultado: "",
   };
 }
 
@@ -284,7 +242,7 @@ function prepararPregunta(pregunta: PreguntaFuente): PreguntaJuego {
     q: pregunta.q,
     options: orden.map(i => pregunta.o[i]),
     correct: orden.indexOf(pregunta.a),
-    cat: "Temario",
+    cat: "",
     exp: pregunta.e,
   };
 }
@@ -680,11 +638,11 @@ export default function ArcadePage() {
     if (!estado.primeraPregunta && estado.modo !== "supervivencia") iniciarTimer();
   }
 
-  function terminarPartida(subtitulo = "¡Buen intento!"): void {
+  function terminarPartida(subtitulo?: string): void {
     const estado = vistaRef.current;
     detenerTimer();
     estado.bloqueado = true; estado.pausado = false; estado.pantalla = "result";
-    estado.subtituloResultado = subtitulo; commit();
+    estado.subtituloResultado = subtitulo ?? t("tryAgain"); commit();
   }
 
   function manejarTimeout(): void {
@@ -696,7 +654,7 @@ export default function ArcadePage() {
     const pregunta = estado.actual;
     const letra = String.fromCharCode(65 + pregunta.correct);
     estado.feedback = {
-      mensaje: `Se acabó el tiempo. La correcta era ${letra}) ${pregunta.options[pregunta.correct]}.`,
+      mensaje: t("timeUp", { letter: letra, answer: pregunta.options[pregunta.correct] }),
       explicacion: pregunta.exp,
       correcta: false,
     };
@@ -725,13 +683,13 @@ export default function ArcadePage() {
     estado.resultado = "wrong"; estado.racha = 0; estado.vidas -= 1;
     const letra = String.fromCharCode(65 + pregunta.correct);
     estado.feedback = {
-      mensaje: `Incorrecto. La correcta era ${letra}) ${pregunta.options[pregunta.correct]}.`,
+      mensaje: t("wrongAnswer", { letter: letra, answer: pregunta.options[pregunta.correct] }),
       explicacion: pregunta.exp,
       correcta: false,
     };
     if (estado.modo === "supervivencia") {
       // Un solo fallo termina la partida al instante.
-      estado.subtituloResultado = `Fallaste en la pregunta ${estado.ronda}. La correcta era ${letra}) ${pregunta.options[pregunta.correct]}.`;
+      estado.subtituloResultado = t("failedQuestion", { current: estado.ronda, letter: letra, answer: pregunta.options[pregunta.correct] });
       commit();
       terminarPartida(estado.subtituloResultado);
       return;
@@ -855,7 +813,7 @@ export default function ArcadePage() {
     estado.feedback = null; estado.resultado = null; estado.sacudir = false; estado.destello = null; estado.flotantes = [];
     estado.pista = ""; estado.cargandoPista = false; estado.errorPista = "";
     estado.pausaPista = false;
-    estado.tiempo = configRef.current.time; estado.subtituloResultado = "¡Buen intento!";
+    estado.tiempo = configRef.current.time; estado.subtituloResultado = t("tryAgain");
     cargarSiguiente();
   }
 
@@ -1070,7 +1028,7 @@ export default function ArcadePage() {
                 </span>{" "}
                 Arcade
               </div>
-              <div className="tag">Juega y aprende con tus propios apuntes</div>
+              <div className="tag">{t("tag")}</div>
               {limiteAgotado && <div className="error-box" role="alert">{mensajeLimite}</div>}
 
               <div className="arcade-intro">
@@ -1078,11 +1036,7 @@ export default function ArcadePage() {
                   🧠
                 </span>
                 <p>
-                  <strong>¿Por qué jugar al Arcade?</strong> No es solo un
-                  juego, es tu campo de entrenamiento. Aquí entrenarás la
-                  velocidad de respuesta, la comprensión lectora exprés y la
-                  agilidad mental bajo presión. Convierte el repaso de tus
-                  apuntes en un desafío contra ti mismo.
+                  <strong>{t("whyTitle")}</strong> {t("whyText")}
                 </p>
               </div>
 
@@ -1098,10 +1052,10 @@ export default function ArcadePage() {
                       {modo.icono}
                     </span>
                     <span className="arcade-modo-titulo">
-                      {modo.titulo}
+                      {t(`modes.${modo.id}.title`)}
                     </span>
                     <span className="arcade-modo-descripcion">
-                      {modo.descripcion}
+                      {t(`modes.${modo.id}.description`)}
                     </span>
                   </button>
                 ))}
@@ -1114,7 +1068,7 @@ export default function ArcadePage() {
               <div className="arcade-beneficios grid grid-cols-2 gap-4 md:grid-cols-4">
                 {BENEFICIOS_INFO.map((beneficio) => (
                   <div
-                    key={beneficio.titulo}
+                    key={beneficio.id}
                     className="arcade-beneficio"
                   >
                     <span
@@ -1124,10 +1078,10 @@ export default function ArcadePage() {
                       {beneficio.icono}
                     </span>
                     <span className="arcade-beneficio-titulo">
-                      {beneficio.titulo}
+                      {t(`benefits.${beneficio.id}.title`)}
                     </span>
                     <span className="arcade-beneficio-texto">
-                      {beneficio.texto}
+                      {t(`benefits.${beneficio.id}.text`)}
                     </span>
                   </div>
                 ))}
@@ -1150,7 +1104,7 @@ export default function ArcadePage() {
               <div className="upload-box">
                 <input type="file" id="fileInput" ref={inputArchivosRef} multiple onChange={alSeleccionarArchivos} />
                 <p style={{ color: archivos.length > 0 ? "var(--good)" : "var(--p1)" }}>
-                  {preparandoArchivos ? "Preparando archivos…" : archivos.length > 0 ? `Seleccionado(s): ${archivos.length}` : "Selecciona tus archivos"}
+                  {preparandoArchivos ? t("preparingFiles") : archivos.length > 0 ? t("filesSelected", { count: archivos.length }) : t("selectFiles")}
                 </p>
               </div>
             </div>
@@ -1214,9 +1168,9 @@ export default function ArcadePage() {
                 disabled={generarDeshabilitado}
               >
                 {faseCarga === "leyendo" ? (
-                  <>Leyendo archivo<span className="puntos-animados">...</span></>
+                  <>{t("readingFile")}<span className="puntos-animados">...</span></>
                 ) : faseCarga === "generando" ? (
-                  <>Generando test<span className="puntos-animados">...</span></>
+                  <>{t("generatingTest")}<span className="puntos-animados">...</span></>
                 ) : (
                   t("generate")
                 )}
@@ -1235,7 +1189,7 @@ export default function ArcadePage() {
           </section>
           <section id="loading" className={`screen ${vista.pantalla === "loading" ? "active" : ""} flex h-full flex-col items-center justify-center`}>
             <h1
-              aria-label="Generando la partida"
+              aria-label={t("loadingTitle")}
               className="arcade-loading-title bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text px-4 text-center font-sans text-3xl font-bold tracking-tight text-transparent sm:text-4xl"
               style={{
                 backgroundImage:
@@ -1246,26 +1200,26 @@ export default function ArcadePage() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Generando la partida
+              {t("loadingTitle")}
             </h1>
           </section>
           <section id="game" className={`screen ${vista.pantalla === "game" ? "active" : ""}`}>
             <div className="topbar">
-              <div className="scorebox"><span className="k">Puntos</span><span className="v">{vista.puntuacion}</span></div>
+              <div className="scorebox"><span className="k">{t("score")}</span><span className="v">{vista.puntuacion}</span></div>
               <div className={`streakbadge ${vista.racha >= 2 ? "show" : ""}`}>x{multiplicador} ({vista.racha})</div>
               {vista.modo === "supervivencia" ? (
-                <div className="survivalbadge" title="Modo Supervivencia" aria-label="Modo Supervivencia">
-                  <span aria-hidden="true">⚡</span> Supervivencia
+                <div className="survivalbadge" title={t("survivalMode")} aria-label={t("survivalMode")}>
+                  <span aria-hidden="true">⚡</span> {t("survivalMode")}
                 </div>
               ) : (
-                <div className="hearts" aria-label={`${vista.vidas} vidas`}>
+                <div className="hearts" aria-label={t("livesCount", { count: vista.vidas })}>
                   <span>{"♥".repeat(Math.max(0, vista.vidas))}</span>
                   <span style={{ opacity: 0.2 }}>{"♥".repeat(Math.max(0, config.lives - vista.vidas))}</span>
                 </div>
               )}
             </div>
             <div className="qmeta">
-              <span className="cat">{vista.actual?.cat ?? "Temario"}</span>
+              <span className="cat">{vista.actual?.cat || t("categoryFallback")}</span>
               <span>
                 {t("questionOf", {
                   current: vista.ronda,
@@ -1339,10 +1293,10 @@ export default function ArcadePage() {
               </div>
               <div className="comos flex gap-3">
                 <button className="como min-h-[44px]" disabled={!comodinesDisponibles || vista.comodines.cincuenta <= 0} onClick={usarCincuenta}>
-                  <span className="ico">50/50</span> 50/50 <span className="n">{vista.comodines.cincuenta} {vista.comodines.cincuenta === 1 ? "uso" : "usos"}</span>
+                  <span className="ico">50/50</span> 50/50 <span className="n">{vista.comodines.cincuenta} {vista.comodines.cincuenta === 1 ? t("useSingular") : t("usePlural")}</span>
                 </button>
                 <button className="como min-h-[44px]" disabled={!comodinesDisponibles || vista.comodines.saltar <= 0} onClick={usarSaltar}>
-                  <span className="ico">»</span> Saltar <span className="n">{vista.comodines.saltar} {vista.comodines.saltar === 1 ? "uso" : "usos"}</span>
+                  <span className="ico">»</span> {t("skip")} <span className="n">{vista.comodines.saltar} {vista.comodines.saltar === 1 ? t("useSingular") : t("usePlural")}</span>
                 </button>
                 <button
                   className="como min-h-[44px]"
@@ -1395,8 +1349,8 @@ export default function ArcadePage() {
                 <span className="arcade-modal-icono" aria-hidden="true">
                   {modoActual.icono}
                 </span>
-                <h3>Cómo jugar: {modoActual.titulo}</h3>
-                <p>{modoActual.detalle}</p>
+                <h3>{t("howToPlayMode", { mode: t(`modes.${modoActual.id}.title`) })}</h3>
+                <p>{t(`modes.${modoActual.id}.detail`)}</p>
                 <div className="arcade-modal-acciones">
                   <button
                     type="button"
@@ -1404,14 +1358,14 @@ export default function ArcadePage() {
                     ref={modalCloseRef}
                     onClick={cerrarAyuda}
                   >
-                    Cerrar
+                    {t("close")}
                   </button>
                   <button
                     type="button"
                     className="btn"
                     onClick={jugarModoSeleccionado}
                   >
-                    Jugar
+                    {t("play")}
                   </button>
                 </div>
               </>
