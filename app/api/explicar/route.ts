@@ -52,11 +52,10 @@ function limpiarClave(clave: string | undefined): string {
 
 const PROVEEDORES: Proveedor[] = [
   {
-    nombre: "Groq",
-    modelo:
-      process.env.GROQ_MODEL?.trim() || "openai/gpt-oss-20b",
-    baseURL: "https://api.groq.com/openai/v1",
-    apiKey: limpiarClave(process.env.GROQ_API_KEY),
+    nombre: "DeepSeek",
+    modelo: "deepseek-chat",
+    baseURL: "https://api.deepseek.com/v1",
+    apiKey: limpiarClave(process.env.DEEPSEEK_API_KEY),
   },
   {
     nombre: "Gemini",
@@ -65,22 +64,6 @@ const PROVEEDORES: Proveedor[] = [
     baseURL:
       "https://generativelanguage.googleapis.com/v1beta/openai/",
     apiKey: limpiarClave(process.env.GEMINI_API_KEY),
-  },
-  {
-    nombre: "OpenRouter",
-    modelo:
-      process.env.OPENROUTER_MODEL?.trim() ||
-      "minimax/minimax-m3.1-flash:free",
-    baseURL: "https://openrouter.ai/api/v1",
-    apiKey: limpiarClave(process.env.OPENROUTER_API_KEY),
-  },
-  {
-    nombre: "OpenRouter 2",
-    modelo:
-      process.env.OPENROUTER_MODEL_2?.trim() ||
-      "nvidia/nemotron-3-super-120b-a12b:free",
-    baseURL: "https://openrouter.ai/api/v1",
-    apiKey: limpiarClave(process.env.OPENROUTER_API_KEY),
   },
 ];
 

@@ -12,8 +12,6 @@ const MODELO_DEEPSEEK =
   process.env.DEEPSEEK_MODEL?.trim() || "deepseek-chat";
 const MODELO_GEMINI =
   process.env.GEMINI_MODEL?.trim() || "gemini-3.8-flash";
-const MODELO_GROQ =
-  process.env.GROQ_MODEL?.trim() || "openai/gpt-oss-20b";
 
 const SYSTEM_PROMPT =
   "Devuelve exclusivamente JSON válido con preguntas tipo test. No añadas texto fuera del JSON.";
@@ -146,63 +144,16 @@ async function llamarGemini(prompt: string): Promise<string> {
   });
 }
 
-async function llamarGroq(prompt: string): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY?.trim();
-
-  if (!apiKey) {
-    throw new Error("Groq no configurado");
-  }
-
-  const controlador = new AbortController();
-  const temporizador = setTimeout(() => controlador.abort(), 30_000);
-
-  try {
-    const respuesta = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: MODELO_GROQ,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: prompt },
-          ],
-          temperature: 0.25,
-          max_tokens: 1_200,
-          response_format: { type: "json_object" },
-        }),
-        signal: controlador.signal,
-      },
-    );
-
-    if (!respuesta.ok) {
-      throw new Error(`Groq ${respuesta.status}`);
-    }
-
-    const datos = (await respuesta.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-
-    return datos.choices?.[0]?.message?.content || "";
-  } finally {
-    clearTimeout(temporizador);
-  }
-}
-
 /**
  * Genera un máximo de 5 preguntas a partir de un resumen.
- * DeepSeek es el proveedor principal; Gemini y Groq son fallback.
+ * DeepSeek es el proveedor principal; Gemini es el fallback.
  */
 export async function generarPreguntasDesdeResumen(
   markdown: string,
   nombreArchivo: string,
 ): Promise<Pregunta[]> {
   const prompt = promptResumen(markdown, nombreArchivo);
-  const proveedores = [llamarDeepSeek, llamarGemini, llamarGroq];
+  const proveedores = [llamarDeepSeek, llamarGemini];
 
   for (const proveedor of proveedores) {
     try {

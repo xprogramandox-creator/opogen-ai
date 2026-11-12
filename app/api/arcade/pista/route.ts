@@ -17,24 +17,11 @@ const PROVEEDORES: Proveedor[] = [
     apiKey: process.env.DEEPSEEK_API_KEY ?? "",
   },
   {
-    nombre: "Groq",
-    modelo: "llama-3.3-70b-versatile",
-    baseURL: "https://api.groq.com/openai/v1",
-    apiKey: process.env.GROQ_API_KEY ?? "",
-  },
-  {
     nombre: "Gemini",
     modelo: process.env.GEMINI_MODEL?.trim() || "gemini-3.5-flash-lite",
     baseURL:
       "https://generativelanguage.googleapis.com/v1beta/openai/",
     apiKey: process.env.GEMINI_API_KEY ?? "",
-  },
-  {
-    nombre: "OpenRouter",
-    modelo:
-      process.env.OPENROUTER_MODEL?.trim() || "openai/gpt-4o-mini",
-    baseURL: "https://openrouter.ai/api/v1",
-    apiKey: process.env.OPENROUTER_API_KEY ?? "",
   },
 ].filter((proveedor) => proveedor.apiKey.trim().length > 0);
 

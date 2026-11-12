@@ -325,14 +325,6 @@ const TRABAJADORES: Trabajador[] = [
     timeoutMs: TIMEOUT_PROVEEDOR_MS,
   },
   {
-    nombre: "Groq",
-    modelo:
-      process.env.GROQ_MODEL?.trim() || "openai/gpt-oss-20b",
-    baseURL: "https://api.groq.com/openai/v1",
-    apiKey: limpiarClave(process.env.GROQ_API_KEY),
-    timeoutMs: TIMEOUT_PROVEEDOR_MS,
-  },
-  {
     nombre: "Gemini",
     modelo:
       process.env.GEMINI_MODEL?.trim() || "gemini-3.8-flash",
@@ -1319,7 +1311,7 @@ function ordenarProveedoresPorSorteo(
       (trabajador) => trabajador.nombre === nombreSorteado,
     ) ?? activos[0];
 
-  const ordenFallback = ["DeepSeek", "Gemini", "Groq"]
+  const ordenFallback = ["DeepSeek", "Gemini"]
     .filter((nombre) => nombre !== principal.nombre)
     .map((nombre) =>
       activos.find((trabajador) => trabajador.nombre === nombre),
