@@ -226,7 +226,10 @@ export default function KidsLogicaPage() {
               </span>
             </p>
 
-            <details className="mt-6 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4">
+            <details
+              key={acertijo.id}
+              className="mt-6 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4"
+            >
               <summary className="cursor-pointer text-base font-bold text-[var(--azul)]">
                 {t("viewSolution")}
               </summary>
