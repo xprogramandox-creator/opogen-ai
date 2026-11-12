@@ -880,7 +880,11 @@
     "keepPlaying": "Veux-tu continuer à jouer ?",
     "yes": "Oui",
     "no": "Non",
-    "generating": "Génération d'une nouvelle énigme…"
+    "generating": "Génération d'une nouvelle énigme…",
+    "rules": "Règles",
+    "question": "Question",
+    "youCan": "Tu peux",
+    "viewSolution": "👉 Voir la solution"
   },
   "KidsLock": {
     "title": "Débloquez OpoGen Kids",

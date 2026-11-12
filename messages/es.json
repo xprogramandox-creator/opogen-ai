@@ -880,7 +880,11 @@
     "keepPlaying": "¿Quieres seguir jugando?",
     "yes": "Sí",
     "no": "No",
-    "generating": "Generando un acertijo nuevo…"
+    "generating": "Generando un acertijo nuevo…",
+    "rules": "Reglas",
+    "question": "Pregunta",
+    "youCan": "Puedes",
+    "viewSolution": "👉 Ver solución"
   },
   "KidsLock": {
     "title": "Desbloquea OpoGen Kids",

@@ -3,14 +3,18 @@ import path from "node:path";
 import { rutaBaseUsuario, type PlanUsuario } from "@/lib/rutas-espacio";
 import { conBloqueoUsuario } from "@/lib/file-lock";
 import { diaAnalitico } from "@/lib/analitica";
+import type { EntradaHistorialAcertijo } from "@/lib/acertijos";
 
 const NOMBRE_ARCHIVO = "acertijos_vistos.json";
+const MAX_HISTORIAL = 200;
 
 export type EstadoAcertijos = {
   /** Última fecha de actividad (Europe/Madrid). Solo informativa. */
   fecha: string;
-  /** Identificadores de acertijos ya vistos (no se repiten nunca). */
+  /** Identificadores de acertijos estáticos ya vistos (no se repiten). */
   vistos: string[];
+  /** Historial de juegos generados: título, tema y mecánica. */
+  historial: EntradaHistorialAcertijo[];
 };
 
 function rutaArchivo(clave: string, plan?: PlanUsuario): string {
@@ -18,13 +22,25 @@ function rutaArchivo(clave: string, plan?: PlanUsuario): string {
 }
 
 function estadoVacio(): EstadoAcertijos {
-  return { fecha: diaAnalitico(), vistos: [] };
+  return { fecha: diaAnalitico(), vistos: [], historial: [] };
 }
 
-/**
- * Lee los acertijos vistos del usuario. La lista crece de forma indefinida:
- * los acertijos no se repiten nunca (no hay reset diario).
- */
+function normalizarHistorial(valor: unknown): EntradaHistorialAcertijo[] {
+  if (!Array.isArray(valor)) return [];
+
+  return valor
+    .filter(
+      (item): item is Record<string, unknown> =>
+        Boolean(item && typeof item === "object"),
+    )
+    .map((item) => ({
+      titulo: typeof item.titulo === "string" ? item.titulo : "",
+      tema: typeof item.tema === "string" ? item.tema : "",
+      mecanica: typeof item.mecanica === "string" ? item.mecanica : "",
+    }))
+    .filter((item) => item.titulo.length > 0 || item.tema.length > 0);
+}
+
 export async function leerAcertijosVistos(
   clave: string,
   plan?: PlanUsuario,
@@ -37,15 +53,15 @@ export async function leerAcertijosVistos(
           (id): id is string => typeof id === "string",
         )
       : [];
+    const historial = normalizarHistorial(datos.historial);
     const fecha = typeof datos.fecha === "string" ? datos.fecha : "";
 
-    return { fecha, vistos };
+    return { fecha, vistos, historial };
   } catch {
     return estadoVacio();
   }
 }
 
-/** Marca un acertijo como visto y devuelve el estado actualizado. */
 export async function marcarAcertijoVisto(
   clave: string,
   plan: PlanUsuario | undefined,
@@ -57,6 +73,37 @@ export async function marcarAcertijoVisto(
     if (!estado.vistos.includes(id)) {
       estado.vistos.push(id);
     }
+
+    estado.fecha = diaAnalitico();
+
+    await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
+    await writeFile(
+      rutaArchivo(clave, plan),
+      JSON.stringify(estado, null, 2),
+      "utf8",
+    );
+
+    return estado;
+  });
+}
+
+/** Añade un juego generado al historial anti-repetición. */
+export async function registrarAcertijoGenerado(
+  clave: string,
+  plan: PlanUsuario | undefined,
+  entrada: EntradaHistorialAcertijo,
+): Promise<EstadoAcertijos> {
+  return conBloqueoUsuario(clave, async () => {
+    const estado = await leerAcertijosVistos(clave, plan);
+
+    estado.historial = [
+      ...estado.historial,
+      {
+        titulo: entrada.titulo.trim(),
+        tema: entrada.tema.trim(),
+        mecanica: entrada.mecanica.trim(),
+      },
+    ].slice(-MAX_HISTORIAL);
 
     estado.fecha = diaAnalitico();
 

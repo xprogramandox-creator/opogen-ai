@@ -1,107 +1,320 @@
 [
   {
     "id": "a1",
-    "titulo": "La mesa",
     "edad": "3-6",
-    "enunciado": "¿Qué tiene patas y no puede andar?",
-    "respuesta": "La mesa."
+    "tema": "hogar",
+    "mecanica": "eliminación simple",
+    "titulo": "La mesa misteriosa",
+    "enunciado": "En la habitación hay tres objetos con patas: una mesa, una silla y una cama.",
+    "elementos": [
+      "Mesa — tiene cuatro patas",
+      "Silla — tiene cuatro patas y respaldo",
+      "Cama — tiene patas y colchón"
+    ],
+    "reglas": [
+      "Tiene cuatro patas",
+      "No se mueve sola",
+      "Sirve para apoyar la comida"
+    ],
+    "accion": "mirar los objetos de la habitación",
+    "pregunta": "¿Cuál de los tres objetos es?",
+    "solucion": "La mesa. Tiene cuatro patas, no se mueve sola y sirve para apoyar la comida."
   },
   {
     "id": "a2",
-    "titulo": "El libro",
     "edad": "3-6",
-    "enunciado": "¿Qué tiene muchas hojas y no es un árbol?",
-    "respuesta": "El libro."
+    "tema": "animales",
+    "mecanica": "comparación simple",
+    "titulo": "El animal que vuela",
+    "enunciado": "En el jardín hay tres animales: un perro, un pájaro y un pez.",
+    "elementos": [
+      "Perro — tiene cuatro patas",
+      "Pájaro — tiene plumas",
+      "Pez — vive en el agua"
+    ],
+    "reglas": [
+      "Tiene plumas",
+      "Puede volar",
+      "Vive en una jaula"
+    ],
+    "accion": "observar los animales",
+    "pregunta": "¿Cuál de los tres animales es?",
+    "solucion": "El pájaro. Tiene plumas, puede volar y vive en una jaula."
   },
   {
     "id": "a3",
-    "titulo": "La toalla",
     "edad": "3-6",
-    "enunciado": "¿Qué se moja cuando más seca está?",
-    "respuesta": "La toalla."
+    "tema": "colores",
+    "mecanica": "comparación simple",
+    "titulo": "El color del sol",
+    "enunciado": "Hay tres colores: amarillo, azul y verde.",
+    "elementos": [
+      "Amarillo — color del sol",
+      "Azul — color del mar",
+      "Verde — color de la hierba"
+    ],
+    "reglas": [
+      "Es el color del sol",
+      "Se ve por la mañana",
+      "No es el color del mar"
+    ],
+    "accion": "mirar el cielo",
+    "pregunta": "¿Qué color es?",
+    "solucion": "El amarillo. Es el color del sol y no es el del mar."
   },
   {
     "id": "a4",
-    "titulo": "La piña",
     "edad": "3-6",
-    "enunciado": "¿Qué tiene corona y no es un rey?",
-    "respuesta": "La piña."
+    "tema": "frutas",
+    "mecanica": "eliminación simple",
+    "titulo": "La fruta amarilla",
+    "enunciado": "En el frutero hay tres frutas: plátano, manzana y uva.",
+    "elementos": [
+      "Plátano — alargado y amarillo",
+      "Manzana — redonda y roja",
+      "Uva — pequeña y morada"
+    ],
+    "reglas": [
+      "Es alargada",
+      "Es amarilla",
+      "Se pela antes de comer"
+    ],
+    "accion": "mirar el frutero",
+    "pregunta": "¿Qué fruta es?",
+    "solucion": "El plátano. Es alargado, amarillo y se pela."
   },
   {
     "id": "a5",
-    "titulo": "La aguja",
     "edad": "3-6",
-    "enunciado": "¿Qué tiene un ojo y no puede ver?",
-    "respuesta": "La aguja."
+    "tema": "formas",
+    "mecanica": "comparación simple",
+    "titulo": "La forma redonda",
+    "enunciado": "Hay tres formas: círculo, cuadrado y triángulo.",
+    "elementos": [
+      "Círculo — no tiene esquinas",
+      "Cuadrado — tiene cuatro esquinas",
+      "Triángulo — tiene tres esquinas"
+    ],
+    "reglas": [
+      "No tiene esquinas",
+      "Rueda",
+      "Es como una pelota"
+    ],
+    "accion": "mirar las formas",
+    "pregunta": "¿Qué forma es?",
+    "solucion": "El círculo. No tiene esquinas y rueda como una pelota."
   },
   {
     "id": "b1",
-    "titulo": "El misterio de las 4 amigas",
     "edad": "6-9",
-    "enunciado": "Ana, Bea, Carla y Diana tienen una mascota diferente: un perro, un gato, un pájaro y un pez. Ana no tiene perro. Bea tiene el pájaro. Carla no tiene gato ni perro. ¿Quién tiene el perro?",
-    "respuesta": "Diana."
+    "tema": "mascotas",
+    "mecanica": "deducción encadenada",
+    "titulo": "El misterio de las 4 amigas",
+    "enunciado": "Ana, Bea, Carla y Diana tienen una mascota diferente: un perro, un gato, un pájaro y un pez.",
+    "elementos": [
+      "Ana",
+      "Bea",
+      "Carla",
+      "Diana"
+    ],
+    "reglas": [
+      "Ana no tiene perro",
+      "Bea tiene el pájaro",
+      "Carla no tiene gato ni perro"
+    ],
+    "accion": "preguntar a cada amiga por su mascota",
+    "pregunta": "¿Quién tiene el perro?",
+    "solucion": "Diana. Carla no tiene gato ni perro y el pájaro es de Bea, así que Diana tiene el perro."
   },
   {
     "id": "b2",
-    "titulo": "Los meses",
     "edad": "6-9",
-    "enunciado": "¿Cuántos meses del año tienen 28 días?",
-    "respuesta": "Todos los meses tienen al menos 28 días."
+    "tema": "planetas",
+    "mecanica": "eliminación simple",
+    "titulo": "El planeta más caliente",
+    "enunciado": "En el sistema solar, tres planetas son Mercurio, Venus y Marte.",
+    "elementos": [
+      "Mercurio — el más cercano al Sol",
+      "Venus — el segundo desde el Sol",
+      "Marte — el planeta rojo"
+    ],
+    "reglas": [
+      "Es el segundo desde el Sol",
+      "Tiene nubes espesas",
+      "Es más caliente que Mercurio"
+    ],
+    "accion": "mirar el mapa del sistema solar",
+    "pregunta": "¿Qué planeta es?",
+    "solucion": "Venus. Es el segundo desde el Sol y el más caliente."
   },
   {
     "id": "b3",
-    "titulo": "El caracol",
     "edad": "6-9",
-    "enunciado": "Un caracol sube 3 metros durante el día y resbala 2 metros por la noche. Si el pozo tiene 10 metros, ¿en cuántos días sale?",
-    "respuesta": "En 8 días."
+    "tema": "deportes",
+    "mecanica": "correspondencia",
+    "titulo": "El balón correcto",
+    "enunciado": "Hay tres balones: de fútbol, de baloncesto y de tenis.",
+    "elementos": [
+      "Fútbol — se juega con los pies",
+      "Baloncesto — se juega con las manos",
+      "Tenis — se juega con raqueta"
+    ],
+    "reglas": [
+      "Es naranja",
+      "Se bota en la pista",
+      "Se mete en una canasta"
+    ],
+    "accion": "mirar los balones",
+    "pregunta": "¿Qué balón es?",
+    "solucion": "El de baloncesto. Es naranja, se bota y se mete en una canasta."
   },
   {
     "id": "b4",
-    "titulo": "El agujero",
     "edad": "6-9",
-    "enunciado": "¿Qué se hace más grande cuando le quitas un trozo?",
-    "respuesta": "Un agujero."
+    "tema": "vehículos",
+    "mecanica": "eliminación simple",
+    "titulo": "El que va por el agua",
+    "enunciado": "Hay tres vehículos: coche, barco y avión.",
+    "elementos": [
+      "Coche — va por carretera",
+      "Barco — va por el agua",
+      "Avión — va por el aire"
+    ],
+    "reglas": [
+      "Flota",
+      "Navega por el mar",
+      "No tiene ruedas"
+    ],
+    "accion": "mirar el puerto",
+    "pregunta": "¿Qué vehículo es?",
+    "solucion": "El barco. Flota, navega y no tiene ruedas."
   },
   {
     "id": "b5",
-    "titulo": "El cirujano",
     "edad": "6-9",
-    "enunciado": "Un padre y su hijo tienen un accidente. El padre muere y el hijo llega al hospital. El cirujano dice: «No puedo operarlo, es mi hijo». ¿Quién es el cirujano?",
-    "respuesta": "La madre."
+    "tema": "cocina",
+    "mecanica": "eliminación simple",
+    "titulo": "El ingrediente de la tortilla",
+    "enunciado": "Para hacer una tortilla hay tres ingredientes: huevos, harina y arroz.",
+    "elementos": [
+      "Huevos — son de origen animal",
+      "Harina — es un polvo blanco",
+      "Arroz — son granos blancos"
+    ],
+    "reglas": [
+      "Es de origen animal",
+      "Es blanco y amarillo",
+      "Se bate"
+    ],
+    "accion": "mirar la nevera",
+    "pregunta": "¿Qué ingrediente es?",
+    "solucion": "Los huevos. Son de origen animal, blancos y amarillos, y se baten."
   },
   {
     "id": "c1",
-    "titulo": "Las tres cajas",
     "edad": "9-12",
-    "enunciado": "Hay tres cajas: una con manzanas, otra con naranjas y otra con ambas frutas. Todas las etiquetas están mal colocadas. Sacas una fruta de la caja etiquetada «Ambas» y resulta ser una manzana. ¿Qué contiene la caja etiquetada «Naranjas»?",
-    "respuesta": "Ambas frutas."
+    "tema": "lógica",
+    "mecanica": "contradicción",
+    "titulo": "Las tres cajas",
+    "enunciado": "Hay tres cajas: una con manzanas, otra con naranjas y otra con ambas frutas. Todas las etiquetas están mal colocadas.",
+    "elementos": [
+      "Caja 'Manzanas'",
+      "Caja 'Naranjas'",
+      "Caja 'Ambas'"
+    ],
+    "reglas": [
+      "Ninguna etiqueta dice la verdad",
+      "Puedes sacar una fruta de la caja 'Ambas'",
+      "La fruta que sacas es una manzana"
+    ],
+    "accion": "sacar una fruta de una sola caja",
+    "pregunta": "¿Qué contiene la caja etiquetada 'Naranjas'?",
+    "solucion": "Ambas frutas. Como la etiqueta 'Ambas' miente y salió una manzana, esa caja tiene solo manzanas. La 'Naranjas' no puede tener naranjas, así que tiene ambas frutas."
   },
   {
     "id": "c2",
-    "titulo": "La serie",
     "edad": "9-12",
-    "enunciado": "¿Qué número sigue en la serie? 2, 6, 12, 20, 30, ...",
-    "respuesta": "42."
+    "tema": "números",
+    "mecanica": "patrón numérico",
+    "titulo": "La serie",
+    "enunciado": "Una serie de números sigue un patrón: 2, 6, 12, 20, 30, ...",
+    "elementos": [
+      "32",
+      "40",
+      "42"
+    ],
+    "reglas": [
+      "Las diferencias crecen",
+      "De 2 a 6 se suma 4",
+      "De 6 a 12 se suma 6",
+      "De 12 a 20 se suma 8",
+      "De 20 a 30 se suma 10"
+    ],
+    "accion": "mirar la serie",
+    "pregunta": "¿Qué número sigue?",
+    "solucion": "42. La diferencia crece de 2 en 2: 30 + 12 = 42."
   },
   {
     "id": "c3",
-    "titulo": "El retrato",
     "edad": "9-12",
-    "enunciado": "Un hombre mira un retrato y dice: «No tengo hermanos ni hermanas, pero el padre de este hombre es hijo de mi padre». ¿Quién es el del retrato?",
-    "respuesta": "Su hijo."
+    "tema": "reloj",
+    "mecanica": "razonamiento temporal",
+    "titulo": "Las campanadas",
+    "enunciado": "Un reloj tarda 5 segundos en dar las 6 campanadas.",
+    "elementos": [
+      "5 segundos",
+      "9 segundos",
+      "11 segundos"
+    ],
+    "reglas": [
+      "Los intervalos entre campanadas son iguales",
+      "Entre la 1ª y la 6ª hay 5 intervalos",
+      "Cada intervalo dura 1 segundo"
+    ],
+    "accion": "escuchar el reloj",
+    "pregunta": "¿Cuánto tarda en dar las 12 campanadas?",
+    "solucion": "11 segundos. Las 12 campanadas tienen 11 intervalos de 1 segundo."
   },
   {
     "id": "c4",
-    "titulo": "El reloj",
     "edad": "9-12",
-    "enunciado": "Un reloj tarda 5 segundos en dar las 6 campanadas. ¿Cuánto tarda en dar las 12 campanadas?",
-    "respuesta": "11 segundos."
+    "tema": "familia",
+    "mecanica": "deducción con parentesco",
+    "titulo": "El retrato",
+    "enunciado": "Un hombre mira un retrato y dice: «No tengo hermanos ni hermanas, pero el padre de este hombre es hijo de mi padre».",
+    "elementos": [
+      "El padre",
+      "El hijo",
+      "El abuelo"
+    ],
+    "reglas": [
+      "No tiene hermanos ni hermanas",
+      "El padre del retratado es hijo de su padre",
+      "El único hijo de su padre es él mismo"
+    ],
+    "accion": "mirar el retrato",
+    "pregunta": "¿Quién es el del retrato?",
+    "solucion": "Su hijo. Si el padre del retratado es hijo de su padre y no tiene hermanos, ese padre es él; entonces el retratado es su hijo."
   },
   {
     "id": "c5",
-    "titulo": "La botella",
     "edad": "9-12",
-    "enunciado": "Una botella y su tapón cuestan 1,10 €. La botella cuesta 1 € más que el tapón. ¿Cuánto cuesta el tapón?",
-    "respuesta": "0,05 €."
+    "tema": "dinero",
+    "mecanica": "ecuación sencilla",
+    "titulo": "La botella y el tapón",
+    "enunciado": "Una botella y su tapón cuestan 1,10 €. La botella cuesta 1 € más que el tapón.",
+    "elementos": [
+      "0,05 €",
+      "0,10 €",
+      "0,15 €"
+    ],
+    "reglas": [
+      "Botella + tapón = 1,10 €",
+      "Botella = tapón + 1 €",
+      "El tapón no puede costar 0,10 €"
+    ],
+    "accion": "mirar el recibo",
+    "pregunta": "¿Cuánto cuesta el tapón?",
+    "solucion": "0,05 €. Si el tapón cuesta 0,05 €, la botella cuesta 1,05 € y juntos suman 1,10 €."
   }
 ]

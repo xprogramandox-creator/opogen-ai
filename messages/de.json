@@ -880,7 +880,11 @@
     "keepPlaying": "Möchtest du weiterspielen?",
     "yes": "Ja",
     "no": "Nein",
-    "generating": "Ein neues Rätsel wird erstellt…"
+    "generating": "Ein neues Rätsel wird erstellt…",
+    "rules": "Regeln",
+    "question": "Frage",
+    "youCan": "Du kannst",
+    "viewSolution": "👉 Lösung ansehen"
   },
   "KidsLock": {
     "title": "OpoGen Kids freischalten",

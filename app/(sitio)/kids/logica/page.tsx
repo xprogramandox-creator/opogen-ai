@@ -7,10 +7,16 @@ import { useTranslations } from "next-intl";
 
 type Acertijo = {
   id: string;
-  titulo: string;
   edad: string;
+  tema: string;
+  mecanica: string;
+  titulo: string;
   enunciado: string;
-  respuesta: string;
+  elementos: string[];
+  reglas: string[];
+  accion: string;
+  pregunta: string;
+  solucion: string;
 };
 
 type RespuestaApi = {
@@ -25,7 +31,6 @@ export default function KidsLogicaPage() {
   const [acertijo, setAcertijo] = useState<Acertijo | null>(null);
   const [cargando, setCargando] = useState(true);
   const [completado, setCompletado] = useState(false);
-  const [resuelto, setResuelto] = useState(false);
   const [esGenerado, setEsGenerado] = useState(false);
   const [generando, setGenerando] = useState(false);
   const [error, setError] = useState("");
@@ -61,7 +66,6 @@ export default function KidsLogicaPage() {
         setError(t("error"));
       } finally {
         setCargando(false);
-        setResuelto(false);
         setEsGenerado(false);
       }
     },
@@ -94,7 +98,6 @@ export default function KidsLogicaPage() {
 
       setAcertijo(datos.acertijo);
       setCompletado(false);
-      setResuelto(false);
       setEsGenerado(true);
     } catch {
       setError(t("error"));
@@ -131,7 +134,6 @@ export default function KidsLogicaPage() {
       setError(t("error"));
     } finally {
       setCargando(false);
-      setResuelto(false);
     }
   }
 
@@ -187,45 +189,59 @@ export default function KidsLogicaPage() {
             <h2 className="text-2xl font-bold tracking-tight text-[var(--txt)]">
               {acertijo.titulo}
             </h2>
+
             <p className="mt-4 whitespace-pre-line text-base leading-relaxed text-[var(--txt2)]">
               {acertijo.enunciado}
             </p>
 
-            <div className="mt-6 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4">
-              <p className="text-xs font-bold uppercase tracking-wide text-[var(--txt3)]">
-                {t("answer")}
-              </p>
-              <p
-                className="mt-1 text-xl font-bold text-[var(--txt)]"
-                aria-live="polite"
-                style={
-                  resuelto
-                    ? undefined
-                    : { filter: "blur(5px)", userSelect: "none" }
-                }
-              >
-                {acertijo.respuesta}
-              </p>
-            </div>
+            {acertijo.elementos.length > 0 ? (
+              <ul className="mt-4 list-disc space-y-1 pl-6 text-base text-[var(--txt2)]">
+                {acertijo.elementos.map((elemento) => (
+                  <li key={elemento}>{elemento}</li>
+                ))}
+              </ul>
+            ) : null}
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              {!resuelto ? (
-                <button
-                  type="button"
-                  onClick={() => setResuelto(true)}
-                  className="inline-flex h-12 flex-1 items-center justify-center rounded-xl bg-[var(--azul)] px-6 text-base font-bold text-white transition-colors hover:bg-[var(--azul-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)]"
-                >
-                  {t("resolve")}
-                </button>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => void siguiente()}
-                className="inline-flex h-12 flex-1 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card)] px-6 text-base font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)]"
-              >
-                {t("next")}
-              </button>
-            </div>
+            {acertijo.reglas.length > 0 ? (
+              <>
+                <p className="mt-5 text-sm font-bold uppercase tracking-wide text-[var(--txt3)]">
+                  {t("rules")}
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-6 text-base text-[var(--txt2)]">
+                  {acertijo.reglas.map((regla) => (
+                    <li key={regla}>{regla}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+
+            <p className="mt-5 text-base text-[var(--txt2)]">
+              {t("youCan")} {acertijo.accion}.
+            </p>
+
+            <p className="mt-4 text-base font-bold text-[var(--txt)]">
+              {t("question")}:{" "}
+              <span className="font-normal text-[var(--txt2)]">
+                {acertijo.pregunta}
+              </span>
+            </p>
+
+            <details className="mt-6 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4">
+              <summary className="cursor-pointer text-base font-bold text-[var(--azul)]">
+                {t("viewSolution")}
+              </summary>
+              <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-[var(--txt2)]">
+                {acertijo.solucion}
+              </p>
+            </details>
+
+            <button
+              type="button"
+              onClick={() => void siguiente()}
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card)] px-6 text-base font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)]"
+            >
+              {t("next")}
+            </button>
           </article>
         )}
 

@@ -880,7 +880,11 @@
     "keepPlaying": "Do you want to keep playing?",
     "yes": "Yes",
     "no": "No",
-    "generating": "Generating a new riddle…"
+    "generating": "Generating a new riddle…",
+    "rules": "Rules",
+    "question": "Question",
+    "youCan": "You can",
+    "viewSolution": "👉 See solution"
   },
   "KidsLock": {
     "title": "Unlock OpoGen Kids",
