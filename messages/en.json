@@ -866,6 +866,18 @@
     "passwordPlaceholder": "Enter your password",
     "passwordRequired": "Enter your password to confirm the payment."
   },
+  "KidsLogica": {
+    "card": "Logic Games",
+    "title": "Logic Games",
+    "intro": "Solve logic puzzles and train your mind.",
+    "answer": "Answer",
+    "resolve": "Solve Riddle",
+    "next": "Next Riddle",
+    "completed": "You've completed all the riddles for your age! Come back tomorrow for more",
+    "loading": "Loading riddle…",
+    "back": "Back to topics",
+    "error": "Could not load the riddle. Try again."
+  },
   "KidsLock": {
     "title": "Unlock OpoGen Kids",
     "subtitle": "A safe and fun space where your children learn by playing, with all content unlocked.",

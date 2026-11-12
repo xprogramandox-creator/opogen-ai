@@ -866,6 +866,18 @@
     "passwordPlaceholder": "Introduce tu contraseña",
     "passwordRequired": "Introduce tu contraseña para confirmar el pago."
   },
+  "KidsLogica": {
+    "card": "Juegos de Lógica",
+    "title": "Juegos de Lógica",
+    "intro": "Resuelve acertijos de lógica y entrena tu mente.",
+    "answer": "Respuesta",
+    "resolve": "Resolver Acertijo",
+    "next": "Siguiente Acertijo",
+    "completed": "¡Has completado todos los acertijos de tu edad! Vuelve mañana para más",
+    "loading": "Cargando acertijo…",
+    "back": "Volver a temas",
+    "error": "No se pudo cargar el acertijo. Inténtalo de nuevo."
+  },
   "KidsLock": {
     "title": "Desbloquea OpoGen Kids",
     "subtitle": "Un espacio seguro y divertido para que tus hijos aprendan jugando, con todo el contenido desbloqueado.",

@@ -866,6 +866,18 @@
     "passwordPlaceholder": "Inserisci la password",
     "passwordRequired": "Inserisci la password per confermare il pagamento."
   },
+  "KidsLogica": {
+    "card": "Giochi di logica",
+    "title": "Giochi di logica",
+    "intro": "Risolvi enigmi di logica e allena la mente.",
+    "answer": "Risposta",
+    "resolve": "Risolvi l'enigma",
+    "next": "Enigma successivo",
+    "completed": "Hai completato tutti gli enigmi della tua età! Torna domani per altri",
+    "loading": "Caricamento enigma…",
+    "back": "Torna ai temi",
+    "error": "Impossibile caricare l'enigma. Riprova."
+  },
   "KidsLock": {
     "title": "Sblocca OpoGen Kids",
     "subtitle": "Uno spazio sicuro e divertente dove i tuoi figli imparano giocando, con tutti i contenuti sbloccati.",

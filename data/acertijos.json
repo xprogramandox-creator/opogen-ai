@@ -1,0 +1,107 @@
+[
+  {
+    "id": "a1",
+    "titulo": "La mesa",
+    "edad": "3-6",
+    "enunciado": "¿Qué tiene patas y no puede andar?",
+    "respuesta": "La mesa."
+  },
+  {
+    "id": "a2",
+    "titulo": "El libro",
+    "edad": "3-6",
+    "enunciado": "¿Qué tiene muchas hojas y no es un árbol?",
+    "respuesta": "El libro."
+  },
+  {
+    "id": "a3",
+    "titulo": "La toalla",
+    "edad": "3-6",
+    "enunciado": "¿Qué se moja cuando más seca está?",
+    "respuesta": "La toalla."
+  },
+  {
+    "id": "a4",
+    "titulo": "La piña",
+    "edad": "3-6",
+    "enunciado": "¿Qué tiene corona y no es un rey?",
+    "respuesta": "La piña."
+  },
+  {
+    "id": "a5",
+    "titulo": "La aguja",
+    "edad": "3-6",
+    "enunciado": "¿Qué tiene un ojo y no puede ver?",
+    "respuesta": "La aguja."
+  },
+  {
+    "id": "b1",
+    "titulo": "El misterio de las 4 amigas",
+    "edad": "6-9",
+    "enunciado": "Ana, Bea, Carla y Diana tienen una mascota diferente: un perro, un gato, un pájaro y un pez. Ana no tiene perro. Bea tiene el pájaro. Carla no tiene gato ni perro. ¿Quién tiene el perro?",
+    "respuesta": "Diana."
+  },
+  {
+    "id": "b2",
+    "titulo": "Los meses",
+    "edad": "6-9",
+    "enunciado": "¿Cuántos meses del año tienen 28 días?",
+    "respuesta": "Todos los meses tienen al menos 28 días."
+  },
+  {
+    "id": "b3",
+    "titulo": "El caracol",
+    "edad": "6-9",
+    "enunciado": "Un caracol sube 3 metros durante el día y resbala 2 metros por la noche. Si el pozo tiene 10 metros, ¿en cuántos días sale?",
+    "respuesta": "En 8 días."
+  },
+  {
+    "id": "b4",
+    "titulo": "El agujero",
+    "edad": "6-9",
+    "enunciado": "¿Qué se hace más grande cuando le quitas un trozo?",
+    "respuesta": "Un agujero."
+  },
+  {
+    "id": "b5",
+    "titulo": "El cirujano",
+    "edad": "6-9",
+    "enunciado": "Un padre y su hijo tienen un accidente. El padre muere y el hijo llega al hospital. El cirujano dice: «No puedo operarlo, es mi hijo». ¿Quién es el cirujano?",
+    "respuesta": "La madre."
+  },
+  {
+    "id": "c1",
+    "titulo": "Las tres cajas",
+    "edad": "9-12",
+    "enunciado": "Hay tres cajas: una con manzanas, otra con naranjas y otra con ambas frutas. Todas las etiquetas están mal colocadas. Sacas una fruta de la caja etiquetada «Ambas» y resulta ser una manzana. ¿Qué contiene la caja etiquetada «Naranjas»?",
+    "respuesta": "Ambas frutas."
+  },
+  {
+    "id": "c2",
+    "titulo": "La serie",
+    "edad": "9-12",
+    "enunciado": "¿Qué número sigue en la serie? 2, 6, 12, 20, 30, ...",
+    "respuesta": "42."
+  },
+  {
+    "id": "c3",
+    "titulo": "El retrato",
+    "edad": "9-12",
+    "enunciado": "Un hombre mira un retrato y dice: «No tengo hermanos ni hermanas, pero el padre de este hombre es hijo de mi padre». ¿Quién es el del retrato?",
+    "respuesta": "Su hijo."
+  },
+  {
+    "id": "c4",
+    "titulo": "El reloj",
+    "edad": "9-12",
+    "enunciado": "Un reloj tarda 5 segundos en dar las 6 campanadas. ¿Cuánto tarda en dar las 12 campanadas?",
+    "respuesta": "11 segundos."
+  },
+  {
+    "id": "c5",
+    "titulo": "La botella",
+    "edad": "9-12",
+    "enunciado": "Una botella y su tapón cuestan 1,10 €. La botella cuesta 1 € más que el tapón. ¿Cuánto cuesta el tapón?",
+    "respuesta": "0,05 €."
+  }
+]

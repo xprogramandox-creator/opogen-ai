@@ -866,6 +866,18 @@
     "passwordPlaceholder": "Saisissez votre mot de passe",
     "passwordRequired": "Saisissez votre mot de passe pour confirmer le paiement."
   },
+  "KidsLogica": {
+    "card": "Jeux de logique",
+    "title": "Jeux de logique",
+    "intro": "Résous des énigmes de logique et entraîne ton esprit.",
+    "answer": "Réponse",
+    "resolve": "Résoudre l'énigme",
+    "next": "Énigme suivante",
+    "completed": "Tu as résolu toutes les énigmes de ton âge ! Reviens demain pour en découvrir d'autres",
+    "loading": "Chargement de l'énigme…",
+    "back": "Retour aux thèmes",
+    "error": "Impossible de charger l'énigme. Réessaie."
+  },
   "KidsLock": {
     "title": "Débloquez OpoGen Kids",
     "subtitle": "Un espace sûr et amusant où vos enfants apprennent en jouant, avec tout le contenu débloqué.",

@@ -25,6 +25,7 @@ const TEMAS: TemaKids[] = [
 
 export default function KidsTemasPage() {
   const t = useTranslations("Kids");
+  const tLogica = useTranslations("KidsLogica");
   const router = useRouter();
   const [nonce, setNonce] = useState(0);
 
@@ -80,6 +81,18 @@ export default function KidsTemasPage() {
             </span>
             <span className="text-base font-bold text-[var(--txt)] sm:text-lg">
               {t("timesTables")}
+            </span>
+          </Link>
+
+          <Link
+            href="/kids/logica"
+            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
+          >
+            <span className="text-5xl" aria-hidden="true">
+              🧠
+            </span>
+            <span className="text-base font-bold text-[var(--txt)] sm:text-lg">
+              {tLogica("card")}
             </span>
           </Link>
 
