@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     );
   }
 
-  registrarActividadAnalitica(sessionId, usuario);
+  registrarActividadAnalitica(sessionId, usuario, ip);
 
   return new NextResponse(null, {
     status: 204,

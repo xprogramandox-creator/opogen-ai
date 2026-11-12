@@ -52,6 +52,7 @@ export async function POST(request: Request) {
     sessionId,
     pagina as "landing" | "crear" | "arcade",
     accion as "visita" | "test_creado" | "partida_arcade",
+    ip,
   );
 
   return new NextResponse(null, {

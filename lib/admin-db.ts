@@ -5,6 +5,7 @@ import { listarUsuarios } from "@/lib/auth-server";
 import type { UsuarioRegistrado } from "@/lib/auth-server";
 import { RUTA_DATOS } from "@/lib/rutas";
 import { diaAnalitico } from "@/lib/analitica";
+import { CLAVE_ADMIN } from "@/lib/planes";
 
 const DIRECTORIO = path.join(
   /* turbopackIgnore: true */
@@ -149,6 +150,7 @@ function abrirDb(): DatabaseSync {
         zona TEXT NOT NULL,
         fecha TEXT NOT NULL,
         duracion_segundos INTEGER NOT NULL DEFAULT 0,
+        ip TEXT NOT NULL DEFAULT '',
         archivado INTEGER NOT NULL DEFAULT 0
       );
       CREATE TABLE IF NOT EXISTS configuracion (
@@ -172,6 +174,7 @@ function abrirDb(): DatabaseSync {
         dia TEXT NOT NULL,
         primera_visita TEXT NOT NULL,
         ultima_actividad TEXT NOT NULL,
+        ip TEXT NOT NULL DEFAULT '',
         UNIQUE(session_id, dia)
       );
       CREATE TABLE IF NOT EXISTS actividad_invitados (
@@ -179,7 +182,12 @@ function abrirDb(): DatabaseSync {
         session_id TEXT NOT NULL,
         pagina TEXT NOT NULL CHECK (pagina IN ('landing', 'crear', 'arcade')),
         accion TEXT NOT NULL CHECK (accion IN ('visita', 'test_creado', 'partida_arcade')),
-        fecha TEXT NOT NULL
+        fecha TEXT NOT NULL,
+        ip TEXT NOT NULL DEFAULT ''
+      );
+      CREATE TABLE IF NOT EXISTS ips_admin (
+        ip TEXT PRIMARY KEY,
+        creado TEXT NOT NULL
       );
       CREATE TABLE IF NOT EXISTS descuentos_stripe (
         codigo TEXT PRIMARY KEY,
@@ -254,6 +262,23 @@ function abrirDb(): DatabaseSync {
       db.exec(
         "ALTER TABLE uso_zonas ADD COLUMN archivado INTEGER NOT NULL DEFAULT 0",
       );
+    }
+
+    // Añade la columna de IP a las tablas estadísticas si no existe.
+    for (const tabla of [
+      "uso_zonas",
+      "analitica_sesiones",
+      "actividad_invitados",
+    ]) {
+      const columnas = db
+        .prepare(`PRAGMA table_info(${tabla})`)
+        .all() as Array<{ name: string }>;
+
+      if (!columnas.some((columna) => columna.name === "ip")) {
+        db.exec(
+          `ALTER TABLE ${tabla} ADD COLUMN ip TEXT NOT NULL DEFAULT ''`,
+        );
+      }
     }
 
     db.prepare(
@@ -1098,10 +1123,25 @@ export function listarProximosACaducar(dias: number): UsuarioAdmin[] {
   return filas.map(convertir);
 }
 
+function registrarIpAdmin(ip: string): void {
+  const limpia = ip.trim();
+
+  // Sin una IP real (p. ej. "local") no se excluye nada, para no ocultar
+  // a todos los visitantes cuando el proxy no reenvía la IP.
+  if (!limpia || limpia === "local") return;
+
+  abrirDb()
+    .prepare(
+      "INSERT OR IGNORE INTO ips_admin (ip, creado) VALUES (?, ?)",
+    )
+    .run(limpia, new Date().toISOString());
+}
+
 export function registrarUso(
   usuarioClave: string,
   zona: string,
   duracion = 0,
+  ip = "",
 ): void {
   const zonaSegura = zona
     .normalize("NFC")
@@ -1112,14 +1152,19 @@ export function registrarUso(
   if (!zonaSegura) return;
 
   abrirDb().prepare(
-    `INSERT INTO uso_zonas (usuario_clave, zona, fecha, duracion_segundos)
-     VALUES (?, ?, ?, ?)`,
+    `INSERT INTO uso_zonas (usuario_clave, zona, fecha, duracion_segundos, ip)
+     VALUES (?, ?, ?, ?, ?)`,
   ).run(
     usuarioClave,
     zonaSegura,
     new Date().toISOString(),
     Math.max(0, Math.round(duracion)),
+    ip.trim(),
   );
+
+  if (usuarioClave === CLAVE_ADMIN) {
+    registrarIpAdmin(ip);
+  }
 }
 
 export function archivarUso(): number {
@@ -1184,6 +1229,7 @@ export function resumenUso(): Array<{
         COALESCE(SUM(duracion_segundos), 0) AS duracionTotal
        FROM uso_zonas
        WHERE archivado = 0
+         AND ip NOT IN (SELECT ip FROM ips_admin)
        GROUP BY zona
        ORDER BY usos DESC`,
     )
@@ -1198,6 +1244,7 @@ export function resumenUso(): Array<{
 export function registrarActividadAnalitica(
   sessionId: string,
   usuario: UsuarioRegistrado | null,
+  ip = "",
 ): void {
   const db = abrirDb();
   const ahora = new Date().toISOString();
@@ -1214,13 +1261,14 @@ export function registrarActividadAnalitica(
   db.prepare(
     `INSERT INTO analitica_sesiones (
       session_id, usuario_clave, usuario_nombre, rol, dia,
-      primera_visita, ultima_actividad
-    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      primera_visita, ultima_actividad, ip
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(session_id, dia) DO UPDATE SET
       usuario_clave = excluded.usuario_clave,
       usuario_nombre = excluded.usuario_nombre,
       rol = excluded.rol,
-      ultima_actividad = excluded.ultima_actividad`,
+      ultima_actividad = excluded.ultima_actividad,
+      ip = excluded.ip`,
   ).run(
     sessionFinal,
     usuarioClave,
@@ -1229,20 +1277,26 @@ export function registrarActividadAnalitica(
     dia,
     ahora,
     ahora,
+    ip.trim(),
   );
+
+  if (usuarioClave === CLAVE_ADMIN) {
+    registrarIpAdmin(ip);
+  }
 }
 
 export function registrarActividadInvitado(
   sessionId: string,
   pagina: "landing" | "crear" | "arcade",
   accion: "visita" | "test_creado" | "partida_arcade",
+  ip = "",
 ): void {
   abrirDb()
     .prepare(
-      `INSERT INTO actividad_invitados (session_id, pagina, accion, fecha)
-       VALUES (?, ?, ?, ?)`,
+      `INSERT INTO actividad_invitados (session_id, pagina, accion, fecha, ip)
+       VALUES (?, ?, ?, ?, ?)`,
     )
-    .run(sessionId, pagina, accion, new Date().toISOString());
+    .run(sessionId, pagina, accion, new Date().toISOString(), ip.trim());
 }
 
 export type InvitadoAdmin = {
@@ -1268,8 +1322,8 @@ export function obtenerInvitadosAdmin(fecha?: string): InvitadoAdmin[] {
   }
 
   const where = condiciones.length
-    ? `WHERE ${condiciones.join(" AND ")}`
-    : "";
+    ? `WHERE ${condiciones.join(" AND ")} AND ip NOT IN (SELECT ip FROM ips_admin)`
+    : "WHERE ip NOT IN (SELECT ip FROM ips_admin)";
 
   const filas = db
     .prepare(
@@ -1356,6 +1410,7 @@ export function obtenerAnaliticaAdmin(fecha?: string): {
        WHERE ultima_actividad >= ?
          AND rol IN ('premium', 'freemium')
          AND usuario_clave <> ''
+         AND ip NOT IN (SELECT ip FROM ips_admin)
        GROUP BY usuario_clave
        ORDER BY nombre COLLATE NOCASE`,
     )
@@ -1371,7 +1426,8 @@ export function obtenerAnaliticaAdmin(fecha?: string): {
       `SELECT COUNT(DISTINCT session_id) AS total
        FROM analitica_sesiones
        WHERE ultima_actividad >= ?
-         AND rol = 'invitado'`,
+         AND rol = 'invitado'
+         AND ip NOT IN (SELECT ip FROM ips_admin)`,
     )
     .get(limiteActivo) as { total?: number };
 
@@ -1380,6 +1436,7 @@ export function obtenerAnaliticaAdmin(fecha?: string): {
       `SELECT rol, COUNT(*) AS total
        FROM analitica_sesiones
        WHERE dia = ?
+         AND ip NOT IN (SELECT ip FROM ips_admin)
        GROUP BY rol`,
     )
     .all(dia) as Array<{

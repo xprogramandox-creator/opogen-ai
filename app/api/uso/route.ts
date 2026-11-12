@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   }
 
   const clave = (await obtenerClaveSesion()) || "";
-  registrarUso(clave, zona, Math.min(3_600, duracion));
+  registrarUso(clave, zona, Math.min(3_600, duracion), ip);
 
   return NextResponse.json({ ok: true });
 }
