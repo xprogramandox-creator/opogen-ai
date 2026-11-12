@@ -8,6 +8,7 @@ import {
   BadgePercent,
   Download,
   FileText,
+  Ghost,
   MailWarning,
   Pencil,
   Plus,
@@ -127,6 +128,14 @@ type DescuentoAdmin = {
   usos: number;
 };
 
+type InvitadoAdmin = {
+  sessionId: string;
+  visitasLanding: number;
+  testsCreados: number;
+  partidasArcade: number;
+  ultimaActividad: string;
+};
+
 const FORM_VACIO = {
   claveOriginal: "",
   nombre: "",
@@ -153,6 +162,11 @@ function fecha(iso: string | null): string {
   return new Date(iso).toLocaleDateString("es-ES");
 }
 
+function abreviarSesion(sessionId: string): string {
+  if (sessionId.length <= 12) return sessionId;
+  return `${sessionId.slice(0, 8)}…`;
+}
+
 export default function AdminPanel() {
   const tIA = useTranslations("AdminIA");
   const tExport = useTranslations("AdminExport");
@@ -161,6 +175,7 @@ export default function AdminPanel() {
   const tAnalitica = useTranslations("AdminAnalytics");
   const tPendientes = useTranslations("AdminPending");
   const tDescuentos = useTranslations("AdminDiscounts");
+  const tInvitados = useTranslations("AdminGuests");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -181,6 +196,9 @@ export default function AdminPanel() {
   const [analitica, setAnalitica] = useState<AnaliticaAdmin | null>(null);
   const [cargandoAnalitica, setCargandoAnalitica] = useState(false);
   const [errorAnalitica, setErrorAnalitica] = useState("");
+  const [invitados, setInvitados] = useState<InvitadoAdmin[]>([]);
+  const [cargandoInvitados, setCargandoInvitados] = useState(false);
+  const [errorInvitados, setErrorInvitados] = useState("");
   const [fechaAnalitica, setFechaAnalitica] = useState(() =>
     new Date().toLocaleDateString("en-CA", {
       timeZone: "Europe/Madrid",
@@ -500,6 +518,24 @@ export default function AdminPanel() {
     [fechaAnalitica, pedir, tAnalitica],
   );
 
+  const cargarInvitados = useCallback(async () => {
+    setCargandoInvitados(true);
+    setErrorInvitados("");
+
+    try {
+      const datos = (await pedir(
+        `/api/admin/invitados?_=${Date.now()}`,
+      )) as InvitadoAdmin[];
+      setInvitados(datos);
+    } catch (err) {
+      setErrorInvitados(
+        err instanceof Error ? err.message : tInvitados("error"),
+      );
+    } finally {
+      setCargandoInvitados(false);
+    }
+  }, [pedir, tInvitados]);
+
   useEffect(() => {
     let activo = true;
     void fetch("/api/auth/csrf")
@@ -524,6 +560,7 @@ export default function AdminPanel() {
         cargarAnalitica(),
         cargarPendientes(),
         cargarDescuentos(),
+        cargarInvitados(),
       ])
         .then(() => setAccesoDenegado(false))
         .catch((err) => {
@@ -723,11 +760,12 @@ export default function AdminPanel() {
       ["usuarios", "Usuarios", Users],
       ["pendientes", tPendientes("tab"), MailWarning],
       ["descuentos", tDescuentos("tab"), BadgePercent],
+      ["invitados", tInvitados("tab"), Ghost],
       ["estadisticas", "Estadísticas", BarChart3],
       ["facturacion", "Facturación", FileText],
       ["exportar", "Exportar", Download],
     ] as const,
-    [tDescuentos, tPendientes],
+    [tDescuentos, tPendientes, tInvitados],
   );
 
   if (accesoDenegado) {
@@ -1589,6 +1627,73 @@ export default function AdminPanel() {
                 ) : null}
               </div>
             </div>
+          </section>
+        ) : null}
+
+        {tab === "invitados" ? (
+          <section className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="font-bold text-[var(--txt)]">
+                {tInvitados("title")}
+              </h2>
+              <button
+                type="button"
+                onClick={() => void cargarInvitados()}
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-1.5 text-xs font-bold text-[var(--txt2)] transition-colors hover:bg-[var(--suave)]"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                {tInvitados("refresh")}
+              </button>
+            </div>
+            <p className="mt-1 text-sm text-[var(--txt3)]">
+              {tInvitados("subtitle")}
+            </p>
+
+            {cargandoInvitados && invitados.length === 0 ? (
+              <p className="mt-4 text-sm text-[var(--txt3)]">
+                {tInvitados("loading")}
+              </p>
+            ) : errorInvitados ? (
+              <p className="mt-4 rounded-xl border border-red-300 bg-red-50 p-3 text-sm font-semibold text-red-700">
+                {errorInvitados}
+              </p>
+            ) : invitados.length === 0 ? (
+              <p className="mt-4 text-sm text-[var(--txt3)]">
+                {tInvitados("empty")}
+              </p>
+            ) : (
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[760px] text-left text-xs">
+                  <thead className="bg-[var(--card2)] text-[var(--txt3)]">
+                    <tr>
+                      <th className="px-3 py-3">{tInvitados("sessionId")}</th>
+                      <th className="px-3 py-3">{tInvitados("landingVisits")}</th>
+                      <th className="px-3 py-3">{tInvitados("testsCreated")}</th>
+                      <th className="px-3 py-3">{tInvitados("arcadeGames")}</th>
+                      <th className="px-3 py-3">{tInvitados("lastActivity")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invitados.map((invitado) => (
+                      <tr
+                        key={invitado.sessionId}
+                        className="border-t border-[var(--th)]"
+                      >
+                        <td className="px-3 py-3 font-mono">
+                          {abreviarSesion(invitado.sessionId)}
+                        </td>
+                        <td className="px-3 py-3">{invitado.visitasLanding}</td>
+                        <td className="px-3 py-3">{invitado.testsCreados}</td>
+                        <td className="px-3 py-3">{invitado.partidasArcade}</td>
+                        <td className="px-3 py-3">
+                          {fecha(invitado.ultimaActividad)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </section>
         ) : null}
 

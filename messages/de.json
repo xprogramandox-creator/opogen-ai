@@ -738,6 +738,20 @@
     "loading": "Analytik wird geladen…",
     "error": "Statistiken konnten nicht geladen werden."
   },
+  "AdminGuests": {
+    "tab": "Gäste",
+    "title": "Gastaktivität",
+    "subtitle": "Aktivität nicht angemeldeter Besucher.",
+    "sessionId": "Sitzungs-ID",
+    "landingVisits": "Besuche der Startseite",
+    "testsCreated": "Erstellte Tests",
+    "arcadeGames": "Arcade-Spiele",
+    "lastActivity": "Letzte Aktivität",
+    "empty": "Noch keine Gastaktivität.",
+    "loading": "Gastaktivität wird geladen…",
+    "error": "Gastaktivität konnte nicht geladen werden.",
+    "refresh": "Aktualisieren"
+  },
   "Contacto": {
     "back": "Zurück",
     "title": "Kontakt aufnehmen",

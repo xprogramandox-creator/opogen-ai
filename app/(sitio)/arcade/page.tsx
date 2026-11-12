@@ -15,6 +15,7 @@ import {
   MENSAJE_LIMITE_INVITADO,
 } from "@/lib/limites-invitado-constantes";
 import { MAX_PREGUNTAS_FREEMIUM } from "@/lib/planes";
+import { registrarEventoInvitado } from "@/lib/analitica-cliente";
 import { useLocale, useTranslations } from "next-intl";
 import {
   opcionesTipoEstudio,
@@ -800,6 +801,7 @@ export default function ArcadePage() {
     aviso: string,
     limiteRondas: number | null = null,
   ): void {
+    registrarEventoInvitado("arcade", "partida_arcade");
     cancelarPausaPista();
     detenerTimer(); cancelarTransicion();
     const estado = vistaRef.current;

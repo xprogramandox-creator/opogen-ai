@@ -1,40 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { obtenerSessionIdAnalitica } from "@/lib/analitica-cliente";
 
-const CLAVE_SESION = "opogen:analitica:sesion";
 const INTERVALO_MS = 30_000;
-
-function nuevoId(): string {
-  try {
-    if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-      return crypto.randomUUID();
-    }
-  } catch {
-    // Se usa el fallback de abajo.
-  }
-
-  return `anon-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
-}
-
-function obtenerSesion(): string {
-  try {
-    const existente = window.sessionStorage.getItem(CLAVE_SESION);
-
-    if (existente) return existente;
-
-    const nuevo = nuevoId();
-    window.sessionStorage.setItem(CLAVE_SESION, nuevo);
-    return nuevo;
-  } catch {
-    return nuevoId();
-  }
-}
 
 export default function AnaliticaTracker() {
   useEffect(() => {
     let activo = true;
-    const sessionId = obtenerSesion();
+    const sessionId = obtenerSessionIdAnalitica();
 
     const enviar = () => {
       if (!activo || document.visibilityState === "hidden") return;

@@ -738,6 +738,20 @@
     "loading": "Caricamento analisi…",
     "error": "Impossibile caricare le statistiche."
   },
+  "AdminGuests": {
+    "tab": "Ospiti",
+    "title": "Attività degli ospiti",
+    "subtitle": "Attività dei visitatori non registrati.",
+    "sessionId": "ID sessione",
+    "landingVisits": "Visite alla landing",
+    "testsCreated": "Test creati",
+    "arcadeGames": "Partite Arcade",
+    "lastActivity": "Ultima attività",
+    "empty": "Ancora nessuna attività di ospiti.",
+    "loading": "Caricamento attività ospiti…",
+    "error": "Impossibile caricare l'attività degli ospiti.",
+    "refresh": "Aggiorna"
+  },
   "Contacto": {
     "back": "Indietro",
     "title": "Contattaci",

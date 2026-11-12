@@ -738,6 +738,20 @@
     "loading": "Cargando analítica…",
     "error": "No se pudieron cargar las estadísticas."
   },
+  "AdminGuests": {
+    "tab": "Invitados",
+    "title": "Actividad de invitados",
+    "subtitle": "Actividad de los visitantes no registrados.",
+    "sessionId": "ID de sesión",
+    "landingVisits": "Visitas a la landing",
+    "testsCreated": "Tests creados",
+    "arcadeGames": "Partidas de Arcade",
+    "lastActivity": "Última actividad",
+    "empty": "No hay actividad de invitados todavía.",
+    "loading": "Cargando actividad de invitados…",
+    "error": "No se pudo cargar la actividad de invitados.",
+    "refresh": "Actualizar"
+  },
   "Contacto": {
     "back": "Volver",
     "title": "Contacta con nosotros",

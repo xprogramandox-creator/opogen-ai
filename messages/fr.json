@@ -738,6 +738,20 @@
     "loading": "Chargement de l'analytique…",
     "error": "Impossible de charger les statistiques."
   },
+  "AdminGuests": {
+    "tab": "Invités",
+    "title": "Activité des invités",
+    "subtitle": "Activité des visiteurs non connectés.",
+    "sessionId": "ID de session",
+    "landingVisits": "Visites de la page d'accueil",
+    "testsCreated": "Tests créés",
+    "arcadeGames": "Parties Arcade",
+    "lastActivity": "Dernière activité",
+    "empty": "Pas encore d'activité d'invités.",
+    "loading": "Chargement de l'activité des invités…",
+    "error": "Impossible de charger l'activité des invités.",
+    "refresh": "Actualiser"
+  },
   "Contacto": {
     "back": "Retour",
     "title": "Contactez-nous",

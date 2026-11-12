@@ -174,6 +174,13 @@ function abrirDb(): DatabaseSync {
         ultima_actividad TEXT NOT NULL,
         UNIQUE(session_id, dia)
       );
+      CREATE TABLE IF NOT EXISTS actividad_invitados (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        pagina TEXT NOT NULL CHECK (pagina IN ('landing', 'crear', 'arcade')),
+        accion TEXT NOT NULL CHECK (accion IN ('visita', 'test_creado', 'partida_arcade')),
+        fecha TEXT NOT NULL
+      );
       CREATE TABLE IF NOT EXISTS descuentos_stripe (
         codigo TEXT PRIMARY KEY,
         promotion_code_id TEXT NOT NULL UNIQUE,
@@ -195,6 +202,8 @@ function abrirDb(): DatabaseSync {
       CREATE INDEX IF NOT EXISTS idx_logs_fecha ON logs_admin(fecha);
       CREATE INDEX IF NOT EXISTS idx_analitica_ultima ON analitica_sesiones(ultima_actividad);
       CREATE INDEX IF NOT EXISTS idx_analitica_dia_rol ON analitica_sesiones(dia, rol);
+      CREATE INDEX IF NOT EXISTS idx_actividad_invitados_fecha ON actividad_invitados(fecha);
+      CREATE INDEX IF NOT EXISTS idx_actividad_invitados_session ON actividad_invitados(session_id);
     `);
 
     // Migración aditiva para instalaciones que ya tenían la tabla creada.
@@ -1221,6 +1230,56 @@ export function registrarActividadAnalitica(
     ahora,
     ahora,
   );
+}
+
+export function registrarActividadInvitado(
+  sessionId: string,
+  pagina: "landing" | "crear" | "arcade",
+  accion: "visita" | "test_creado" | "partida_arcade",
+): void {
+  abrirDb()
+    .prepare(
+      `INSERT INTO actividad_invitados (session_id, pagina, accion, fecha)
+       VALUES (?, ?, ?, ?)`,
+    )
+    .run(sessionId, pagina, accion, new Date().toISOString());
+}
+
+export type InvitadoAdmin = {
+  sessionId: string;
+  visitasLanding: number;
+  testsCreados: number;
+  partidasArcade: number;
+  ultimaActividad: string;
+};
+
+export function obtenerInvitadosAdmin(): InvitadoAdmin[] {
+  const filas = abrirDb()
+    .prepare(
+      `SELECT session_id,
+         COALESCE(SUM(CASE WHEN pagina = 'landing' AND accion = 'visita' THEN 1 ELSE 0 END), 0) AS visitas_landing,
+         COALESCE(SUM(CASE WHEN accion = 'test_creado' THEN 1 ELSE 0 END), 0) AS tests_creados,
+         COALESCE(SUM(CASE WHEN accion = 'partida_arcade' THEN 1 ELSE 0 END), 0) AS partidas_arcade,
+         MAX(fecha) AS ultima_actividad
+       FROM actividad_invitados
+       GROUP BY session_id
+       ORDER BY ultima_actividad DESC`,
+    )
+    .all() as Array<{
+    session_id: string;
+    visitas_landing: number;
+    tests_creados: number;
+    partidas_arcade: number;
+    ultima_actividad: string;
+  }>;
+
+  return filas.map((fila) => ({
+    sessionId: fila.session_id,
+    visitasLanding: Number(fila.visitas_landing),
+    testsCreados: Number(fila.tests_creados),
+    partidasArcade: Number(fila.partidas_arcade),
+    ultimaActividad: fila.ultima_actividad,
+  }));
 }
 
 export function obtenerAnaliticaAdmin(fecha?: string): {

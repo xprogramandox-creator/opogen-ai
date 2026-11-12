@@ -20,6 +20,7 @@ import RedirigirSiSesion from "@/components/RedirigirSiSesion";
 import TarjetaOferta from "@/components/TarjetaOferta";
 import BotonAuth from "@/components/BotonAuth";
 import ExamenHero from "@/components/ExamenHero";
+import RegistrarEventoInvitado from "@/components/RegistrarEventoInvitado";
 
 export const metadata: Metadata = {
   title: "OpoGen AI | Convierte tus apuntes en exámenes",
@@ -74,6 +75,7 @@ export default async function LandingPage({
         className="relative min-h-app bg-transparent font-sans"
       >
         <RedirigirSiSesion />
+        <RegistrarEventoInvitado pagina="landing" accion="visita" />
 
         {/* HERO */}
         <section

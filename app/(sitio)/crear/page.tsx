@@ -22,6 +22,7 @@ import {
   LIMITE_TESTS_FREEMIUM,
   MAX_PREGUNTAS_FREEMIUM,
 } from "@/lib/planes";
+import { registrarEventoInvitado } from "@/lib/analitica-cliente";
 
 type ModoEntrada = "archivo" | "texto" | "foto";
 
@@ -402,6 +403,7 @@ export default function Home() {
       if (preguntasGeneradas.length === 0) throw new Error(t("errors.noQuestions"));
 
       setExamen(preguntasGeneradas);
+      registrarEventoInvitado("crear", "test_creado");
     } catch (err) {
       setError(mensajeError(err));
     } finally {

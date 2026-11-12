@@ -738,6 +738,20 @@
     "loading": "Loading analytics…",
     "error": "Could not load statistics."
   },
+  "AdminGuests": {
+    "tab": "Guests",
+    "title": "Guest activity",
+    "subtitle": "Activity from unregistered visitors.",
+    "sessionId": "Session ID",
+    "landingVisits": "Landing visits",
+    "testsCreated": "Tests created",
+    "arcadeGames": "Arcade games",
+    "lastActivity": "Last activity",
+    "empty": "No guest activity yet.",
+    "loading": "Loading guest activity…",
+    "error": "Could not load guest activity.",
+    "refresh": "Refresh"
+  },
   "Contacto": {
     "back": "Back",
     "title": "Contact us",
