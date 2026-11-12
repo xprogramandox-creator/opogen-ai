@@ -95,6 +95,7 @@ export default function AuthControls() {
           ) : (
             <Link
               href="/mi-espacio"
+              prefetch={false}
               aria-label="Mi Espacio"
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
               title="Acceder a Mi Espacio"
@@ -116,6 +117,7 @@ export default function AuthControls() {
           ) : (
             <Link
               href="/estadisticas"
+              prefetch={false}
               aria-label="Estadísticas"
               title="Ver mis estadísticas"
               className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
@@ -126,6 +128,7 @@ export default function AuthControls() {
           )}
           <Link
             href="/crear"
+            prefetch={false}
             aria-label="Test"
             title="Crear un test"
             className={`${CLASE_BOTON_CABECERA} border border-[var(--th)] bg-[var(--card)] text-[var(--txt)] hover:bg-[var(--suave2)]`}
@@ -135,6 +138,7 @@ export default function AuthControls() {
           </Link>
           <Link
             href="/arcade"
+            prefetch={false}
             aria-label="Arcade"
             title="Jugar al modo Arcade"
             onClick={() =>
@@ -151,6 +155,7 @@ export default function AuthControls() {
           {sesion.rol === "premium" ? (
             <Link
               href="/kids"
+              prefetch={false}
               aria-label="OpoGen Kids"
               title="Entrar en la Zona Kids"
               className={CLASE_KIDS}
@@ -297,6 +302,7 @@ export default function AuthControls() {
                 {sesion.rol === "premium" ? (
                   <Link
                     href="/mi-espacio"
+                    prefetch={false}
                     onClick={() => setMenuAbierto(false)}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--txt)] hover:bg-[var(--suave2)]"
                   >
@@ -308,6 +314,7 @@ export default function AuthControls() {
                 {sesion.rol === "premium" ? (
                   <Link
                     href="/estadisticas"
+                    prefetch={false}
                     onClick={() => setMenuAbierto(false)}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--txt)] hover:bg-[var(--suave2)]"
                   >
@@ -318,6 +325,7 @@ export default function AuthControls() {
 
                 <Link
                   href="/crear"
+                  prefetch={false}
                   onClick={() => setMenuAbierto(false)}
                   className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--txt)] hover:bg-[var(--suave2)]"
                 >
@@ -327,6 +335,7 @@ export default function AuthControls() {
 
                 <Link
                   href="/arcade"
+                  prefetch={false}
                   onClick={() => {
                     setMenuAbierto(false);
                     window.dispatchEvent(
@@ -342,6 +351,7 @@ export default function AuthControls() {
                 {sesion.rol === "premium" ? (
                   <Link
                     href="/kids"
+                    prefetch={false}
                     onClick={() => setMenuAbierto(false)}
                     className={CLASE_KIDS_MOVIL}
                   >
@@ -351,6 +361,7 @@ export default function AuthControls() {
 
                 <Link
                   href="/cuenta"
+                  prefetch={false}
                   onClick={() => setMenuAbierto(false)}
                   className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--txt)] hover:bg-[var(--suave2)]"
                 >
@@ -429,6 +440,7 @@ export default function AuthControls() {
             <div className="grid gap-2 sm:grid-cols-2">
               <Link
                 href="/cuenta"
+                prefetch={false}
                 onClick={() => setPerfilAbierto(false)}
                 className="inline-flex h-11 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave2)]"
               >
@@ -437,6 +449,7 @@ export default function AuthControls() {
 
               <Link
                 href={sesion.rol === "premium" ? "/dashboard" : "/premium"}
+                prefetch={false}
                 onClick={() => setPerfilAbierto(false)}
                 className="inline-flex h-11 items-center justify-center rounded-xl bg-[var(--azul)] px-4 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
               >

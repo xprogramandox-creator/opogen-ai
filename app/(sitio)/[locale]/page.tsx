@@ -102,6 +102,7 @@ export default async function LandingPage({
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                   <Link
                     href="/crear"
+                    prefetch={false}
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#1d4ed8] px-6 text-[15px] font-medium text-white transition-colors hover:bg-[#1e40af] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] dark:bg-[#efe9de] dark:text-[#12110f] dark:hover:bg-white dark:focus-visible:ring-[#60a5fa]"
                   >
                     {t("ctaPrimary")}
@@ -197,6 +198,7 @@ export default async function LandingPage({
 
               <Link
                 href={ctaKids}
+                prefetch={false}
                 className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-[var(--azul)] px-5 py-3 text-sm font-bold text-white shadow-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 {t("kidsCta")}
@@ -271,7 +273,7 @@ export default async function LandingPage({
                 </p>
               </div>
 
-              <Link href="/arcade" className="btn-action btn-arcade shrink-0">
+              <Link href="/arcade" prefetch={false} className="btn-action btn-arcade shrink-0">
                 {t("arcadeCta")}
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </Link>

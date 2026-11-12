@@ -26,6 +26,7 @@ export default function SiteHeader({
           {backHref ? (
             <Link
               href={backHref}
+              prefetch={false}
               className="flex shrink-0 items-center gap-2 rounded-lg border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm font-bold text-[var(--txt)] shadow-sm transition-colors hover:bg-[var(--suave2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
               aria-label="Volver"
             >
