@@ -750,7 +750,17 @@
     "empty": "Ainda não há atividade de convidados.",
     "loading": "A carregar atividade de convidados…",
     "error": "Não foi possível carregar a atividade de convidados.",
-    "refresh": "Atualizar"
+    "refresh": "Atualizar",
+    "selectDate": "Escolher dia",
+    "allDays": "Todos os dias",
+    "delete": "Eliminar atividade",
+    "deleteConfirmTitle": "Eliminar atividade de convidados",
+    "deleteConfirmMessage": "A atividade de convidados do dia selecionado será eliminada. Esta ação não pode ser anulada.",
+    "deleteAllConfirmMessage": "TODA a atividade de convidados será eliminada. Esta ação não pode ser anulada.",
+    "cancel": "Cancelar",
+    "confirmDelete": "Eliminar",
+    "deleting": "A eliminar…",
+    "deleteError": "Não foi possível eliminar a atividade de convidados."
   },
   "Contacto": {
     "back": "Voltar",

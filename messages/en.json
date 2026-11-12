@@ -750,7 +750,17 @@
     "empty": "No guest activity yet.",
     "loading": "Loading guest activity…",
     "error": "Could not load guest activity.",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "selectDate": "Choose a day",
+    "allDays": "All days",
+    "delete": "Delete activity",
+    "deleteConfirmTitle": "Delete guest activity",
+    "deleteConfirmMessage": "Guest activity for the selected day will be deleted. This cannot be undone.",
+    "deleteAllConfirmMessage": "ALL guest activity will be deleted. This cannot be undone.",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete",
+    "deleting": "Deleting…",
+    "deleteError": "Could not delete guest activity."
   },
   "Contacto": {
     "back": "Back",

@@ -750,7 +750,17 @@
     "empty": "No hay actividad de invitados todavía.",
     "loading": "Cargando actividad de invitados…",
     "error": "No se pudo cargar la actividad de invitados.",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "selectDate": "Elegir día",
+    "allDays": "Todos los días",
+    "delete": "Borrar actividad",
+    "deleteConfirmTitle": "Borrar actividad de invitados",
+    "deleteConfirmMessage": "Se borrará la actividad de invitados del día seleccionado. Esta acción no se puede deshacer.",
+    "deleteAllConfirmMessage": "Se borrará TODA la actividad de invitados. Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirmDelete": "Borrar",
+    "deleting": "Borrando…",
+    "deleteError": "No se pudo borrar la actividad de invitados."
   },
   "Contacto": {
     "back": "Volver",

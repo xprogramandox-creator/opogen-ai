@@ -750,7 +750,17 @@
     "empty": "Noch keine Gastaktivität.",
     "loading": "Gastaktivität wird geladen…",
     "error": "Gastaktivität konnte nicht geladen werden.",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "selectDate": "Tag wählen",
+    "allDays": "Alle Tage",
+    "delete": "Aktivität löschen",
+    "deleteConfirmTitle": "Gastaktivität löschen",
+    "deleteConfirmMessage": "Die Gastaktivität des ausgewählten Tages wird gelöscht. Dies kann nicht rückgängig gemacht werden.",
+    "deleteAllConfirmMessage": "Die GESAMTE Gastaktivität wird gelöscht. Dies kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "confirmDelete": "Löschen",
+    "deleting": "Wird gelöscht…",
+    "deleteError": "Gastaktivität konnte nicht gelöscht werden."
   },
   "Contacto": {
     "back": "Zurück",

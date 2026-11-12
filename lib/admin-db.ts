@@ -1253,8 +1253,25 @@ export type InvitadoAdmin = {
   ultimaActividad: string;
 };
 
-export function obtenerInvitadosAdmin(): InvitadoAdmin[] {
-  const filas = abrirDb()
+export function obtenerInvitadosAdmin(fecha?: string): InvitadoAdmin[] {
+  const db = abrirDb();
+  const condiciones: string[] = [];
+  const valores: string[] = [];
+
+  const dia = diaFiltro(fecha);
+
+  if (dia) {
+    const fin = new Date(`${dia}T00:00:00.000Z`);
+    fin.setUTCDate(fin.getUTCDate() + 1);
+    condiciones.push("fecha >= ? AND fecha < ?");
+    valores.push(`${dia}T00:00:00.000Z`, fin.toISOString());
+  }
+
+  const where = condiciones.length
+    ? `WHERE ${condiciones.join(" AND ")}`
+    : "";
+
+  const filas = db
     .prepare(
       `SELECT session_id,
          COALESCE(SUM(CASE WHEN pagina = 'landing' AND accion = 'visita' THEN 1 ELSE 0 END), 0) AS visitas_landing,
@@ -1262,10 +1279,11 @@ export function obtenerInvitadosAdmin(): InvitadoAdmin[] {
          COALESCE(SUM(CASE WHEN accion = 'partida_arcade' THEN 1 ELSE 0 END), 0) AS partidas_arcade,
          MAX(fecha) AS ultima_actividad
        FROM actividad_invitados
+       ${where}
        GROUP BY session_id
        ORDER BY ultima_actividad DESC`,
     )
-    .all() as Array<{
+    .all(...valores) as Array<{
     session_id: string;
     visitas_landing: number;
     tests_creados: number;
@@ -1280,6 +1298,25 @@ export function obtenerInvitadosAdmin(): InvitadoAdmin[] {
     partidasArcade: Number(fila.partidas_arcade),
     ultimaActividad: fila.ultima_actividad,
   }));
+}
+
+export function borrarActividadInvitados(fecha?: string): number {
+  const db = abrirDb();
+  const dia = diaFiltro(fecha);
+
+  if (!dia) {
+    const resultado = db.prepare("DELETE FROM actividad_invitados").run();
+    return Number((resultado as { changes?: number }).changes || 0);
+  }
+
+  const fin = new Date(`${dia}T00:00:00.000Z`);
+  fin.setUTCDate(fin.getUTCDate() + 1);
+
+  const resultado = db
+    .prepare("DELETE FROM actividad_invitados WHERE fecha >= ? AND fecha < ?")
+    .run(`${dia}T00:00:00.000Z`, fin.toISOString());
+
+  return Number((resultado as { changes?: number }).changes || 0);
 }
 
 export function obtenerAnaliticaAdmin(fecha?: string): {

@@ -750,7 +750,17 @@
     "empty": "Ancora nessuna attività di ospiti.",
     "loading": "Caricamento attività ospiti…",
     "error": "Impossibile caricare l'attività degli ospiti.",
-    "refresh": "Aggiorna"
+    "refresh": "Aggiorna",
+    "selectDate": "Scegli un giorno",
+    "allDays": "Tutti i giorni",
+    "delete": "Elimina attività",
+    "deleteConfirmTitle": "Elimina attività degli ospiti",
+    "deleteConfirmMessage": "L'attività degli ospiti del giorno selezionato verrà eliminata. Questa azione non è reversibile.",
+    "deleteAllConfirmMessage": "TUTTA l'attività degli ospiti verrà eliminata. Questa azione non è reversibile.",
+    "cancel": "Annulla",
+    "confirmDelete": "Elimina",
+    "deleting": "Eliminazione…",
+    "deleteError": "Impossibile eliminare l'attività degli ospiti."
   },
   "Contacto": {
     "back": "Indietro",

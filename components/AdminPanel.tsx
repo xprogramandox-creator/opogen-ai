@@ -199,6 +199,14 @@ export default function AdminPanel() {
   const [invitados, setInvitados] = useState<InvitadoAdmin[]>([]);
   const [cargandoInvitados, setCargandoInvitados] = useState(false);
   const [errorInvitados, setErrorInvitados] = useState("");
+  const [fechaInvitados, setFechaInvitados] = useState(() =>
+    new Date().toLocaleDateString("en-CA", {
+      timeZone: "Europe/Madrid",
+    }),
+  );
+  const [borrarInvitadosAbierto, setBorrarInvitadosAbierto] =
+    useState(false);
+  const [borrandoInvitados, setBorrandoInvitados] = useState(false);
   const [fechaAnalitica, setFechaAnalitica] = useState(() =>
     new Date().toLocaleDateString("en-CA", {
       timeZone: "Europe/Madrid",
@@ -518,23 +526,49 @@ export default function AdminPanel() {
     [fechaAnalitica, pedir, tAnalitica],
   );
 
-  const cargarInvitados = useCallback(async () => {
-    setCargandoInvitados(true);
+  const cargarInvitados = useCallback(
+    async (fecha?: string) => {
+      setCargandoInvitados(true);
+      setErrorInvitados("");
+
+      try {
+        const consulta = fecha
+          ? `/api/admin/invitados?fecha=${encodeURIComponent(fecha)}&_=${Date.now()}`
+          : `/api/admin/invitados?_=${Date.now()}`;
+        const datos = (await pedir(consulta)) as InvitadoAdmin[];
+        setInvitados(datos);
+      } catch (err) {
+        setErrorInvitados(
+          err instanceof Error ? err.message : tInvitados("error"),
+        );
+      } finally {
+        setCargandoInvitados(false);
+      }
+    },
+    [pedir, tInvitados],
+  );
+
+  const borrarInvitados = async (): Promise<void> => {
+    if (borrandoInvitados) return;
+
+    setBorrandoInvitados(true);
     setErrorInvitados("");
 
     try {
-      const datos = (await pedir(
-        `/api/admin/invitados?_=${Date.now()}`,
-      )) as InvitadoAdmin[];
-      setInvitados(datos);
+      await pedir("/api/admin/invitados/borrar", {
+        method: "POST",
+        body: JSON.stringify({ fecha: fechaInvitados || null }),
+      });
+      setBorrarInvitadosAbierto(false);
+      await cargarInvitados(fechaInvitados || undefined);
     } catch (err) {
       setErrorInvitados(
-        err instanceof Error ? err.message : tInvitados("error"),
+        err instanceof Error ? err.message : tInvitados("deleteError"),
       );
     } finally {
-      setCargandoInvitados(false);
+      setBorrandoInvitados(false);
     }
-  }, [pedir, tInvitados]);
+  };
 
   useEffect(() => {
     let activo = true;
@@ -560,7 +594,7 @@ export default function AdminPanel() {
         cargarAnalitica(),
         cargarPendientes(),
         cargarDescuentos(),
-        cargarInvitados(),
+        cargarInvitados(fechaInvitados),
       ])
         .then(() => setAccesoDenegado(false))
         .catch((err) => {
@@ -1636,14 +1670,49 @@ export default function AdminPanel() {
               <h2 className="font-bold text-[var(--txt)]">
                 {tInvitados("title")}
               </h2>
-              <button
-                type="button"
-                onClick={() => void cargarInvitados()}
-                className="inline-flex items-center gap-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-1.5 text-xs font-bold text-[var(--txt2)] transition-colors hover:bg-[var(--suave)]"
-              >
-                <RefreshCw className="h-3.5 w-3.5" />
-                {tInvitados("refresh")}
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="text-xs font-bold text-[var(--txt2)]">
+                  {tInvitados("selectDate")}
+                  <input
+                    type="date"
+                    value={fechaInvitados}
+                    onChange={(event) => {
+                      const fecha = event.target.value;
+                      setFechaInvitados(fecha);
+                      void cargarInvitados(fecha || undefined);
+                    }}
+                    className="ml-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-2 py-1.5 text-sm text-[var(--txt)]"
+                  />
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFechaInvitados("");
+                    void cargarInvitados();
+                  }}
+                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-1.5 text-xs font-bold text-[var(--txt2)] transition-colors hover:bg-[var(--suave)]"
+                >
+                  {tInvitados("allDays")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    void cargarInvitados(fechaInvitados || undefined)
+                  }
+                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] px-3 py-1.5 text-xs font-bold text-[var(--txt2)] transition-colors hover:bg-[var(--suave)]"
+                >
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  {tInvitados("refresh")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBorrarInvitadosAbierto(true)}
+                  className="inline-flex items-center gap-2 rounded-lg border border-red-900/40 bg-red-700 px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-red-800"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  {tInvitados("delete")}
+                </button>
+              </div>
             </div>
             <p className="mt-1 text-sm text-[var(--txt3)]">
               {tInvitados("subtitle")}
@@ -1894,6 +1963,54 @@ export default function AdminPanel() {
                   <RotateCcw className="h-4 w-4" />
                 )}
                 {reiniciando ? tReset("resetting") : tReset("confirm")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {borrarInvitadosAbierto ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="borrar-invitados-titulo"
+            className="w-full max-w-md rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-2xl"
+          >
+            <h2
+              id="borrar-invitados-titulo"
+              className="text-xl font-bold text-[var(--txt)]"
+            >
+              {tInvitados("deleteConfirmTitle")}
+            </h2>
+            <p className="mt-2 text-sm text-[var(--txt2)]">
+              {fechaInvitados
+                ? tInvitados("deleteConfirmMessage")
+                : tInvitados("deleteAllConfirmMessage")}
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setBorrarInvitadosAbierto(false)}
+                disabled={borrandoInvitados}
+                className="rounded-xl border border-[var(--th)] px-4 py-2 text-sm font-bold text-[var(--txt2)] hover:bg-[var(--suave)] disabled:cursor-wait disabled:opacity-60"
+              >
+                {tInvitados("cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={() => void borrarInvitados()}
+                disabled={borrandoInvitados}
+                className="inline-flex items-center gap-2 rounded-xl bg-red-700 px-4 py-2 text-sm font-bold text-white hover:bg-red-800 disabled:cursor-wait disabled:opacity-60"
+              >
+                {borrandoInvitados ? (
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+                {borrandoInvitados
+                  ? tInvitados("deleting")
+                  : tInvitados("confirmDelete")}
               </button>
             </div>
           </div>

@@ -750,7 +750,17 @@
     "empty": "Pas encore d'activité d'invités.",
     "loading": "Chargement de l'activité des invités…",
     "error": "Impossible de charger l'activité des invités.",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "selectDate": "Choisir un jour",
+    "allDays": "Tous les jours",
+    "delete": "Supprimer l'activité",
+    "deleteConfirmTitle": "Supprimer l'activité des invités",
+    "deleteConfirmMessage": "L'activité des invités du jour sélectionné sera supprimée. Cette action est irréversible.",
+    "deleteAllConfirmMessage": "TOUTE l'activité des invités sera supprimée. Cette action est irréversible.",
+    "cancel": "Annuler",
+    "confirmDelete": "Supprimer",
+    "deleting": "Suppression…",
+    "deleteError": "Impossible de supprimer l'activité des invités."
   },
   "Contacto": {
     "back": "Retour",
