@@ -7,9 +7,9 @@ import { diaAnalitico } from "@/lib/analitica";
 const NOMBRE_ARCHIVO = "acertijos_vistos.json";
 
 export type EstadoAcertijos = {
-  /** Día (Europe/Madrid) al que pertenece la lista de vistos. */
+  /** Última fecha de actividad (Europe/Madrid). Solo informativa. */
   fecha: string;
-  /** Identificadores de acertijos ya vistos ese día. */
+  /** Identificadores de acertijos ya vistos (no se repiten nunca). */
   vistos: string[];
 };
 
@@ -22,9 +22,8 @@ function estadoVacio(): EstadoAcertijos {
 }
 
 /**
- * Lee los acertijos vistos del usuario. Si el archivo es de otro día, se
- * reinicia (reset diario) para que al día siguiente vuelvan a estar
- * disponibles.
+ * Lee los acertijos vistos del usuario. La lista crece de forma indefinida:
+ * los acertijos no se repiten nunca (no hay reset diario).
  */
 export async function leerAcertijosVistos(
   clave: string,
@@ -39,10 +38,6 @@ export async function leerAcertijosVistos(
         )
       : [];
     const fecha = typeof datos.fecha === "string" ? datos.fecha : "";
-
-    if (fecha !== diaAnalitico()) {
-      return estadoVacio();
-    }
 
     return { fecha, vistos };
   } catch {
@@ -62,6 +57,8 @@ export async function marcarAcertijoVisto(
     if (!estado.vistos.includes(id)) {
       estado.vistos.push(id);
     }
+
+    estado.fecha = diaAnalitico();
 
     await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
     await writeFile(
