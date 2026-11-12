@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import AuthControls from "@/components/AuthControls";
 import LogoOpoGen from "@/components/LogoOpoGen";
@@ -11,11 +11,17 @@ type SiteHeaderProps = {
   title?: string;
 };
 
-export default function SiteHeader({
+export default async function SiteHeader({
   backHref,
   showBrand = false,
   title,
 }: SiteHeaderProps) {
+  const cookieStore = await cookies();
+  const temaInicial =
+    cookieStore.get("opoquiz-tema")?.value === "oscuro"
+      ? "oscuro"
+      : "claro";
+
   return (
     <header
       className="sticky top-0 z-50 w-full border-b border-[var(--th)]"
@@ -75,20 +81,11 @@ export default function SiteHeader({
         </div>
 
         <div className="flex min-w-0 flex-1 items-center justify-end gap-1.5 sm:gap-2">
-          <Suspense
-            fallback={
-              <span
-                aria-hidden="true"
-                className="h-9 w-[86px] shrink-0 animate-pulse rounded-full border border-[var(--th)] bg-[var(--suave2)] sm:h-10 sm:w-[104px]"
-              />
-            }
-          >
-            <AuthControls />
-          </Suspense>
+          <AuthControls />
           <div className="hidden sm:block">
             <SelectorIdioma />
           </div>
-          <ThemeToggle />
+          <ThemeToggle temaInicial={temaInicial} />
         </div>
       </div>
     </header>

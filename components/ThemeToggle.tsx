@@ -4,6 +4,8 @@ import { useSyncExternalStore } from "react";
 
 type ThemeToggleProps = {
   className?: string;
+  /** Tema que ya conoce el servidor (leído de la cookie). */
+  temaInicial?: "claro" | "oscuro";
 };
 
 // No hay nada a lo que suscribirse: solo interesa saber si ya estamos en el
@@ -12,24 +14,19 @@ const sinSuscripcion = () => () => {};
 
 export default function ThemeToggle({
   className = "",
+  temaInicial = "claro",
 }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
-  const mounted = useSyncExternalStore(
+  const montado = useSyncExternalStore(
     sinSuscripcion,
     () => true,
     () => false,
   );
 
-  if (!mounted) {
-    return (
-      <div
-        className={`h-10 w-10 shrink-0 rounded-full border border-[var(--th)] bg-[var(--card)] ${className}`}
-        aria-hidden="true"
-      />
-    );
-  }
-
-  const estaOscuro = theme === "oscuro";
+  // Durante la hidratación usamos el tema que ya conoce el servidor (cookie),
+  // así el botón se pinta al instante y no hay desajuste de hidratación.
+  const temaActual = montado ? theme ?? temaInicial : temaInicial;
+  const estaOscuro = temaActual === "oscuro";
   const etiqueta = estaOscuro
     ? "Cambiar a modo claro"
     : "Cambiar a modo oscuro";

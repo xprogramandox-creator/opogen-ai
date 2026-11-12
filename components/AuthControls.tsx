@@ -24,7 +24,7 @@ const CLASE_KIDS =
 const CLASE_KIDS_MOVIL =
   "inline-flex h-12 w-full items-center justify-center gap-1 rounded-2xl bg-[var(--azul)] px-4 text-base font-bold text-white shadow-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2";
 export default function AuthControls() {
-  const { sesion, cargando } = useSesion();
+  const { sesion } = useSesion();
   const t = useTranslations("Header");
   const locale = useLocale();
   const pathname = usePathname();
@@ -56,15 +56,7 @@ export default function AuthControls() {
 
   let contenido: React.ReactNode;
 
-  if (cargando) {
-    contenido = (
-      <span
-        role="status"
-        aria-label="Comprobando sesión"
-        className="h-9 w-[86px] shrink-0 animate-pulse rounded-full border border-[var(--th)] bg-[var(--suave2)] sm:h-10 sm:w-[104px]"
-      />
-    );
-  } else if (sesion) {
+  if (sesion) {
     contenido = (
       <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
         <nav
