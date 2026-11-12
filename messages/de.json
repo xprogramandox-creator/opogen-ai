@@ -876,7 +876,11 @@
     "completed": "Du hast alle Rätsel für dein Alter geschafft! Komm morgen wieder für mehr",
     "loading": "Rätsel wird geladen…",
     "back": "Zurück zu den Themen",
-    "error": "Das Rätsel konnte nicht geladen werden. Versuch es noch einmal."
+    "error": "Das Rätsel konnte nicht geladen werden. Versuch es noch einmal.",
+    "keepPlaying": "Möchtest du weiterspielen?",
+    "yes": "Ja",
+    "no": "Nein",
+    "generating": "Ein neues Rätsel wird erstellt…"
   },
   "KidsLock": {
     "title": "OpoGen Kids freischalten",

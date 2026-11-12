@@ -876,7 +876,11 @@
     "completed": "Tu as résolu toutes les énigmes de ton âge ! Reviens demain pour en découvrir d'autres",
     "loading": "Chargement de l'énigme…",
     "back": "Retour aux thèmes",
-    "error": "Impossible de charger l'énigme. Réessaie."
+    "error": "Impossible de charger l'énigme. Réessaie.",
+    "keepPlaying": "Veux-tu continuer à jouer ?",
+    "yes": "Oui",
+    "no": "Non",
+    "generating": "Génération d'une nouvelle énigme…"
   },
   "KidsLock": {
     "title": "Débloquez OpoGen Kids",

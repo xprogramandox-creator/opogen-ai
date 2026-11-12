@@ -876,7 +876,11 @@
     "completed": "You've completed all the riddles for your age! Come back tomorrow for more",
     "loading": "Loading riddle…",
     "back": "Back to topics",
-    "error": "Could not load the riddle. Try again."
+    "error": "Could not load the riddle. Try again.",
+    "keepPlaying": "Do you want to keep playing?",
+    "yes": "Yes",
+    "no": "No",
+    "generating": "Generating a new riddle…"
   },
   "KidsLock": {
     "title": "Unlock OpoGen Kids",

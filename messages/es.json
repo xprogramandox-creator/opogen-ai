@@ -876,7 +876,11 @@
     "completed": "¡Has completado todos los acertijos de tu edad! Vuelve mañana para más",
     "loading": "Cargando acertijo…",
     "back": "Volver a temas",
-    "error": "No se pudo cargar el acertijo. Inténtalo de nuevo."
+    "error": "No se pudo cargar el acertijo. Inténtalo de nuevo.",
+    "keepPlaying": "¿Quieres seguir jugando?",
+    "yes": "Sí",
+    "no": "No",
+    "generating": "Generando un acertijo nuevo…"
   },
   "KidsLock": {
     "title": "Desbloquea OpoGen Kids",

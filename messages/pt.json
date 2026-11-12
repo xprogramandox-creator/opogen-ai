@@ -876,7 +876,11 @@
     "completed": "Completaste todos os enigmas da tua idade! Volta amanhã para mais",
     "loading": "A carregar enigma…",
     "back": "Voltar aos temas",
-    "error": "Não foi possível carregar o enigma. Tenta novamente."
+    "error": "Não foi possível carregar o enigma. Tenta novamente.",
+    "keepPlaying": "Queres continuar a jogar?",
+    "yes": "Sim",
+    "no": "Não",
+    "generating": "A gerar um novo enigma…"
   },
   "KidsLock": {
     "title": "Desbloqueia o OpoGen Kids",
