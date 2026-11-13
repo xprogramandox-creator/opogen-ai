@@ -216,6 +216,65 @@ function esCarpetaMadre(nombre: string): boolean {
   );
 }
 
+/** Clave estable del archivo para el historial de preguntas ya hechas. */
+function claveArchivoDe(
+  modo: ModoEntrada,
+  archivos: File[],
+  foto: File | null,
+): string {
+  const nombres =
+    modo === "archivo"
+      ? archivos.map((archivo) => archivo.name).sort()
+      : modo === "foto" && foto
+        ? [foto.name]
+        : [];
+
+  return nombres.length > 0 ? nombres.join("||") : "texto-pegado";
+}
+
+async function leerPreguntasHechas(
+  claveArchivo: string,
+): Promise<string[]> {
+  try {
+    const respuesta = await fetch(
+      `/api/preguntas-hechas?archivo=${encodeURIComponent(claveArchivo)}`,
+      { credentials: "include", cache: "no-store" },
+    );
+
+    if (!respuesta.ok) return [];
+
+    const datos = (await respuesta.json()) as { preguntas?: unknown };
+
+    return Array.isArray(datos.preguntas)
+      ? datos.preguntas.filter(
+          (pregunta): pregunta is string =>
+            typeof pregunta === "string",
+        )
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+async function registrarPreguntasHechas(
+  claveArchivo: string,
+  preguntas: string[],
+): Promise<void> {
+  if (preguntas.length === 0) return;
+
+  try {
+    await fetch("/api/preguntas-hechas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ archivo: claveArchivo, preguntas }),
+      cache: "no-store",
+    });
+  } catch {
+    // El registro es auxiliar; no debe romper la generación.
+  }
+}
+
 export default function Home() {
   const t = useTranslations("CrearTest");
   const locale = useLocale();
@@ -364,6 +423,9 @@ export default function Home() {
       if (textoTotal.trim().length < 50) throw new Error(t("errors.tooShort"));
       setTextoContexto(textoTotal);
 
+      const claveArchivo = claveArchivoDe(modoEntrada, archivos, foto);
+      const evitar = await leerPreguntasHechas(claveArchivo);
+
       const pedidas = sesion
         ? Math.min(
             Number(preguntasSeleccionadas) || 10,
@@ -375,7 +437,7 @@ export default function Home() {
       const response = await fetchConTimeout("/api/generar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ texto: textoTotal, tipoEstudio, idioma, numPreguntas: String(pedidas) }),
+        body: JSON.stringify({ texto: textoTotal, tipoEstudio, idioma, numPreguntas: String(pedidas), evitar }),
         cache: "no-store",
       }, 65_000);
 
@@ -403,6 +465,10 @@ export default function Home() {
       if (preguntasGeneradas.length === 0) throw new Error(t("errors.noQuestions"));
 
       setExamen(preguntasGeneradas);
+      void registrarPreguntasHechas(
+        claveArchivo,
+        preguntasGeneradas.map((pregunta) => pregunta.enunciado),
+      );
       registrarEventoInvitado("crear", "test_creado");
     } catch (err) {
       setError(mensajeError(err));

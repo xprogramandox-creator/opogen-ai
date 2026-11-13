@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { NextResponse } from "next/server";
 import { obtenerClaveSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
@@ -6,7 +8,11 @@ import {
   leerFallosCarpeta,
   obtenerCarpetaMadre,
 } from "@/lib/fallos-db";
-import { esNombreCarpetaSeguro } from "@/lib/rutas-espacio";
+import { actualizarPdfRepaso } from "@/lib/estructura-carpetas";
+import {
+  esNombreCarpetaSeguro,
+  rutaEspacioUsuario,
+} from "@/lib/rutas-espacio";
 import { normalizarPregunta, type Pregunta } from "@/lib/tipos";
 
 type ResultadoTest = {
@@ -61,6 +67,7 @@ export async function POST(req: Request) {
     // interno. Así "Test Mixtos - Humanización" no comparte repaso con
     // "Humanización".
     const porCarpeta = new Map<string, Pregunta[]>();
+    const fallosNuevos = new Map<string, Pregunta[]>();
     let procesados = 0;
 
     for (const item of cuerpo) {
@@ -88,6 +95,23 @@ export async function POST(req: Request) {
           clavePregunta(guardada) === clavePregunta(resultado.pregunta),
       );
 
+      if (!resultado.acierto) {
+        const acumulados = fallosNuevos.get(madre) ?? [];
+
+        if (
+          !acumulados.some(
+            (pregunta) =>
+              clavePregunta(pregunta) ===
+              clavePregunta(resultado.pregunta),
+          )
+        ) {
+          fallosNuevos.set(madre, [
+            ...acumulados,
+            resultado.pregunta,
+          ]);
+        }
+      }
+
       if (!resultado.acierto && indice === -1) {
         fallos.push(resultado.pregunta);
       } else if (resultado.acierto && indice !== -1) {
@@ -99,6 +123,18 @@ export async function POST(req: Request) {
 
     for (const [madre, fallos] of porCarpeta) {
       await guardarFallosCarpeta(clave, madre, fallos);
+
+      const nuevas = fallosNuevos.get(madre) ?? [];
+      const carpetaMadre = path.join(
+        rutaEspacioUsuario(clave),
+        madre,
+      );
+
+      if (nuevas.length > 0 && existsSync(carpetaMadre)) {
+        // Añade los fallos al repaso.pdf de la carpeta madre directamente
+        // desde la pantalla de corrección, sin pasar por Mi Espacio.
+        await actualizarPdfRepaso(carpetaMadre, nuevas);
+      }
     }
 
     return NextResponse.json({
