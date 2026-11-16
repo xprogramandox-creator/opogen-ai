@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type DragEvent } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CheckCircle2, FileDown, Save, X } from "lucide-react";
+import { CheckCircle2, FileDown, Save, Trash2, X } from "lucide-react";
 import { useSesion } from "@/components/SessionProvider";
 import { useNotification } from "@/components/NotificationProvider";
 import { guardarTestCompletado } from "@/lib/historial-tests";
@@ -681,6 +681,14 @@ export default function Home() {
       setPreparandoArchivos(false);
     }
   }
+  function quitarArchivo(indice: number): void {
+    setArchivos((prev) => prev.filter((_, posicion) => posicion !== indice));
+    setError("");
+    // El input conserva la selección anterior: se limpia para poder volver a
+    // elegir el mismo archivo después de haberlo quitado.
+    if (inputArchivosRef.current) inputArchivosRef.current.value = "";
+  }
+
   function handleDrop(e: DragEvent<HTMLLabelElement>) {
     e.preventDefault(); setArrastrando(false);
     void seleccionarArchivos(Array.from(e.dataTransfer.files || []));
@@ -740,12 +748,26 @@ export default function Home() {
                         {preparandoArchivos ? t("preparingFiles") : archivos.length > 0 ? t("filesSelected", { count: archivos.length }) : t("dropzone")}
                       </span>
                       <span className="mt-2 block text-xs text-[var(--txt3)]">{t("dropzoneHelp")}</span>
-                      {archivos.length > 0 && (
-                        <ul className="mt-4 space-y-2 text-left text-xs text-[var(--txt2)]">
-                          {archivos.map(a => <li key={a.name + a.size} className="truncate rounded-lg bg-[var(--suave)] px-3 py-2">{a.name}</li>)}
-                        </ul>
-                      )}
                     </label>
+
+                    {archivos.length > 0 && (
+                      <ul className="mt-3 space-y-2 text-left text-xs text-[var(--txt2)]">
+                        {archivos.map((a, indice) => (
+                          <li key={`${a.name}-${a.size}-${indice}`} className="flex items-center gap-3 rounded-lg bg-[var(--suave)] px-3 py-2">
+                            <span className="min-w-0 flex-1 truncate" title={a.name}>{a.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => quitarArchivo(indice)}
+                              title={`Quitar ${a.name}`}
+                              aria-label={`Quitar ${a.name}`}
+                              className="shrink-0 rounded-md p-1 text-[var(--txt3)] transition-colors hover:bg-[var(--card2)] hover:text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)]"
+                            >
+                              <Trash2 className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 )}
                 {modoEntrada === "texto" && (
