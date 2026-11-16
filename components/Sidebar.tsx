@@ -14,7 +14,6 @@ import {
   Star,
   X,
 } from "lucide-react";
-import { useAuthModal } from "@/components/AuthModalProvider";
 import { useSesion } from "@/components/SessionProvider";
 import { useSidebar } from "@/components/SidebarProvider";
 import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
@@ -122,10 +121,8 @@ function FilaNav({
 }
 
 function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
-  const t = useTranslations("Header");
   const pathname = usePathname();
   const { sesion } = useSesion();
-  const { abrirAuth } = useAuthModal();
   const { cerrar } = useSidebar();
   const esPremium = sesion?.rol === "premium";
 
@@ -166,53 +163,6 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
           );
         })}
       </nav>
-
-      <div className="mt-4 shrink-0 space-y-2 border-t border-[var(--th)] pt-3">
-        {sesion ? (
-          <>
-            <Link
-              href="/cuenta"
-              prefetch={false}
-              onClick={cerrar}
-              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-[var(--txt2)] transition-colors hover:bg-[var(--card2)] hover:text-[var(--txt)]"
-            >
-              <Lock className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden="true" />
-              <span className="truncate">{t("viewData")}</span>
-            </Link>
-            <Link
-              href={esPremium ? "/dashboard" : "/premium"}
-              prefetch={false}
-              onClick={cerrar}
-              className="flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
-            >
-              {esPremium ? t("goPanel") : t("goPremium")}
-            </Link>
-          </>
-        ) : (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                cerrar();
-                abrirAuth("login");
-              }}
-              className="flex w-full items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 py-2.5 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave2)]"
-            >
-              {t("login")}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                cerrar();
-                abrirAuth("registro");
-              }}
-              className="flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
-            >
-              {t("register")}
-            </button>
-          </>
-        )}
-      </div>
     </div>
   );
 }
