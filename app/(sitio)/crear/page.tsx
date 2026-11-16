@@ -308,9 +308,6 @@ export default function Home() {
   const [corregido, setCorregido] = useState(false);
   const [indiceSalto, setIndiceSalto] = useState(0);
   const [aviso, setAviso] = useState("");
-  const [explicaciones, setExplicaciones] = useState<Record<number, string>>({});
-  const [cargandoExplicacion, setCargandoExplicacion] = useState<Record<number, boolean>>({});
-  const [textoContexto, setTextoContexto] = useState("");
   const [arrastrando, setArrastrando] = useState(false);
   const [preparandoArchivos, setPreparandoArchivos] = useState(false);
   const inputArchivosRef = useRef<HTMLInputElement>(null);
@@ -338,17 +335,6 @@ export default function Home() {
     return () => window.clearTimeout(id);
   }, [locale]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const recuperar = params.get("recuperar");
-    const carpeta = params.get("carpeta");
-    const archivo = params.get("archivo");
-
-    if (recuperar === "true" && carpeta && archivo) {
-      recuperarExamen(carpeta, archivo);
-    }
-  }, []);
-
   async function recuperarExamen(carpeta: string, archivo: string) {
     setCargando(true);
     setMensajeCarga(t("recoveringExam"));
@@ -366,6 +352,24 @@ export default function Home() {
       setMensajeCarga("");
     }
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const recuperar = params.get("recuperar");
+    const carpeta = params.get("carpeta");
+    const archivo = params.get("archivo");
+
+    if (recuperar !== "true" || !carpeta || !archivo) {
+      return;
+    }
+
+    // Se aplaza al siguiente tick para no encadenar renders dentro del efecto.
+    const id = window.setTimeout(() => {
+      void recuperarExamen(carpeta, archivo);
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, []);
 
   async function extraerDocumentos(archivosSeleccionados: File[]): Promise<DocumentoExtraido[]> {
     const formData = new FormData();
@@ -404,8 +408,6 @@ export default function Home() {
     setCorregido(false);
     setIndiceSalto(0);
     setAviso("");
-    setExplicaciones({});
-    setCargandoExplicacion({});
 
     try {
       let textoTotal = "";
@@ -421,7 +423,6 @@ export default function Home() {
       }
 
       if (textoTotal.trim().length < 50) throw new Error(t("errors.tooShort"));
-      setTextoContexto(textoTotal);
 
       const claveArchivo = claveArchivoDe(modoEntrada, archivos, foto);
       const evitar = await leerPreguntasHechas(claveArchivo);
@@ -549,32 +550,6 @@ export default function Home() {
     document.getElementById(`pregunta-${sig}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  async function handleExplicar(index: number, pregunta: Pregunta) {
-    setCargandoExplicacion(prev => ({ ...prev, [index]: true }));
-    try {
-      const respCorrecta = pregunta.opciones[pregunta.correcta];
-      if (!respCorrecta) throw new Error("No se ha podido identificar la respuesta correcta.");
-      const res = await fetchConTimeout("/api/explicar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contexto: textoContexto, pregunta: pregunta.enunciado, respuestaCorrecta: respCorrecta }),
-        // timeout is already in fetchConTimeout
-      }, 30_000);
-      if (!res.ok) throw new Error(await leerErrorJson(res));
-      const data = await leerJson(res);
-
-      if (typeof data.explicacion !== "string" || !data.explicacion.trim()) {
-        throw new Error("Respuesta no válida.");
-      }
-
-      setExplicaciones(prev => ({ ...prev, [index]: data.explicacion as string }));
-    } catch (err) {
-      setExplicaciones(prev => ({ ...prev, [index]: mensajeError(err) }));
-    } finally {
-      setCargandoExplicacion(prev => ({ ...prev, [index]: false }));
-    }
-  }
-
   async function handleDescargarPDF(): Promise<void> {
     if (!examen || !sesion) { setError(t("errors.loginToPdf")); return; }
     try {
@@ -671,8 +646,8 @@ export default function Home() {
   }
 
   function reiniciarFormulario(): void {
-    setExamen(null); setCorregido(false); setRespuestasUsuario({}); setExplicaciones({}); setCargandoExplicacion({});
-    setArchivos([]); setFoto(null); setTextoPegado(""); setTextoContexto(""); setAviso(""); setError(""); setIndiceSalto(0);
+    setExamen(null); setCorregido(false); setRespuestasUsuario({});
+    setArchivos([]); setFoto(null); setTextoPegado(""); setAviso(""); setError(""); setIndiceSalto(0);
     setGuardado(false);
     if (inputArchivosRef.current) inputArchivosRef.current.value = "";
     if (inputFotoRef.current) inputFotoRef.current.value = "";
@@ -1012,28 +987,6 @@ export default function Home() {
                             {sinResponder ? t("unanswered", { letter: String.fromCharCode(65 + pregunta.correcta) }) : esCorrecta ? `✓ ${t("correctAnswer")}` : `✗ ${t("wrongAnswer", { letter: String.fromCharCode(65 + pregunta.correcta) })}`}
                           </p>
                           {pregunta.explicacion && <p className="text-sm leading-relaxed text-[var(--txt2)]">{pregunta.explicacion}</p>}
-                          <div className="mt-4 border-t border-[var(--th)] pt-4">
-                            {!explicaciones[index] && !cargandoExplicacion[index] && (
-                              <button type="button" onClick={() => handleExplicar(index, pregunta)} className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-[var(--azul)] hover:underline">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                  <path d="M12 2v8" /><path d="m4.93 10.93 1.41 1.41" /><path d="M2 18h2" /><path d="M20 18h2" /><path d="m19.07 10.93-1.41 1.41" /><path d="M22 22H2" /><path d="m8 6 4-4 4 4" /><path d="M16 18a4 4 0 0 0-8 0" />
-                                </svg>
-                                {t("askTutor")}
-                              </button>
-                            )}
-                            {cargandoExplicacion[index] && (
-                              <p role="status" className="flex items-center gap-2 text-sm text-[var(--txt3)]">
-                                <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
-                              </p>
-                            )}
-                            {explicaciones[index] && (
-                              <div role="status" className="mt-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] p-4 text-sm text-[var(--txt2)]">
-                                <strong className="mb-1 block text-[var(--azul)]">💡 {t("tutorExplanation")}</strong>
-                                {explicaciones[index]}
-                              </div>
-                            )}
-                          </div>
                         </div>
                       )}
                     </article>

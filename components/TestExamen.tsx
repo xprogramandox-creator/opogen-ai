@@ -74,8 +74,6 @@ export function TestExamen({
   const [respuestasUsuario, setRespuestasUsuario] = useState<Record<number, number>>({});
   const [corregido, setCorregido] = useState(false);
   const [indiceSalto, setIndiceSalto] = useState(0);
-  const [explicaciones, setExplicaciones] = useState<Record<number, string>>({});
-  const [cargandoExplicacion, setCargandoExplicacion] = useState<Record<number, boolean>>({});
   const [mensajeAcierto, setMensajeAcierto] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
@@ -281,8 +279,6 @@ export function TestExamen({
     setCorregido(false);
     setRespuestasUsuario({});
     setIndiceSalto(0);
-    setExplicaciones({});
-    setCargandoExplicacion({});
     setMensajeAcierto(false);
     cerrarExamen();
   }
@@ -509,33 +505,19 @@ export function TestExamen({
                     {sinResponder ? `○ Sin responder. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.` : esCorrecta ? "✓ ¡Respuesta correcta!" : `✗ Incorrecto. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.`}
                   </p>
                   {pregunta.explicacion && <p className="text-sm leading-relaxed text-[var(--txt2)]">{pregunta.explicacion}</p>}
-                  <div className="mt-4 border-t border-[var(--th)] pt-4">
-                    {cargandoExplicacion[index] && (
-                      <p role="status" className="flex items-center gap-2 text-sm text-[var(--txt3)]">
-                        <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
-                      </p>
-                    )}
-                    {explicaciones[index] && (
-                      <div role="status" className="mt-2 rounded-lg border border-[var(--th)] bg-[var(--card2)] p-4 text-sm text-[var(--txt2)]">
-                        <strong className="mb-1 block text-[var(--azul)]">💡 Explicación del tutor</strong>
-                        {explicaciones[index]}
-                      </div>
-                    )}
-                    {modoPractica && !esCorrecta && (
-                      <button 
-                        type="button" 
-                        onClick={() => {
-                          if (onPreguntaPracticaCompletada) {
-                            onPreguntaPracticaCompletada(false);
-                          }
-                        }} 
-                        className="mt-4 w-full cursor-pointer rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--azul-hover)]"
-                      >
-                        Siguiente
-                      </button>
-                    )}
-                  </div>
+                  {modoPractica && !esCorrecta && (
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        if (onPreguntaPracticaCompletada) {
+                          onPreguntaPracticaCompletada(false);
+                        }
+                      }} 
+                      className="mt-4 w-full cursor-pointer rounded-lg bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--azul-hover)]"
+                    >
+                      Siguiente
+                    </button>
+                  )}
                 </div>
               )}
             </article>

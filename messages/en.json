@@ -301,8 +301,6 @@
     "unanswered": "Unanswered. The correct option was {letter}.",
     "correctAnswer": "Correct answer!",
     "wrongAnswer": "Incorrect. The correct option was {letter}.",
-    "askTutor": "Why? Ask the AI tutor",
-    "tutorExplanation": "Tutor explanation",
     "answered": "Questions answered: {answered} of {total}",
     "gradeExam": "Correct exam",
     "saveTitle": "Save exam",

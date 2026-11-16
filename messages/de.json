@@ -301,8 +301,6 @@
     "unanswered": "Unbeantwortet. Die richtige Option war {letter}.",
     "correctAnswer": "Richtige Antwort!",
     "wrongAnswer": "Falsch. Die richtige Option war {letter}.",
-    "askTutor": "Warum? Frag den KI-Tutor",
-    "tutorExplanation": "Erklärung des Tutors",
     "answered": "Beantwortete Fragen: {answered} von {total}",
     "gradeExam": "Prüfung korrigieren",
     "saveTitle": "Prüfung speichern",

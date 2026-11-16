@@ -301,8 +301,6 @@
     "unanswered": "Sin responder. La opción válida era la {letter}.",
     "correctAnswer": "¡Respuesta correcta!",
     "wrongAnswer": "Incorrecto. La opción válida era la {letter}.",
-    "askTutor": "¿Por qué? Pregúntale al tutor IA",
-    "tutorExplanation": "Explicación del tutor",
     "answered": "Preguntas respondidas: {answered} de {total}",
     "gradeExam": "Corregir examen",
     "saveTitle": "Guardar examen",

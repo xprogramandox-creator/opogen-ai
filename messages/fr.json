@@ -301,8 +301,6 @@
     "unanswered": "Sans réponse. La bonne option était {letter}.",
     "correctAnswer": "Bonne réponse !",
     "wrongAnswer": "Incorrect. La bonne option était {letter}.",
-    "askTutor": "Pourquoi ? Demandez au tuteur IA",
-    "tutorExplanation": "Explication du tuteur",
     "answered": "Questions répondues : {answered} sur {total}",
     "gradeExam": "Corriger l'examen",
     "saveTitle": "Enregistrer l'examen",
