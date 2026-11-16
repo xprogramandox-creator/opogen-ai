@@ -3,17 +3,21 @@ import Link from "next/link";
 import AuthControls from "@/components/AuthControls";
 import LogoOpoGen from "@/components/LogoOpoGen";
 import SelectorIdioma from "@/components/SelectorIdioma";
+import SidebarToggle from "@/components/SidebarToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 
 type SiteHeaderProps = {
   backHref?: string;
   showBrand?: boolean;
+  /** La página ya tiene barra lateral: en escritorio la marca vive allí. */
+  conSidebar?: boolean;
   title?: string;
 };
 
 export default async function SiteHeader({
   backHref,
   showBrand = false,
+  conSidebar = false,
   title,
 }: SiteHeaderProps) {
   const cookieStore = await cookies();
@@ -29,6 +33,8 @@ export default async function SiteHeader({
     >
       <div className="mx-auto flex min-h-[72px] w-full max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
+          {conSidebar ? <SidebarToggle /> : null}
+
           {backHref ? (
             <Link
               href={backHref}
@@ -59,12 +65,14 @@ export default async function SiteHeader({
           {showBrand ? (
             <Link
               href="/"
-              className="flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:gap-3"
+              className={`flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:gap-3 ${
+                conSidebar ? "lg:hidden" : ""
+              }`}
               aria-label="OpoGen AI, página de inicio"
             >
               <LogoOpoGen />
 
-              <span className="whitespace-nowrap text-base font-semibold text-[var(--txt)] sm:text-2xl">
+              <span className="hidden whitespace-nowrap text-base font-semibold text-[var(--txt)] sm:inline sm:text-2xl">
                 <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
                   OpoGen
                 </span>{" "}

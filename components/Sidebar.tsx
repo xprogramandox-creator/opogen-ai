@@ -1,0 +1,309 @@
+"use client";
+
+import { useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import {
+  BarChart3,
+  Briefcase,
+  ClipboardCheck,
+  Gamepad2,
+  Home,
+  Lock,
+  Star,
+  X,
+} from "lucide-react";
+import logoOpoGen from "@/public/opogen-logo-nuevo.png";
+import { useAuthModal } from "@/components/AuthModalProvider";
+import { useSesion } from "@/components/SessionProvider";
+import { useSidebar } from "@/components/SidebarProvider";
+import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
+
+type ItemNav = {
+  href: string;
+  clave: "home" | "mySpace" | "stats" | "test" | "arcade" | "kids";
+  icono: typeof Home;
+  /** Visible pero bloqueado si el usuario no es Premium. */
+  requierePremium?: boolean;
+  /** Solo se muestra a los usuarios Premium. */
+  soloPremium?: boolean;
+};
+
+const ITEMS: ItemNav[] = [
+  { href: "/", clave: "home", icono: Home },
+  {
+    href: "/mi-espacio",
+    clave: "mySpace",
+    icono: Briefcase,
+    requierePremium: true,
+  },
+  {
+    href: "/estadisticas",
+    clave: "stats",
+    icono: BarChart3,
+    requierePremium: true,
+  },
+  { href: "/crear", clave: "test", icono: ClipboardCheck },
+  { href: "/arcade", clave: "arcade", icono: Gamepad2 },
+  { href: "/kids", clave: "kids", icono: Star, soloPremium: true },
+];
+
+const CLASE_ITEM =
+  "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2";
+
+const CLASE_ITEM_ACTIVO = "bg-[var(--azul)] text-white shadow-sm";
+
+const CLASE_ITEM_INACTIVO =
+  "text-[var(--txt2)] hover:bg-[var(--card2)] hover:text-[var(--txt)]";
+
+function limpiarRuta(pathname: string): string {
+  const sinIdioma = pathname.replace(/^\/(es|en|fr|de|it|pt)(?=\/|$)/, "");
+
+  return sinIdioma === "" ? "/" : sinIdioma;
+}
+
+function esRutaActiva(pathname: string, href: string): boolean {
+  const ruta = limpiarRuta(pathname);
+
+  if (href === "/") {
+    return ruta === "/";
+  }
+
+  return ruta === href || ruta.startsWith(`${href}/`);
+}
+
+function FilaNav({
+  item,
+  activo,
+  bloqueado,
+  onNavegar,
+}: {
+  item: ItemNav;
+  activo: boolean;
+  bloqueado: boolean;
+  onNavegar?: () => void;
+}) {
+  const t = useTranslations("Header");
+  const Icono = item.icono;
+  const etiqueta = t(item.clave);
+
+  if (bloqueado) {
+    return (
+      <span
+        aria-disabled="true"
+        title={MENSAJE_SOLO_PREMIUM}
+        className={`${CLASE_ITEM} cursor-not-allowed text-[var(--txt3)] opacity-70`}
+      >
+        <Icono className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden="true" />
+        <span className="truncate">{etiqueta}</span>
+        <Lock className="ml-auto h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden="true" />
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={item.href}
+      prefetch={false}
+      onClick={() => {
+        if (item.clave === "arcade") {
+          window.dispatchEvent(new Event("opogen:arcade-menu"));
+        }
+        onNavegar?.();
+      }}
+      aria-current={activo ? "page" : undefined}
+      title={etiqueta}
+      className={`${CLASE_ITEM} ${activo ? CLASE_ITEM_ACTIVO : CLASE_ITEM_INACTIVO}`}
+    >
+      <Icono className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden="true" />
+      <span className="truncate">{etiqueta}</span>
+    </Link>
+  );
+}
+
+function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
+  const t = useTranslations("Header");
+  const pathname = usePathname();
+  const { sesion } = useSesion();
+  const { abrirAuth } = useAuthModal();
+  const { cerrar } = useSidebar();
+  const esPremium = sesion?.rol === "premium";
+
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="flex shrink-0 items-center justify-between gap-2">
+        <Link
+          href="/"
+          onClick={cerrar}
+          aria-label="OpoGen AI, página de inicio"
+          className="flex min-w-0 items-center rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
+        >
+          <Image
+            src={logoOpoGen}
+            alt="OpoGen AI"
+            priority
+            sizes="160px"
+            className="h-12 w-auto max-w-[160px] rounded-lg bg-white object-contain shadow-sm"
+          />
+        </Link>
+
+        {mostrarCerrar ? (
+          <button
+            type="button"
+            onClick={cerrar}
+            aria-label="Cerrar menú"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] text-[var(--txt2)] transition-colors hover:bg-[var(--suave2)] hover:text-[var(--txt)]"
+          >
+            <X className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+          </button>
+        ) : null}
+      </div>
+
+      <nav
+        aria-label="Navegación principal"
+        className="mt-6 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto"
+      >
+        {ITEMS.map((item) => {
+          if (item.soloPremium && !esPremium) {
+            return null;
+          }
+
+          const bloqueado = Boolean(item.requierePremium) && !esPremium;
+
+          return (
+            <FilaNav
+              key={item.href}
+              item={item}
+              activo={!bloqueado && esRutaActiva(pathname, item.href)}
+              bloqueado={bloqueado}
+              onNavegar={mostrarCerrar ? cerrar : undefined}
+            />
+          );
+        })}
+      </nav>
+
+      <div className="mt-4 shrink-0 space-y-2 border-t border-[var(--th)] pt-3">
+        {sesion ? (
+          <>
+            <Link
+              href="/cuenta"
+              prefetch={false}
+              onClick={cerrar}
+              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-[var(--txt2)] transition-colors hover:bg-[var(--card2)] hover:text-[var(--txt)]"
+            >
+              <Lock className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden="true" />
+              <span className="truncate">{t("viewData")}</span>
+            </Link>
+            <Link
+              href={esPremium ? "/dashboard" : "/premium"}
+              prefetch={false}
+              onClick={cerrar}
+              className="flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+            >
+              {esPremium ? t("goPanel") : t("goPremium")}
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                cerrar();
+                abrirAuth("login");
+              }}
+              className="flex w-full items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 py-2.5 text-sm font-bold text-[var(--txt)] transition-colors hover:bg-[var(--suave2)]"
+            >
+              {t("login")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                cerrar();
+                abrirAuth("registro");
+              }}
+              className="flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+            >
+              {t("register")}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function Sidebar() {
+  const { abierto, cerrar } = useSidebar();
+  const pathname = usePathname();
+
+  // Al cambiar de página el cajón móvil se cierra solo.
+  useEffect(() => {
+    cerrar();
+  }, [pathname, cerrar]);
+
+  // Escape para cerrar y bloqueo del scroll de fondo mientras está abierto.
+  useEffect(() => {
+    if (!abierto) {
+      return;
+    }
+
+    const alPulsar = (evento: KeyboardEvent) => {
+      if (evento.key === "Escape") {
+        cerrar();
+      }
+    };
+
+    const overflowPrevio = document.body.style.overflow;
+
+    document.addEventListener("keydown", alPulsar);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", alPulsar);
+      document.body.style.overflow = overflowPrevio;
+    };
+  }, [abierto, cerrar]);
+
+  return (
+    <>
+      {/* Barra fija de escritorio */}
+      <aside
+        aria-label="Menú principal"
+        className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[var(--th)] bg-[var(--card)] p-4 lg:block"
+      >
+        <ContenidoSidebar mostrarCerrar={false} />
+      </aside>
+
+      {/* Cajón deslizante de móvil */}
+      <div
+        className={`fixed inset-0 z-[80] lg:hidden ${
+          abierto ? "" : "pointer-events-none"
+        }`}
+        aria-hidden={!abierto}
+        inert={!abierto}
+      >
+        <div
+          onClick={cerrar}
+          aria-hidden="true"
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+            abierto ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <aside
+          id="sidebar-movil"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menú principal"
+          className={`absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-[var(--th)] bg-[var(--card)] p-4 shadow-2xl transition-transform duration-300 ease-out ${
+            abierto ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <ContenidoSidebar mostrarCerrar />
+        </aside>
+      </div>
+    </>
+  );
+}
