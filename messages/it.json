@@ -596,7 +596,8 @@
       "cancel": "Annulla",
       "confirm": "Elimina",
       "fallbackTitle": "Riassunto di studio",
-      "select": "Seleziona {archivo} per il test misto"
+      "select": "Seleziona {archivo} per il test misto",
+      "empty": "Non ci sono ancora riassunti in questa cartella."
     },
     "viewer": {
       "back": "← Torna a Il mio spazio",
@@ -643,6 +644,12 @@
       "invalidName": "Il nome della cartella non è valido.",
       "exists": "Esiste già una cartella con questo nome.",
       "createError": "Impossibile creare la cartella."
+    },
+    "mixedTest": {
+      "title": "Test misto dai riassunti",
+      "create": "Crea test misto con riassunti",
+      "needTwo": "Ti servono almeno 2 riassunti per creare un test misto",
+      "ready": "{count} riassunti selezionati"
     }
   },
   "BannerResumenes": {

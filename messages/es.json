@@ -596,7 +596,8 @@
       "cancel": "Cancelar",
       "confirm": "Eliminar",
       "fallbackTitle": "Resumen de estudio",
-      "select": "Seleccionar {archivo} para el test mixto"
+      "select": "Seleccionar {archivo} para el test mixto",
+      "empty": "Todavía no hay resúmenes en esta carpeta."
     },
     "viewer": {
       "back": "← Volver a Mi Espacio",
@@ -643,6 +644,12 @@
       "invalidName": "El nombre de la carpeta no es válido.",
       "exists": "Ya existe una carpeta con ese nombre.",
       "createError": "No se pudo crear la carpeta."
+    },
+    "mixedTest": {
+      "title": "Test mixto con resúmenes",
+      "create": "Crear Test Mixto con Resúmenes",
+      "needTwo": "Necesitas al menos 2 resúmenes para crear un test mixto",
+      "ready": "{count} resúmenes seleccionados"
     }
   },
   "BannerResumenes": {

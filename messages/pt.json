@@ -596,7 +596,8 @@
       "cancel": "Cancelar",
       "confirm": "Eliminar",
       "fallbackTitle": "Resumo de estudo",
-      "select": "Selecionar {archivo} para o teste misto"
+      "select": "Selecionar {archivo} para o teste misto",
+      "empty": "Ainda não há resumos nesta pasta."
     },
     "viewer": {
       "back": "← Voltar ao Meu Espaço",
@@ -643,6 +644,12 @@
       "invalidName": "O nome da pasta não é válido.",
       "exists": "Já existe uma pasta com este nome.",
       "createError": "Não foi possível criar a pasta."
+    },
+    "mixedTest": {
+      "title": "Teste misto com resumos",
+      "create": "Criar Teste Misto com Resumos",
+      "needTwo": "Precisas de pelo menos 2 resumos para criar um teste misto",
+      "ready": "{count} resumos selecionados"
     }
   },
   "BannerResumenes": {

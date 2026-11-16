@@ -596,7 +596,8 @@
       "cancel": "Cancel",
       "confirm": "Delete",
       "fallbackTitle": "Study summary",
-      "select": "Select {archivo} for the mixed test"
+      "select": "Select {archivo} for the mixed test",
+      "empty": "There are no summaries in this folder yet."
     },
     "viewer": {
       "back": "← Back to My Space",
@@ -643,6 +644,12 @@
       "invalidName": "The folder name is not valid.",
       "exists": "A folder with that name already exists.",
       "createError": "Could not create the folder."
+    },
+    "mixedTest": {
+      "title": "Mixed test from summaries",
+      "create": "Create Mixed Test with Summaries",
+      "needTwo": "You need at least 2 summaries to create a mixed test",
+      "ready": "{count} summaries selected"
     }
   },
   "BannerResumenes": {

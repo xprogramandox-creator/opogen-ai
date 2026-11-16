@@ -1409,6 +1409,11 @@ export default function MiEspacioPage() {
                       seleccionados={resumenesSeleccionados}
                       onAlternarSeleccion={alternarSeleccionResumen}
                       bloqueada={resumenesBloqueados}
+                      creandoTestMixto={cargandoTest}
+                      onCrearTestMixto={() => {
+                        setErrorMixto("");
+                        setMostrarSelectorMixto(true);
+                      }}
                       onEliminado={(archivo) =>
                         setResumenesSeleccionados((prev) =>
                           prev.filter((nombre) => nombre !== archivo),

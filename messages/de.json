@@ -596,7 +596,8 @@
       "cancel": "Abbrechen",
       "confirm": "Löschen",
       "fallbackTitle": "Lernzusammenfassung",
-      "select": "{archivo} für den gemischten Test auswählen"
+      "select": "{archivo} für den gemischten Test auswählen",
+      "empty": "In diesem Ordner gibt es noch keine Zusammenfassungen."
     },
     "viewer": {
       "back": "← Zurück zu Mein Bereich",
@@ -643,6 +644,12 @@
       "invalidName": "Der Ordnername ist nicht gültig.",
       "exists": "Ein Ordner mit diesem Namen existiert bereits.",
       "createError": "Der Ordner konnte nicht erstellt werden."
+    },
+    "mixedTest": {
+      "title": "Gemischter Test aus Zusammenfassungen",
+      "create": "Gemischten Test mit Zusammenfassungen erstellen",
+      "needTwo": "Du brauchst mindestens 2 Zusammenfassungen, um einen gemischten Test zu erstellen",
+      "ready": "{count} Zusammenfassungen ausgewählt"
     }
   },
   "BannerResumenes": {

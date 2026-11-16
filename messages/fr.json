@@ -596,7 +596,8 @@
       "cancel": "Annuler",
       "confirm": "Supprimer",
       "fallbackTitle": "Résumé d'étude",
-      "select": "Sélectionner {archivo} pour le test mixte"
+      "select": "Sélectionner {archivo} pour le test mixte",
+      "empty": "Il n'y a pas encore de résumés dans ce dossier."
     },
     "viewer": {
       "back": "← Retour à Mon Espace",
@@ -643,6 +644,12 @@
       "invalidName": "Le nom du dossier n'est pas valide.",
       "exists": "Un dossier portant ce nom existe déjà.",
       "createError": "Impossible de créer le dossier."
+    },
+    "mixedTest": {
+      "title": "Test mixte à partir de résumés",
+      "create": "Créer un test mixte avec des résumés",
+      "needTwo": "Il te faut au moins 2 résumés pour créer un test mixte",
+      "ready": "{count} résumés sélectionnés"
     }
   },
   "BannerResumenes": {
