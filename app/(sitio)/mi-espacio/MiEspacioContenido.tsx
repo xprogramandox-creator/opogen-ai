@@ -18,7 +18,6 @@ import type { Pregunta } from "@/components/TestExamen";
 import ModalConfirmacion from "@/components/ModalConfirmacion";
 import BotonResumen from "@/components/BotonResumen";
 import ListaResumenes from "@/components/ListaResumenes";
-import BannerResumenes from "@/components/BannerResumenes";
 import { useNotification } from "@/components/NotificationProvider";
 import { useTranslations } from "next-intl";
 import { mensajeError } from "@/lib/errores";
@@ -1044,10 +1043,6 @@ export default function MiEspacioPage() {
 
   return (
     <main className="bg-transparent relative min-h-app p-4 font-sans text-[var(--txt)] sm:p-6 md:p-12">
-        <div className="mx-auto max-w-6xl">
-          <BannerResumenes variante="premium" />
-        </div>
-
         <div className="relative z-10 mx-auto flex flex-col md:flex-row gap-8 max-w-6xl">
           <aside className="w-full md:w-64 shrink-0 space-y-6">
             <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] backdrop-blur-xl">
