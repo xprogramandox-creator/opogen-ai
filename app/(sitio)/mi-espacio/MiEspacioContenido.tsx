@@ -1557,7 +1557,7 @@ export default function MiEspacioPage() {
 
               <p className="mt-4 text-sm font-semibold">Número de preguntas</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {["10", "25", "50", "100"].map((num) => (
+                {["10", "25", "50"].map((num) => (
                   <button
                     key={num}
                     type="button"
