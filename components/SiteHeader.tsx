@@ -9,7 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 type SiteHeaderProps = {
   backHref?: string;
   showBrand?: boolean;
-  /** La página ya tiene barra lateral: en escritorio la marca vive allí. */
+  /** La página usa barra lateral: en móvil se muestra el botón de menú. */
   conSidebar?: boolean;
   title?: string;
 };
@@ -31,7 +31,7 @@ export default async function SiteHeader({
       className="sticky top-0 z-50 w-full border-b border-[var(--th)]"
       style={{ backgroundColor: "var(--fondo)" }}
     >
-      <div className="mx-auto flex min-h-[72px] w-full max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-6">
+      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
           {conSidebar ? <SidebarToggle /> : null}
 
@@ -65,14 +65,12 @@ export default async function SiteHeader({
           {showBrand ? (
             <Link
               href="/"
-              className={`flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:gap-3 ${
-                conSidebar ? "lg:hidden" : ""
-              }`}
+              className="flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 sm:gap-3"
               aria-label="OpoGen AI, página de inicio"
             >
               <LogoOpoGen />
 
-              <span className="hidden whitespace-nowrap text-base font-semibold text-[var(--txt)] sm:inline sm:text-2xl">
+              <span className="hidden whitespace-nowrap text-3xl font-semibold text-[var(--txt)] sm:inline">
                 <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
                   OpoGen
                 </span>{" "}

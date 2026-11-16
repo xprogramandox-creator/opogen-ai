@@ -24,7 +24,7 @@ export default function LogoOpoGen() {
       alt="OpoGen AI"
       priority
       sizes="(max-width: 640px) 96px, 180px"
-      className="h-12 w-auto max-w-[180px] shrink-0 rounded-lg bg-white object-contain shadow-sm sm:h-16"
+      className="h-10 w-auto max-w-[180px] shrink-0 rounded-lg bg-white object-contain shadow-sm sm:h-12"
       onError={() => setFallo(true)}
     />
   );

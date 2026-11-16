@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -15,7 +14,6 @@ import {
   Star,
   X,
 } from "lucide-react";
-import logoOpoGen from "@/public/opogen-logo-nuevo.png";
 import { useAuthModal } from "@/components/AuthModalProvider";
 import { useSesion } from "@/components/SessionProvider";
 import { useSidebar } from "@/components/SidebarProvider";
@@ -133,23 +131,8 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex shrink-0 items-center justify-between gap-2">
-        <Link
-          href="/"
-          onClick={cerrar}
-          aria-label="OpoGen AI, página de inicio"
-          className="flex min-w-0 items-center rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2"
-        >
-          <Image
-            src={logoOpoGen}
-            alt="OpoGen AI"
-            priority
-            sizes="160px"
-            className="h-12 w-auto max-w-[160px] rounded-lg bg-white object-contain shadow-sm"
-          />
-        </Link>
-
-        {mostrarCerrar ? (
+      {mostrarCerrar ? (
+        <div className="flex shrink-0 items-center justify-end gap-2">
           <button
             type="button"
             onClick={cerrar}
@@ -158,8 +141,8 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
           >
             <X className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
           </button>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
 
       <nav
         aria-label="Navegación principal"
@@ -271,7 +254,7 @@ export default function Sidebar() {
       {/* Barra fija de escritorio */}
       <aside
         aria-label="Menú principal"
-        className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[var(--th)] bg-[var(--card)] p-4 lg:block"
+        className="fixed left-0 top-[72px] z-40 hidden h-[calc(100vh-72px)] w-64 border-r border-[var(--th)] bg-[var(--card)] p-4 lg:block"
       >
         <ContenidoSidebar mostrarCerrar={false} />
       </aside>

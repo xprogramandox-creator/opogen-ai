@@ -15,9 +15,9 @@ export default function SitioLayout({
     <SidebarProvider>
       <AnaliticaTracker />
       <InactivityGuard />
+      <SiteHeader showBrand conSidebar />
       <Sidebar />
-      <div className="flex min-h-screen flex-col lg:pl-64">
-        <SiteHeader showBrand conSidebar />
+      <div className="flex min-h-[calc(100vh-72px)] flex-col lg:pl-64">
         <div className="flex-1">{children}</div>
         <SiteFooter />
       </div>
