@@ -22,10 +22,8 @@ type ItemNav = {
   href: string;
   clave: "home" | "mySpace" | "stats" | "test" | "arcade" | "kids";
   icono: typeof Home;
-  /** Visible pero bloqueado si el usuario no es Premium. */
+  /** Visible pero bloqueado (con candado) si el usuario no es Premium. */
   requierePremium?: boolean;
-  /** Solo se muestra a los usuarios Premium. */
-  soloPremium?: boolean;
 };
 
 const ITEMS: ItemNav[] = [
@@ -44,7 +42,7 @@ const ITEMS: ItemNav[] = [
   },
   { href: "/crear", clave: "test", icono: ClipboardCheck },
   { href: "/arcade", clave: "arcade", icono: Gamepad2 },
-  { href: "/kids", clave: "kids", icono: Star, soloPremium: true },
+  { href: "/kids", clave: "kids", icono: Star, requierePremium: true },
 ];
 
 const CLASE_ITEM =
@@ -89,15 +87,18 @@ function FilaNav({
 
   if (bloqueado) {
     return (
-      <span
-        aria-disabled="true"
+      <Link
+        href="/premium"
+        prefetch={false}
+        onClick={onNavegar}
         title={MENSAJE_SOLO_PREMIUM}
-        className={`${CLASE_ITEM} cursor-not-allowed text-[var(--txt3)] opacity-70`}
+        aria-label={`${etiqueta} (${t("premium")})`}
+        className={`${CLASE_ITEM} text-[var(--txt3)] hover:bg-[var(--suave2)] hover:text-[var(--txt2)]`}
       >
         <Icono className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden="true" />
         <span className="truncate">{etiqueta}</span>
         <Lock className="ml-auto h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden="true" />
-      </span>
+      </Link>
     );
   }
 
@@ -147,10 +148,6 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
         className="mt-6 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto"
       >
         {ITEMS.map((item) => {
-          if (item.soloPremium && !esPremium) {
-            return null;
-          }
-
           const bloqueado = Boolean(item.requierePremium) && !esPremium;
 
           return (
