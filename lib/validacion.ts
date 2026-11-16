@@ -178,6 +178,74 @@ export function etiquetaTipoDocumento(tipo?: string): string {
 }
 
 /**
+ * Etiqueta y ejemplo del documento de identidad según el país escrito por la
+ * persona. El campo de país es texto libre, así que se admite el nombre en
+ * español, el código ISO de dos letras y algunos nombres en inglés.
+ */
+export function etiquetaDocumentoPorPais(pais: string): {
+  etiqueta: string;
+  placeholder: string;
+} {
+  const p = normalizarPais(pais);
+
+  if (p === "espana" || p === "es" || p === "esp") {
+    return {
+      etiqueta: "Documento de Identidad / NIF",
+      placeholder: "DNI, NIE o NIF",
+    };
+  }
+
+  if (p === "italia" || p === "it") {
+    return { etiqueta: "Codice Fiscale", placeholder: "Codice Fiscale" };
+  }
+
+  if (
+    p === "reino unido" ||
+    p === "united kingdom" ||
+    p === "gran bretana" ||
+    p === "uk" ||
+    p === "gb"
+  ) {
+    return {
+      etiqueta: "National Insurance Number",
+      placeholder: "QQ 12 34 56 C",
+    };
+  }
+
+  if (p === "portugal" || p === "pt") {
+    return {
+      etiqueta: "NIF (Número de Identificação Fiscal)",
+      placeholder: "NIF portugués",
+    };
+  }
+
+  if (p === "francia" || p === "france" || p === "fr") {
+    return { etiqueta: "Numéro Fiscal (NIF)", placeholder: "NIF francés" };
+  }
+
+  if (p === "alemania" || p === "germany" || p === "de") {
+    return { etiqueta: "Steuernummer / ID", placeholder: "Steuernummer" };
+  }
+
+  if (p === "irlanda" || p === "ireland" || p === "ie") {
+    return { etiqueta: "PPS Number", placeholder: "PPS Number" };
+  }
+
+  if (p === "belgica" || p === "belgium" || p === "be") {
+    return { etiqueta: "Numéro National", placeholder: "Número nacional" };
+  }
+
+  if (p === "paises bajos" || p === "netherlands" || p === "nl") {
+    return { etiqueta: "BSN", placeholder: "Burgerservicenummer" };
+  }
+
+  return {
+    etiqueta: "Documento de Identidad / NIF",
+    placeholder: "Documento de identidad, NIF o pasaporte",
+  };
+}
+
+/**
  * Valida el documento fiscal según el país de residencia.
  *
  * - España: mantiene la validación estricta de DNI/NIE.

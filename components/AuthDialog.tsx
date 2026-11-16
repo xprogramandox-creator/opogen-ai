@@ -15,6 +15,7 @@ import {
 } from "@/lib/telefono";
 import {
   correoValido,
+  etiquetaDocumentoPorPais,
   validarDocumento,
   limpiarTexto,
   longitudPasswordBytes,
@@ -119,6 +120,7 @@ function FormularioRegistro({
   const telefonoValido =
     Boolean(pais) && esNumeroTelefonoValido(numero);
   const esPremium = plan === "premium";
+  const etiquetaDocumento = etiquetaDocumentoPorPais(paisFacturacion);
   const direccion = [calle, numeroVia, piso, letra]
     .map((parte) => parte.trim())
     .filter(Boolean)
@@ -292,33 +294,6 @@ function FormularioRegistro({
 
         <p className="text-xs text-[var(--txt3)]">{t("nameHelp")}</p>
 
-        <div>
-          <label
-            htmlFor="registro-dni"
-            className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
-          >
-            Documento de Identidad / NIF
-          </label>
-
-          <input
-            id="registro-dni"
-            type="text"
-            autoComplete="off"
-            value={dni}
-            onChange={(evento) => setDni(evento.target.value)}
-            maxLength={20}
-            placeholder="DNI, NIE, NIF u otro documento"
-            required
-            className={CLASE_CAMPO}
-          />
-
-          {dni.length > 0 &&
-          !validarDocumento(dni, paisFacturacion) ? (
-            <p className="mt-1 text-xs text-[var(--err-t)]">
-              Documento de identidad no válido para el país seleccionado.
-            </p>
-          ) : null}
-        </div>
       </section>
 
       <section className="space-y-3">
@@ -489,6 +464,34 @@ function FormularioRegistro({
               className={CLASE_CAMPO}
             />
           </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="registro-dni"
+            className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+          >
+            {etiquetaDocumento.etiqueta}
+          </label>
+
+          <input
+            id="registro-dni"
+            type="text"
+            autoComplete="off"
+            value={dni}
+            onChange={(evento) => setDni(evento.target.value)}
+            maxLength={20}
+            placeholder={etiquetaDocumento.placeholder}
+            required
+            className={CLASE_CAMPO}
+          />
+
+          {dni.length > 0 &&
+          !validarDocumento(dni, paisFacturacion) ? (
+            <p className="mt-1 text-xs text-[var(--err-t)]">
+              Documento de identidad no válido para el país seleccionado.
+            </p>
+          ) : null}
         </div>
       </section>
 
