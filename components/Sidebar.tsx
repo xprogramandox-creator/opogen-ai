@@ -50,10 +50,11 @@ const ITEMS: ItemNav[] = [
 const CLASE_ITEM =
   "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2";
 
-const CLASE_ITEM_ACTIVO = "bg-[var(--azul)] text-white shadow-sm";
+const CLASE_ITEM_ACTIVO =
+  "bg-[var(--azul)] text-[var(--btn-txt)] shadow-sm";
 
 const CLASE_ITEM_INACTIVO =
-  "text-[var(--txt2)] hover:bg-[var(--card2)] hover:text-[var(--txt)]";
+  "text-[var(--txt2)] hover:bg-[var(--suave2)] hover:text-[var(--txt)]";
 
 function limpiarRuta(pathname: string): string {
   const sinIdioma = pathname.replace(/^\/(es|en|fr|de|it|pt)(?=\/|$)/, "");
@@ -204,7 +205,7 @@ export default function Sidebar() {
       {/* Barra fija de escritorio */}
       <aside
         aria-label="Menú principal"
-        className="fixed left-0 top-[72px] z-40 hidden h-[calc(100vh-72px)] w-64 border-r border-[var(--th)] bg-[var(--card)] p-4 lg:block"
+        className="fixed left-0 top-[72px] z-40 hidden h-[calc(100vh-72px)] w-64 bg-transparent p-4 lg:block"
       >
         <ContenidoSidebar mostrarCerrar={false} />
       </aside>
