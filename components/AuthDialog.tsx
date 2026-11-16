@@ -16,6 +16,7 @@ import {
 import {
   correoValido,
   etiquetaDocumentoPorPais,
+  PAISES_DOCUMENTO,
   validarDocumento,
   limpiarTexto,
   longitudPasswordBytes,
@@ -104,7 +105,8 @@ function FormularioRegistro({
   const [letra, setLetra] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [provincia, setProvincia] = useState("");
-  const [paisFacturacion, setPaisFacturacion] = useState("España");
+  const [paisSeleccionado, setPaisSeleccionado] = useState("España");
+  const [otroPais, setOtroPais] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -114,6 +116,8 @@ function FormularioRegistro({
   }, []);
 
   const pais = buscarPais(codigo);
+  const paisFacturacion =
+    paisSeleccionado === "Otro" ? otroPais : paisSeleccionado;
   const requisitos = obtenerRequisitosPassword(password);
   const passwordDemasiadoLarga =
     longitudPasswordBytes(password) > PASSWORD_MAXIMA_BYTES;
@@ -433,16 +437,21 @@ function FormularioRegistro({
               País
             </label>
 
-            <input
+            <select
               id="registro-pais"
-              type="text"
               autoComplete="country-name"
-              value={paisFacturacion}
-              onChange={(evento) => setPaisFacturacion(evento.target.value)}
-              maxLength={80}
+              value={paisSeleccionado}
+              onChange={(evento) => setPaisSeleccionado(evento.target.value)}
               required
               className={CLASE_CAMPO}
-            />
+            >
+              {PAISES_DOCUMENTO.map((nombrePais) => (
+                <option key={nombrePais} value={nombrePais}>
+                  {nombrePais}
+                </option>
+              ))}
+              <option value="Otro">Otro</option>
+            </select>
           </div>
 
           <div>
@@ -465,6 +474,28 @@ function FormularioRegistro({
             />
           </div>
         </div>
+
+        {paisSeleccionado === "Otro" ? (
+          <div>
+            <label
+              htmlFor="registro-pais-otro"
+              className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+            >
+              Especifica el país
+            </label>
+
+            <input
+              id="registro-pais-otro"
+              type="text"
+              autoComplete="country-name"
+              value={otroPais}
+              onChange={(evento) => setOtroPais(evento.target.value)}
+              maxLength={80}
+              required
+              className={CLASE_CAMPO}
+            />
+          </div>
+        ) : null}
 
         <div>
           <label

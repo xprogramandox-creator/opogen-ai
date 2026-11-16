@@ -157,167 +157,208 @@ type EtiquetaDocumento = {
   placeholder: string;
 };
 
+type PaisDocumento = EtiquetaDocumento & {
+  nombre: string;
+  alias: string[];
+};
+
 const ETIQUETA_DOCUMENTO_POR_DEFECTO: EtiquetaDocumento = {
   etiqueta: "Documento de Identidad / NIF",
   placeholder: "Documento de identidad, NIF o pasaporte",
 };
 
 /**
- * Nombres habituales del documento de identidad por país. Se admiten el nombre
- * en español, el código ISO de dos letras y algunos nombres en inglés.
+ * Países con documento propio, en el orden del desplegable del registro.
+ * `alias` admite el nombre en español, el código ISO de dos letras y algunos
+ * nombres en inglés (se usan cuando el país llega como texto libre).
  */
-const DOCUMENTOS_POR_PAIS: Array<EtiquetaDocumento & { alias: string[] }> = [
+const DOCUMENTOS_POR_PAIS: PaisDocumento[] = [
   {
+    nombre: "España",
     alias: ["espana", "es", "esp"],
     etiqueta: "Documento de Identidad / NIF",
     placeholder: "DNI, NIE o NIF",
   },
   {
+    nombre: "Italia",
     alias: ["italia", "italy", "it"],
     etiqueta: "Codice Fiscale",
     placeholder: "Codice Fiscale",
   },
   {
-    alias: ["reino unido", "united kingdom", "gran bretana", "uk", "gb"],
-    etiqueta: "National Insurance Number",
-    placeholder: "QQ 12 34 56 C",
-  },
-  {
-    alias: ["portugal", "pt"],
-    etiqueta: "NIF (Número de Identificação Fiscal)",
-    placeholder: "NIF portugués",
-  },
-  {
+    nombre: "Francia",
     alias: ["francia", "france", "fr"],
     etiqueta: "Numéro Fiscal (NIF)",
     placeholder: "NIF francés",
   },
   {
+    nombre: "Alemania",
     alias: ["alemania", "germany", "de"],
     etiqueta: "Steuernummer / ID",
     placeholder: "Steuernummer",
   },
   {
-    alias: ["irlanda", "ireland", "ie"],
-    etiqueta: "PPS Number",
-    placeholder: "PPS Number",
+    nombre: "Reino Unido",
+    alias: ["reino unido", "united kingdom", "gran bretana", "uk", "gb"],
+    etiqueta: "National Insurance Number",
+    placeholder: "QQ 12 34 56 C",
   },
   {
-    alias: ["belgica", "belgium", "be"],
-    etiqueta: "Numéro National",
-    placeholder: "Número nacional",
+    nombre: "Portugal",
+    alias: ["portugal", "pt"],
+    etiqueta: "NIF (Número de Identificação Fiscal)",
+    placeholder: "NIF portugués",
   },
   {
-    alias: ["paises bajos", "holanda", "netherlands", "nl"],
-    etiqueta: "BSN",
-    placeholder: "Burgerservicenummer",
-  },
-  {
+    nombre: "Perú",
     alias: ["peru", "pe"],
     etiqueta: "Documento de Identidad",
     placeholder: "DNI o carné de extranjería",
   },
   {
+    nombre: "Holanda",
+    alias: ["paises bajos", "holanda", "netherlands", "nl"],
+    etiqueta: "BSN",
+    placeholder: "Burgerservicenummer",
+  },
+  {
+    nombre: "Argentina",
     alias: ["argentina", "ar"],
     etiqueta: "DNI",
     placeholder: "DNI",
   },
   {
+    nombre: "Chile",
     alias: ["chile", "cl"],
     etiqueta: "RUN / RUT",
     placeholder: "12.345.678-9",
   },
   {
+    nombre: "Colombia",
     alias: ["colombia", "co"],
     etiqueta: "Cédula de Ciudadanía",
     placeholder: "Número de cédula",
   },
   {
+    nombre: "México",
     alias: ["mexico", "méxico", "mx"],
     etiqueta: "CURP / RFC",
     placeholder: "CURP o RFC",
   },
   {
-    alias: ["ecuador", "ec"],
-    etiqueta: "Cédula de Identidad",
-    placeholder: "Número de cédula",
-  },
-  {
-    alias: ["bolivia", "bo"],
-    etiqueta: "Cédula de Identidad",
-    placeholder: "Número de cédula",
-  },
-  {
-    alias: ["venezuela", "ve"],
-    etiqueta: "Cédula de Identidad",
-    placeholder: "Número de cédula",
-  },
-  {
-    alias: ["uruguay", "uy"],
-    etiqueta: "Cédula de Identidad",
-    placeholder: "Número de cédula",
-  },
-  {
-    alias: ["paraguay", "py"],
-    etiqueta: "Cédula de Identidad",
-    placeholder: "Número de cédula",
-  },
-  {
+    nombre: "Brasil",
     alias: ["brasil", "brazil", "br"],
     etiqueta: "CPF",
     placeholder: "000.000.000-00",
   },
   {
+    nombre: "Estados Unidos",
     alias: ["estados unidos", "united states", "usa", "us"],
     etiqueta: "SSN / Tax ID",
     placeholder: "123-45-6789",
   },
   {
+    nombre: "Canadá",
     alias: ["canada", "canadá", "ca"],
     etiqueta: "SIN",
     placeholder: "123-456-789",
   },
   {
+    nombre: "Suiza",
     alias: ["suiza", "switzerland", "ch"],
     etiqueta: "AHV / AVS",
     placeholder: "756.1234.5678.90",
   },
   {
+    nombre: "Austria",
     alias: ["austria", "at"],
     etiqueta: "Steuernummer",
     placeholder: "Steuernummer",
   },
   {
+    nombre: "Polonia",
     alias: ["polonia", "poland", "pl"],
     etiqueta: "PESEL",
     placeholder: "PESEL",
   },
   {
+    nombre: "Suecia",
     alias: ["suecia", "sweden", "se"],
     etiqueta: "Personnummer",
     placeholder: "ÅÅMMDD-XXXX",
   },
   {
+    nombre: "Noruega",
     alias: ["noruega", "norway", "no"],
     etiqueta: "Fødselsnummer",
     placeholder: "DDMMÅÅ XXXXX",
   },
   {
+    nombre: "Dinamarca",
     alias: ["dinamarca", "denmark", "dk"],
     etiqueta: "CPR-nummer",
     placeholder: "DDMMÅÅ-XXXX",
   },
   {
+    nombre: "Finlandia",
     alias: ["finlandia", "finland", "fi"],
     etiqueta: "HETU",
     placeholder: "DDMMÅÅ-XXXX",
   },
   {
+    nombre: "Grecia",
     alias: ["grecia", "greece", "gr"],
     etiqueta: "AFM",
     placeholder: "AFM",
   },
+  {
+    nombre: "Irlanda",
+    alias: ["irlanda", "ireland", "ie"],
+    etiqueta: "PPS Number",
+    placeholder: "PPS Number",
+  },
+  {
+    nombre: "Bélgica",
+    alias: ["belgica", "belgium", "be"],
+    etiqueta: "Numéro National",
+    placeholder: "Número nacional",
+  },
+  {
+    nombre: "Ecuador",
+    alias: ["ecuador", "ec"],
+    etiqueta: "Cédula de Identidad",
+    placeholder: "Número de cédula",
+  },
+  {
+    nombre: "Bolivia",
+    alias: ["bolivia", "bo"],
+    etiqueta: "Cédula de Identidad",
+    placeholder: "Número de cédula",
+  },
+  {
+    nombre: "Venezuela",
+    alias: ["venezuela", "ve"],
+    etiqueta: "Cédula de Identidad",
+    placeholder: "Número de cédula",
+  },
+  {
+    nombre: "Uruguay",
+    alias: ["uruguay", "uy"],
+    etiqueta: "Cédula de Identidad",
+    placeholder: "Número de cédula",
+  },
+  {
+    nombre: "Paraguay",
+    alias: ["paraguay", "py"],
+    etiqueta: "Cédula de Identidad",
+    placeholder: "Número de cédula",
+  },
 ];
+
+/** Países disponibles en el desplegable de "País" del registro. */
+export const PAISES_DOCUMENTO: string[] = DOCUMENTOS_POR_PAIS.map(
+  (pais) => pais.nombre,
+);
 
 /** Etiqueta y ejemplo del documento según el país escrito o elegido. */
 export function etiquetaDocumentoPorPais(pais: string): EtiquetaDocumento {
