@@ -141,7 +141,7 @@ function FormularioRegistro({
     passwordValida(password) &&
     password === passwordRepetida &&
     plan !== "" &&
-    validarDocumento(dni, paisFacturacion) &&
+    validarDocumento(dni) &&
     direccionValida;
 
   async function enviar(evento: React.FormEvent<HTMLFormElement>) {
@@ -171,7 +171,7 @@ function FormularioRegistro({
           password,
           plan,
           duracion: esPremium ? duracion : undefined,
-          dni: dni.trim().toUpperCase(),
+          dni: dni.trim(),
           direccion,
           ciudad: ciudad.trim(),
           provincia: provincia.trim(),
@@ -480,18 +480,11 @@ function FormularioRegistro({
             autoComplete="off"
             value={dni}
             onChange={(evento) => setDni(evento.target.value)}
-            maxLength={20}
+            maxLength={40}
             placeholder={etiquetaDocumento.placeholder}
             required
             className={CLASE_CAMPO}
           />
-
-          {dni.length > 0 &&
-          !validarDocumento(dni, paisFacturacion) ? (
-            <p className="mt-1 text-xs text-[var(--err-t)]">
-              Documento de identidad no válido para el país seleccionado.
-            </p>
-          ) : null}
         </div>
       </section>
 

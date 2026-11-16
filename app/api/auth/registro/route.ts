@@ -24,7 +24,6 @@ import { obtenerTokenCSRFDesdeCookie, respuestaErrorCSRF, verificarTokenCSRF } f
 import {
   correoValido,
   inferirTipoDocumento,
-  validarDocumento,
   nombreValido,
   passwordValida,
 } from "@/lib/validacion";
@@ -124,9 +123,7 @@ export async function POST(request: Request) {
       ? datos.duracion
       : "";
   const dni =
-    typeof datos.dni === "string"
-      ? sanearTexto(datos.dni).toUpperCase()
-      : "";
+    typeof datos.dni === "string" ? sanearTexto(datos.dni) : "";
   const direccion =
     typeof datos.direccion === "string"
       ? sanearTexto(datos.direccion)
@@ -148,11 +145,9 @@ export async function POST(request: Request) {
     return respuestaError("Selecciona la duración del plan.", 400);
   }
 
-  if (!validarDocumento(dni, paisFacturacion)) {
-    return respuestaError(
-      "El documento de identidad no es válido para el país seleccionado.",
-      400,
-    );
+  // El documento se acepta en cualquier formato: cada país tiene el suyo.
+  if (!dni) {
+    return respuestaError("Escribe tu documento de identidad.", 400);
   }
 
   if (
