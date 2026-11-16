@@ -7,6 +7,7 @@ import {
   type ChangeEvent,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
+import TituloPagina from "@/components/TituloPagina";
 import { useSesion } from "@/components/SessionProvider";
 import { prepararArchivos } from "@/lib/imagenes";
 import {
@@ -1024,13 +1025,7 @@ export default function ArcadePage() {
         <div id="app" className={vista.pantalla === "menu" ? "arcade-app-menu" : ""}>
           <section id="menu" className={`screen ${vista.pantalla === "menu" ? "active" : ""}`}>
             <div className="arcade-menu-contenido">
-              <div className="logo">
-                <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] dark:via-[#a78bfa] dark:to-[#22d3ee] bg-clip-text text-transparent">
-                  OpoGen
-                </span>{" "}
-                Arcade
-              </div>
-              <div className="tag">{t("tag")}</div>
+              <TituloPagina marca="OpoGen" sufijo="Arcade" subtitulo={t("tag")} />
               {limiteAgotado && <div className="error-box" role="alert">{mensajeLimite}</div>}
 
               <div className="arcade-intro">

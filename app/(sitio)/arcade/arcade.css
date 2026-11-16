@@ -163,7 +163,7 @@
       align-items: center;
       justify-content: flex-start;
       gap: 6px;
-      padding: 8px 0 20px;
+      padding: 0 0 20px;
       overflow-y: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -183,7 +183,6 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      margin-block: auto;
     }
 
     .arcade-app .btn-jugar {
@@ -210,6 +209,8 @@
 
     .arcade-app #app.arcade-app-menu {
       max-width: 1120px;
+      /* La cabecera del sitio ya ocupa su sitio: el menú empieza justo debajo. */
+      padding-top: 0;
     }
 
     .arcade-app .arcade-modo-card {
@@ -378,32 +379,6 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff;
-    }
-
-    .arcade-app .logo {
-      font-size: clamp(40px, 12vw, 66px);
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -1px;
-      color: var(--txt);
-      animation: arcade-logoIn 500ms ease;
-    }
-
-    @keyframes arcade-logoIn {
-      from {
-        opacity: 0;
-        transform: scale(0.85);
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
-
-    .arcade-app .tag {
-      margin-top: 2px;
-      color: var(--muted);
-      font-size: 14px;
     }
 
     .arcade-app .menu-btns {

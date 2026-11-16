@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type DragEvent } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2, FileDown, Save, Trash2, X } from "lucide-react";
+import TituloPagina from "@/components/TituloPagina";
 import { useSesion } from "@/components/SessionProvider";
 import { useNotification } from "@/components/NotificationProvider";
 import { guardarTestCompletado } from "@/lib/historial-tests";
@@ -695,26 +696,17 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-transparent relative min-h-app p-4 font-sans text-[var(--txt)] sm:p-6 md:p-12">
+    <main className="bg-transparent relative min-h-app px-4 pb-4 font-sans text-[var(--txt)] sm:px-6 sm:pb-6 md:px-12 md:pb-12">
         <div className="relative z-10 mx-auto max-w-4xl">
-          <h1
-            aria-label={`${t("brandName")} ${t("brandSuffix")}`}
-            className="mb-0 text-center text-[clamp(40px,12vw,66px)] font-semibold leading-none tracking-[-1px] text-[var(--txt)]"
-          >
-            <span className="bg-gradient-to-r from-[var(--azul)] via-[#7c3aed] to-[#06b6d4] bg-clip-text text-transparent dark:via-[#a78bfa] dark:to-[#22d3ee]">
-              {t("brandName")}
-            </span>{" "}
-            {t("brandSuffix")}
-          </h1>
-
-          {!examen ? (
-            <p className="mx-auto mb-6 mt-0.5 max-w-xl text-center text-sm text-[#7b7266] dark:text-[#8a847a]">
-              {t("subtitle")}
-            </p>
-          ) : null}
+          <TituloPagina
+            marca={t("brandName")}
+            sufijo={t("brandSuffix")}
+            etiqueta={`${t("brandName")} ${t("brandSuffix")}`}
+            subtitulo={!examen ? t("subtitle") : undefined}
+          />
 
           {!examen && (
-            <div className="mx-auto max-w-2xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl sm:p-8">
+            <div className="mx-auto mt-6 max-w-2xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl sm:p-8">
               <div className="mb-8 text-center">
                 <h2 className="mb-2 text-2xl font-bold">{t("title")}</h2>
               </div>
