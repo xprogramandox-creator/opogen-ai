@@ -234,6 +234,39 @@ export async function resolverCarpetaExistente(
 }
 
 /**
+ * Carpetas donde puede vivir un archivo de Mi_Espacio: las subcarpetas nuevas
+ * (Test, Test Mixtos, Repaso), la raíz de la carpeta madre y las carpetas
+ * hermanas de la estructura antigua. Sirve para localizar un JSON aunque la
+ * petición llegue con el nombre lógico equivocado.
+ */
+export async function carpetasCandidatasParaArchivo(
+  clave: string,
+  nombre: string,
+): Promise<string[]> {
+  const espacio = rutaEspacioUsuario(clave);
+  const madre = madreDeCarpeta(nombre);
+  const candidatas: string[] = [];
+
+  if (madre && esNombreCarpetaSeguro(madre)) {
+    const raiz = path.join(/* turbopackIgnore: true */ espacio, madre);
+
+    candidatas.push(
+      path.join(/* turbopackIgnore: true */ raiz, SUB_TEST),
+      path.join(/* turbopackIgnore: true */ raiz, SUB_MIXTOS),
+      path.join(/* turbopackIgnore: true */ raiz, SUB_REPASO),
+      raiz,
+      path.join(
+        /* turbopackIgnore: true */ espacio,
+        `${PREFIJO_TEST_MIXTO}${madre}`,
+      ),
+      path.join(/* turbopackIgnore: true */ espacio, `${PREFIJO_FALLOS}${madre}`),
+    );
+  }
+
+  return candidatas.filter((ruta) => estaDentroDe(espacio, ruta));
+}
+
+/**
  * Ruta definitiva donde guardar un examen:
  * - normal: Mi_Espacio/<madre>/Test
  * - mixto:  Mi_Espacio/<madre>/Test Mixtos

@@ -491,6 +491,22 @@ export default function MiEspacioPage() {
     return () => window.clearTimeout(id);
   }, [carpetas]);
 
+  // Nombre lógico de la carpeta que se está viendo: la madre para los tests,
+  // "Test Mixtos - X" para los mixtos y "Fallos - X" para los repasos.
+  const carpetaLogica = useMemo(() => {
+    if (!carpetaActiva) return "";
+
+    if (subcarpetaActiva === "mixtos") {
+      return `${PREFIJO_MIXTOS}${carpetaActiva}`;
+    }
+
+    if (subcarpetaActiva === "recuperaciones") {
+      return `${PREFIJO_FALLOS}${carpetaActiva}`;
+    }
+
+    return carpetaActiva;
+  }, [carpetaActiva, subcarpetaActiva]);
+
   useEffect(() => {
     if (!carpetaActiva || !subcarpetaActiva) {
       return;
@@ -501,18 +517,11 @@ export default function MiEspacioPage() {
     }
 
     const id = window.setTimeout(() => {
-      const carpetaLogica =
-        subcarpetaActiva === "mixtos"
-          ? `${PREFIJO_MIXTOS}${carpetaActiva}`
-          : subcarpetaActiva === "recuperaciones"
-            ? `${PREFIJO_FALLOS}${carpetaActiva}`
-            : carpetaActiva;
-
       void cargarArchivos(carpetaLogica);
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [carpetaActiva, subcarpetaActiva, cargarArchivos]);
+  }, [carpetaLogica, carpetaActiva, subcarpetaActiva, cargarArchivos]);
 
   async function eliminarCarpeta(e: React.MouseEvent, carpeta: string) {
     e.stopPropagation();
@@ -744,9 +753,11 @@ export default function MiEspacioPage() {
     setEsTestMixto(false);
     try {
       const archivoJson = archivo.replace(/\.pdf$/i, ".json");
+      // Se pide el JSON en la misma carpeta lógica que se listó: los mixtos
+      // viven en "Test Mixtos" y los repasos en "Fallos - X".
       const res = await fetch(
         `/api/examenes/recuperar?carpeta=${encodeURIComponent(
-          carpetaActiva,
+          carpetaLogica,
         )}&archivo=${encodeURIComponent(archivoJson)}`,
       );
       const datos = await leerRespuesta(res);
@@ -1373,7 +1384,7 @@ export default function MiEspacioPage() {
                                 } else {
                                   void eliminarArchivo(
                                     e,
-                                    carpetaActiva || "",
+                                    carpetaLogica || "",
                                     archivo,
                                   );
                                 }

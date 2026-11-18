@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { mkdir, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { obtenerClaveSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
@@ -126,21 +126,28 @@ export async function POST(req: Request) {
     const rutaPdf = path.join(destino.ruta, nombreArchivo);
     const rutaJson = rutaPdf.replace(/\.pdf$/i, ".json");
 
-    await writeFile(rutaPdf, Buffer.from(generarPdfExamen(preguntas)));
-    await writeFile(
-      rutaJson,
-      JSON.stringify(
-        {
-          preguntas,
-          numPreguntas: preguntas.length,
-          carpeta: destino.nombre,
-          textoContexto: textoContexto || "Examen de OpoGen",
-        },
-        null,
-        2,
-      ),
-      "utf8",
-    );
+    // El JSON se escribe primero: si el PDF falla, se borra el JSON para no
+    // dejar un test a medias (el PDF es lo que se lista en Mi Espacio).
+    try {
+      await writeFile(
+        rutaJson,
+        JSON.stringify(
+          {
+            preguntas,
+            numPreguntas: preguntas.length,
+            carpeta: destino.nombre,
+            textoContexto: textoContexto || "Examen de OpoGen",
+          },
+          null,
+          2,
+        ),
+        "utf8",
+      );
+      await writeFile(rutaPdf, Buffer.from(generarPdfExamen(preguntas)));
+    } catch (error) {
+      await Promise.allSettled([unlink(rutaJson), unlink(rutaPdf)]);
+      throw error;
+    }
 
     return NextResponse.json({
       mensaje: "Guardado con éxito",
