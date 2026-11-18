@@ -1,3 +1,33 @@
+/**
+ * Historial de tests por usuario.
+ *
+ * Hoy vive en `historial_tests.json` dentro de la carpeta del usuario. Si algún
+ * día se migra a SQLite (node:sqlite), este es el esquema previsto y el borrado
+ * en cascada equivalente:
+ *
+ *   CREATE TABLE estadisticas_tests (
+ *     id INTEGER PRIMARY KEY AUTOINCREMENT,
+ *     usuario_clave TEXT NOT NULL,
+ *     carpeta_madre TEXT NOT NULL,
+ *     fecha TEXT NOT NULL,
+ *     nota REAL NOT NULL DEFAULT 0,
+ *     aciertos INTEGER NOT NULL DEFAULT 0,
+ *     fallos INTEGER NOT NULL DEFAULT 0,
+ *     en_blanco INTEGER NOT NULL DEFAULT 0,
+ *     total INTEGER NOT NULL DEFAULT 0,
+ *     creado TEXT NOT NULL
+ *   );
+ *   CREATE INDEX idx_stats_usuario_carpeta
+ *     ON estadisticas_tests (usuario_clave, carpeta_madre);
+ *
+ *   BEGIN IMMEDIATE;
+ *   DELETE FROM estadisticas_tests
+ *    WHERE usuario_clave = :clave AND carpeta_madre = :madre;
+ *   DELETE FROM fallos_pendientes
+ *    WHERE usuario_clave = :clave AND carpeta_madre = :madre;
+ *   COMMIT;
+ */
+
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -6,7 +36,12 @@ import {
   normalizarEntradaHistorial,
   type EntradaHistorialTest,
 } from "@/lib/historial-tests";
-import { rutaBaseUsuario, type PlanUsuario } from "@/lib/rutas-espacio";
+import {
+  PREFIJOS_CARPETA_LOGICA,
+  normalizarNombreCarpeta,
+  rutaBaseUsuario,
+  type PlanUsuario,
+} from "@/lib/rutas-espacio";
 import { conBloqueoUsuario } from "@/lib/file-lock";
 
 const NOMBRE_HISTORIAL = "historial_tests.json";
@@ -78,7 +113,17 @@ export async function agregarHistorialServidor(
   });
 }
 
-/** Elimina las estadísticas asociadas a una carpeta madre o lógica. */
+/** Clave normalizada de una carpeta: quita prefijos lógicos y acentos. */
+function claveCarpeta(nombre: string, esLogica: boolean): string {
+  return normalizarNombreCarpeta(esLogica ? nombre : carpetaMadre(nombre));
+}
+
+/**
+ * Elimina las estadísticas asociadas a una carpeta madre o lógica.
+ * La comparación ignora acentos, mayúsculas y prefijos lógicos, así que
+ * "Humanización", "Humanizacion" y "Test Mixtos - Humanización" se tratan
+ * como la misma materia al borrar.
+ */
 export async function eliminarHistorialDeCarpeta(
   clave: string,
   nombre: string,
@@ -87,32 +132,15 @@ export async function eliminarHistorialDeCarpeta(
   return conBloqueoUsuario(clave, async () => {
     const historial = await leerHistorialServidor(clave, plan);
     const nombreLimpio = nombre.trim();
-    const esCarpetaLogica =
-      nombreLimpio.startsWith("Test Mixtos - ") ||
-      nombreLimpio.startsWith("Fallos - ") ||
-      nombreLimpio.startsWith("Simulacros - ");
-
-    function normalizar(valor: string): string {
-      return valor
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-        .toLocaleLowerCase("es");
-    }
-
-    const objetivo = normalizar(
-      esCarpetaLogica ? nombreLimpio : carpetaMadre(nombreLimpio),
+    const esCarpetaLogica = PREFIJOS_CARPETA_LOGICA.some((prefijo) =>
+      nombreLimpio.startsWith(prefijo),
     );
+    const objetivo = claveCarpeta(nombreLimpio, esCarpetaLogica);
 
-    const restantes = historial.filter((entrada) => {
-      const valor = normalizar(
-        esCarpetaLogica
-          ? entrada.carpeta
-          : carpetaMadre(entrada.carpeta),
-      );
-
-      return valor !== objetivo;
-    });
+    const restantes = historial.filter(
+      (entrada) =>
+        claveCarpeta(entrada.carpeta, esCarpetaLogica) !== objetivo,
+    );
 
     if (restantes.length === historial.length) {
       return 0;

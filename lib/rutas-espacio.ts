@@ -3,6 +3,9 @@ import { existsSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { sanearNombreCarpeta } from "@/lib/saneamiento-carpetas";
 import { RUTA_DATOS } from "@/lib/rutas";
+import { normalizarNombreCarpeta } from "@/lib/historial-tests";
+
+export { normalizarNombreCarpeta };
 
 export type PlanUsuario = "premium" | "freemium";
 
@@ -101,6 +104,46 @@ export function estaDentroDe(base: string, ruta: string): boolean {
     rutaResuelta === baseResuelta ||
     rutaResuelta.startsWith(`${baseResuelta}${path.sep}`)
   );
+}
+
+/** Prefijos de carpetas lógicas: no son carpetas madre reales. */
+export const PREFIJOS_CARPETA_LOGICA = [
+  "Test Mixtos - ",
+  "Fallos - ",
+  "Simulacros - ",
+] as const;
+
+/** Nombres genéricos que no corresponden a ninguna carpeta física. */
+const NOMBRES_NO_FISICOS = new Set(["test rapido", "sin carpeta"]);
+
+/**
+ * Carpetas madre que existen de verdad en Mi_Espacio (solo directorios y sin
+ * subcarpetas lógicas). Es la fuente de verdad para filtrar estadísticas
+ * huérfanas: un único readdir por consulta.
+ */
+export async function listarCarpetasMadreExistentes(
+  clave: string,
+  plan?: PlanUsuario,
+): Promise<string[]> {
+  const espacio = rutaEspacioUsuario(clave, plan);
+
+  try {
+    const entradas = await readdir(espacio, { withFileTypes: true });
+
+    return entradas
+      .filter((entrada) => entrada.isDirectory())
+      .map((entrada) => entrada.name)
+      .filter(
+        (nombre) =>
+          !PREFIJOS_CARPETA_LOGICA.some((prefijo) =>
+            nombre.startsWith(prefijo),
+          ) &&
+          !NOMBRES_NO_FISICOS.has(normalizarNombreCarpeta(nombre)),
+      )
+      .sort((a, b) => a.localeCompare(b, "es", { numeric: true }));
+  } catch {
+    return [];
+  }
 }
 
 /** Nombre de carpeta apto para disco: sin rutas, sin `..`, sin caracteres raros. */

@@ -412,7 +412,13 @@
     "emptyMixed": "In diesem Ordner gibt es keine gemischten Tests.",
     "emptyRetrievals": "In diesem Ordner gibt es keine Wiederholungen.",
     "refreshFolders": "Ordner aktualisieren",
-    "deleteFolder": "Ordner löschen"
+    "deleteFolder": "Ordner löschen",
+    "deleteFolderTitle": "Ordner löschen",
+    "deleteFolderMessage": "Möchtest du den Ordner „{name}“ wirklich löschen?",
+    "deleteFolderWarning": "Die Statistiken und offenen Fehler dieses Fachs werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteFolderCheckbox": "Ich verstehe, dass die Daten verloren gehen",
+    "deleteFolderError": "Der Ordner konnte nicht gelöscht werden",
+    "deleteFolderConfirm": "Löschen"
   },
   "Arcade": {
     "playNow": "Jetzt spielen",
@@ -534,7 +540,8 @@
     "loading": "Ordner werden geladen…",
     "breakdown": "Aufschlüsselung nach Ordnern",
     "breakdownHelp": "Tests, die in jedem Ordner in Mein Bereich gespeichert sind.",
-    "viewGeneral": "Gesamtübersicht anzeigen"
+    "viewGeneral": "Gesamtübersicht anzeigen",
+    "emptyFolders": "Du hast noch keine Ordner. Erstelle einen in Mein Bereich, um Statistiken zu sehen."
   },
   "Kids": {
     "brand": "OpoGen",

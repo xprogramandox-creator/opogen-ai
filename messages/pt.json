@@ -412,7 +412,13 @@
     "emptyMixed": "Não há testes mistos nesta pasta.",
     "emptyRetrievals": "Não há recuperações nesta pasta.",
     "refreshFolders": "Atualizar pastas",
-    "deleteFolder": "Eliminar pasta"
+    "deleteFolder": "Eliminar pasta",
+    "deleteFolderTitle": "Eliminar pasta",
+    "deleteFolderMessage": "Queres mesmo eliminar a pasta «{name}»?",
+    "deleteFolderWarning": "As estatísticas e os erros pendentes desta matéria serão eliminados. Esta ação não pode ser desfeita.",
+    "deleteFolderCheckbox": "Compreendo que os dados serão perdidos",
+    "deleteFolderError": "Não foi possível eliminar a pasta",
+    "deleteFolderConfirm": "Eliminar"
   },
   "Arcade": {
     "playNow": "Jogar agora",
@@ -534,7 +540,8 @@
     "loading": "A carregar pastas…",
     "breakdown": "Detalhe por pasta",
     "breakdownHelp": "Testes guardados em cada pasta do meu espaço.",
-    "viewGeneral": "Ver resumo global"
+    "viewGeneral": "Ver resumo global",
+    "emptyFolders": "Ainda não tens pastas. Cria uma em O Meu Espaço para começares a ver estatísticas."
   },
   "Kids": {
     "brand": "OpoGen",

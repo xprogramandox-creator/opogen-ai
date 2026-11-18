@@ -412,7 +412,13 @@
     "emptyMixed": "Non ci sono test misti in questa cartella.",
     "emptyRetrievals": "Non ci sono recuperi in questa cartella.",
     "refreshFolders": "Aggiorna cartelle",
-    "deleteFolder": "Elimina cartella"
+    "deleteFolder": "Elimina cartella",
+    "deleteFolderTitle": "Elimina cartella",
+    "deleteFolderMessage": "Vuoi davvero eliminare la cartella «{name}»?",
+    "deleteFolderWarning": "Le statistiche e gli errori in sospeso di questa materia verranno eliminati. Questa azione non può essere annullata.",
+    "deleteFolderCheckbox": "Capisco che i dati andranno persi",
+    "deleteFolderError": "Impossibile eliminare la cartella",
+    "deleteFolderConfirm": "Elimina"
   },
   "Arcade": {
     "playNow": "Gioca ora",
@@ -534,7 +540,8 @@
     "loading": "Caricamento cartelle…",
     "breakdown": "Dettaglio per cartella",
     "breakdownHelp": "Test salvati in ogni cartella del mio spazio.",
-    "viewGeneral": "Vedi riepilogo globale"
+    "viewGeneral": "Vedi riepilogo globale",
+    "emptyFolders": "Non hai ancora cartelle. Creane una in Il mio spazio per iniziare a vedere le statistiche."
   },
   "Kids": {
     "brand": "OpoGen",

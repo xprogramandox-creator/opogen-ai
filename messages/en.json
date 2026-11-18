@@ -412,7 +412,13 @@
     "emptyMixed": "There are no mixed tests in this folder.",
     "emptyRetrievals": "There are no retrievals in this folder.",
     "refreshFolders": "Refresh folders",
-    "deleteFolder": "Delete folder"
+    "deleteFolder": "Delete folder",
+    "deleteFolderTitle": "Delete folder",
+    "deleteFolderMessage": "Are you sure you want to delete the folder “{name}”?",
+    "deleteFolderWarning": "The statistics and pending mistakes for this subject will be deleted. This action cannot be undone.",
+    "deleteFolderCheckbox": "I understand that the data will be lost",
+    "deleteFolderError": "The folder could not be deleted",
+    "deleteFolderConfirm": "Delete"
   },
   "Arcade": {
     "playNow": "Play now",
@@ -534,7 +540,8 @@
     "loading": "Loading folders…",
     "breakdown": "Breakdown by folder",
     "breakdownHelp": "Tests saved in each folder in My Space.",
-    "viewGeneral": "View overall summary"
+    "viewGeneral": "View overall summary",
+    "emptyFolders": "You don't have any folders yet. Create one in My Space to start seeing statistics."
   },
   "Kids": {
     "brand": "OpoGen",

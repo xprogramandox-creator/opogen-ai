@@ -1,24 +1,25 @@
 import { NextResponse } from "next/server";
 import { rm } from "node:fs/promises";
 import path from "node:path";
-import { obtenerClaveSesion } from "@/lib/auth-server";
+import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
-import {
-  eliminarFallosDeCarpeta,
-} from "@/lib/fallos-db";
+import { eliminarFallosDeCarpeta } from "@/lib/fallos-db";
 import { eliminarHistorialDeCarpeta } from "@/lib/historial-servidor";
 import { bloqueoFreemium } from "@/lib/planes-server";
 import {
+  PREFIJOS_CARPETA_LOGICA,
   estaDentroDe,
+  listarCarpetasMadreExistentes,
+  normalizarNombreCarpeta,
   resolverCarpetaExistente,
   rutaEspacioUsuario,
 } from "@/lib/rutas-espacio";
 
 export async function DELETE(req: Request) {
   try {
-    const clave = await obtenerClaveSesion();
+    const usuario = await obtenerUsuarioSesion();
 
-    if (!clave) {
+    if (!usuario) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
@@ -38,25 +39,61 @@ export async function DELETE(req: Request) {
     }
 
     const nombre = carpeta.trim();
-    const carpetaResuelta = await resolverCarpetaExistente(clave, nombre);
-    let algoEliminado = false;
+    const plan = usuario.rol;
+    const espacio = rutaEspacioUsuario(usuario.clave, plan);
+    const esCarpetaLogica = PREFIJOS_CARPETA_LOGICA.some((prefijo) =>
+      nombre.startsWith(prefijo),
+    );
+
+    // 1) Estadísticas y fallos pendientes SIEMPRE, aunque la carpeta ya no
+    // exista físicamente (borrado externo, fallo de red, bug futuro). Así la
+    // BD nunca se queda con datos de una carpeta que ya no está.
+    const historialEliminado = await eliminarHistorialDeCarpeta(
+      usuario.clave,
+      nombre,
+      plan,
+    );
+    const fallosEliminados = await eliminarFallosDeCarpeta(
+      usuario.clave,
+      nombre,
+      plan,
+    );
+
+    // 2) Archivos de la carpeta.
+    let rutaEliminar: string | null = null;
+    const carpetaResuelta = await resolverCarpetaExistente(usuario.clave, nombre);
 
     if (carpetaResuelta) {
-      const rutaEspacio = rutaEspacioUsuario(clave);
-      const esCarpetaLogica =
-        nombre.startsWith("Test Mixtos - ") ||
-        nombre.startsWith("Fallos - ");
-      const rutaEliminar = esCarpetaLogica
+      rutaEliminar = esCarpetaLogica
         ? carpetaResuelta.ruta
         : path.join(
-            rutaEspacio,
+            espacio,
             nombre.replace(/^Fallos - /, "").replace(/^Test Mixtos - /, ""),
           );
+    } else if (!esCarpetaLogica) {
+      // Fallback por nombre normalizado: "Humanizacion" encuentra
+      // "Humanización" y viceversa.
+      const existentes = await listarCarpetasMadreExistentes(
+        usuario.clave,
+        plan,
+      );
+      const objetivo = normalizarNombreCarpeta(nombre);
+      const real = existentes.find(
+        (candidata) => normalizarNombreCarpeta(candidata) === objetivo,
+      );
 
+      if (real) {
+        rutaEliminar = path.join(espacio, real);
+      }
+    }
+
+    let carpetaEliminada = false;
+
+    if (rutaEliminar) {
       // Nunca eliminar la raíz de Mi_Espacio, solo subcarpetas.
       if (
-        path.resolve(rutaEliminar) === path.resolve(rutaEspacio) ||
-        !estaDentroDe(rutaEspacio, rutaEliminar)
+        path.resolve(rutaEliminar) === path.resolve(espacio) ||
+        !estaDentroDe(espacio, rutaEliminar)
       ) {
         return NextResponse.json(
           { error: "No se puede eliminar esa carpeta" },
@@ -65,24 +102,26 @@ export async function DELETE(req: Request) {
       }
 
       await rm(rutaEliminar, { recursive: true, force: true });
-      algoEliminado = true;
+      carpetaEliminada = true;
     }
 
-    if (carpetaResuelta) {
-      // Al borrar la carpeta se eliminan su índice y su Repaso_Fallos.pdf.
-      await eliminarFallosDeCarpeta(clave, nombre);
-      await eliminarHistorialDeCarpeta(clave, nombre);
-      algoEliminado = true;
-    }
-
-    if (!algoEliminado) {
+    if (
+      !carpetaEliminada &&
+      historialEliminado === 0 &&
+      fallosEliminados === 0
+    ) {
       return NextResponse.json(
         { error: "No se encontró la carpeta" },
         { status: 404 },
       );
     }
 
-    return NextResponse.json({ mensaje: "Carpeta eliminada correctamente" });
+    return NextResponse.json({
+      mensaje: "Carpeta eliminada correctamente",
+      carpeta_eliminada: carpetaEliminada,
+      historial_eliminado: historialEliminado,
+      fallos_eliminados: fallosEliminados,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: mensajeError(error) },

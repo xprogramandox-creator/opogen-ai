@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   carpetaMadre,
   normalizarEntradaHistorial,
+  normalizarNombreCarpeta,
   type EntradaHistorialTest,
 } from "@/lib/historial-tests";
 
@@ -250,20 +251,18 @@ export default function EstadisticasContenido() {
 
       if (!esCarpetaMadreVisible(madre)) return;
 
-      const clave = madre
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLocaleLowerCase("es");
+      const clave = normalizarNombreCarpeta(madre);
       if (!porNombre.has(clave)) porNombre.set(clave, madre);
     }
 
+    // Solo carpetas que existen de verdad: las borradas no aparecen en el
+    // desplegable aunque queden restos en el historial.
     for (const carpeta of carpetas) agregar(carpeta.nombre);
-    for (const entrada of historial) agregar(entrada.carpeta);
 
     return [...porNombre.values()].sort((a, b) =>
       a.localeCompare(b, "es", { numeric: true }),
     );
-  }, [carpetas, historial]);
+  }, [carpetas]);
 
   const carpetaActiva =
     carpetaSeleccionada === "todas" ||
@@ -276,15 +275,38 @@ export default function EstadisticasContenido() {
       ? t("allFolders")
       : embellecerCarpeta(carpetaActiva);
 
+  const nombresExistentes = useMemo(
+    () =>
+      new Set(
+        carpetas.map((carpeta) => normalizarNombreCarpeta(carpeta.nombre)),
+      ),
+    [carpetas],
+  );
+
+  // Defensa en profundidad: la API ya filtra, pero el cliente también
+  // descarta entradas de carpetas borradas. Mientras la lista carga (o si
+  // falla), se confía en el historial que devolvió el servidor.
+  const historialExistente = useMemo(() => {
+    if (cargandoCarpetas || errorCarpetas) {
+      return historial;
+    }
+
+    return historial.filter((entrada) =>
+      nombresExistentes.has(
+        normalizarNombreCarpeta(carpetaMadre(entrada.carpeta)),
+      ),
+    );
+  }, [historial, nombresExistentes, cargandoCarpetas, errorCarpetas]);
+
   const historialFiltrado = useMemo(
     () =>
       carpetaActiva === "todas"
-        ? historial
-        : historial.filter(
+        ? historialExistente
+        : historialExistente.filter(
             (entrada) =>
               carpetaMadre(entrada.carpeta) === carpetaActiva,
           ),
-    [historial, carpetaActiva],
+    [historialExistente, carpetaActiva],
   );
 
   const resumen = useMemo(() => {
@@ -485,6 +507,12 @@ export default function EstadisticasContenido() {
           </select>
         </label>
       </section>
+
+      {!cargandoCarpetas && !errorCarpetas && carpetas.length === 0 ? (
+        <p className="rounded-2xl border border-dashed border-[var(--th)] bg-[var(--card2)] p-6 text-center text-sm text-[var(--txt3)]">
+          {t("emptyFolders")}
+        </p>
+      ) : null}
 
       <section
         aria-label="Detalle del día seleccionado"

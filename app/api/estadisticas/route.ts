@@ -10,6 +10,10 @@ import {
   leerHistorialServidor,
 } from "@/lib/historial-servidor";
 import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
+import {
+  listarCarpetasMadreExistentes,
+  normalizarNombreCarpeta,
+} from "@/lib/rutas-espacio";
 
 type DiaAgregado = {
   fecha: string;
@@ -113,11 +117,22 @@ export async function GET() {
     );
   }
 
-  const historial = await leerHistorialServidor(usuario.clave, usuario.rol);
+  // Filtrado defensivo: solo cuentan las entradas cuya carpeta madre sigue
+  // existiendo en el volumen. Un único readdir por consulta, sin caché, para
+  // no mostrar datos recién borrados.
+  const carpetas = await listarCarpetasMadreExistentes(
+    usuario.clave,
+    usuario.rol,
+  );
+  const existentes = new Set(carpetas.map(normalizarNombreCarpeta));
+  const historial = (await leerHistorialServidor(usuario.clave, usuario.rol))
+    .filter((entrada) =>
+      existentes.has(normalizarNombreCarpeta(carpetaMadre(entrada.carpeta))),
+    );
   const { porDia, porCarpeta } = agregar(historial);
 
   return NextResponse.json(
-    { historial, porDia, porCarpeta },
+    { historial, porDia, porCarpeta, carpetas },
     {
       headers: {
         "Cache-Control": "no-store",

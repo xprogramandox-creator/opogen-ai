@@ -412,7 +412,13 @@
     "emptyMixed": "Il n'y a pas de tests mixtes dans ce dossier.",
     "emptyRetrievals": "Il n'y a pas de récupérations dans ce dossier.",
     "refreshFolders": "Actualiser les dossiers",
-    "deleteFolder": "Supprimer le dossier"
+    "deleteFolder": "Supprimer le dossier",
+    "deleteFolderTitle": "Supprimer le dossier",
+    "deleteFolderMessage": "Veux-tu vraiment supprimer le dossier « {name} » ?",
+    "deleteFolderWarning": "Les statistiques et les erreurs en attente de cette matière seront supprimées. Cette action est irréversible.",
+    "deleteFolderCheckbox": "Je comprends que les données seront perdues",
+    "deleteFolderError": "Impossible de supprimer le dossier",
+    "deleteFolderConfirm": "Supprimer"
   },
   "Arcade": {
     "playNow": "Jouer maintenant",
@@ -534,7 +540,8 @@
     "loading": "Chargement des dossiers…",
     "breakdown": "Détail par dossier",
     "breakdownHelp": "Tests enregistrés dans chaque dossier de Mon espace.",
-    "viewGeneral": "Voir le résumé global"
+    "viewGeneral": "Voir le résumé global",
+    "emptyFolders": "Tu n'as pas encore de dossiers. Crée-en un dans Mon espace pour commencer à voir des statistiques."
   },
   "Kids": {
     "brand": "OpoGen",

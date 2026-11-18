@@ -14,6 +14,19 @@ export type NuevoTestCompletado = Omit<EntradaHistorialTest, "fecha"> & {
   fecha?: string;
 };
 
+/**
+ * Normaliza el nombre de una carpeta para comparar: sin acentos, sin
+ * mayúsculas y sin espacios sobrantes. "Humanización" y "Humanizacion"
+ * producen el mismo valor.
+ */
+export function normalizarNombreCarpeta(nombre: string): string {
+  return nombre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLocaleLowerCase("es");
+}
+
 /** Carpeta madre que agrupa los tests mixtos y los repasos de fallos. */
 export function carpetaMadre(nombre: string): string {
   return nombre

@@ -5,8 +5,11 @@ import {
   PREFIJO_FALLOS,
   PREFIJO_TEST_MIXTO,
   esNombreCarpetaSeguro,
+  listarCarpetasMadreExistentes,
+  normalizarNombreCarpeta,
   rutaBaseUsuario,
   rutaEspacioUsuario,
+  type PlanUsuario,
 } from "@/lib/rutas-espacio";
 import { normalizarPreguntas, type Pregunta } from "@/lib/tipos";
 import { conBloqueoUsuario } from "@/lib/file-lock";
@@ -54,34 +57,46 @@ const NOMBRE_JSON_REPASO_ANTERIOR = "repaso.json";
 const PREFIJO_JSON_LEGADO = "Fallos - ";
 const SUB_CARPETA_REPASO = "Repaso";
 
-function rutaArchivoFallos(clave: string, madre: string): string {
+function rutaArchivoFallos(
+  clave: string,
+  madre: string,
+  plan?: PlanUsuario,
+): string {
   return path.join(
-    rutaEspacioUsuario(clave),
+    rutaEspacioUsuario(clave, plan),
     madre,
     SUB_CARPETA_REPASO,
     NOMBRE_JSON_REPASO,
   );
 }
 
-function rutaArchivoFallosLegado(clave: string, madre: string): string {
+function rutaArchivoFallosLegado(
+  clave: string,
+  madre: string,
+  plan?: PlanUsuario,
+): string {
   return path.join(
-    rutaEspacioUsuario(clave),
+    rutaEspacioUsuario(clave, plan),
     madre,
     `${PREFIJO_JSON_LEGADO}${madre}.json`,
   );
 }
 
-function rutaArchivoFallosAnterior(clave: string, madre: string): string {
+function rutaArchivoFallosAnterior(
+  clave: string,
+  madre: string,
+  plan?: PlanUsuario,
+): string {
   return path.join(
-    rutaEspacioUsuario(clave),
+    rutaEspacioUsuario(clave, plan),
     madre,
     SUB_CARPETA_REPASO,
     NOMBRE_JSON_REPASO_ANTERIOR,
   );
 }
 
-function rutaLegado(clave: string): string {
-  return path.join(rutaBaseUsuario(clave), NOMBRE_DB_LEGADO);
+function rutaLegado(clave: string, plan?: PlanUsuario): string {
+  return path.join(rutaBaseUsuario(clave, plan), NOMBRE_DB_LEGADO);
 }
 
 function normalizarLista(valor: unknown): Pregunta[] {
@@ -133,10 +148,11 @@ async function existeCarpeta(ruta: string): Promise<boolean> {
 async function leerArchivoFallos(
   clave: string,
   madre: string,
+  plan?: PlanUsuario,
 ): Promise<Pregunta[]> {
   try {
     const contenido = await readFile(
-      rutaArchivoFallos(clave, madre),
+      rutaArchivoFallos(clave, madre, plan),
       "utf8",
     );
     return normalizarLista(JSON.parse(contenido));
@@ -144,8 +160,8 @@ async function leerArchivoFallos(
     if (codigoError(error) === "ENOENT") {
       // Compatibilidad con versiones intermedias y con el índice antiguo.
       for (const rutaAlternativa of [
-        rutaArchivoFallosAnterior(clave, madre),
-        rutaArchivoFallosLegado(clave, madre),
+        rutaArchivoFallosAnterior(clave, madre, plan),
+        rutaArchivoFallosLegado(clave, madre, plan),
       ]) {
         try {
           const legado = await readFile(rutaAlternativa, "utf8");
@@ -171,23 +187,27 @@ async function escribirArchivoFallos(
   clave: string,
   madre: string,
   fallos: Pregunta[],
+  plan?: PlanUsuario,
 ): Promise<void> {
   const carpeta = path.join(
-    rutaEspacioUsuario(clave),
+    rutaEspacioUsuario(clave, plan),
     madre,
     SUB_CARPETA_REPASO,
   );
   await mkdir(carpeta, { recursive: true });
   await writeFile(
-    rutaArchivoFallos(clave, madre),
+    rutaArchivoFallos(clave, madre, plan),
     JSON.stringify(fallos, null, 2),
     "utf8",
   );
 }
 
-async function leerLegado(clave: string): Promise<FallosLegado> {
+async function leerLegado(
+  clave: string,
+  plan?: PlanUsuario,
+): Promise<FallosLegado> {
   try {
-    const contenido = await readFile(rutaLegado(clave), "utf8");
+    const contenido = await readFile(rutaLegado(clave, plan), "utf8");
     const datos: unknown = JSON.parse(contenido);
 
     if (!datos || typeof datos !== "object" || Array.isArray(datos)) {
@@ -215,10 +235,11 @@ async function leerLegado(clave: string): Promise<FallosLegado> {
 async function escribirLegado(
   clave: string,
   db: FallosLegado,
+  plan?: PlanUsuario,
 ): Promise<void> {
-  await mkdir(rutaBaseUsuario(clave), { recursive: true });
+  await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
   await writeFile(
-    rutaLegado(clave),
+    rutaLegado(clave, plan),
     JSON.stringify(db, null, 2),
     "utf8",
   );
@@ -228,8 +249,11 @@ function clavesLegadoDeMadre(
   legado: FallosLegado,
   madre: string,
 ): string[] {
+  const objetivo = normalizarNombreCarpeta(madre);
+
   return Object.keys(legado).filter(
-    (clave) => obtenerCarpetaMadre(clave) === madre,
+    (clave) =>
+      normalizarNombreCarpeta(obtenerCarpetaMadre(clave)) === objetivo,
   );
 }
 
@@ -353,46 +377,66 @@ export async function guardarFallosCarpeta(
 }
 
 /** Elimina los fallos de una carpeta madre (no la carpeta). */
+/**
+ * Elimina los fallos pendientes de una carpeta madre o lógica.
+ * Devuelve cuántas preguntas se han borrado (incluidas las del archivo
+ * legado) para poder verificar la cascada desde la API.
+ */
 export async function eliminarFallosDeCarpeta(
   clave: string,
   nombre: string,
-): Promise<void> {
-  const madre = nombre.trim();
+  plan?: PlanUsuario,
+): Promise<number> {
+  const madreSolicitada = obtenerCarpetaMadre(nombre);
 
-  if (!esNombreCarpetaSeguro(madre)) {
-    return;
+  if (!esNombreCarpetaSeguro(madreSolicitada)) {
+    return 0;
   }
 
   return conBloqueoUsuario(clave, async () => {
-    await rm(rutaArchivoFallos(clave, madre), { force: true });
-    await rm(rutaArchivoFallosLegado(clave, madre), { force: true });
+    // Si el nombre llega sin acentos ("Humanizacion"), se usa el nombre real
+    // de la carpeta en disco para acertar con las rutas.
+    const existentes = await listarCarpetasMadreExistentes(clave, plan);
+    const objetivo = normalizarNombreCarpeta(madreSolicitada);
+    const madre =
+      existentes.find(
+        (candidata) => normalizarNombreCarpeta(candidata) === objetivo,
+      ) ?? madreSolicitada;
+
+    let eliminados = (await leerArchivoFallos(clave, madre, plan)).length;
+
+    await Promise.all([
+      rm(rutaArchivoFallos(clave, madre, plan), { force: true }),
+      rm(rutaArchivoFallosLegado(clave, madre, plan), { force: true }),
+      rm(rutaArchivoFallosAnterior(clave, madre, plan), { force: true }),
+    ]);
+
     await guardarPdfFallos(clave, madre, []);
     await rm(
       path.join(
-        rutaEspacioUsuario(clave),
+        rutaEspacioUsuario(clave, plan),
         madre,
         `Repaso_Fallos.pdf`,
       ),
       { force: true },
     );
 
-    const legado = await leerLegado(clave);
+    const legado = await leerLegado(clave, plan);
     const claves = clavesLegadoDeMadre(legado, madre);
 
     if (claves.length > 0) {
       for (const claveLegado of claves) {
+        eliminados += legado[claveLegado].length;
         delete legado[claveLegado];
       }
 
-      await escribirLegado(clave, legado);
+      await escribirLegado(clave, legado, plan);
     }
+
+    return eliminados;
   });
 }
 
-/**
- * Lista las carpetas madre con fallos guardados, migrando de paso las
- * entradas del archivo antiguo.
- */
 export async function listarCarpetasConFallos(
   clave: string,
 ): Promise<string[]> {

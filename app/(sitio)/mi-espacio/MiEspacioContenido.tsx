@@ -204,7 +204,12 @@ export default function MiEspacioPage() {
   const [mostrarSelectorMixto, setMostrarSelectorMixto] = useState(false);
   const [errorMixto, setErrorMixto] = useState("");
   const [numPreguntasMixto, setNumPreguntasMixto] = useState("25");
-  const [modalConfirmar, setModalConfirmar] = useState<{titulo: string, mensaje: string, onConfirm: () => void} | null>(null);
+  const [modalConfirmar, setModalConfirmar] = useState<{
+    titulo: string;
+    mensaje: string;
+    onConfirm: () => void;
+    textoConfirmacion?: string;
+  } | null>(null);
   
   // ESTADOS PARA MODO PRÁCTICA
   const [modoPracticaAbierto, setModoPracticaAbierto] = useState(false);
@@ -526,8 +531,11 @@ export default function MiEspacioPage() {
   async function eliminarCarpeta(e: React.MouseEvent, carpeta: string) {
     e.stopPropagation();
     setModalConfirmar({
-      titulo: "Eliminar Carpeta",
-      mensaje: `¿Seguro que quieres eliminar la carpeta «${carpeta}» y todo su contenido?`,
+      titulo: t("deleteFolderTitle"),
+      mensaje: `${t("deleteFolderMessage", { name: carpeta })}\n\n${t(
+        "deleteFolderWarning",
+      )}`,
+      textoConfirmacion: t("deleteFolderCheckbox"),
       onConfirm: async () => {
         setModalConfirmar(null);
         try {
@@ -1530,6 +1538,9 @@ export default function MiEspacioPage() {
             isOpen={true}
             titulo={modalConfirmar.titulo}
             mensaje={modalConfirmar.mensaje}
+            textoConfirmacion={modalConfirmar.textoConfirmacion}
+            textoCancelar={t("cancel")}
+            textoAceptar={t("deleteFolderConfirm")}
             onConfirm={modalConfirmar.onConfirm}
             onCancel={() => {
               setModalConfirmar(null);
