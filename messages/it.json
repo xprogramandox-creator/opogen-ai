@@ -19,7 +19,65 @@
     "premium": "Premium",
     "loginTitle": "Accedi",
     "registerTitle": "Registrati",
-    "goPremium": "Passa a Premium"
+    "goPremium": "Passa a Premium",
+    "agenda": "La mia agenda"
+  },
+  "Agenda": {
+    "kicker": "La mia agenda",
+    "title": "La Mia Agenda",
+    "subtitle": "Segna gli esami e tieni d’occhio quanto tempo ti resta per prepararli.",
+    "loginTitle": "Accedi per usare la tua agenda",
+    "loginText": "Salva gli esami, controlla i prossimi e crea test per ogni materia.",
+    "loginButton": "Accedi",
+    "nextExam": "Prossimo esame: {fecha} ({dias, plural, =0 {è oggi} one {manca 1 giorno} other {mancano # giorni}})",
+    "noNext": "Non hai ancora esami in programma.",
+    "newExam": "Nuovo esame",
+    "previousMonth": "Mese precedente",
+    "nextMonth": "Mese successivo",
+    "calendarHint": "Tocca un giorno per aggiungere un esame.",
+    "addOnDay": "Aggiungi un esame il {fecha}",
+    "upcoming": "Prossimi esami",
+    "loading": "Caricamento agenda…",
+    "empty": "Nessun esame in arrivo. Tocca un giorno del calendario per aggiungerne uno.",
+    "createTitle": "Nuovo esame",
+    "editTitle": "Modifica esame",
+    "close": "Chiudi",
+    "fields": {
+      "date": "Data",
+      "time": "Ora",
+      "subject": "Materia",
+      "type": "Tipo",
+      "notes": "Note"
+    },
+    "datePlaceholder": "GG-MM-AAAA",
+    "dateHelp": "Formato GG-MM-AAAA",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "saving": "Salvataggio…",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "createTest": "Crea un test di questa materia",
+    "deleteTitle": "Elimina esame",
+    "deleteMessage": "Vuoi davvero eliminare l’esame di {materia} del {fecha}?",
+    "types": {
+      "test": "Test",
+      "oficial": "Esame ufficiale",
+      "simulacro": "Simulazione"
+    },
+    "errors": {
+      "load": "Impossibile caricare l’agenda.",
+      "date": "Scrivi la data nel formato GG-MM-AAAA.",
+      "subject": "Indica la materia dell’esame.",
+      "save": "Impossibile salvare l’esame.",
+      "delete": "Impossibile eliminare l’esame."
+    },
+    "notifications": {
+      "createdTitle": "Esame aggiunto",
+      "updatedTitle": "Esame aggiornato",
+      "deletedTitle": "Esame eliminato",
+      "savedMessage": "Salvato nella tua agenda.",
+      "deletedMessage": "L’esame è stato rimosso dalla tua agenda."
+    }
   },
   "Landing": {
     "badge": "Basato sull'intelligenza artificiale",

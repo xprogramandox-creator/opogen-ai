@@ -19,7 +19,65 @@
     "premium": "Premium",
     "loginTitle": "Log in",
     "registerTitle": "Sign up",
-    "goPremium": "Go Premium"
+    "goPremium": "Go Premium",
+    "agenda": "My Agenda"
+  },
+  "Agenda": {
+    "kicker": "My diary",
+    "title": "My Agenda",
+    "subtitle": "Write down your exams and keep an eye on how much time you have left to prepare.",
+    "loginTitle": "Log in to use your agenda",
+    "loginText": "Save your exams, check what is coming and create tests for each subject.",
+    "loginButton": "Log in",
+    "nextExam": "Next exam: {fecha} ({dias, plural, =0 {is today} one {1 day left} other {# days left}})",
+    "noNext": "You have no exams scheduled yet.",
+    "newExam": "New exam",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "calendarHint": "Tap a day to add an exam.",
+    "addOnDay": "Add an exam on {fecha}",
+    "upcoming": "Upcoming exams",
+    "loading": "Loading agenda…",
+    "empty": "No upcoming exams. Tap a day in the calendar to add one.",
+    "createTitle": "New exam",
+    "editTitle": "Edit exam",
+    "close": "Close",
+    "fields": {
+      "date": "Date",
+      "time": "Time",
+      "subject": "Subject",
+      "type": "Type",
+      "notes": "Notes"
+    },
+    "datePlaceholder": "DD-MM-YYYY",
+    "dateHelp": "DD-MM-YYYY format",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "createTest": "Create a test for this subject",
+    "deleteTitle": "Delete exam",
+    "deleteMessage": "Are you sure you want to delete the {materia} exam on {fecha}?",
+    "types": {
+      "test": "Test",
+      "oficial": "Official exam",
+      "simulacro": "Mock exam"
+    },
+    "errors": {
+      "load": "The agenda could not be loaded.",
+      "date": "Write the date as DD-MM-YYYY.",
+      "subject": "Write the subject of the exam.",
+      "save": "The exam could not be saved.",
+      "delete": "The exam could not be deleted."
+    },
+    "notifications": {
+      "createdTitle": "Exam added",
+      "updatedTitle": "Exam updated",
+      "deletedTitle": "Exam deleted",
+      "savedMessage": "Saved to your agenda.",
+      "deletedMessage": "The exam was removed from your agenda."
+    }
   },
   "Landing": {
     "badge": "Powered by Artificial Intelligence",

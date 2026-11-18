@@ -318,8 +318,23 @@ export default function Home() {
   const [carpetasDisponibles, setCarpetasDisponibles] = useState<string[]>([]);
   const [carpetaSeleccionada, setCarpetaSeleccionada] = useState("");
   const [nuevaCarpetaNombre, setNuevaCarpetaNombre] = useState("");
+  // Carpeta sugerida desde otra página (por ejemplo, "Crear test de esta
+  // materia" en Mi Agenda): /crear?carpeta=Materia.
+  const [carpetaPreferida, setCarpetaPreferida] = useState("");
   const [cargandoGuardado, setCargandoGuardado] = useState(false);
   const [guardado, setGuardado] = useState(false);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      const parametro = new URLSearchParams(window.location.search).get("carpeta");
+
+      if (parametro?.trim()) {
+        setCarpetaPreferida(parametro.trim());
+      }
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, []);
 
   // Limpia la antigua caché de preguntas del navegador: ya no se usa y podía
   // devolver exámenes idénticos al subir el mismo archivo.
@@ -586,6 +601,14 @@ export default function Home() {
           : [];
 
         setCarpetasDisponibles(carpetas);
+
+        if (carpetaPreferida) {
+          if (carpetas.includes(carpetaPreferida)) {
+            setCarpetaSeleccionada(carpetaPreferida);
+          } else {
+            setNuevaCarpetaNombre(carpetaPreferida);
+          }
+        }
       }
 
       setModalGuardar(true);

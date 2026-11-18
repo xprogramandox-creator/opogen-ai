@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import {
   BarChart3,
   Briefcase,
+  CalendarDays,
   ClipboardCheck,
   Gamepad2,
   Home,
@@ -20,7 +21,7 @@ import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
 
 type ItemNav = {
   href: string;
-  clave: "home" | "mySpace" | "stats" | "test" | "arcade" | "kids";
+  clave: "home" | "mySpace" | "agenda" | "stats" | "test" | "arcade" | "kids";
   icono: typeof Home;
   /** Visible pero bloqueado (con candado) si el usuario no es Premium. */
   requierePremium?: boolean;
@@ -34,6 +35,7 @@ const ITEMS: ItemNav[] = [
     icono: Briefcase,
     requierePremium: true,
   },
+  { href: "/agenda", clave: "agenda", icono: CalendarDays },
   {
     href: "/estadisticas",
     clave: "stats",

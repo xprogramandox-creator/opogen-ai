@@ -19,7 +19,65 @@
     "premium": "Premium",
     "loginTitle": "Anmelden",
     "registerTitle": "Registrieren",
-    "goPremium": "Premium werden"
+    "goPremium": "Premium werden",
+    "agenda": "Mein Kalender"
+  },
+  "Agenda": {
+    "kicker": "Mein Kalender",
+    "title": "Mein Kalender",
+    "subtitle": "Trag deine Prüfungen ein und behalte im Blick, wie viel Zeit dir zum Lernen bleibt.",
+    "loginTitle": "Melde dich an, um deinen Kalender zu nutzen",
+    "loginText": "Speichere deine Prüfungen, sieh die nächsten Termine und erstelle Tests für jedes Fach.",
+    "loginButton": "Anmelden",
+    "nextExam": "Nächste Prüfung: {fecha} ({dias, plural, =0 {ist heute} one {noch 1 Tag} other {noch # Tage}})",
+    "noNext": "Du hast noch keine Prüfungen geplant.",
+    "newExam": "Neue Prüfung",
+    "previousMonth": "Vorheriger Monat",
+    "nextMonth": "Nächster Monat",
+    "calendarHint": "Tippe auf einen Tag, um eine Prüfung hinzuzufügen.",
+    "addOnDay": "Prüfung am {fecha} hinzufügen",
+    "upcoming": "Nächste Prüfungen",
+    "loading": "Kalender wird geladen…",
+    "empty": "Keine anstehenden Prüfungen. Tippe auf einen Tag im Kalender, um eine hinzuzufügen.",
+    "createTitle": "Neue Prüfung",
+    "editTitle": "Prüfung bearbeiten",
+    "close": "Schließen",
+    "fields": {
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "subject": "Fach",
+      "type": "Art",
+      "notes": "Notizen"
+    },
+    "datePlaceholder": "TT-MM-JJJJ",
+    "dateHelp": "Format TT-MM-JJJJ",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "saving": "Wird gespeichert…",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "createTest": "Test für dieses Fach erstellen",
+    "deleteTitle": "Prüfung löschen",
+    "deleteMessage": "Möchtest du die Prüfung in {materia} vom {fecha} wirklich löschen?",
+    "types": {
+      "test": "Test",
+      "oficial": "Offizielle Prüfung",
+      "simulacro": "Probeexamen"
+    },
+    "errors": {
+      "load": "Der Kalender konnte nicht geladen werden.",
+      "date": "Schreibe das Datum als TT-MM-JJJJ.",
+      "subject": "Gib das Fach der Prüfung an.",
+      "save": "Die Prüfung konnte nicht gespeichert werden.",
+      "delete": "Die Prüfung konnte nicht gelöscht werden."
+    },
+    "notifications": {
+      "createdTitle": "Prüfung hinzugefügt",
+      "updatedTitle": "Prüfung aktualisiert",
+      "deletedTitle": "Prüfung gelöscht",
+      "savedMessage": "In deinem Kalender gespeichert.",
+      "deletedMessage": "Die Prüfung wurde aus deinem Kalender entfernt."
+    }
   },
   "Landing": {
     "badge": "Unterstützt durch künstliche Intelligenz",

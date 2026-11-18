@@ -19,7 +19,65 @@
     "premium": "Premium",
     "loginTitle": "Se connecter",
     "registerTitle": "S'inscrire",
-    "goPremium": "Passer à Premium"
+    "goPremium": "Passer à Premium",
+    "agenda": "Mon agenda"
+  },
+  "Agenda": {
+    "kicker": "Mon agenda",
+    "title": "Mon Agenda",
+    "subtitle": "Note tes examens et garde un œil sur le temps qu’il te reste pour les préparer.",
+    "loginTitle": "Connecte-toi pour utiliser ton agenda",
+    "loginText": "Enregistre tes examens, consulte les prochains et crée des tests pour chaque matière.",
+    "loginButton": "Se connecter",
+    "nextExam": "Prochain examen : {fecha} ({dias, plural, =0 {c’est aujourd’hui} one {1 jour restant} other {# jours restants}})",
+    "noNext": "Tu n’as encore aucun examen programmé.",
+    "newExam": "Nouvel examen",
+    "previousMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "calendarHint": "Touche un jour pour ajouter un examen.",
+    "addOnDay": "Ajouter un examen le {fecha}",
+    "upcoming": "Prochains examens",
+    "loading": "Chargement de l’agenda…",
+    "empty": "Aucun examen à venir. Touche un jour du calendrier pour en ajouter un.",
+    "createTitle": "Nouvel examen",
+    "editTitle": "Modifier l’examen",
+    "close": "Fermer",
+    "fields": {
+      "date": "Date",
+      "time": "Heure",
+      "subject": "Matière",
+      "type": "Type",
+      "notes": "Notes"
+    },
+    "datePlaceholder": "JJ-MM-AAAA",
+    "dateHelp": "Format JJ-MM-AAAA",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "createTest": "Créer un test de cette matière",
+    "deleteTitle": "Supprimer l’examen",
+    "deleteMessage": "Veux-tu vraiment supprimer l’examen de {materia} du {fecha} ?",
+    "types": {
+      "test": "Test",
+      "oficial": "Examen officiel",
+      "simulacro": "Examen blanc"
+    },
+    "errors": {
+      "load": "Impossible de charger l’agenda.",
+      "date": "Écris la date au format JJ-MM-AAAA.",
+      "subject": "Indique la matière de l’examen.",
+      "save": "Impossible d’enregistrer l’examen.",
+      "delete": "Impossible de supprimer l’examen."
+    },
+    "notifications": {
+      "createdTitle": "Examen ajouté",
+      "updatedTitle": "Examen modifié",
+      "deletedTitle": "Examen supprimé",
+      "savedMessage": "Enregistré dans ton agenda.",
+      "deletedMessage": "L’examen a été retiré de ton agenda."
+    }
   },
   "Landing": {
     "badge": "Propulsé par l'intelligence artificielle",

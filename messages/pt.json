@@ -19,7 +19,65 @@
     "premium": "Premium",
     "loginTitle": "Iniciar sessão",
     "registerTitle": "Registar",
-    "goPremium": "Passar a Premium"
+    "goPremium": "Passar a Premium",
+    "agenda": "A minha agenda"
+  },
+  "Agenda": {
+    "kicker": "A minha agenda",
+    "title": "A Minha Agenda",
+    "subtitle": "Anota os teus exames e acompanha quanto tempo te resta para os preparar.",
+    "loginTitle": "Inicia sessão para usar a tua agenda",
+    "loginText": "Guarda os teus exames, consulta os próximos e cria testes de cada matéria.",
+    "loginButton": "Iniciar sessão",
+    "nextExam": "Próximo exame: {fecha} ({dias, plural, =0 {é hoje} one {falta 1 dia} other {faltam # dias}})",
+    "noNext": "Ainda não tens exames marcados.",
+    "newExam": "Novo exame",
+    "previousMonth": "Mês anterior",
+    "nextMonth": "Mês seguinte",
+    "calendarHint": "Toca num dia para adicionar um exame.",
+    "addOnDay": "Adicionar exame a {fecha}",
+    "upcoming": "Próximos exames",
+    "loading": "A carregar a agenda…",
+    "empty": "Não há exames próximos. Toca num dia do calendário para adicionar um.",
+    "createTitle": "Novo exame",
+    "editTitle": "Editar exame",
+    "close": "Fechar",
+    "fields": {
+      "date": "Data",
+      "time": "Hora",
+      "subject": "Matéria",
+      "type": "Tipo",
+      "notes": "Notas"
+    },
+    "datePlaceholder": "DD-MM-AAAA",
+    "dateHelp": "Formato DD-MM-AAAA",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "saving": "A guardar…",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "createTest": "Criar teste desta matéria",
+    "deleteTitle": "Eliminar exame",
+    "deleteMessage": "Queres mesmo eliminar o exame de {materia} de {fecha}?",
+    "types": {
+      "test": "Teste",
+      "oficial": "Exame oficial",
+      "simulacro": "Simulação"
+    },
+    "errors": {
+      "load": "Não foi possível carregar a agenda.",
+      "date": "Escreve a data no formato DD-MM-AAAA.",
+      "subject": "Indica a matéria do exame.",
+      "save": "Não foi possível guardar o exame.",
+      "delete": "Não foi possível eliminar o exame."
+    },
+    "notifications": {
+      "createdTitle": "Exame adicionado",
+      "updatedTitle": "Exame atualizado",
+      "deletedTitle": "Exame eliminado",
+      "savedMessage": "Guardado na tua agenda.",
+      "deletedMessage": "O exame foi removido da tua agenda."
+    }
   },
   "Landing": {
     "badge": "Com tecnologia de inteligência artificial",
