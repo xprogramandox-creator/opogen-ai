@@ -9,6 +9,7 @@ import { AuthModalProvider } from "@/components/AuthModalProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { NotificationProvider } from "@/components/NotificationProvider";
 import SincronizarTemaCookie from "@/components/SincronizarTemaCookie";
+import { alternativasIdioma } from "@/lib/seo";
 import RegistrarUsoZona from "@/components/RegistrarUsoZona";
 import "./globals.css";
 
@@ -54,6 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL("https://opogenai.com"),
     alternates: {
       canonical,
+      languages: alternativasIdioma(sinPrefijo),
     },
     title: {
       default: "OpoGen AI | Exámenes tipo test con tus apuntes",

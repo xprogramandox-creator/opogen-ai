@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed:admin": "node scripts/seed-admin.mjs",
-    "limpiar:estadisticas": "node scripts/limpiar-estadisticas.js"
+    "limpiar:estadisticas": "node scripts/limpiar-estadisticas.js",
+    "geo:actualizar": "node scripts/actualizar-geolite2.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.32.0",
@@ -21,6 +22,7 @@
     "jspdf": "^4.2.1",
     "lucide-react": "^1.61.0",
     "mammoth": "^1.13.0",
+    "maxmind": "^5.1.0",
     "next": "16.4.2",
     "next-intl": "^4.14.9",
     "next-themes": "^0.4.6",

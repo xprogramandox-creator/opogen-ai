@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import { alternativasIdioma } from "@/lib/seo";
 
 /**
  * Canonical explícito para las páginas con prefijo de idioma (portada).
@@ -15,6 +16,7 @@ export async function generateMetadata({
   return {
     alternates: {
       canonical: `https://opogenai.com/${locale}`,
+      languages: alternativasIdioma("/"),
     },
   };
 }
