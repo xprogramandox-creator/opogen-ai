@@ -133,7 +133,14 @@
     "skip": "Saltar para o conteúdo principal",
     "kidsTitle": "Novidade: Zona Kids 🧒",
     "kidsText": "Os teus filhos vão aprender a brincar com a nossa nova Zona OpoGen Kids, com testes adaptados à idade deles. (Exclusivo para utilizadores Premium)",
-    "kidsCta": "Descobrir a Zona Kids"
+    "kidsCta": "Descobrir a Zona Kids",
+    "testimonials": {
+      "title": "O que dizem os nossos candidatos",
+      "subtitle": "Testemunhos reais de pessoas que já estudam com a OpoGen AI.",
+      "previous": "Testemunho anterior",
+      "next": "Testemunho seguinte",
+      "anonymous": "Anónimo"
+    }
   },
   "Auth": {
     "loginTitle": "Iniciar sessão",
@@ -296,7 +303,21 @@
       "discover": "Descobrir Premium"
     },
     "paymentVerification": "Pagamento concluído! Enviámos um e-mail de verificação para {email}. Verifica a tua caixa de entrada (e a pasta Spam) e clica na ligação para ativar a tua conta. Depois de verificada, poderás iniciar sessão com o teu telefone e palavra-passe.",
-    "paymentVerificationFallbackEmail": "o teu endereço de e-mail"
+    "paymentVerificationFallbackEmail": "o teu endereço de e-mail",
+    "testimonialForm": {
+      "title": "Conta-nos a tua experiência",
+      "hint": "A tua opinião ajuda outros candidatos a decidir.",
+      "name": "Nome a mostrar",
+      "namePlaceholder": "O teu nome ou iniciais",
+      "text": "O teu testemunho",
+      "textPlaceholder": "O que te está a ajudar na OpoGen AI?",
+      "submit": "Enviar testemunho",
+      "sending": "A enviar…",
+      "success": "Obrigado! Vamos rever o teu testemunho e publicá-lo se estiver tudo bem.",
+      "error": "Não foi possível enviar o testemunho. Tenta novamente.",
+      "reviewNotice": "O teu testemunho será revisto antes de ser publicado.",
+      "tooShort": "Escreve pelo menos {min} caracteres."
+    }
   },
   "CrearTest": {
     "title": "Crie o seu exame personalizado",
@@ -1010,5 +1031,27 @@
         "4": "Acesso ilimitado aos teus ficheiros."
       }
     }
+  },
+  "AdminTestimonios": {
+    "tab": "Testemunhos",
+    "title": "Testemunhos dos utilizadores",
+    "subtitle": "Revê e modera os testemunhos antes de os publicar.",
+    "refresh": "Atualizar",
+    "date": "Data",
+    "user": "Utilizador",
+    "name": "Nome público",
+    "text": "Testemunho",
+    "status": "Estado",
+    "actions": "Ações",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "delete": "Eliminar",
+    "confirmDelete": "Eliminar definitivamente este testemunho?",
+    "empty": "Não há testemunhos neste estado.",
+    "error": "Não foi possível carregar os testemunhos.",
+    "pendiente": "Pendentes",
+    "aprobado": "Aprovados",
+    "rechazado": "Rejeitados",
+    "todos": "Todos"
   }
 }

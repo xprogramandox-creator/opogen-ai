@@ -18,6 +18,7 @@ import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
 import BotonAscenderAmigo from "@/components/BotonAscenderAmigo";
 import GestionUsuarios from "@/components/GestionUsuarios";
 import BannerResumenes from "@/components/BannerResumenes";
+import FormularioTestimonio from "@/components/FormularioTestimonio";
 import { CLAVE_ADMIN } from "@/lib/planes";
 
 export const metadata: Metadata = {
@@ -286,6 +287,10 @@ export default async function DashboardPage({
               );
             })}
         </div>
+
+        {usuario ? (
+          <FormularioTestimonio nombreInicial={usuario.nombre} />
+        ) : null}
       </section>
     </main>
   );

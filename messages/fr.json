@@ -133,7 +133,14 @@
     "skip": "Aller au contenu principal",
     "kidsTitle": "Nouveau : Espace Kids 🧒",
     "kidsText": "Vos enfants apprendront en jouant avec notre nouvel Espace OpoGen Kids, avec des tests adaptés à leur âge. (Réservé aux utilisateurs Premium)",
-    "kidsCta": "Découvrir l'Espace Kids"
+    "kidsCta": "Découvrir l'Espace Kids",
+    "testimonials": {
+      "title": "Ce que disent nos candidats",
+      "subtitle": "Témoignages réels de personnes qui étudient déjà avec OpoGen AI.",
+      "previous": "Témoignage précédent",
+      "next": "Témoignage suivant",
+      "anonymous": "Anonyme"
+    }
   },
   "Auth": {
     "loginTitle": "Se connecter",
@@ -296,7 +303,21 @@
       "discover": "Découvrir Premium"
     },
     "paymentVerification": "Paiement effectué ! Nous avons envoyé un e-mail de vérification à {email}. Consultez votre boîte de réception (et le dossier Spam) et cliquez sur le lien pour activer votre compte. Une fois vérifié, vous pourrez vous connecter avec votre téléphone et votre mot de passe.",
-    "paymentVerificationFallbackEmail": "votre adresse e-mail"
+    "paymentVerificationFallbackEmail": "votre adresse e-mail",
+    "testimonialForm": {
+      "title": "Raconte-nous ton expérience",
+      "hint": "Ton avis aide les autres candidats à se décider.",
+      "name": "Nom affiché",
+      "namePlaceholder": "Ton nom ou tes initiales",
+      "text": "Ton témoignage",
+      "textPlaceholder": "Qu'est-ce qui t'aide dans OpoGen AI ?",
+      "submit": "Envoyer le témoignage",
+      "sending": "Envoi…",
+      "success": "Merci ! Nous relirons ton témoignage et le publierons si tout va bien.",
+      "error": "Le témoignage n'a pas pu être envoyé. Réessaie.",
+      "reviewNotice": "Ton témoignage sera relu avant d'être publié.",
+      "tooShort": "Écris au moins {min} caractères."
+    }
   },
   "CrearTest": {
     "title": "Créez votre examen personnalisé",
@@ -1010,5 +1031,27 @@
         "4": "Accès illimité à vos fichiers."
       }
     }
+  },
+  "AdminTestimonios": {
+    "tab": "Témoignages",
+    "title": "Témoignages des utilisateurs",
+    "subtitle": "Relis et modère les témoignages avant leur publication.",
+    "refresh": "Actualiser",
+    "date": "Date",
+    "user": "Utilisateur",
+    "name": "Nom public",
+    "text": "Témoignage",
+    "status": "Statut",
+    "actions": "Actions",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "delete": "Supprimer",
+    "confirmDelete": "Supprimer définitivement ce témoignage ?",
+    "empty": "Aucun témoignage dans ce statut.",
+    "error": "Impossible de charger les témoignages.",
+    "pendiente": "En attente",
+    "aprobado": "Approuvés",
+    "rechazado": "Rejetés",
+    "todos": "Tous"
   }
 }

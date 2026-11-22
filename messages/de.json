@@ -133,7 +133,14 @@
     "skip": "Zum Hauptinhalt springen",
     "kidsTitle": "Neu: Kids-Zone 🧒",
     "kidsText": "Deine Kinder lernen spielerisch mit unserer neuen OpoGen Kids-Zone, mit Tests, die auf ihr Alter abgestimmt sind. (Nur für Premium-Nutzer)",
-    "kidsCta": "Kids-Zone entdecken"
+    "kidsCta": "Kids-Zone entdecken",
+    "testimonials": {
+      "title": "Das sagen unsere Kandidaten",
+      "subtitle": "Echte Erfahrungen von Menschen, die schon mit OpoGen AI lernen.",
+      "previous": "Vorherige Bewertung",
+      "next": "Nächste Bewertung",
+      "anonymous": "Anonym"
+    }
   },
   "Auth": {
     "loginTitle": "Anmelden",
@@ -296,7 +303,21 @@
       "discover": "Premium entdecken"
     },
     "paymentVerification": "Zahlung abgeschlossen! Wir haben eine Bestätigungs-E-Mail an {email} gesendet. Prüfe deinen Posteingang (und den Spam-Ordner) und klicke auf den Link, um dein Konto zu aktivieren. Nach der Bestätigung kannst du dich mit Telefonnummer und Passwort anmelden.",
-    "paymentVerificationFallbackEmail": "deine E-Mail-Adresse"
+    "paymentVerificationFallbackEmail": "deine E-Mail-Adresse",
+    "testimonialForm": {
+      "title": "Erzähl uns von deiner Erfahrung",
+      "hint": "Deine Meinung hilft anderen Kandidaten bei der Entscheidung.",
+      "name": "Angezeigter Name",
+      "namePlaceholder": "Dein Name oder deine Initialen",
+      "text": "Deine Bewertung",
+      "textPlaceholder": "Was hilft dir bei OpoGen AI?",
+      "submit": "Bewertung senden",
+      "sending": "Wird gesendet…",
+      "success": "Danke! Wir prüfen deine Bewertung und veröffentlichen sie, wenn alles passt.",
+      "error": "Die Bewertung konnte nicht gesendet werden. Bitte versuche es erneut.",
+      "reviewNotice": "Deine Bewertung wird vor der Veröffentlichung geprüft.",
+      "tooShort": "Schreibe mindestens {min} Zeichen."
+    }
   },
   "CrearTest": {
     "title": "Erstelle deine persönliche Prüfung",
@@ -1010,5 +1031,27 @@
         "4": "Unbegrenzter Zugriff auf deine Dateien."
       }
     }
+  },
+  "AdminTestimonios": {
+    "tab": "Bewertungen",
+    "title": "Bewertungen der Nutzer",
+    "subtitle": "Prüfe und moderiere Bewertungen vor der Veröffentlichung.",
+    "refresh": "Aktualisieren",
+    "date": "Datum",
+    "user": "Nutzer",
+    "name": "Öffentlicher Name",
+    "text": "Bewertung",
+    "status": "Status",
+    "actions": "Aktionen",
+    "approve": "Freigeben",
+    "reject": "Ablehnen",
+    "delete": "Löschen",
+    "confirmDelete": "Diese Bewertung endgültig löschen?",
+    "empty": "Keine Bewertungen in diesem Status.",
+    "error": "Die Bewertungen konnten nicht geladen werden.",
+    "pendiente": "Ausstehend",
+    "aprobado": "Freigegeben",
+    "rechazado": "Abgelehnt",
+    "todos": "Alle"
   }
 }

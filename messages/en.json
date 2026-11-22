@@ -133,7 +133,14 @@
     "skip": "Skip to main content",
     "kidsTitle": "New: Kids Zone 🧒",
     "kidsText": "Your children will learn while playing with our new OpoGen Kids Zone, with tests adapted to their age. (Premium users only)",
-    "kidsCta": "Discover Kids Zone"
+    "kidsCta": "Discover Kids Zone",
+    "testimonials": {
+      "title": "What our candidates say",
+      "subtitle": "Real testimonials from people already studying with OpoGen AI.",
+      "previous": "Previous testimonial",
+      "next": "Next testimonial",
+      "anonymous": "Anonymous"
+    }
   },
   "Auth": {
     "loginTitle": "Log in",
@@ -296,7 +303,21 @@
       "discover": "Discover Premium"
     },
     "paymentVerification": "Payment complete! We have sent a verification email to {email}. Check your inbox (and Spam folder) and click the link to activate your account. Once verified, you can sign in with your phone number and password.",
-    "paymentVerificationFallbackEmail": "your email address"
+    "paymentVerificationFallbackEmail": "your email address",
+    "testimonialForm": {
+      "title": "Tell us about your experience",
+      "hint": "Your opinion helps other candidates decide.",
+      "name": "Display name",
+      "namePlaceholder": "Your name or initials",
+      "text": "Your testimonial",
+      "textPlaceholder": "What is helping you in OpoGen AI?",
+      "submit": "Send testimonial",
+      "sending": "Sending…",
+      "success": "Thank you! We'll review your testimonial and publish it if everything is fine.",
+      "error": "The testimonial could not be sent. Please try again.",
+      "reviewNotice": "Your testimonial will be reviewed before it is published.",
+      "tooShort": "Write at least {min} characters."
+    }
   },
   "CrearTest": {
     "title": "Create your custom exam",
@@ -1010,5 +1031,27 @@
         "4": "Unlimited access to your files."
       }
     }
+  },
+  "AdminTestimonios": {
+    "tab": "Testimonials",
+    "title": "User testimonials",
+    "subtitle": "Review and moderate testimonials before publishing them.",
+    "refresh": "Refresh",
+    "date": "Date",
+    "user": "User",
+    "name": "Public name",
+    "text": "Testimonial",
+    "status": "Status",
+    "actions": "Actions",
+    "approve": "Approve",
+    "reject": "Reject",
+    "delete": "Delete",
+    "confirmDelete": "Delete this testimonial permanently?",
+    "empty": "No testimonials in this status.",
+    "error": "The testimonials could not be loaded.",
+    "pendiente": "Pending",
+    "aprobado": "Approved",
+    "rechazado": "Rejected",
+    "todos": "All"
   }
 }

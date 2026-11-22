@@ -133,7 +133,14 @@
     "skip": "Vai al contenuto principale",
     "kidsTitle": "Novità: Zona Kids 🧒",
     "kidsText": "I tuoi bambini impareranno giocando con la nostra nuova Zona OpoGen Kids, con test adatti alla loro età. (Esclusivo per gli utenti Premium)",
-    "kidsCta": "Scopri la Zona Kids"
+    "kidsCta": "Scopri la Zona Kids",
+    "testimonials": {
+      "title": "Cosa dicono i nostri candidati",
+      "subtitle": "Testimonianze reali di persone che studiano già con OpoGen AI.",
+      "previous": "Testimonianza precedente",
+      "next": "Testimonianza successiva",
+      "anonymous": "Anonimo"
+    }
   },
   "Auth": {
     "loginTitle": "Accedi",
@@ -296,7 +303,21 @@
       "discover": "Scopri Premium"
     },
     "paymentVerification": "Pagamento completato! Ti abbiamo inviato un'email di verifica a {email}. Controlla la posta in arrivo (e la cartella Spam) e clicca sul link per attivare il tuo account. Una volta verificato, potrai accedere con telefono e password.",
-    "paymentVerificationFallbackEmail": "il tuo indirizzo email"
+    "paymentVerificationFallbackEmail": "il tuo indirizzo email",
+    "testimonialForm": {
+      "title": "Raccontaci la tua esperienza",
+      "hint": "La tua opinione aiuta altri candidati a decidere.",
+      "name": "Nome visualizzato",
+      "namePlaceholder": "Il tuo nome o le iniziali",
+      "text": "La tua testimonianza",
+      "textPlaceholder": "Cosa ti sta aiutando in OpoGen AI?",
+      "submit": "Invia testimonianza",
+      "sending": "Invio…",
+      "success": "Grazie! Rileggeremo la tua testimonianza e la pubblicheremo se tutto va bene.",
+      "error": "Non è stato possibile inviare la testimonianza. Riprova.",
+      "reviewNotice": "La tua testimonianza sarà riletta prima della pubblicazione.",
+      "tooShort": "Scrivi almeno {min} caratteri."
+    }
   },
   "CrearTest": {
     "title": "Crea il tuo esame personalizzato",
@@ -1010,5 +1031,27 @@
         "4": "Accesso illimitato ai tuoi file."
       }
     }
+  },
+  "AdminTestimonios": {
+    "tab": "Testimonianze",
+    "title": "Testimonianze degli utenti",
+    "subtitle": "Rileggi e modera le testimonianze prima di pubblicarle.",
+    "refresh": "Aggiorna",
+    "date": "Data",
+    "user": "Utente",
+    "name": "Nome pubblico",
+    "text": "Testimonianza",
+    "status": "Stato",
+    "actions": "Azioni",
+    "approve": "Approva",
+    "reject": "Rifiuta",
+    "delete": "Elimina",
+    "confirmDelete": "Eliminare definitivamente questa testimonianza?",
+    "empty": "Nessuna testimonianza in questo stato.",
+    "error": "Impossibile caricare le testimonianze.",
+    "pendiente": "In attesa",
+    "aprobado": "Approvate",
+    "rechazado": "Rifiutate",
+    "todos": "Tutte"
   }
 }

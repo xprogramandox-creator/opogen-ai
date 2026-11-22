@@ -45,3 +45,6 @@ next-env.d.ts
 
 # base de datos local de la agenda
 agenda.db*
+
+# base de datos local de testimonios
+testimonios.db*

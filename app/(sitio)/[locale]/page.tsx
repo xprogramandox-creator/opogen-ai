@@ -21,6 +21,7 @@ import TarjetaOferta from "@/components/TarjetaOferta";
 import BotonAuth from "@/components/BotonAuth";
 import ExamenHero from "@/components/ExamenHero";
 import RegistrarEventoInvitado from "@/components/RegistrarEventoInvitado";
+import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
 
 export const metadata: Metadata = {
   title: "OpoGen AI | Convierte tus apuntes en exámenes",
@@ -167,7 +168,9 @@ export default async function LandingPage({
           </div>
         </section>
 
-        {/* ZONA KIDS */}
+        <TestimoniosCarrusel />
+
+{/* ZONA KIDS */}
         <section
           aria-labelledby="titulo-zona-kids"
           className="relative z-10 mx-auto max-w-6xl px-5 pb-16 sm:px-6"

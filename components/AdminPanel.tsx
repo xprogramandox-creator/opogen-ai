@@ -6,10 +6,12 @@ import { useLocale, useTranslations } from "next-intl";
 import {
   BarChart3,
   BadgePercent,
+  Check,
   Download,
   FileText,
   Ghost,
   MailWarning,
+  MessageSquareQuote,
   Pencil,
   Plus,
   RefreshCw,
@@ -17,6 +19,7 @@ import {
   Trash2,
   UserCheck,
   Users,
+  X,
 } from "lucide-react";
 
 type UsuarioAdmin = {
@@ -128,6 +131,17 @@ type DescuentoAdmin = {
   usos: number;
 };
 
+type TestimonioAdmin = {
+  id: number;
+  usuarioClave: string;
+  nombreVisible: string;
+  texto: string;
+  estado: "pendiente" | "aprobado" | "rechazado";
+  fecha: string;
+  moderadoEn: string | null;
+  moderadoPor: string | null;
+};
+
 type InvitadoAdmin = {
   sessionId: string;
   visitasLanding: number;
@@ -176,6 +190,7 @@ export default function AdminPanel() {
   const tPendientes = useTranslations("AdminPending");
   const tDescuentos = useTranslations("AdminDiscounts");
   const tInvitados = useTranslations("AdminGuests");
+  const tTestimonios = useTranslations("AdminTestimonios");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -218,6 +233,20 @@ export default function AdminPanel() {
   const [cargandoPendientes, setCargandoPendientes] = useState(false);
   const [errorPendientes, setErrorPendientes] = useState("");
   const [procesandoPendiente, setProcesandoPendiente] = useState("");
+  const [testimonios, setTestimonios] = useState<TestimonioAdmin[]>([]);
+  const [resumenTestimonios, setResumenTestimonios] = useState({
+    pendientes: 0,
+    aprobados: 0,
+    rechazados: 0,
+  });
+  const [cargandoTestimonios, setCargandoTestimonios] = useState(false);
+  const [errorTestimonios, setErrorTestimonios] = useState("");
+  const [filtroTestimonios, setFiltroTestimonios] = useState<
+    "pendiente" | "aprobado" | "rechazado" | "todos"
+  >("pendiente");
+  const [procesandoTestimonio, setProcesandoTestimonio] = useState<number | null>(
+    null,
+  );
   const [descuentos, setDescuentos] = useState<DescuentoAdmin[]>([]);
   const [cargandoDescuentos, setCargandoDescuentos] = useState(false);
   const [errorDescuentos, setErrorDescuentos] = useState("");
@@ -360,6 +389,73 @@ export default function AdminPanel() {
       setCargandoPendientes(false);
     }
   }, [pedir, tPendientes]);
+
+  const cargarTestimonios = useCallback(async () => {
+    setCargandoTestimonios(true);
+    setErrorTestimonios("");
+
+    try {
+      const datos = (await pedir(
+        `/api/admin/testimonios?_=${Date.now()}`,
+      )) as {
+        testimonios?: TestimonioAdmin[];
+        resumen?: { pendientes: number; aprobados: number; rechazados: number };
+      };
+
+      setTestimonios(datos.testimonios || []);
+      setResumenTestimonios(
+        datos.resumen || { pendientes: 0, aprobados: 0, rechazados: 0 },
+      );
+    } catch (err) {
+      setErrorTestimonios(
+        err instanceof Error ? err.message : tTestimonios("error"),
+      );
+    } finally {
+      setCargandoTestimonios(false);
+    }
+  }, [pedir, tTestimonios]);
+
+  async function moderarTestimonio(
+    id: number,
+    estado: "aprobado" | "rechazado" | "pendiente",
+  ): Promise<void> {
+    setProcesandoTestimonio(id);
+    setErrorTestimonios("");
+
+    try {
+      await pedir(`/api/admin/testimonios/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ estado }),
+      });
+      await cargarTestimonios();
+    } catch (err) {
+      setErrorTestimonios(
+        err instanceof Error ? err.message : tTestimonios("error"),
+      );
+    } finally {
+      setProcesandoTestimonio(null);
+    }
+  }
+
+  async function borrarTestimonio(id: number): Promise<void> {
+    if (!window.confirm(tTestimonios("confirmDelete"))) {
+      return;
+    }
+
+    setProcesandoTestimonio(id);
+    setErrorTestimonios("");
+
+    try {
+      await pedir(`/api/admin/testimonios/${id}`, { method: "DELETE" });
+      await cargarTestimonios();
+    } catch (err) {
+      setErrorTestimonios(
+        err instanceof Error ? err.message : tTestimonios("error"),
+      );
+    } finally {
+      setProcesandoTestimonio(null);
+    }
+  }
 
   async function accionPendiente(
     clave: string,
@@ -593,6 +689,7 @@ export default function AdminPanel() {
         cargarEstadoIA(),
         cargarAnalitica(),
         cargarPendientes(),
+        cargarTestimonios(),
         cargarDescuentos(),
         cargarInvitados(fechaInvitados),
       ])
@@ -612,7 +709,7 @@ export default function AdminPanel() {
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, [csrf, cargarAnalitica, cargarDescuentos, cargarEstadoIA, cargarPendientes, cargarResumen, cargarUsuarios]);
+  }, [csrf, cargarAnalitica, cargarDescuentos, cargarEstadoIA, cargarPendientes, cargarResumen, cargarTestimonios, cargarUsuarios]);
 
   useEffect(() => {
     if (!csrf) return;
@@ -788,18 +885,29 @@ export default function AdminPanel() {
   };
 
   const paginas = Math.max(1, Math.ceil(totalUsuarios / 25));
+
+  const testimoniosVisibles = useMemo(
+    () =>
+      filtroTestimonios === "todos"
+        ? testimonios
+        : testimonios.filter(
+            (testimonio) => testimonio.estado === filtroTestimonios,
+          ),
+    [testimonios, filtroTestimonios],
+  );
   const tabs = useMemo(
     () => [
       ["resumen", "Resumen", BarChart3],
       ["usuarios", "Usuarios", Users],
       ["pendientes", tPendientes("tab"), MailWarning],
+      ["testimonios", tTestimonios("tab"), MessageSquareQuote],
       ["descuentos", tDescuentos("tab"), BadgePercent],
       ["invitados", tInvitados("tab"), Ghost],
       ["estadisticas", "Estadísticas", BarChart3],
       ["facturacion", "Facturación", FileText],
       ["exportar", "Exportar", Download],
     ] as const,
-    [tDescuentos, tPendientes, tInvitados],
+    [tDescuentos, tPendientes, tInvitados, tTestimonios],
   );
 
   if (accesoDenegado) {
@@ -889,6 +997,7 @@ export default function AdminPanel() {
                   cargarEstadoIA(),
                   cargarAnalitica(),
                   cargarPendientes(),
+                  cargarTestimonios(),
                   cargarDescuentos(),
                 ]);
                 setAccesoDenegado(false);
@@ -1430,7 +1539,180 @@ export default function AdminPanel() {
           </section>
         ) : null}
 
-        {tab === "descuentos" ? (
+        {tab === "testimonios" ? (
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-bold text-[var(--txt)]">
+              {tTestimonios("title")}
+            </h2>
+            <p className="mt-1 text-sm text-[var(--txt2)]">
+              {tTestimonios("subtitle")}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => void cargarTestimonios()}
+            disabled={cargandoTestimonios}
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--txt)] disabled:opacity-50"
+          >
+            <RefreshCw
+              className={`h-4 w-4 ${cargandoTestimonios ? "animate-spin" : ""}`}
+            />
+            {tTestimonios("refresh")}
+          </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {(["pendiente", "aprobado", "rechazado", "todos"] as const).map(
+            (filtro) => {
+              const total =
+                filtro === "todos"
+                  ? resumenTestimonios.pendientes +
+                    resumenTestimonios.aprobados +
+                    resumenTestimonios.rechazados
+                  : filtro === "pendiente"
+                    ? resumenTestimonios.pendientes
+                    : filtro === "aprobado"
+                      ? resumenTestimonios.aprobados
+                      : resumenTestimonios.rechazados;
+
+              return (
+                <button
+                  key={filtro}
+                  type="button"
+                  onClick={() => setFiltroTestimonios(filtro)}
+                  className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold ${
+                    filtroTestimonios === filtro
+                      ? "bg-[var(--azul)] text-white"
+                      : "border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)]"
+                  }`}
+                >
+                  {tTestimonios(filtro)}
+                  <span className="rounded-full bg-black/10 px-1.5 text-[11px]">
+                    {total}
+                  </span>
+                </button>
+              );
+            },
+          )}
+        </div>
+
+        {errorTestimonios ? (
+          <p className="rounded-xl border border-[var(--err-b)] bg-[var(--err)] px-4 py-3 text-sm font-medium text-[var(--err-t)]">
+            {errorTestimonios}
+          </p>
+        ) : null}
+
+        <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+          <table className="w-full min-w-[860px] text-left text-xs">
+            <thead className="bg-[var(--card2)] text-[var(--txt3)]">
+              <tr>
+                {[
+                  tTestimonios("date"),
+                  tTestimonios("user"),
+                  tTestimonios("name"),
+                  tTestimonios("text"),
+                  tTestimonios("status"),
+                  tTestimonios("actions"),
+                ].map((titulo) => (
+                  <th key={titulo} className="px-3 py-3 font-bold">
+                    {titulo}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {testimoniosVisibles.map((testimonio) => (
+                <tr
+                  key={testimonio.id}
+                  className="border-t border-[var(--th)] align-top"
+                >
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {new Date(testimonio.fecha).toLocaleDateString(locale, {
+                      dateStyle: "medium",
+                    })}
+                  </td>
+                  <td className="px-3 py-3 text-[var(--txt3)]">
+                    {testimonio.usuarioClave}
+                  </td>
+                  <td className="px-3 py-3 font-bold">
+                    {testimonio.nombreVisible}
+                  </td>
+                  <td className="max-w-[280px] px-3 py-3 text-[var(--txt2)]">
+                    <span className="line-clamp-3" title={testimonio.texto}>
+                      {testimonio.texto}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3">
+                    <span
+                      className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
+                        testimonio.estado === "aprobado"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : testimonio.estado === "rechazado"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-amber-100 text-amber-800"
+                      }`}
+                    >
+                      {tTestimonios(testimonio.estado)}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        disabled={
+                          procesandoTestimonio === testimonio.id ||
+                          testimonio.estado === "aprobado"
+                        }
+                        onClick={() =>
+                          void moderarTestimonio(testimonio.id, "aprobado")
+                        }
+                        className="inline-flex items-center gap-1 rounded-lg bg-[var(--azul)] px-2.5 py-1.5 font-bold text-[var(--btn-txt)] disabled:opacity-50"
+                      >
+                        <Check className="h-3.5 w-3.5" />
+                        {tTestimonios("approve")}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={
+                          procesandoTestimonio === testimonio.id ||
+                          testimonio.estado === "rechazado"
+                        }
+                        onClick={() =>
+                          void moderarTestimonio(testimonio.id, "rechazado")
+                        }
+                        className="inline-flex items-center gap-1 rounded-lg border border-[var(--ambar-b)] bg-[var(--ambar)] px-2.5 py-1.5 font-bold text-[var(--ambar-t)] disabled:opacity-50"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                        {tTestimonios("reject")}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={procesandoTestimonio === testimonio.id}
+                        onClick={() => void borrarTestimonio(testimonio.id)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-[var(--err-b)] bg-[var(--err)] px-2.5 py-1.5 font-bold text-[var(--err-t)] disabled:opacity-50"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        {tTestimonios("delete")}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {!cargandoTestimonios && testimoniosVisibles.length === 0 ? (
+            <p className="px-4 py-8 text-center text-sm text-[var(--txt3)]">
+              {tTestimonios("empty")}
+            </p>
+          ) : null}
+        </div>
+      </section>
+    ) : null}
+
+    {tab === "descuentos" ? (
           <section className="grid gap-5 lg:grid-cols-[22rem_1fr]">
             <form
               onSubmit={crearDescuento}
