@@ -272,7 +272,12 @@
       "checkoutError": "Could not start checkout. Please try again.",
       "vat": "+ VAT (21%)",
       "totalWithVat": "Total incl. VAT: {price}",
-      "vatIncluded": "VAT included"
+      "vatIncluded": "VAT included",
+      "blackFriday": {
+        "badge": "Black Friday −25%",
+        "codeHint": "Use the code OPOBLACK25 at checkout",
+        "notice": "Black Friday: use the code OPOBLACK25 at checkout."
+      }
     },
     "premiumExpiresSoon": "Your Premium plan expires soon: {date}",
     "premiumExpires": "Your Premium plan expires on {date}",

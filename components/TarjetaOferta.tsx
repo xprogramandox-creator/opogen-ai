@@ -9,6 +9,7 @@ import { useAuthModal } from "@/components/AuthModalProvider";
 import CheckoutModal from "@/components/CheckoutModal";
 import type { PlanCheckout } from "@/components/CheckoutForm";
 import type { PlanStripe } from "@/lib/plan-pendiente";
+import { estaEnBlackFriday, precioConDescuento } from "@/lib/black-friday";
 
 const planes = [
   { id: "monthly", Icono: null },
@@ -40,6 +41,8 @@ export default function TarjetaOferta() {
   const { abrirAuth } = useAuthModal();
   const [planCheckout, setPlanCheckout] =
     useState<PlanCheckout | null>(null);
+  // Se calcula una sola vez por montaje; las fechas se comparan en UTC.
+  const [promoActiva] = useState(() => estaEnBlackFriday());
 
   const formatoMoneda = new Intl.NumberFormat(locale, {
     style: "currency",
@@ -98,9 +101,10 @@ export default function TarjetaOferta() {
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {planes.map(({ id, Icono }) => {
             const nombre = t(`offer.plans.${id}.name`);
-            const precio = formatoMoneda.format(
-              PRECIOS_BASE[id] * (1 + IVA),
-            );
+            const precioBase = PRECIOS_BASE[id] * (1 + IVA);
+            const precioMostrado = promoActiva
+              ? precioConDescuento(precioBase)
+              : precioBase;
             const detalle = t(`offer.plans.${id}.detail`);
             const badge = t(`offer.plans.${id}.badge`);
             const esRecomendado = id === "semestral";
@@ -120,20 +124,26 @@ export default function TarjetaOferta() {
                       : "border-[var(--th)] bg-[var(--card2)]"
                 }`}
               >
-                <div className="mb-2 flex min-h-5 items-center justify-between gap-2">
-                  {badge ? (
-                    <span
-                      className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                        esRecomendado
-                          ? "bg-[var(--sel)] text-[var(--azul)]"
-                          : "bg-[var(--ambar)] text-[var(--ambar-t)]"
-                      }`}
-                    >
-                      {badge}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
+                <div className="mb-2 flex min-h-5 items-start justify-between gap-2">
+                  <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                    {badge ? (
+                      <span
+                        className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                          esRecomendado
+                            ? "bg-[var(--sel)] text-[var(--azul)]"
+                            : "bg-[var(--ambar)] text-[var(--ambar-t)]"
+                        }`}
+                      >
+                        {badge}
+                      </span>
+                    ) : null}
+
+                    {promoActiva ? (
+                      <span className="inline-flex items-center rounded-full border border-[var(--azul)]/30 bg-[var(--sel)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--azul)]">
+                        {t("offer.blackFriday.badge")}
+                      </span>
+                    ) : null}
+                  </div>
 
                   {Icono ? (
                     <Icono
@@ -152,9 +162,14 @@ export default function TarjetaOferta() {
                   {nombre}
                 </p>
 
-                <p className="mt-1 flex items-baseline gap-1 text-[var(--txt)]">
+                <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[var(--txt)]">
+                  {promoActiva ? (
+                    <span className="text-sm font-semibold text-[var(--txt3)] line-through decoration-[var(--txt3)]/70">
+                      {formatoMoneda.format(precioBase)}
+                    </span>
+                  ) : null}
                   <span className="text-4xl font-bold tracking-tight">
-                    {precio}
+                    {formatoMoneda.format(precioMostrado)}
                   </span>
                   {id === "monthly" ? (
                     <span className="text-sm font-semibold text-[var(--txt3)]">
@@ -174,10 +189,22 @@ export default function TarjetaOferta() {
                 <span className="mt-4 inline-flex items-center justify-center rounded-xl bg-[var(--azul)] px-3 py-2 text-xs font-bold text-[var(--btn-txt)] transition-colors group-hover:bg-[var(--azul-hover)]">
                   {t("offer.choose")}
                 </span>
+
+                {promoActiva ? (
+                  <span className="mt-2 text-balance text-center text-[10px] font-medium leading-snug text-[var(--txt3)]">
+                    {t("offer.blackFriday.codeHint")}
+                  </span>
+                ) : null}
               </button>
             );
           })}
         </div>
+
+        {promoActiva ? (
+          <p className="mt-4 rounded-xl border border-[var(--azul)]/25 bg-[var(--sel)] px-3 py-2 text-center text-xs font-semibold text-[var(--azul)]">
+            {t("offer.blackFriday.notice")}
+          </p>
+        ) : null}
 
         <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
           {ventajas.map((ventaja) => (

@@ -123,6 +123,7 @@ export async function POST(request: Request) {
       line_items: [{ price: PRECIOS_STRIPE[plan], quantity: 1 }],
       success_url: `${origen}/dashboard?checkout=success`,
       cancel_url: `${origen}/premium?checkout=cancel`,
+      // Permite canjear el código OPOBLACK25 en el Checkout de Stripe.
       allow_promotion_codes: true,
       metadata,
       subscription_data: { metadata },

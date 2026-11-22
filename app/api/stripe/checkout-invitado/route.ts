@@ -146,6 +146,7 @@ export async function POST(request: Request) {
       customer_email: correo,
       success_url: `${origen}/dashboard?checkout=success`,
       cancel_url: `${origen}/checkout?plan=${plan}&cancel=1`,
+      // Permite canjear el código OPOBLACK25 en el Checkout de Stripe.
       allow_promotion_codes: true,
       metadata,
       subscription_data: { metadata },

@@ -272,7 +272,12 @@
       "checkoutError": "Impossible de démarrer le paiement. Réessayez.",
       "vat": "+ TVA (21 %)",
       "totalWithVat": "Total TTC : {price}",
-      "vatIncluded": "TVA incluse"
+      "vatIncluded": "TVA incluse",
+      "blackFriday": {
+        "badge": "Black Friday −25%",
+        "codeHint": "Utilise le code OPOBLACK25 sur la page de paiement",
+        "notice": "Black Friday : utilise le code OPOBLACK25 sur la page de paiement."
+      }
     },
     "premiumExpiresSoon": "Votre forfait Premium expire bientôt : {date}",
     "premiumExpires": "Votre forfait Premium expire le {date}",

@@ -272,7 +272,12 @@
       "checkoutError": "Impossibile avviare il pagamento. Riprova.",
       "vat": "+ IVA (21%)",
       "totalWithVat": "Totale IVA inclusa: {price}",
-      "vatIncluded": "IVA inclusa"
+      "vatIncluded": "IVA inclusa",
+      "blackFriday": {
+        "badge": "Black Friday −25%",
+        "codeHint": "Usa il codice OPOBLACK25 nella pagina di pagamento",
+        "notice": "Black Friday: usa il codice OPOBLACK25 al pagamento."
+      }
     },
     "premiumExpiresSoon": "Il tuo piano Premium scade a breve: {date}",
     "premiumExpires": "Il tuo piano Premium scade il {date}",

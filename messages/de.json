@@ -272,7 +272,12 @@
       "checkoutError": "Die Zahlung konnte nicht gestartet werden. Versuche es erneut.",
       "vat": "+ MwSt. (21 %)",
       "totalWithVat": "Gesamt inkl. MwSt.: {price}",
-      "vatIncluded": "inkl. MwSt."
+      "vatIncluded": "inkl. MwSt.",
+      "blackFriday": {
+        "badge": "Black Friday −25%",
+        "codeHint": "Nutze den Code OPOBLACK25 in der Zahlungsseite",
+        "notice": "Black Friday: Nutze den Code OPOBLACK25 beim Bezahlen."
+      }
     },
     "premiumExpiresSoon": "Dein Premium-Tarif läuft bald ab: {date}",
     "premiumExpires": "Dein Premium-Tarif läuft am {date} ab",
