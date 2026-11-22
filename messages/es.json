@@ -1065,6 +1065,7 @@
   },
   "AdminPanel": {
     "menu": {
+      "inicio": "Inicio",
       "resumen": "Resumen",
       "usuarios": "Usuarios",
       "pendientes": "Pendientes",

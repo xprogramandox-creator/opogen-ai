@@ -10,6 +10,7 @@ import {
   Download,
   FileText,
   Ghost,
+  Home,
   MailWarning,
   MessageSquareQuote,
   Pencil,
@@ -1040,6 +1041,14 @@ export default function AdminPanel() {
             aria-label="Secciones del panel"
             className="flex gap-2 overflow-x-auto pb-1 lg:sticky lg:top-24 lg:w-60 lg:shrink-0 lg:flex-col lg:overflow-visible lg:pb-0"
           >
+            <Link
+              href="/dashboard"
+              className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-3.5 py-2.5 text-sm font-bold text-[var(--txt2)] transition-colors hover:border-[var(--azul)]/40 hover:text-[var(--azul)] lg:mb-4 lg:w-full"
+            >
+              <Home className="h-4 w-4 shrink-0" aria-hidden="true" />{" "}
+              {tMenu("inicio")}
+            </Link>
+
             {tabs.map(([id, etiqueta, Icono]) => (
               <button
                 key={id}

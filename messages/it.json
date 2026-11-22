@@ -1065,6 +1065,7 @@
   },
   "AdminPanel": {
     "menu": {
+      "inicio": "Home",
       "resumen": "Riepilogo",
       "usuarios": "Utenti",
       "pendientes": "In sospeso",
