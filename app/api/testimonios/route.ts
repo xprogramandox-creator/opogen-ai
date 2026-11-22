@@ -25,6 +25,10 @@ export async function POST(request: Request) {
     return error("Inicia sesión para enviar un testimonio.", 401);
   }
 
+  if (usuario.rol !== "premium") {
+    return error("Los testimonios son exclusivos de los usuarios Premium.", 403);
+  }
+
   const cookie = await obtenerTokenCSRFDesdeCookie();
 
   if (!verificarTokenCSRF(request, cookie)) {

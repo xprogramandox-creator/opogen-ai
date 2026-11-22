@@ -160,6 +160,12 @@ export default async function DashboardPage({
           </Link>
         </div>
 
+        {esPremium ? (
+          <div className="mb-12">
+            <FormularioTestimonio nombreInicial={usuario?.nombre ?? ""} />
+          </div>
+        ) : null}
+
         <Link
           href={esPremium ? "/kids" : "/premium"}
           className="group mb-8 block overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 bg-[var(--azul)]/10 p-5 shadow-[var(--sombra)] transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transform-none dark:border-[var(--azul)]/30 dark:bg-[var(--azul)]/15 sm:p-6"
@@ -295,9 +301,6 @@ export default async function DashboardPage({
           </div>
         ) : null}
 
-        {usuario ? (
-          <FormularioTestimonio nombreInicial={usuario.nombre} />
-        ) : null}
       </section>
     </main>
   );
