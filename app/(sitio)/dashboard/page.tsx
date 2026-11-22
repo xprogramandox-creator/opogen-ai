@@ -19,6 +19,7 @@ import BotonAscenderAmigo from "@/components/BotonAscenderAmigo";
 import GestionUsuarios from "@/components/GestionUsuarios";
 import BannerResumenes from "@/components/BannerResumenes";
 import FormularioTestimonio from "@/components/FormularioTestimonio";
+import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
 import { CLAVE_ADMIN } from "@/lib/planes";
 
 export const metadata: Metadata = {
@@ -287,6 +288,12 @@ export default async function DashboardPage({
               );
             })}
         </div>
+
+        {usuario && usuario.rol !== "premium" ? (
+          <div className="mt-10">
+            <TestimoniosCarrusel />
+          </div>
+        ) : null}
 
         {usuario ? (
           <FormularioTestimonio nombreInicial={usuario.nombre} />
