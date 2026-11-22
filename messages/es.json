@@ -62,7 +62,8 @@
     "types": {
       "test": "Test",
       "oficial": "Examen oficial",
-      "simulacro": "Simulacro"
+      "simulacro": "Simulacro",
+      "recuperacion": "Recuperación"
     },
     "errors": {
       "load": "No se pudo cargar la agenda.",
@@ -306,7 +307,7 @@
     "paymentVerificationFallbackEmail": "tu correo electrónico",
     "testimonialForm": {
       "title": "Cuéntanos tu experiencia",
-      "hint": "Tu opinión ayuda a otros opositores a decidirse.",
+      "hint": "Tu opinión ayuda a otros estudiantes a decidirse.",
       "name": "Nombre que se mostrará",
       "namePlaceholder": "Tu nombre o iniciales",
       "text": "Tu testimonio",
@@ -316,8 +317,12 @@
       "success": "¡Gracias! Revisaremos tu testimonio y lo publicaremos si todo está bien.",
       "error": "No se pudo enviar el testimonio. Inténtalo de nuevo.",
       "reviewNotice": "Tu testimonio será revisado antes de publicarse.",
-      "tooShort": "Escribe al menos {min} caracteres."
-    }
+      "tooShort": "Escribe al menos {min} caracteres.",
+      "close": "Cerrar"
+    },
+    "testimonialButton": "Tus comentarios",
+    "testimonialButtonHint": "Cuéntanos qué tal te va con OpoGen AI.",
+    "testimonialModalTitle": "Deja tu testimonio"
   },
   "CrearTest": {
     "title": "Crea tu examen personalizado",

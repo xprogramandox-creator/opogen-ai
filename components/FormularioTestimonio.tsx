@@ -6,6 +6,8 @@ import { MessageSquareQuote, Send } from "lucide-react";
 
 type Props = {
   nombreInicial: string;
+  /** Sin tarjeta ni cabecera propia, para usarlo dentro de un modal. */
+  compacto?: boolean;
 };
 
 const MAX_TEXTO = 500;
@@ -38,7 +40,10 @@ async function obtenerCsrf(): Promise<string> {
   }
 }
 
-export default function FormularioTestimonio({ nombreInicial }: Props) {
+export default function FormularioTestimonio({
+  nombreInicial,
+  compacto = false,
+}: Props) {
   const t = useTranslations("Dashboard.testimonialForm");
   const locale = useLocale();
   const [nombre, setNombre] = useState(nombreInicial.slice(0, 40));
@@ -95,7 +100,14 @@ export default function FormularioTestimonio({ nombreInicial }: Props) {
   }
 
   return (
-    <section className="mt-10 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8">
+    <div
+      className={
+        compacto
+          ? ""
+          : "mt-10 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8"
+      }
+    >
+      {!compacto ? (
       <div className="flex items-start gap-4">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
           <MessageSquareQuote className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
@@ -109,16 +121,23 @@ export default function FormularioTestimonio({ nombreInicial }: Props) {
           </p>
         </div>
       </div>
+      ) : null}
 
       {enviado ? (
         <p
           role="status"
-          className="mt-5 rounded-2xl border border-[var(--azul)]/25 bg-[var(--sel)]/60 px-4 py-3 text-sm font-semibold text-[var(--azul)]"
+          className={`rounded-2xl border border-[var(--azul)]/25 bg-[var(--sel)]/60 px-4 py-3 text-sm font-semibold text-[var(--azul)] ${
+            compacto ? "" : "mt-5"
+          }`}
         >
           {t("success")}
         </p>
       ) : (
-        <form onSubmit={enviar} className="mt-5 space-y-4" noValidate>
+        <form
+          onSubmit={enviar}
+          className={`space-y-4 ${compacto ? "" : "mt-5"}`}
+          noValidate
+        >
           <div>
             <label
               htmlFor="testimonio-nombre"
@@ -181,6 +200,6 @@ export default function FormularioTestimonio({ nombreInicial }: Props) {
           </button>
         </form>
       )}
-    </section>
+    </div>
   );
 }

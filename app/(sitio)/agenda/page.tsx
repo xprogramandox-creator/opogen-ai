@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   CalendarDays,
-  ChevronLeft,
-  ChevronRight,
+  Clock,
   Pencil,
   Plus,
   Trash2,
@@ -18,9 +17,7 @@ import { useNotification } from "@/components/NotificationProvider";
 
 type ExamenAgenda = {
   id: number;
-  /** ISO (YYYY-MM-DD) para el calendario y la ordenación. */
   fechaIso: string;
-  /** Fecha ya formateada por el backend (DD-MM-YYYY). */
   fecha: string;
   hora: string;
   materia: string;
@@ -44,40 +41,13 @@ type Formulario = {
   notas: string;
 };
 
-const TIPOS = ["test", "oficial", "simulacro"] as const;
+const TIPOS = ["test", "oficial", "recuperacion", "simulacro"] as const;
 
 const CLASE_CAMPO =
   "h-12 w-full rounded-xl border border-[var(--th)] bg-[var(--card2)] px-3 text-base text-[var(--txt)] outline-none transition-colors placeholder:text-[var(--txt3)] focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul)]/30 sm:text-sm";
 
 function dosDigitos(valor: number): string {
   return String(valor).padStart(2, "0");
-}
-
-function isoADdMmAaaa(fechaISO: string): string {
-  const [anio, mes, dia] = fechaISO.split("-");
-
-  return anio && mes && dia ? `${dia}-${mes}-${anio}` : "";
-}
-
-function ddMmAaaaAIso(valor: string): string | null {
-  const coincidencia = /^(\d{2})-(\d{2})-(\d{4})$/.exec(valor.trim());
-
-  if (!coincidencia) {
-    return null;
-  }
-
-  const [, dia, mes, anio] = coincidencia;
-  const fecha = new Date(Date.UTC(Number(anio), Number(mes) - 1, Number(dia)));
-
-  if (
-    fecha.getUTCFullYear() !== Number(anio) ||
-    fecha.getUTCMonth() !== Number(mes) - 1 ||
-    fecha.getUTCDate() !== Number(dia)
-  ) {
-    return null;
-  }
-
-  return `${anio}-${mes}-${dia}`;
 }
 
 function isoDeHoy(): string {
@@ -88,9 +58,12 @@ function isoDeHoy(): string {
   )}`;
 }
 
+function esTipoValido(valor: string): valor is (typeof TIPOS)[number] {
+  return (TIPOS as readonly string[]).includes(valor);
+}
+
 export default function AgendaPage() {
   const t = useTranslations("Agenda");
-  const locale = useLocale();
   const { notificar } = useNotification();
   const { abrirAuth } = useAuthModal();
 
@@ -100,18 +73,11 @@ export default function AgendaPage() {
   const [sinSesion, setSinSesion] = useState(false);
   const [errorCarga, setErrorCarga] = useState("");
 
-  const hoyIso = useMemo(() => isoDeHoy(), []);
-  const [mes, setMes] = useState(() => {
-    const hoy = new Date();
-
-    return { anio: hoy.getFullYear(), mes: hoy.getMonth() };
-  });
-
   const [modal, setModal] = useState<
     { modo: "crear" } | { modo: "editar"; id: number } | null
   >(null);
   const [formulario, setFormulario] = useState<Formulario>({
-    fecha: "",
+    fecha: isoDeHoy(),
     hora: "09:00",
     materia: "",
     tipo: "test",
@@ -148,9 +114,7 @@ export default function AgendaPage() {
       setProximo(datos.proximo ?? null);
       setErrorCarga("");
     } catch (error) {
-      setErrorCarga(
-        error instanceof Error ? error.message : t("errors.load"),
-      );
+      setErrorCarga(error instanceof Error ? error.message : t("errors.load"));
     } finally {
       setCargando(false);
     }
@@ -164,74 +128,14 @@ export default function AgendaPage() {
     return () => window.clearTimeout(id);
   }, [cargar]);
 
-  const porDia = useMemo(() => {
-    const mapa = new Map<string, ExamenAgenda[]>();
-
-    for (const examen of examenes) {
-      const lista = mapa.get(examen.fechaIso) ?? [];
-      lista.push(examen);
-      mapa.set(examen.fechaIso, lista);
-    }
-
-    return mapa;
-  }, [examenes]);
-
   const proximos = useMemo(
     () => examenes.filter((examen) => examen.dias >= 0),
     [examenes],
   );
 
-  const primerDiaSemana = useMemo(() => {
-    const fecha = new Date(mes.anio, mes.mes, 1);
-
-    // Lunes = 0, domingo = 6.
-    return (fecha.getDay() + 6) % 7;
-  }, [mes]);
-
-  const diasDelMes = useMemo(
-    () => new Date(mes.anio, mes.mes + 1, 0).getDate(),
-    [mes],
-  );
-
-  const celdas = useMemo(() => {
-    const anteriores = Array.from({ length: primerDiaSemana }, () => null as number | null);
-    const dias = Array.from({ length: diasDelMes }, (_, indice) => indice + 1);
-
-    return [...anteriores, ...dias];
-  }, [diasDelMes, primerDiaSemana]);
-
-  const nombreMes = useMemo(() => {
-    const texto = new Intl.DateTimeFormat(locale, {
-      month: "long",
-      year: "numeric",
-    }).format(new Date(mes.anio, mes.mes, 1));
-
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
-  }, [locale, mes]);
-
-  const diasSemana = useMemo(() => {
-    const formato = new Intl.DateTimeFormat(locale, { weekday: "short" });
-    // 1 de enero de 2024 fue lunes.
-    return Array.from({ length: 7 }, (_, indice) =>
-      formato.format(new Date(2024, 0, 1 + indice)),
-    );
-  }, [locale]);
-
-  function isoDelDia(dia: number): string {
-    return `${mes.anio}-${dosDigitos(mes.mes + 1)}-${dosDigitos(dia)}`;
-  }
-
-  function cambiarMes(delta: number): void {
-    setMes((actual) => {
-      const fecha = new Date(actual.anio, actual.mes + delta, 1);
-
-      return { anio: fecha.getFullYear(), mes: fecha.getMonth() };
-    });
-  }
-
-  function abrirCrear(fechaISO: string): void {
+  function abrirCrear(): void {
     setFormulario({
-      fecha: isoADdMmAaaa(fechaISO),
+      fecha: isoDeHoy(),
       hora: "09:00",
       materia: "",
       tipo: "test",
@@ -243,12 +147,10 @@ export default function AgendaPage() {
 
   function abrirEditar(examen: ExamenAgenda): void {
     setFormulario({
-      fecha: examen.fecha,
+      fecha: examen.fechaIso,
       hora: examen.hora,
       materia: examen.materia,
-      tipo: TIPOS.includes(examen.tipo as (typeof TIPOS)[number])
-        ? examen.tipo
-        : "test",
+      tipo: esTipoValido(examen.tipo) ? examen.tipo : "test",
       notas: examen.notas,
     });
     setErrorFormulario("");
@@ -258,13 +160,9 @@ export default function AgendaPage() {
   async function guardar(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
 
-    if (!modal || guardando) {
-      return;
-    }
+    if (!modal || guardando) return;
 
-    const fechaISO = ddMmAaaaAIso(formulario.fecha);
-
-    if (!fechaISO) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(formulario.fecha)) {
       setErrorFormulario(t("errors.date"));
       return;
     }
@@ -285,7 +183,7 @@ export default function AgendaPage() {
           method: esEdicion ? "PUT" : "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            fecha: fechaISO,
+            fecha: formulario.fecha,
             hora: formulario.hora,
             materia: formulario.materia.trim(),
             tipo: formulario.tipo,
@@ -293,9 +191,7 @@ export default function AgendaPage() {
           }),
         },
       );
-      const datos = (await res.json().catch(() => ({}))) as {
-        error?: string;
-      };
+      const datos = (await res.json().catch(() => ({}))) as { error?: string };
 
       if (!res.ok) {
         throw new Error(datos.error || t("errors.save"));
@@ -304,7 +200,9 @@ export default function AgendaPage() {
       setModal(null);
       await cargar();
       notificar({
-        titulo: esEdicion ? t("notifications.updatedTitle") : t("notifications.createdTitle"),
+        titulo: esEdicion
+          ? t("notifications.updatedTitle")
+          : t("notifications.createdTitle"),
         mensaje: t("notifications.savedMessage"),
         tipo: "exito",
       });
@@ -318,9 +216,7 @@ export default function AgendaPage() {
   }
 
   async function eliminar(): Promise<void> {
-    if (!porEliminar || eliminando) {
-      return;
-    }
+    if (!porEliminar || eliminando) return;
 
     setEliminando(true);
 
@@ -328,9 +224,7 @@ export default function AgendaPage() {
       const res = await fetch(`/api/agenda/${porEliminar.id}`, {
         method: "DELETE",
       });
-      const datos = (await res.json().catch(() => ({}))) as {
-        error?: string;
-      };
+      const datos = (await res.json().catch(() => ({}))) as { error?: string };
 
       if (!res.ok) {
         throw new Error(datos.error || t("errors.delete"));
@@ -356,7 +250,7 @@ export default function AgendaPage() {
 
   return (
     <main className="bg-transparent relative min-h-app px-4 pb-16 font-sans text-[var(--txt)] sm:px-6 md:px-12">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-3xl">
         <header className="pt-8 text-center sm:pt-10">
           <p className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[var(--azul)]">
             <CalendarDays className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
@@ -398,16 +292,13 @@ export default function AgendaPage() {
                 }`}
               >
                 {proximo
-                  ? t("nextExam", {
-                      fecha: proximo.fecha,
-                      dias: proximo.dias,
-                    })
+                  ? t("nextExam", { fecha: proximo.fecha, dias: proximo.dias })
                   : t("noNext")}
               </p>
 
               <button
                 type="button"
-                onClick={() => abrirCrear(hoyIso)}
+                onClick={abrirCrear}
                 className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[var(--azul)] px-5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
               >
                 <Plus className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
@@ -416,90 +307,15 @@ export default function AgendaPage() {
             </div>
 
             {errorCarga ? (
-              <p role="alert" className="mt-6 rounded-xl border border-[var(--err-b)] bg-[var(--err)] p-4 text-sm text-[var(--err-t)]">
+              <p
+                role="alert"
+                className="mt-6 rounded-xl border border-[var(--err-b)] bg-[var(--err)] p-4 text-sm text-[var(--err-t)]"
+              >
                 {errorCarga}
               </p>
             ) : null}
 
-            <section className="mt-8 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] sm:p-6">
-              <div className="flex items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={() => cambiarMes(-1)}
-                  aria-label={t("previousMonth")}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] text-[var(--txt2)] transition-colors hover:bg-[var(--suave2)]"
-                >
-                  <ChevronLeft className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
-                </button>
-
-                <h2 className="text-base font-bold sm:text-lg">{nombreMes}</h2>
-
-                <button
-                  type="button"
-                  onClick={() => cambiarMes(1)}
-                  aria-label={t("nextMonth")}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] text-[var(--txt2)] transition-colors hover:bg-[var(--suave2)]"
-                >
-                  <ChevronRight className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
-                </button>
-              </div>
-
-              <div className="mt-4 grid grid-cols-7 gap-1 text-center">
-                {diasSemana.map((dia) => (
-                  <span
-                    key={dia}
-                    className="pb-2 text-[10px] font-bold uppercase tracking-wider text-[var(--txt3)] sm:text-xs"
-                  >
-                    {dia}
-                  </span>
-                ))}
-
-                {celdas.map((dia, indice) => {
-                  if (dia === null) {
-                    return <span key={`vacio-${indice}`} aria-hidden="true" />;
-                  }
-
-                  const fechaISO = isoDelDia(dia);
-                  const examenesDelDia = porDia.get(fechaISO) ?? [];
-                  const esHoy = fechaISO === hoyIso;
-
-                  return (
-                    <button
-                      key={fechaISO}
-                      type="button"
-                      onClick={() => abrirCrear(fechaISO)}
-                      aria-label={t("addOnDay", { fecha: isoADdMmAaaa(fechaISO) })}
-                      className={`relative flex h-12 flex-col items-center justify-center rounded-xl border text-sm transition-colors sm:h-14 ${
-                        esHoy
-                          ? "border-[var(--azul)] bg-[var(--sel)] font-bold text-[var(--azul)]"
-                          : "border-transparent text-[var(--txt2)] hover:border-[var(--th)] hover:bg-[var(--card2)]"
-                      }`}
-                    >
-                      <span>{dia}</span>
-                      {examenesDelDia.length > 0 ? (
-                        <span
-                          className="mt-1 flex items-center gap-0.5"
-                          aria-hidden="true"
-                        >
-                          {examenesDelDia.slice(0, 3).map((examen) => (
-                            <span
-                              key={examen.id}
-                              className="h-1.5 w-1.5 rounded-full bg-[var(--azul)]"
-                            />
-                          ))}
-                        </span>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <p className="mt-3 text-center text-xs text-[var(--txt3)]">
-                {t("calendarHint")}
-              </p>
-            </section>
-
-            <section className="mt-10">
+            <section className="mt-8">
               <h2 className="text-lg font-black text-[var(--txt)]">
                 {t("upcoming")}
               </h2>
@@ -511,23 +327,32 @@ export default function AgendaPage() {
                   {t("empty")}
                 </p>
               ) : (
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div className="mt-4 space-y-3">
                   {proximos.map((examen) => (
                     <article
                       key={examen.id}
-                      className="flex flex-col rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)]"
+                      className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] sm:p-5"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--azul)]">
-                            {examen.fecha} · {examen.hora}
+                          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--azul)]">
+                            <span>{examen.fecha}</span>
+                            <span className="inline-flex items-center gap-1 text-[var(--txt3)]">
+                              <Clock className="h-3 w-3" strokeWidth={2.2} aria-hidden="true" />
+                              {examen.hora}
+                            </span>
                           </p>
                           <h3 className="mt-1 truncate text-lg font-bold text-[var(--txt)]">
                             {examen.materia}
                           </h3>
-                          <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[var(--txt3)]">
+                          <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-[var(--txt3)]">
                             {t(`types.${examen.tipo}`)}
                           </p>
+                          {examen.notas ? (
+                            <p className="mt-2 whitespace-pre-line text-sm leading-snug text-[var(--txt2)]">
+                              {examen.notas}
+                            </p>
+                          ) : null}
                         </div>
 
                         <div className="flex shrink-0 gap-1">
@@ -552,15 +377,9 @@ export default function AgendaPage() {
                         </div>
                       </div>
 
-                      {examen.notas ? (
-                        <p className="mt-3 whitespace-pre-line text-sm text-[var(--txt2)]">
-                          {examen.notas}
-                        </p>
-                      ) : null}
-
                       <Link
                         href={`/crear?carpeta=${encodeURIComponent(examen.materia)}`}
-                        className="mt-4 inline-flex h-10 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 text-sm font-bold text-[var(--azul)] transition-colors hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]"
+                        className="mt-3 inline-flex h-9 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-4 text-xs font-bold text-[var(--azul)] transition-colors hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]"
                       >
                         {t("createTest")}
                       </Link>
@@ -596,46 +415,11 @@ export default function AgendaPage() {
             </div>
 
             <form onSubmit={guardar} className="mt-4 space-y-4" noValidate>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="agenda-fecha" className="mb-2 block text-sm font-semibold text-[var(--txt2)]">
-                    {t("fields.date")}
-                  </label>
-                  <input
-                    id="agenda-fecha"
-                    type="text"
-                    inputMode="numeric"
-                    value={formulario.fecha}
-                    onChange={(evento) =>
-                      setFormulario((actual) => ({ ...actual, fecha: evento.target.value }))
-                    }
-                    placeholder={t("datePlaceholder")}
-                    maxLength={10}
-                    required
-                    className={CLASE_CAMPO}
-                  />
-                  <p className="mt-1 text-xs text-[var(--txt3)]">{t("dateHelp")}</p>
-                </div>
-
-                <div>
-                  <label htmlFor="agenda-hora" className="mb-2 block text-sm font-semibold text-[var(--txt2)]">
-                    {t("fields.time")}
-                  </label>
-                  <input
-                    id="agenda-hora"
-                    type="time"
-                    value={formulario.hora}
-                    onChange={(evento) =>
-                      setFormulario((actual) => ({ ...actual, hora: evento.target.value }))
-                    }
-                    required
-                    className={CLASE_CAMPO}
-                  />
-                </div>
-              </div>
-
               <div>
-                <label htmlFor="agenda-materia" className="mb-2 block text-sm font-semibold text-[var(--txt2)]">
+                <label
+                  htmlFor="agenda-materia"
+                  className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+                >
                   {t("fields.subject")}
                 </label>
                 <input
@@ -643,7 +427,10 @@ export default function AgendaPage() {
                   type="text"
                   value={formulario.materia}
                   onChange={(evento) =>
-                    setFormulario((actual) => ({ ...actual, materia: evento.target.value }))
+                    setFormulario((actual) => ({
+                      ...actual,
+                      materia: evento.target.value,
+                    }))
                   }
                   maxLength={80}
                   required
@@ -652,14 +439,20 @@ export default function AgendaPage() {
               </div>
 
               <div>
-                <label htmlFor="agenda-tipo" className="mb-2 block text-sm font-semibold text-[var(--txt2)]">
+                <label
+                  htmlFor="agenda-tipo"
+                  className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+                >
                   {t("fields.type")}
                 </label>
                 <select
                   id="agenda-tipo"
                   value={formulario.tipo}
                   onChange={(evento) =>
-                    setFormulario((actual) => ({ ...actual, tipo: evento.target.value }))
+                    setFormulario((actual) => ({
+                      ...actual,
+                      tipo: evento.target.value,
+                    }))
                   }
                   className={CLASE_CAMPO}
                 >
@@ -671,15 +464,67 @@ export default function AgendaPage() {
                 </select>
               </div>
 
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label
+                    htmlFor="agenda-fecha"
+                    className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+                  >
+                    {t("fields.date")}
+                  </label>
+                  <input
+                    id="agenda-fecha"
+                    type="date"
+                    value={formulario.fecha}
+                    onChange={(evento) =>
+                      setFormulario((actual) => ({
+                        ...actual,
+                        fecha: evento.target.value,
+                      }))
+                    }
+                    required
+                    className={CLASE_CAMPO}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="agenda-hora"
+                    className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+                  >
+                    {t("fields.time")}
+                  </label>
+                  <input
+                    id="agenda-hora"
+                    type="time"
+                    value={formulario.hora}
+                    onChange={(evento) =>
+                      setFormulario((actual) => ({
+                        ...actual,
+                        hora: evento.target.value,
+                      }))
+                    }
+                    required
+                    className={CLASE_CAMPO}
+                  />
+                </div>
+              </div>
+
               <div>
-                <label htmlFor="agenda-notas" className="mb-2 block text-sm font-semibold text-[var(--txt2)]">
+                <label
+                  htmlFor="agenda-notas"
+                  className="mb-2 block text-sm font-semibold text-[var(--txt2)]"
+                >
                   {t("fields.notes")}
                 </label>
                 <textarea
                   id="agenda-notas"
                   value={formulario.notas}
                   onChange={(evento) =>
-                    setFormulario((actual) => ({ ...actual, notas: evento.target.value }))
+                    setFormulario((actual) => ({
+                      ...actual,
+                      notas: evento.target.value,
+                    }))
                   }
                   maxLength={1000}
                   rows={3}
@@ -688,7 +533,10 @@ export default function AgendaPage() {
               </div>
 
               {errorFormulario ? (
-                <p role="alert" className="rounded-lg border border-[var(--err-b)] bg-[var(--err)] p-3 text-sm font-medium text-[var(--err-t)]">
+                <p
+                  role="alert"
+                  className="rounded-lg border border-[var(--err-b)] bg-[var(--err)] p-3 text-sm font-medium text-[var(--err-t)]"
+                >
                   {errorFormulario}
                 </p>
               ) : null}

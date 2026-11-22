@@ -762,7 +762,6 @@ function FormularioLogin({
   onClose: () => void;
   onSesionIniciada: (nombre: string, rol?: RolUsuario) => void;
 }) {
-  const router = useRouter();
   const t = useTranslations("Auth");
   const [codigo, setCodigo] = useState("");
   const [numero, setNumero] = useState("");
@@ -826,8 +825,10 @@ function FormularioLogin({
 
       onSesionIniciada(leerNombre(datos), leerRol(datos));
       onClose();
-      router.push("/dashboard");
-      router.refresh();
+      // Recarga completa: garantiza que el middleware y los Server Components
+      // lean la nueva cookie de sesión y evita el error de hidratación al
+      // navegar con router.push() justo después del login.
+      window.location.reload();
     } catch {
       setError(t("errors.connection"));
     } finally {

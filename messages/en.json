@@ -62,7 +62,8 @@
     "types": {
       "test": "Test",
       "oficial": "Official exam",
-      "simulacro": "Mock exam"
+      "simulacro": "Mock exam",
+      "recuperacion": "Resit"
     },
     "errors": {
       "load": "The agenda could not be loaded.",
@@ -306,7 +307,7 @@
     "paymentVerificationFallbackEmail": "your email address",
     "testimonialForm": {
       "title": "Tell us about your experience",
-      "hint": "Your opinion helps other candidates decide.",
+      "hint": "Your opinion helps other students decide.",
       "name": "Display name",
       "namePlaceholder": "Your name or initials",
       "text": "Your testimonial",
@@ -316,8 +317,12 @@
       "success": "Thank you! We'll review your testimonial and publish it if everything is fine.",
       "error": "The testimonial could not be sent. Please try again.",
       "reviewNotice": "Your testimonial will be reviewed before it is published.",
-      "tooShort": "Write at least {min} characters."
-    }
+      "tooShort": "Write at least {min} characters.",
+      "close": "Close"
+    },
+    "testimonialButton": "Your feedback",
+    "testimonialButtonHint": "Tell us how OpoGen AI is working for you.",
+    "testimonialModalTitle": "Leave your testimonial"
   },
   "CrearTest": {
     "title": "Create your custom exam",

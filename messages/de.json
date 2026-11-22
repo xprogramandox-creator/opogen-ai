@@ -62,7 +62,8 @@
     "types": {
       "test": "Test",
       "oficial": "Offizielle Prüfung",
-      "simulacro": "Probeexamen"
+      "simulacro": "Probeexamen",
+      "recuperacion": "Nachprüfung"
     },
     "errors": {
       "load": "Der Kalender konnte nicht geladen werden.",
@@ -306,7 +307,7 @@
     "paymentVerificationFallbackEmail": "deine E-Mail-Adresse",
     "testimonialForm": {
       "title": "Erzähl uns von deiner Erfahrung",
-      "hint": "Deine Meinung hilft anderen Kandidaten bei der Entscheidung.",
+      "hint": "Deine Meinung hilft anderen Lernenden bei der Entscheidung.",
       "name": "Angezeigter Name",
       "namePlaceholder": "Dein Name oder deine Initialen",
       "text": "Deine Bewertung",
@@ -316,8 +317,12 @@
       "success": "Danke! Wir prüfen deine Bewertung und veröffentlichen sie, wenn alles passt.",
       "error": "Die Bewertung konnte nicht gesendet werden. Bitte versuche es erneut.",
       "reviewNotice": "Deine Bewertung wird vor der Veröffentlichung geprüft.",
-      "tooShort": "Schreibe mindestens {min} Zeichen."
-    }
+      "tooShort": "Schreibe mindestens {min} Zeichen.",
+      "close": "Schließen"
+    },
+    "testimonialButton": "Dein Feedback",
+    "testimonialButtonHint": "Erzähl uns, wie OpoGen AI dir hilft.",
+    "testimonialModalTitle": "Hinterlasse deine Bewertung"
   },
   "CrearTest": {
     "title": "Erstelle deine persönliche Prüfung",

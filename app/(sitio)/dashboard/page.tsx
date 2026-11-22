@@ -18,7 +18,7 @@ import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
 import BotonAscenderAmigo from "@/components/BotonAscenderAmigo";
 import GestionUsuarios from "@/components/GestionUsuarios";
 import BannerResumenes from "@/components/BannerResumenes";
-import FormularioTestimonio from "@/components/FormularioTestimonio";
+import BotonTestimonio from "@/components/BotonTestimonio";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
 import { CLAVE_ADMIN } from "@/lib/planes";
 
@@ -140,32 +140,6 @@ export default async function DashboardPage({
           </div>
         ) : null}
 
-        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Link
-            href="/crear"
-            className="btn-action btn-examen mx-auto w-full max-w-none text-base sm:text-lg"
-          >
-            <Plus className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
-            {t("createTest")}
-            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
-          </Link>
-
-          <Link
-            href="/arcade"
-            className="btn-action btn-arcade mx-auto w-full max-w-none text-base sm:text-lg"
-          >
-            <Gamepad2 className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
-            {t("playArcade")}
-            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
-          </Link>
-        </div>
-
-        {esPremium || esAdministrador ? (
-          <div className="mb-12">
-            <FormularioTestimonio nombreInicial={usuario?.nombre ?? ""} />
-          </div>
-        ) : null}
-
         <Link
           href={esPremium ? "/kids" : "/premium"}
           className="group mb-8 block overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 bg-[var(--azul)]/10 p-5 shadow-[var(--sombra)] transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transform-none dark:border-[var(--azul)]/30 dark:bg-[var(--azul)]/15 sm:p-6"
@@ -213,6 +187,10 @@ export default async function DashboardPage({
             </span>
           </div>
         </Link>
+
+        {esPremium || esAdministrador ? (
+          <BotonTestimonio nombreInicial={usuario?.nombre ?? ""} />
+        ) : null}
 
         {!esPremium ? <TarjetaOferta /> : null}
 
@@ -300,6 +278,26 @@ export default async function DashboardPage({
             <TestimoniosCarrusel />
           </div>
         ) : null}
+
+        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Link
+            href="/crear"
+            className="btn-action btn-examen mx-auto w-full max-w-none text-base sm:text-lg"
+          >
+            <Plus className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
+            {t("createTest")}
+            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
+          </Link>
+
+          <Link
+            href="/arcade"
+            className="btn-action btn-arcade mx-auto w-full max-w-none text-base sm:text-lg"
+          >
+            <Gamepad2 className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
+            {t("playArcade")}
+            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
+          </Link>
+        </div>
 
       </section>
     </main>

@@ -2,7 +2,12 @@ import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { RUTA_DATOS } from "@/lib/rutas";
 
-export const TIPOS_EXAMEN = ["test", "oficial", "simulacro"] as const;
+export const TIPOS_EXAMEN = [
+  "test",
+  "oficial",
+  "recuperacion",
+  "simulacro",
+] as const;
 
 export type TipoExamen = (typeof TIPOS_EXAMEN)[number];
 
