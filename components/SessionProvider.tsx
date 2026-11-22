@@ -21,6 +21,7 @@ type SesionUsuario = {
   correo?: string;
   telefono?: string;
   rol: RolUsuario;
+  esAdmin: boolean;
   planContratado?: string | null;
   fechaCaducidadPremium?: string | null;
   emailVerificado: boolean;
@@ -33,6 +34,7 @@ type RespuestaSesion = {
   correo?: unknown;
   telefono?: unknown;
   rol?: unknown;
+  esAdmin?: unknown;
   planContratado?: unknown;
   fechaCaducidadPremium?: unknown;
   emailVerificado?: unknown;
@@ -154,6 +156,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
               ? datos.telefono
               : undefined,
           rol: normalizarRol(datos.rol),
+          esAdmin: datos.esAdmin === true,
           planContratado:
             typeof datos.planContratado === "string"
               ? datos.planContratado
@@ -231,6 +234,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setSesion({
         nombre,
         rol: rol ?? "premium",
+        esAdmin: false,
         emailVerificado: false,
       });
       setLimiteInvitado(null);

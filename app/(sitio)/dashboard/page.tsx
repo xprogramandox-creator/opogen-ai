@@ -15,8 +15,6 @@ import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import TarjetaOferta from "@/components/TarjetaOferta";
 import CheckoutPendiente from "@/components/CheckoutPendiente";
 import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
-import BotonAscenderAmigo from "@/components/BotonAscenderAmigo";
-import GestionUsuarios from "@/components/GestionUsuarios";
 import BannerResumenes from "@/components/BannerResumenes";
 import BotonTestimonio from "@/components/BotonTestimonio";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
@@ -126,19 +124,6 @@ export default async function DashboardPage({
         <BannerResumenes
           variante={esPremium ? "premium" : "upgrade"}
         />
-
-        {esPremium && esAdministrador ? (
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <BotonAscenderAmigo />
-            <GestionUsuarios />
-            <Link
-              href="/admin"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--azul)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--azul)]"
-            >
-              Panel administrativo
-            </Link>
-          </div>
-        ) : null}
 
         <Link
           href={esPremium ? "/kids" : "/premium"}
@@ -279,21 +264,21 @@ export default async function DashboardPage({
           </div>
         ) : null}
 
-        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mb-12 mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Link
             href="/crear"
-            className="btn-action btn-examen mx-auto w-full max-w-none text-base sm:text-lg"
+            className="btn-action btn-action-compacta btn-examen mx-auto w-full max-w-none"
           >
-            <Plus className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
+            <Plus className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
             {t("createTest")}
-            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
+            <ArrowRight className="ml-auto h-4 w-4" aria-hidden="true" />
           </Link>
 
           <Link
             href="/arcade"
-            className="btn-action btn-arcade mx-auto w-full max-w-none text-base sm:text-lg"
+            className="btn-action btn-action-compacta btn-arcade mx-auto w-full max-w-none"
           >
-            <Gamepad2 className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
+            <Gamepad2 className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
             {t("playArcade")}
             <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
           </Link>

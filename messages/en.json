@@ -20,7 +20,9 @@
     "loginTitle": "Log in",
     "registerTitle": "Sign up",
     "goPremium": "Go Premium",
-    "agenda": "My Agenda"
+    "agenda": "My Agenda",
+    "adminPanel": "Admin panel",
+    "admin": "Admin panel"
   },
   "Agenda": {
     "kicker": "My diary",

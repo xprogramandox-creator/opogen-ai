@@ -12,6 +12,7 @@ import {
   Gamepad2,
   Home,
   Lock,
+  ShieldCheck,
   Star,
   X,
 } from "lucide-react";
@@ -21,7 +22,15 @@ import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
 
 type ItemNav = {
   href: string;
-  clave: "home" | "mySpace" | "agenda" | "stats" | "test" | "arcade" | "kids";
+  clave:
+    | "home"
+    | "mySpace"
+    | "agenda"
+    | "stats"
+    | "test"
+    | "arcade"
+    | "kids"
+    | "admin";
   icono: typeof Home;
   /** Visible pero bloqueado (con candado) si el usuario no es Premium. */
   requierePremium?: boolean;
@@ -129,6 +138,17 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
   const { sesion } = useSesion();
   const { cerrar } = useSidebar();
   const esPremium = sesion?.rol === "premium";
+  // El acceso al panel de administración solo existe para la cuenta admin.
+  const items = sesion?.esAdmin
+    ? [
+        ...ITEMS,
+        {
+          href: "/admin",
+          clave: "admin" as const,
+          icono: ShieldCheck,
+        },
+      ]
+    : ITEMS;
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -149,7 +169,7 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
         aria-label="Navegación principal"
         className="mt-6 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto"
       >
-        {ITEMS.map((item) => {
+        {items.map((item) => {
           const bloqueado = Boolean(item.requierePremium) && !esPremium;
 
           return (
