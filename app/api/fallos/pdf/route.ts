@@ -11,7 +11,7 @@ import { esNombreCarpetaSeguro } from "@/lib/rutas-espacio";
 function nombreDescarga(carpeta: string): string {
   return (
     carpeta.replace(/[^A-Za-z0-9_-]/g, "_").slice(0, 80) ||
-    "Fallos"
+    "Preguntas-por-repasar"
   );
 }
 

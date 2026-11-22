@@ -83,7 +83,7 @@
     "badge": "Com tecnologia de inteligência artificial",
     "titleStart": "Transforme os seus apontamentos em",
     "titleHighlight": "exames de prática",
-    "subtitle": "Carregue os seus apontamentos, escolha o seu nível e deixe a IA criar exames de escolha múltipla personalizados. Pratique, corrija instantaneamente e reveja apenas o que erra.",
+    "subtitle": "Envie suas anotações, escolha seu nível e deixe a IA criar testes personalizados. Pratica, corrija instantaneamente e reforce exatamente o que você precisa.",
     "ctaPrimary": "Criar o meu primeiro teste",
     "ctaSecondary": "Ver como funciona",
     "featuresTitle": "Tudo o que precisa para passar",
@@ -102,8 +102,8 @@
         "description": "Organize os seus testes e crie simulacros mistos."
       },
       "mistakes": {
-        "title": "Revisão de erros",
-        "description": "A IA lembra-se dos seus erros para o ajudar a melhorar."
+        "title": "Questões para revisar",
+        "description": "A IA identifica o que precisas de reforçar e ajuda-te a melhorar."
       }
     },
     "stepsTitle": "Como funciona",
@@ -119,7 +119,7 @@
       },
       "learn": {
         "title": "Aprenda e melhore",
-        "description": "Corrija instantaneamente, reveja erros e guarde os seus resultados."
+        "description": "Corrige instantaneamente, revê o que precisas e guarda os teus resultados."
       }
     },
     "arcadeBadge": "Modo Arcade",
@@ -127,7 +127,7 @@
     "arcadeText": "Jogue com os seus próprios apontamentos e bata os seus recordes.",
     "arcadeCta": "Experimentar o Arcade",
     "finalTitle": "Comece a estudar de outra forma",
-    "finalText": "Crie a sua conta gratuita, guarde os seus testes e reveja os seus erros com exames gerados a partir dos seus apontamentos.",
+    "finalText": "Cria a tua conta gratuita, guarda os teus testes e reforça exatamente o que precisas com exames gerados a partir dos teus apontamentos.",
     "finalCta": "Criar a minha conta gratuita",
     "finalLogin": "Já tenho conta",
     "skip": "Saltar para o conteúdo principal",
@@ -208,7 +208,7 @@
     "planPremium": "Plano Premium",
     "greeting": "Olá, {name}! O que vamos estudar hoje?",
     "studentFallback": "estudante",
-    "subtitle": "Crie um novo exame com os seus apontamentos, teste a sua memória no Arcade ou reveja os erros dos seus últimos testes.",
+    "subtitle": "Cria um novo exame com os teus apontamentos, testa a tua memória no Arcade ou revê as questões que precisas de reforçar dos teus últimos testes.",
     "createTest": "Criar novo teste",
     "playArcade": "Jogar no Arcade",
     "quickAccess": "Acessos rápidos",
@@ -229,8 +229,8 @@
         "description": "Consulte os seus resultados e a sua evolução."
       },
       "mistakes": {
-        "title": "Revisão de erros",
-        "description": "Volte às perguntas que errou."
+        "title": "Questões para revisar",
+        "description": "Volta às questões que precisas de reforçar."
       },
       "account": {
         "title": "A minha conta",
@@ -361,11 +361,11 @@
     "nextQuestion": "Ir para a próxima pergunta sem resposta",
     "finalScore": "Nota final",
     "correctAnswers": "Respostas certas",
-    "errorsCount": "Erros",
+    "errorsCount": "Para revisar",
     "blank": "Sem resposta",
     "unanswered": "Sem resposta. A opção correta era {letter}.",
     "correctAnswer": "Resposta certa!",
-    "wrongAnswer": "Incorreto. A opção correta era {letter}.",
+    "wrongAnswer": "Para revisar: a opção correta era {letter}.",
     "answered": "Perguntas respondidas: {answered} de {total}",
     "gradeExam": "Corrigir exame",
     "saveTitle": "Guardar exame",
@@ -396,7 +396,7 @@
     "noFolders": "Ainda não há pastas criadas.",
     "welcomeTitle": "Bem-vindo ao seu espaço pessoal",
     "welcomeText": "Selecione uma pasta à esquerda para gerir os seus exames e apontamentos.",
-    "mistakesReview": "Revisão de erros: {name}",
+    "mistakesReview": "Questões para revisar: {name}",
     "folder": "Pasta: {name}",
     "createMixed": "Criar teste misto",
     "closeFolder": "Fechar pasta",
@@ -422,7 +422,7 @@
     "deleteFolder": "Eliminar pasta",
     "deleteFolderTitle": "Eliminar pasta",
     "deleteFolderMessage": "Queres mesmo eliminar a pasta «{name}»?",
-    "deleteFolderWarning": "As estatísticas e os erros pendentes desta matéria serão eliminados. Esta ação não pode ser desfeita.",
+    "deleteFolderWarning": "As estatísticas e as questões pendentes desta matéria serão eliminadas. Esta ação não pode ser desfeita.",
     "deleteFolderCheckbox": "Compreendo que os dados serão perdidos",
     "deleteFolderError": "Não foi possível eliminar a pasta",
     "deleteFolderConfirm": "Eliminar"
@@ -481,7 +481,7 @@
       "supervivencia": {
         "title": "Sobrevivência",
         "description": "Modo extremo. Sem vidas, sem piedade.",
-        "detail": "Modo extremo. Sem vidas, sem piedade. Mostra quanto tempo aguentas sem falhar uma única resposta."
+        "detail": "Modo extremo. Sem vidas, sem piedade. Mostra quanto tempo aguentas acertando uma a uma."
       }
     },
     "benefits": {
@@ -520,8 +520,8 @@
     "howToPlayMode": "Como jogar: {mode}",
     "tryAgain": "Boa tentativa!",
     "timeUp": "O tempo acabou. A resposta correta era {letter}) {answer}.",
-    "wrongAnswer": "Incorreto. A resposta correta era {letter}) {answer}.",
-    "failedQuestion": "Falhaste a pergunta {current}. A resposta correta era {letter}) {answer}."
+    "wrongAnswer": "Para revisar: a resposta correta era {letter}) {answer}.",
+    "failedQuestion": "Questão {current} para revisar: a resposta correta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "As suas estatísticas",
@@ -536,12 +536,12 @@
     "clickDay": "Clique num dia do gráfico para ver o detalhe.",
     "testsDone": "Testes realizados",
     "correct": "Respostas certas",
-    "wrong": "Erros",
+    "wrong": "Para revisar",
     "completed": "Testes concluídos",
     "average": "Nota média",
-    "pending": "Erros pendentes",
+    "pending": "Questões pendentes",
     "last7": "Últimos 7 dias",
-    "last7Help": "Respostas certas e erros por dia. Clique num dia para ver o resumo.",
+    "last7Help": "Respostas certas e questões para revisar por dia. Clica num dia para ver o resumo.",
     "retry": "Tentar novamente",
     "goSpace": "Ir para o meu espaço",
     "loading": "A carregar pastas…",
@@ -989,11 +989,11 @@
   "Bloqueos": {
     "estadisticas": {
       "title": "Desbloqueia as tuas Estatísticas",
-      "subtitle": "Vê o teu progresso, respostas certas e erros para saberes o que precisas de rever.",
+      "subtitle": "Vê o teu progresso, respostas certas e questões para revisar para saberes o que precisas de reforçar.",
       "cta": "Fazer Premium",
       "benefits": {
         "1": "Gráficos de evolução por pasta.",
-        "2": "Análise de respostas certas e erros.",
+        "2": "Análise de respostas certas e questões para revisar.",
         "3": "Histórico dos últimos 7 dias.",
         "4": "Comparação do teu progresso."
       }

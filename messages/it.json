@@ -83,7 +83,7 @@
     "badge": "Basato sull'intelligenza artificiale",
     "titleStart": "Trasforma i tuoi appunti in",
     "titleHighlight": "esami di pratica",
-    "subtitle": "Carica i tuoi appunti, scegli il tuo livello e lascia che l'IA crei esami a scelta multipla personalizzati. Esercitati, correggi subito e ripassa solo ciò che sbagli.",
+    "subtitle": "Carica i tuoi appunti, scegli il tuo livello e lascia che l'IA crei test personalizzati. Esercitati, correggi all'istante e rafforza ciò di cui hai bisogno.",
     "ctaPrimary": "Crea il mio primo test",
     "ctaSecondary": "Scopri come funziona",
     "featuresTitle": "Tutto ciò che ti serve per superare l'esame",
@@ -102,8 +102,8 @@
         "description": "Organizza i tuoi test e crea simulazioni miste."
       },
       "mistakes": {
-        "title": "Ripasso degli errori",
-        "description": "L'IA ricorda i tuoi errori per aiutarti a migliorare."
+        "title": "Domande da ripassare",
+        "description": "L'IA individua ciò che devi rafforzare e ti aiuta a migliorare."
       }
     },
     "stepsTitle": "Come funziona",
@@ -119,7 +119,7 @@
       },
       "learn": {
         "title": "Impara e migliora",
-        "description": "Correggi subito, ripassa gli errori e salva i tuoi risultati."
+        "description": "Correggi subito, ripassa ciò che ti serve e salva i tuoi risultati."
       }
     },
     "arcadeBadge": "Modalità Arcade",
@@ -127,7 +127,7 @@
     "arcadeText": "Gioca con i tuoi appunti e supera i tuoi record.",
     "arcadeCta": "Prova l'Arcade",
     "finalTitle": "Inizia a studiare in modo diverso",
-    "finalText": "Crea il tuo account gratuito, salva i tuoi test e ripassa gli errori con esami generati dai tuoi appunti.",
+    "finalText": "Crea il tuo account gratuito, salva i tuoi test e rafforza ciò di cui hai bisogno con esami generati dai tuoi appunti.",
     "finalCta": "Crea il mio account gratuito",
     "finalLogin": "Ho già un account",
     "skip": "Vai al contenuto principale",
@@ -208,7 +208,7 @@
     "planPremium": "Piano Premium",
     "greeting": "Ciao {name}! Cosa studiamo oggi?",
     "studentFallback": "studente",
-    "subtitle": "Crea un nuovo esame dai tuoi appunti, metti alla prova la memoria nell'Arcade o ripassa gli errori dei tuoi ultimi test.",
+    "subtitle": "Crea un nuovo esame dai tuoi appunti, metti alla prova la memoria nell'Arcade o ripassa le domande da rafforzare dei tuoi ultimi test.",
     "createTest": "Crea un nuovo test",
     "playArcade": "Gioca all'Arcade",
     "quickAccess": "Accessi rapidi",
@@ -229,8 +229,8 @@
         "description": "Controlla i tuoi risultati e i tuoi progressi."
       },
       "mistakes": {
-        "title": "Ripasso degli errori",
-        "description": "Rivedi le domande che hai sbagliato."
+        "title": "Domande da ripassare",
+        "description": "Rivedi le domande che devi rafforzare."
       },
       "account": {
         "title": "Il mio account",
@@ -361,11 +361,11 @@
     "nextQuestion": "Vai alla prossima domanda senza risposta",
     "finalScore": "Voto finale",
     "correctAnswers": "Risposte corrette",
-    "errorsCount": "Errori",
+    "errorsCount": "Da ripassare",
     "blank": "Senza risposta",
     "unanswered": "Senza risposta. L'opzione corretta era {letter}.",
     "correctAnswer": "Risposta corretta!",
-    "wrongAnswer": "Errato. L'opzione corretta era {letter}.",
+    "wrongAnswer": "Da ripassare: l'opzione corretta era {letter}.",
     "answered": "Domande risposte: {answered} di {total}",
     "gradeExam": "Correggi esame",
     "saveTitle": "Salva esame",
@@ -396,7 +396,7 @@
     "noFolders": "Nessuna cartella creata.",
     "welcomeTitle": "Benvenuto nel tuo spazio personale",
     "welcomeText": "Seleziona una cartella a sinistra per gestire esami e appunti.",
-    "mistakesReview": "Ripasso degli errori: {name}",
+    "mistakesReview": "Domande da ripassare: {name}",
     "folder": "Cartella: {name}",
     "createMixed": "Crea test misto",
     "closeFolder": "Chiudi cartella",
@@ -422,7 +422,7 @@
     "deleteFolder": "Elimina cartella",
     "deleteFolderTitle": "Elimina cartella",
     "deleteFolderMessage": "Vuoi davvero eliminare la cartella «{name}»?",
-    "deleteFolderWarning": "Le statistiche e gli errori in sospeso di questa materia verranno eliminati. Questa azione non può essere annullata.",
+    "deleteFolderWarning": "Le statistiche e le domande in sospeso di questa materia verranno eliminate. Questa azione non può essere annullata.",
     "deleteFolderCheckbox": "Capisco che i dati andranno persi",
     "deleteFolderError": "Impossibile eliminare la cartella",
     "deleteFolderConfirm": "Elimina"
@@ -481,7 +481,7 @@
       "supervivencia": {
         "title": "Sopravvivenza",
         "description": "Modalità estrema. Senza vite, senza pietà.",
-        "detail": "Modalità estrema. Senza vite, senza pietà. Dimostra quanto resisti senza sbagliare una sola risposta."
+        "detail": "Modalità estrema. Senza vite, senza pietà. Dimostra quanto resisti azzeccando una risposta dopo l'altra."
       }
     },
     "benefits": {
@@ -520,8 +520,8 @@
     "howToPlayMode": "Come si gioca: {mode}",
     "tryAgain": "Bel tentativo!",
     "timeUp": "Tempo scaduto. La risposta corretta era {letter}) {answer}.",
-    "wrongAnswer": "Sbagliato. La risposta corretta era {letter}) {answer}.",
-    "failedQuestion": "Hai sbagliato la domanda {current}. La risposta corretta era {letter}) {answer}."
+    "wrongAnswer": "Da ripassare: la risposta corretta era {letter}) {answer}.",
+    "failedQuestion": "Domanda {current} da ripassare: la risposta corretta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Le tue statistiche",
@@ -536,12 +536,12 @@
     "clickDay": "Clicca su un giorno del grafico per vedere i dettagli.",
     "testsDone": "Test svolti",
     "correct": "Risposte corrette",
-    "wrong": "Errori",
+    "wrong": "Da ripassare",
     "completed": "Test completati",
     "average": "Voto medio",
-    "pending": "Errori da ripassare",
+    "pending": "Domande in sospeso",
     "last7": "Ultimi 7 giorni",
-    "last7Help": "Risposte corrette ed errori per giorno. Clicca su un giorno per il riepilogo.",
+    "last7Help": "Risposte corrette e domande da ripassare per giorno. Clicca su un giorno per il riepilogo.",
     "retry": "Riprova",
     "goSpace": "Vai al mio spazio",
     "loading": "Caricamento cartelle…",
@@ -989,11 +989,11 @@
   "Bloqueos": {
     "estadisticas": {
       "title": "Sblocca le tue Statistiche",
-      "subtitle": "Visualizza i tuoi progressi, le risposte corrette e gli errori per sapere cosa ripassare.",
+      "subtitle": "Visualizza i tuoi progressi, le risposte corrette e le domande da ripassare per sapere cosa rafforzare.",
       "cta": "Passa a Premium",
       "benefits": {
         "1": "Grafici di evoluzione per cartella.",
-        "2": "Analisi delle risposte corrette e degli errori.",
+        "2": "Analisi delle risposte corrette e delle domande da ripassare.",
         "3": "Cronologia degli ultimi 7 giorni.",
         "4": "Confronto dei tuoi progressi."
       }

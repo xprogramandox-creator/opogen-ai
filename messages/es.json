@@ -83,7 +83,7 @@
     "badge": "Impulsado por Inteligencia Artificial",
     "titleStart": "Convierte tus apuntes en",
     "titleHighlight": "exámenes tipo test",
-    "subtitle": "Sube tus apuntes, elige tu nivel y deja que la IA cree exámenes tipo test personalizados. Practica, corrige al instante y repasa solo lo que fallas.",
+    "subtitle": "Sube tus apuntes, elige tu nivel y deja que la IA cree exámenes tipo test personalizados. Practica, corrige al instante y refuerza justo lo que necesitas.",
     "ctaPrimary": "Crear mi primer test",
     "ctaSecondary": "Ver cómo funciona",
     "featuresTitle": "Todo lo que necesitas para aprobar",
@@ -102,8 +102,8 @@
         "description": "Organiza tus tests y crea simulacros mixtos."
       },
       "mistakes": {
-        "title": "Repaso de Fallos",
-        "description": "La IA recuerda tus errores para ayudarte a mejorar."
+        "title": "Preguntas por repasar",
+        "description": "La IA detecta lo que necesitas reforzar y te ayuda a mejorar."
       }
     },
     "stepsTitle": "Cómo funciona",
@@ -119,7 +119,7 @@
       },
       "learn": {
         "title": "Aprende y mejora",
-        "description": "Corrige al instante, repasa fallos y guarda tus resultados."
+        "description": "Corrige al instante, repasa lo que necesitas y guarda tus resultados."
       }
     },
     "arcadeBadge": "Modo Arcade",
@@ -127,7 +127,7 @@
     "arcadeText": "Juega con tus propios apuntes y supera tus récords.",
     "arcadeCta": "Probar el Arcade",
     "finalTitle": "Empieza a estudiar de otra forma",
-    "finalText": "Crea tu cuenta gratis, guarda tus tests y repasa tus fallos con exámenes generados a partir de tus propios apuntes.",
+    "finalText": "Crea tu cuenta gratis, guarda tus tests y refuerza lo que necesitas con exámenes generados a partir de tus propios apuntes.",
     "finalCta": "Crear mi cuenta gratis",
     "finalLogin": "Ya tengo cuenta",
     "skip": "Saltar al contenido principal",
@@ -208,7 +208,7 @@
     "planPremium": "Plan Premium",
     "greeting": "¡Hola, {name}! ¿Qué estudiamos hoy?",
     "studentFallback": "estudiante",
-    "subtitle": "Crea un examen nuevo con tus apuntes, pon a prueba tu memoria en el Arcade o repasa los fallos de tus últimos tests.",
+    "subtitle": "Crea un examen nuevo con tus apuntes, pon a prueba tu memoria en el Arcade o repasa las preguntas que necesitas reforzar de tus últimos tests.",
     "createTest": "Crear Nuevo Test",
     "playArcade": "Jugar al Arcade",
     "quickAccess": "Accesos rápidos",
@@ -229,8 +229,8 @@
         "description": "Consulta tus resultados y tu evolución."
       },
       "mistakes": {
-        "title": "Repaso de Fallos",
-        "description": "Vuelve sobre las preguntas que has fallado."
+        "title": "Preguntas por repasar",
+        "description": "Vuelve sobre las preguntas que necesitas reforzar."
       },
       "account": {
         "title": "Mi cuenta",
@@ -361,11 +361,11 @@
     "nextQuestion": "Ir a la siguiente pregunta sin responder",
     "finalScore": "Nota final",
     "correctAnswers": "Aciertos",
-    "errorsCount": "Errores",
+    "errorsCount": "Por repasar",
     "blank": "En blanco",
     "unanswered": "Sin responder. La opción válida era la {letter}.",
     "correctAnswer": "¡Respuesta correcta!",
-    "wrongAnswer": "Incorrecto. La opción válida era la {letter}.",
+    "wrongAnswer": "Para repasar: la opción válida era la {letter}.",
     "answered": "Preguntas respondidas: {answered} de {total}",
     "gradeExam": "Corregir examen",
     "saveTitle": "Guardar examen",
@@ -396,7 +396,7 @@
     "noFolders": "No hay carpetas creadas.",
     "welcomeTitle": "Bienvenido a tu espacio personal",
     "welcomeText": "Selecciona una carpeta de la izquierda para gestionar tus exámenes y apuntes.",
-    "mistakesReview": "Repaso de Fallos: {name}",
+    "mistakesReview": "Preguntas por repasar: {name}",
     "folder": "Carpeta: {name}",
     "createMixed": "Crear Test Mixto",
     "closeFolder": "Cerrar Carpeta",
@@ -422,7 +422,7 @@
     "deleteFolder": "Eliminar carpeta",
     "deleteFolderTitle": "Eliminar carpeta",
     "deleteFolderMessage": "¿Seguro que quieres eliminar la carpeta «{name}»?",
-    "deleteFolderWarning": "Se eliminarán las estadísticas y los fallos pendientes de esta materia. Esta acción no se puede deshacer.",
+    "deleteFolderWarning": "Se eliminarán las estadísticas y las preguntas pendientes de esta materia. Esta acción no se puede deshacer.",
     "deleteFolderCheckbox": "Entiendo que se perderán los datos",
     "deleteFolderError": "No se pudo eliminar la carpeta",
     "deleteFolderConfirm": "Eliminar"
@@ -481,7 +481,7 @@
       "supervivencia": {
         "title": "Supervivencia",
         "description": "Modo extremo. Sin vidas, sin piedad.",
-        "detail": "Modo extremo. Sin vidas, sin piedad. Demuestra cuánto aguantas sin fallar una sola respuesta."
+        "detail": "Modo extremo. Sin vidas, sin piedad. Demuestra cuánto aguantas acertando una tras otra."
       }
     },
     "benefits": {
@@ -520,8 +520,8 @@
     "howToPlayMode": "Cómo jugar: {mode}",
     "tryAgain": "¡Buen intento!",
     "timeUp": "Se acabó el tiempo. La correcta era {letter}) {answer}.",
-    "wrongAnswer": "Incorrecto. La correcta era {letter}) {answer}.",
-    "failedQuestion": "Fallaste en la pregunta {current}. La correcta era {letter}) {answer}."
+    "wrongAnswer": "Para repasar: la correcta era {letter}) {answer}.",
+    "failedQuestion": "Pregunta {current} para repasar: la correcta era {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Tus estadísticas",
@@ -536,12 +536,12 @@
     "clickDay": "Haz clic en un día del gráfico para ver el detalle.",
     "testsDone": "Tests realizados",
     "correct": "Aciertos",
-    "wrong": "Fallos",
+    "wrong": "Por repasar",
     "completed": "Tests completados",
     "average": "Nota media",
-    "pending": "Fallos pendientes",
+    "pending": "Preguntas pendientes",
     "last7": "Últimos 7 días",
-    "last7Help": "Aciertos y fallos acumulados por día. Pulsa un día para ver su resumen.",
+    "last7Help": "Aciertos y preguntas por repasar acumulados por día. Pulsa un día para ver su resumen.",
     "retry": "Reintentar",
     "goSpace": "Ir a Mi Espacio",
     "loading": "Cargando carpetas…",
@@ -989,11 +989,11 @@
   "Bloqueos": {
     "estadisticas": {
       "title": "Desbloquea tus Estadísticas",
-      "subtitle": "Visualiza tu progreso, aciertos y fallos para saber qué necesitas repasar.",
+      "subtitle": "Visualiza tu progreso, aciertos y preguntas por repasar para saber qué necesitas reforzar.",
       "cta": "Hazte Premium",
       "benefits": {
         "1": "Gráficos de evolución por carpeta.",
-        "2": "Análisis de aciertos y fallos.",
+        "2": "Análisis de aciertos y preguntas por repasar.",
         "3": "Historial de los últimos 7 días.",
         "4": "Comparativa de tu progreso."
       }

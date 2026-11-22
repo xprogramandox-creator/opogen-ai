@@ -138,7 +138,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      mensaje: "Fallos actualizados correctamente",
+      mensaje: "Preguntas actualizadas correctamente",
       procesados,
       carpetas: [...porCarpeta.keys()],
     });

@@ -83,7 +83,7 @@
     "badge": "Unterstützt durch künstliche Intelligenz",
     "titleStart": "Verwandle deine Notizen in",
     "titleHighlight": "Übungsprüfungen",
-    "subtitle": "Lade deine Notizen hoch, wähle dein Niveau und lass die KI personalisierte Multiple-Choice-Prüfungen erstellen. Übe, erhalte sofort Feedback und wiederhole nur deine Fehler.",
+    "subtitle": "Lade deine Notizen hoch, wähle dein Niveau und lass die KI personalisierte Multiple-Choice-Tests erstellen. Übe, erhalte sofortiges Feedback und stärke genau das, was du brauchst.",
     "ctaPrimary": "Ersten Test erstellen",
     "ctaSecondary": "So funktioniert es",
     "featuresTitle": "Alles, was du zum Bestehen brauchst",
@@ -102,8 +102,8 @@
         "description": "Organisiere deine Tests und erstelle gemischte Prüfungen."
       },
       "mistakes": {
-        "title": "Fehler wiederholen",
-        "description": "Die KI merkt sich deine Fehler und hilft dir, besser zu werden."
+        "title": "Fragen zum Wiederholen",
+        "description": "Die KI erkennt, was du stärken musst, und hilft dir, besser zu werden."
       }
     },
     "stepsTitle": "So funktioniert es",
@@ -119,7 +119,7 @@
       },
       "learn": {
         "title": "Lernen und verbessern",
-        "description": "Sofort korrigieren, Fehler wiederholen und Ergebnisse speichern."
+        "description": "Sofort korrigieren, gezielt wiederholen und Ergebnisse speichern."
       }
     },
     "arcadeBadge": "Arcade-Modus",
@@ -127,7 +127,7 @@
     "arcadeText": "Spiele mit deinen eigenen Notizen und übertreffe deine Rekorde.",
     "arcadeCta": "Arcade ausprobieren",
     "finalTitle": "Beginne anders zu lernen",
-    "finalText": "Erstelle dein kostenloses Konto, speichere deine Tests und wiederhole deine Fehler mit Prüfungen aus deinen eigenen Notizen.",
+    "finalText": "Erstelle dein kostenloses Konto, speichere deine Tests und stärke genau das, was du brauchst – mit Prüfungen aus deinen eigenen Notizen.",
     "finalCta": "Kostenloses Konto erstellen",
     "finalLogin": "Ich habe bereits ein Konto",
     "skip": "Zum Hauptinhalt springen",
@@ -208,7 +208,7 @@
     "planPremium": "Premium-Tarif",
     "greeting": "Hallo {name}! Was lernen wir heute?",
     "studentFallback": "Schüler",
-    "subtitle": "Erstelle eine neue Prüfung aus deinen Notizen, teste dein Gedächtnis im Arcade oder wiederhole die Fehler deiner letzten Tests.",
+    "subtitle": "Erstelle eine neue Prüfung aus deinen Notizen, teste dein Gedächtnis im Arcade oder wiederhole die Fragen, die du aus deinen letzten Tests stärken musst.",
     "createTest": "Neuen Test erstellen",
     "playArcade": "Arcade spielen",
     "quickAccess": "Schnellzugriff",
@@ -229,8 +229,8 @@
         "description": "Prüfe deine Ergebnisse und deinen Fortschritt."
       },
       "mistakes": {
-        "title": "Fehler wiederholen",
-        "description": "Gehe die Fragen durch, die du falsch beantwortet hast."
+        "title": "Fragen zum Wiederholen",
+        "description": "Gehe die Fragen durch, die du stärken musst."
       },
       "account": {
         "title": "Mein Konto",
@@ -361,11 +361,11 @@
     "nextQuestion": "Zur nächsten unbeantworteten Frage",
     "finalScore": "Endnote",
     "correctAnswers": "Richtig",
-    "errorsCount": "Fehler",
+    "errorsCount": "Zum Wiederholen",
     "blank": "Unbeantwortet",
     "unanswered": "Unbeantwortet. Die richtige Option war {letter}.",
     "correctAnswer": "Richtige Antwort!",
-    "wrongAnswer": "Falsch. Die richtige Option war {letter}.",
+    "wrongAnswer": "Zum Wiederholen: Die richtige Option war {letter}.",
     "answered": "Beantwortete Fragen: {answered} von {total}",
     "gradeExam": "Prüfung korrigieren",
     "saveTitle": "Prüfung speichern",
@@ -396,7 +396,7 @@
     "noFolders": "Noch keine Ordner erstellt.",
     "welcomeTitle": "Willkommen in deinem persönlichen Bereich",
     "welcomeText": "Wähle links einen Ordner, um deine Prüfungen und Notizen zu verwalten.",
-    "mistakesReview": "Fehler wiederholen: {name}",
+    "mistakesReview": "Fragen zum Wiederholen: {name}",
     "folder": "Ordner: {name}",
     "createMixed": "Gemischten Test erstellen",
     "closeFolder": "Ordner schließen",
@@ -422,7 +422,7 @@
     "deleteFolder": "Ordner löschen",
     "deleteFolderTitle": "Ordner löschen",
     "deleteFolderMessage": "Möchtest du den Ordner „{name}“ wirklich löschen?",
-    "deleteFolderWarning": "Die Statistiken und offenen Fehler dieses Fachs werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteFolderWarning": "Die Statistiken und offenen Fragen dieses Fachs werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
     "deleteFolderCheckbox": "Ich verstehe, dass die Daten verloren gehen",
     "deleteFolderError": "Der Ordner konnte nicht gelöscht werden",
     "deleteFolderConfirm": "Löschen"
@@ -481,7 +481,7 @@
       "supervivencia": {
         "title": "Überleben",
         "description": "Extremer Modus. Keine Leben, keine Gnade.",
-        "detail": "Extremer Modus. Keine Leben, keine Gnade. Zeig, wie lange du ohne einen einzigen Fehler durchhältst."
+        "detail": "Extremer Modus. Keine Leben, keine Gnade. Zeig, wie lange du durchhältst, wenn jede Antwort sitzt."
       }
     },
     "benefits": {
@@ -520,8 +520,8 @@
     "howToPlayMode": "So wird gespielt: {mode}",
     "tryAgain": "Guter Versuch!",
     "timeUp": "Zeit abgelaufen. Die richtige Antwort war {letter}) {answer}.",
-    "wrongAnswer": "Falsch. Die richtige Antwort war {letter}) {answer}.",
-    "failedQuestion": "Du hast Frage {current} verfehlt. Die richtige Antwort war {letter}) {answer}."
+    "wrongAnswer": "Zum Wiederholen: Die richtige Antwort war {letter}) {answer}.",
+    "failedQuestion": "Frage {current} zum Wiederholen: Die richtige Antwort war {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Deine Statistiken",
@@ -536,12 +536,12 @@
     "clickDay": "Klicke im Diagramm auf einen Tag, um die Details zu sehen.",
     "testsDone": "Absolvierte Tests",
     "correct": "Richtig",
-    "wrong": "Fehler",
+    "wrong": "Zum Wiederholen",
     "completed": "Abgeschlossene Tests",
     "average": "Durchschnittsnote",
-    "pending": "Offene Fehler",
+    "pending": "Offene Fragen",
     "last7": "Letzte 7 Tage",
-    "last7Help": "Richtige Antworten und Fehler pro Tag. Klicke auf einen Tag für die Zusammenfassung.",
+    "last7Help": "Richtige Antworten und Fragen zum Wiederholen pro Tag. Klicke auf einen Tag für die Zusammenfassung.",
     "retry": "Erneut versuchen",
     "goSpace": "Zu Mein Bereich",
     "loading": "Ordner werden geladen…",
@@ -989,11 +989,11 @@
   "Bloqueos": {
     "estadisticas": {
       "title": "Statistiken freischalten",
-      "subtitle": "Sieh dir deinen Fortschritt, deine richtigen Antworten und Fehler an, um zu wissen, was du wiederholen musst.",
+      "subtitle": "Sieh dir deinen Fortschritt, deine richtigen Antworten und die Fragen zum Wiederholen an, um zu wissen, was du stärken musst.",
       "cta": "Premium werden",
       "benefits": {
         "1": "Fortschrittsdiagramme pro Ordner.",
-        "2": "Analyse richtiger Antworten und Fehler.",
+        "2": "Analyse richtiger Antworten und Fragen zum Wiederholen.",
         "3": "Verlauf der letzten 7 Tage.",
         "4": "Vergleich deines Fortschritts."
       }

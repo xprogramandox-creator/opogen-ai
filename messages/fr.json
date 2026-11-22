@@ -83,7 +83,7 @@
     "badge": "Propulsé par l'intelligence artificielle",
     "titleStart": "Transformez vos notes en",
     "titleHighlight": "examens d'entraînement",
-    "subtitle": "Importez vos notes, choisissez votre niveau et laissez l'IA créer des examens à choix multiples personnalisés. Entraînez-vous, corrigez instantanément et révisez uniquement vos erreurs.",
+    "subtitle": "Télécharge tes notes, choisis ton niveau et laisse l'IA créer des tests personnalisés. Entraîne-toi, corrige instantanément et renforce ce dont tu as besoin.",
     "ctaPrimary": "Créer mon premier test",
     "ctaSecondary": "Voir comment ça marche",
     "featuresTitle": "Tout ce qu'il vous faut pour réussir",
@@ -102,8 +102,8 @@
         "description": "Organisez vos tests et créez des examens mixtes."
       },
       "mistakes": {
-        "title": "Révision des erreurs",
-        "description": "L'IA se souvient de vos erreurs pour vous aider à progresser."
+        "title": "Questions à réviser",
+        "description": "L'IA repère ce que tu dois renforcer et t'aide à progresser."
       }
     },
     "stepsTitle": "Comment ça marche",
@@ -119,7 +119,7 @@
       },
       "learn": {
         "title": "Apprenez et progressez",
-        "description": "Corrigez instantanément, révisez vos erreurs et enregistrez vos résultats."
+        "description": "Corrige instantanément, révise ce dont tu as besoin et enregistre tes résultats."
       }
     },
     "arcadeBadge": "Mode Arcade",
@@ -127,7 +127,7 @@
     "arcadeText": "Jouez avec vos propres notes et battez vos records.",
     "arcadeCta": "Essayer l'Arcade",
     "finalTitle": "Commencez à étudier autrement",
-    "finalText": "Créez votre compte gratuit, enregistrez vos tests et révisez vos erreurs avec des examens générés à partir de vos propres notes.",
+    "finalText": "Crée ton compte gratuit, enregistre tes tests et renforce ce dont tu as besoin avec des examens générés à partir de tes propres notes.",
     "finalCta": "Créer mon compte gratuit",
     "finalLogin": "J'ai déjà un compte",
     "skip": "Aller au contenu principal",
@@ -208,7 +208,7 @@
     "planPremium": "Forfait Premium",
     "greeting": "Bonjour {name} ! Qu'étudions-nous aujourd'hui ?",
     "studentFallback": "étudiant",
-    "subtitle": "Créez un nouvel examen à partir de vos notes, testez votre mémoire dans l'Arcade ou révisez les erreurs de vos derniers tests.",
+    "subtitle": "Crée un nouvel examen à partir de tes notes, teste ta mémoire dans l'Arcade ou révise les questions à renforcer de tes derniers tests.",
     "createTest": "Créer un nouveau test",
     "playArcade": "Jouer à l'Arcade",
     "quickAccess": "Accès rapides",
@@ -229,8 +229,8 @@
         "description": "Consultez vos résultats et votre progression."
       },
       "mistakes": {
-        "title": "Révision des erreurs",
-        "description": "Revenez sur les questions que vous avez ratées."
+        "title": "Questions à réviser",
+        "description": "Reviens sur les questions que tu dois renforcer."
       },
       "account": {
         "title": "Mon compte",
@@ -361,11 +361,11 @@
     "nextQuestion": "Aller à la question suivante sans répondre",
     "finalScore": "Note finale",
     "correctAnswers": "Bonnes réponses",
-    "errorsCount": "Erreurs",
+    "errorsCount": "À réviser",
     "blank": "Sans réponse",
     "unanswered": "Sans réponse. La bonne option était {letter}.",
     "correctAnswer": "Bonne réponse !",
-    "wrongAnswer": "Incorrect. La bonne option était {letter}.",
+    "wrongAnswer": "À réviser : la bonne option était {letter}.",
     "answered": "Questions répondues : {answered} sur {total}",
     "gradeExam": "Corriger l'examen",
     "saveTitle": "Enregistrer l'examen",
@@ -396,7 +396,7 @@
     "noFolders": "Aucun dossier créé.",
     "welcomeTitle": "Bienvenue dans votre espace personnel",
     "welcomeText": "Sélectionnez un dossier à gauche pour gérer vos examens et vos notes.",
-    "mistakesReview": "Révision des erreurs : {name}",
+    "mistakesReview": "Questions à réviser : {name}",
     "folder": "Dossier : {name}",
     "createMixed": "Créer un test mixte",
     "closeFolder": "Fermer le dossier",
@@ -422,7 +422,7 @@
     "deleteFolder": "Supprimer le dossier",
     "deleteFolderTitle": "Supprimer le dossier",
     "deleteFolderMessage": "Veux-tu vraiment supprimer le dossier « {name} » ?",
-    "deleteFolderWarning": "Les statistiques et les erreurs en attente de cette matière seront supprimées. Cette action est irréversible.",
+    "deleteFolderWarning": "Les statistiques et les questions en attente de cette matière seront supprimées. Cette action est irréversible.",
     "deleteFolderCheckbox": "Je comprends que les données seront perdues",
     "deleteFolderError": "Impossible de supprimer le dossier",
     "deleteFolderConfirm": "Supprimer"
@@ -481,7 +481,7 @@
       "supervivencia": {
         "title": "Survie",
         "description": "Mode extrême. Sans vies, sans pitié.",
-        "detail": "Mode extrême. Sans vies, sans pitié. Montre combien de temps tu tiens sans rater une seule réponse."
+        "detail": "Mode extrême. Sans vies, sans pitié. Montre combien de temps tu tiens en enchaînant les bonnes réponses."
       }
     },
     "benefits": {
@@ -520,8 +520,8 @@
     "howToPlayMode": "Comment jouer : {mode}",
     "tryAgain": "Bien essayé !",
     "timeUp": "Temps écoulé. La bonne réponse était {letter}) {answer}.",
-    "wrongAnswer": "Incorrect. La bonne réponse était {letter}) {answer}.",
-    "failedQuestion": "Tu as raté la question {current}. La bonne réponse était {letter}) {answer}."
+    "wrongAnswer": "À réviser : la bonne réponse était {letter}) {answer}.",
+    "failedQuestion": "Question {current} à réviser : la bonne réponse était {letter}) {answer}."
   },
   "Estadisticas": {
     "title": "Vos statistiques",
@@ -536,12 +536,12 @@
     "clickDay": "Cliquez sur un jour du graphique pour voir le détail.",
     "testsDone": "Tests effectués",
     "correct": "Bonnes réponses",
-    "wrong": "Erreurs",
+    "wrong": "À réviser",
     "completed": "Tests terminés",
     "average": "Note moyenne",
-    "pending": "Erreurs à réviser",
+    "pending": "Questions en attente",
     "last7": "7 derniers jours",
-    "last7Help": "Bonnes réponses et erreurs par jour. Cliquez sur un jour pour voir son résumé.",
+    "last7Help": "Bonnes réponses et questions à réviser par jour. Clique sur un jour pour voir son résumé.",
     "retry": "Réessayer",
     "goSpace": "Aller à Mon espace",
     "loading": "Chargement des dossiers…",
@@ -989,11 +989,11 @@
   "Bloqueos": {
     "estadisticas": {
       "title": "Débloquez vos Statistiques",
-      "subtitle": "Visualisez votre progression, vos bonnes réponses et vos erreurs pour savoir quoi réviser.",
+      "subtitle": "Visualise ta progression, tes bonnes réponses et les questions à réviser pour savoir quoi renforcer.",
       "cta": "Passer Premium",
       "benefits": {
         "1": "Graphiques d'évolution par dossier.",
-        "2": "Analyse des bonnes réponses et des erreurs.",
+        "2": "Analyse des bonnes réponses et des questions à réviser.",
         "3": "Historique des 7 derniers jours.",
         "4": "Comparaison de votre progression."
       }

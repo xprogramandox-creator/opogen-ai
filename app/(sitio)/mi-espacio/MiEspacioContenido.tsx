@@ -417,7 +417,7 @@ export default function MiEspacioPage() {
         setCarpetaActiva(null);
         guardarVentanaTest({
           preguntas: [],
-          textoContexto: "Repaso de Fallos",
+          textoContexto: "Preguntas por repasar",
           esMixto: false,
           modoPractica: true,
           carpetaActiva: null,
@@ -690,11 +690,11 @@ export default function MiEspacioPage() {
       const preguntas = normalizarPreguntas(datos.preguntas);
 
       if (preguntas.length === 0) {
-        throw new Error("No hay fallos para repasar en esta carpeta");
+        throw new Error("No hay preguntas para repasar en esta carpeta");
       }
 
       setPreguntasTest(preguntas);
-      setTextoContextoTest("Repaso de Fallos");
+      setTextoContextoTest("Preguntas por repasar");
     } catch (err) {
       notificar({
         titulo: "No se pudo abrir el repaso",
@@ -717,9 +717,9 @@ export default function MiEspacioPage() {
     const carpeta = carpetaActiva;
 
     setModalConfirmar({
-      titulo: "Eliminar Repaso de Fallos",
+      titulo: "Eliminar repaso de preguntas",
       mensaje:
-        "¿Seguro que quieres eliminar repaso.pdf y su índice de fallos?",
+        "¿Seguro que quieres eliminar repaso.pdf y su índice de preguntas?",
       onConfirm: async () => {
         setModalConfirmar(null);
 
@@ -1483,7 +1483,7 @@ export default function MiEspacioPage() {
                   </div>
                   <TestExamen 
                     examen={preguntasPractica} 
-                    textoContexto="Repaso de Fallos"
+                    textoContexto="Preguntas por repasar"
                     onClose={() => {
                       cerrarVentanaTest();
                       void cargarCarpetas();

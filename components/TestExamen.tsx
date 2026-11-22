@@ -447,7 +447,7 @@ export function TestExamen({
               <p className="text-3xl font-bold text-[var(--ok-t)] sm:text-4xl">{resultados.aciertos}</p>
             </div>
             <div className="rounded-xl border border-[var(--err-b)] bg-[var(--err)] p-4">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--err-t)] sm:text-sm">Errores</p>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--err-t)] sm:text-sm">Por repasar</p>
               <p className="text-3xl font-bold text-[var(--err-t)] sm:text-4xl">{resultados.errores}</p>
             </div>
             <div className="rounded-xl border border-[var(--th)] bg-[var(--card2)] p-4">
@@ -502,7 +502,7 @@ export function TestExamen({
                     </div>
                   )}
                   <p className={`mb-1 text-sm font-bold ${claseTextoRetroalimentacion}`}>
-                    {sinResponder ? `○ Sin responder. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.` : esCorrecta ? "✓ ¡Respuesta correcta!" : `✗ Incorrecto. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.`}
+                    {sinResponder ? `○ Sin responder. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.` : esCorrecta ? "✓ ¡Respuesta correcta!" : `✗ Para repasar. La opción válida era la ${String.fromCharCode(65 + pregunta.correcta)}.`}
                   </p>
                   {pregunta.explicacion && <p className="text-sm leading-relaxed text-[var(--txt2)]">{pregunta.explicacion}</p>}
                   {modoPractica && !esCorrecta && (

@@ -49,7 +49,7 @@ export function generarPdfFallos(
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
   doc.text(
-    `Repaso de Fallos - ${limpiarTexto(nombreCarpeta)}`,
+    `Preguntas por repasar - ${limpiarTexto(nombreCarpeta)}`,
     pageWidth / 2,
     20,
     { align: "center" },
