@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { obtenerTokenCSRFDesdeCookie, verificarTokenCSRF } from "@/lib/csrf";
+import { CLAVE_ADMIN } from "@/lib/planes";
 import { consumirLimite } from "@/lib/rate-limit";
 import {
   crearTestimonio,
@@ -29,7 +30,10 @@ export async function POST(request: Request) {
     return error("Inicia sesión para enviar un testimonio.", 401);
   }
 
-  if (usuario.rol !== "premium") {
+  // La cuenta del CEO puede publicar siempre, aunque su rol no sea premium.
+  const esAdministrador = usuario.clave === CLAVE_ADMIN;
+
+  if (!esAdministrador && usuario.rol !== "premium") {
     return error("Los testimonios son exclusivos de los usuarios Premium.", 403);
   }
 
@@ -63,26 +67,34 @@ export async function POST(request: Request) {
     );
   }
 
-  const limite = consumirLimite(`testimonios:${usuario.clave}`, 5, 60 * 60 * 1000);
-
-  if (!limite.permitido) {
-    return error("Demasiados envíos. Espera un poco antes de reintentar.", 429);
-  }
-
-  if (tieneTestimonioPendiente(usuario.clave)) {
-    return error(
-      "Ya tienes un testimonio pendiente de revisión. Espera a que lo moderemos.",
-      409,
+  // El administrador queda exento de las reglas anti-spam (1 pendiente,
+  // 1 envío cada 24 h y límite por hora); el resto de usuarios no.
+  if (!esAdministrador) {
+    const limite = consumirLimite(
+      `testimonios:${usuario.clave}`,
+      5,
+      60 * 60 * 1000,
     );
-  }
 
-  const ultimo = ultimoEnvioTestimonio(usuario.clave);
+    if (!limite.permitido) {
+      return error("Demasiados envíos. Espera un poco antes de reintentar.", 429);
+    }
 
-  if (ultimo) {
-    const transcurrido = Date.now() - new Date(ultimo).getTime();
+    if (tieneTestimonioPendiente(usuario.clave)) {
+      return error(
+        "Ya tienes un testimonio pendiente de revisión. Espera a que lo moderemos.",
+        409,
+      );
+    }
 
-    if (transcurrido < UN_DIA_MS) {
-      return error("Solo puedes enviar un testimonio cada 24 horas.", 429);
+    const ultimo = ultimoEnvioTestimonio(usuario.clave);
+
+    if (ultimo) {
+      const transcurrido = Date.now() - new Date(ultimo).getTime();
+
+      if (transcurrido < UN_DIA_MS) {
+        return error("Solo puedes enviar un testimonio cada 24 horas.", 429);
+      }
     }
   }
 

@@ -160,7 +160,7 @@ export default async function DashboardPage({
           </Link>
         </div>
 
-        {esPremium ? (
+        {esPremium || esAdministrador ? (
           <div className="mb-12">
             <FormularioTestimonio nombreInicial={usuario?.nombre ?? ""} />
           </div>
