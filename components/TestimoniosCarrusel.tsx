@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
@@ -19,13 +19,6 @@ export default function TestimoniosCarrusel() {
   const [testimonios, setTestimonios] = useState<Testimonio[]>([]);
   const [indice, setIndice] = useState(0);
   const [pausado, setPausado] = useState(false);
-  const reducido = useRef(false);
-
-  useEffect(() => {
-    reducido.current =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
 
   useEffect(() => {
     let activo = true;
@@ -75,7 +68,7 @@ export default function TestimoniosCarrusel() {
   }, [total]);
 
   useEffect(() => {
-    if (total < 2 || pausado || reducido.current) return;
+    if (total < 2 || pausado) return;
 
     const id = window.setInterval(avanzar, INTERVALO_MS);
 
@@ -126,7 +119,8 @@ export default function TestimoniosCarrusel() {
 
       <div className="relative">
         <div
-          className={`grid grid-cols-1 gap-4 ${
+          key={indice}
+          className={`animate-carrusel-entrada grid grid-cols-1 gap-4 ${
             segundo ? "sm:grid-cols-2" : "mx-auto max-w-xl"
           }`}
         >

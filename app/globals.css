@@ -292,6 +292,23 @@ button:disabled {
   animation: fade-in-up 500ms ease-out forwards;
 }
 
+/* Fundido suave del carrusel de testimonios al cambiar de grupo. */
+@keyframes carrusel-entrada {
+  from {
+    opacity: 0;
+    transform: translate3d(12px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-carrusel-entrada {
+  animation: carrusel-entrada 380ms ease-out;
+}
+
 /* =========================================================
    AJUSTES PARA PANTALLAS PEQUEÑAS
    ========================================================= */
