@@ -109,14 +109,16 @@ export default function TarjetaOferta() {
           {t("offer.subtitle")}
         </p>
 
-        {teaser ? (
+        {teaser || promoActiva ? (
           <p className="mt-4 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
             <Sparkles
               className="h-3.5 w-3.5 shrink-0"
               strokeWidth={2}
               aria-hidden="true"
             />
-            {t("offer.blackFriday.teaserNotice")}
+            {teaser
+              ? t("offer.blackFriday.teaserNotice")
+              : t("offer.blackFriday.notice")}
           </p>
         ) : null}
 
@@ -237,12 +239,6 @@ export default function TarjetaOferta() {
             );
           })}
         </div>
-
-        {promoActiva ? (
-          <p className="mt-4 rounded-xl border border-[var(--azul)]/25 bg-[var(--sel)] px-3 py-2 text-center text-xs font-semibold text-[var(--azul)]">
-            {t("offer.blackFriday.notice")}
-          </p>
-        ) : null}
 
         <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
           {ventajas.map((ventaja) => (

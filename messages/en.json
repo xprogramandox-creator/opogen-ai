@@ -276,9 +276,9 @@
       "blackFriday": {
         "badge": "Black Friday −25%",
         "codeHint": "Use the code OPOBLACK25 at checkout",
-        "notice": "Black Friday: use the code OPOBLACK25 at checkout.",
+        "notice": "Black Friday is live! Save 25% with code OPOBLACK25 at checkout.",
         "teaserBadge": "Black Friday −25% coming soon",
-        "teaserNotice": "Save 25% with the code OPOBLACK25"
+        "teaserNotice": "Black Friday: from Nov 26 to 28, save 25% with code OPOBLACK25."
       }
     },
     "premiumExpiresSoon": "Your Premium plan expires soon: {date}",
