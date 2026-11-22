@@ -292,11 +292,24 @@ button:disabled {
   animation: fade-in-up 500ms ease-out forwards;
 }
 
-/* Fundido suave del carrusel de testimonios al cambiar de grupo. */
-@keyframes carrusel-entrada {
+/* Transición del carrusel de testimonios: la tarjeta sale hacia arriba y la
+   siguiente entra desde abajo con un fundido. */
+@keyframes testimonio-salida {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes testimonio-entrada {
   from {
     opacity: 0;
-    transform: translate3d(12px, 0, 0);
+    transform: translate3d(0, 10px, 0);
   }
 
   to {
@@ -305,8 +318,12 @@ button:disabled {
   }
 }
 
-.animate-carrusel-entrada {
-  animation: carrusel-entrada 380ms ease-out;
+.animate-testimonio-salida {
+  animation: testimonio-salida 280ms ease-in forwards;
+}
+
+.animate-testimonio-entrada {
+  animation: testimonio-entrada 560ms ease-out;
 }
 
 /* =========================================================

@@ -11,35 +11,35 @@ export const TESTIMONIOS_SEMILLA: TestimonioPublico[] = [
     id: -1,
     nombreVisible: "Marta R.",
     texto:
-      "Llevaba meses dando vueltas a los mismos temas. Subí mis apuntes y en una tarde tenía un test de 25 preguntas que me dejó claro qué necesitaba reforzar. Ahora estudio con una dirección.",
+      "Me ahorra horas de estudio. Subo mis apuntes y tengo un test listo en segundos.",
     fecha: "2026-11-18T10:20:00.000Z",
   },
   {
     id: -2,
     nombreVisible: "Javier P.",
     texto:
-      "Lo que más me ayuda es poder repasar solo las preguntas que necesito. No pierdo tiempo releyendo lo que ya domino y llego a los simulacros mucho más tranquilo.",
+      "La IA me detecta justo las preguntas que llevo mal. Es un alivio.",
     fecha: "2026-11-15T18:05:00.000Z",
   },
   {
     id: -3,
     nombreVisible: "Lucía G.",
     texto:
-      "Me presento a unas oposiciones de secundaria y la IA adapta el nivel a lo que estudio. Los tests son exigentes pero justos, y la explicación de cada respuesta me sirve para aprender del intento.",
+      "El tutor virtual me explica las respuestas mejor que algunos profesores.",
     fecha: "2026-11-11T08:40:00.000Z",
   },
   {
     id: -4,
     nombreVisible: "Andrés M.",
     texto:
-      "Empecé con el plan gratuito para probar y me quedé. Ahora organizo cada tema en una carpeta y voy viendo mi progreso. Es la primera herramienta que me ha hecho constante.",
+      "Siento que llevo una academia personalizada en el bolsillo.",
     fecha: "2026-11-08T16:15:00.000Z",
   },
   {
     id: -5,
     nombreVisible: "Carmen T.",
     texto:
-      "Estudio mientras mis hijos duermen, así que necesito algo rápido. Genero un test de 10 preguntas, corrijo al instante y sé exactamente qué repasar mañana.",
+      "Poder hacer tests de 50 preguntas me da mucha seguridad.",
     fecha: "2026-11-05T21:30:00.000Z",
   },
 ];

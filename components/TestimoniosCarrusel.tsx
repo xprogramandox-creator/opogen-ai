@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
@@ -12,13 +12,37 @@ type Testimonio = {
 };
 
 const INTERVALO_MS = 6_000;
+const SALIDA_MS = 280;
+const ENTRADA_MS = 560;
+
+type Fase = "quieta" | "salida" | "entrada";
 
 export default function TestimoniosCarrusel() {
   const t = useTranslations("Landing.testimonials");
   const locale = useLocale();
   const [testimonios, setTestimonios] = useState<Testimonio[]>([]);
   const [indice, setIndice] = useState(0);
+  const [fase, setFase] = useState<Fase>("quieta");
   const [pausado, setPausado] = useState(false);
+  const animando = useRef(false);
+  const reducido = useRef(false);
+  const temporizadorSalida = useRef<number | null>(null);
+  const temporizadorEntrada = useRef<number | null>(null);
+
+  useEffect(() => {
+    reducido.current =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    return () => {
+      if (temporizadorSalida.current) {
+        window.clearTimeout(temporizadorSalida.current);
+      }
+      if (temporizadorEntrada.current) {
+        window.clearTimeout(temporizadorEntrada.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     let activo = true;
@@ -59,13 +83,37 @@ export default function TestimoniosCarrusel() {
 
   const total = testimonios.length;
 
-  const avanzar = useCallback(() => {
-    setIndice((actual) => (total > 0 ? (actual + 1) % total : 0));
-  }, [total]);
+  const irA = useCallback(
+    (destino: number) => {
+      if (total < 2 || animando.current) return;
 
-  const retroceder = useCallback(() => {
-    setIndice((actual) => (total > 0 ? (actual - 1 + total) % total : 0));
-  }, [total]);
+      const normalizado = ((destino % total) + total) % total;
+
+      if (normalizado === indice) return;
+
+      if (reducido.current) {
+        setIndice(normalizado);
+        return;
+      }
+
+      animando.current = true;
+      setFase("salida");
+
+      temporizadorSalida.current = window.setTimeout(() => {
+        setIndice(normalizado);
+        setFase("entrada");
+
+        temporizadorEntrada.current = window.setTimeout(() => {
+          setFase("quieta");
+          animando.current = false;
+        }, ENTRADA_MS);
+      }, SALIDA_MS);
+    },
+    [indice, total],
+  );
+
+  const avanzar = useCallback(() => irA(indice + 1), [indice, irA]);
+  const retroceder = useCallback(() => irA(indice - 1), [indice, irA]);
 
   useEffect(() => {
     if (total < 2 || pausado) return;
@@ -92,8 +140,9 @@ export default function TestimoniosCarrusel() {
 
   if (total === 0) return null;
 
-  const visible = testimonios[indice];
-  const segundo = total > 1 ? testimonios[(indice + 1) % total] : null;
+  const testimonio = testimonios[indice];
+
+  if (!testimonio) return null;
 
   return (
     <section
@@ -117,80 +166,75 @@ export default function TestimoniosCarrusel() {
         </p>
       </div>
 
-      <div className="relative">
-        <div
-          key={indice}
-          className={`animate-carrusel-entrada grid grid-cols-1 gap-4 ${
-            segundo ? "sm:grid-cols-2" : "mx-auto max-w-xl"
+      <div className="mx-auto max-w-2xl">
+        <figure
+          aria-live="polite"
+          aria-atomic="true"
+          className={`flex flex-col rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8 ${
+            fase === "salida"
+              ? "animate-testimonio-salida"
+              : fase === "entrada"
+                ? "animate-testimonio-entrada"
+                : ""
           }`}
         >
-          {[visible, segundo].filter(Boolean).map((testimonio, posicion) => (
-            <figure
-              key={`${testimonio!.id}-${posicion}`}
-              aria-hidden={posicion > 0 ? "true" : undefined}
-              className={`flex h-full flex-col rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] ${
-                posicion > 0 ? "hidden sm:flex" : "flex"
-              }`}
-            >
-              <Quote
-                className="h-6 w-6 shrink-0 text-[var(--azul)]"
-                strokeWidth={2}
-                aria-hidden="true"
-              />
-              <blockquote className="mt-4 flex-1 text-pretty leading-relaxed text-[var(--txt2)]">
-                “{testimonio!.texto}”
-              </blockquote>
-              <figcaption className="mt-5 flex items-center justify-between gap-3 border-t border-[var(--th)] pt-3 text-xs">
-                <span className="font-bold text-[var(--txt)]">
-                  {testimonio!.nombreVisible || t("anonymous")}
-                </span>
-                <span className="text-[var(--txt3)]">
-                  {fechas.get(testimonio!.id) ?? ""}
-                </span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-
-        {total > 1 ? (
-          <div className="mt-5 flex items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={retroceder}
-              aria-label={t("previous")}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] transition-colors hover:border-[var(--azul)]/40 hover:text-[var(--azul)]"
-            >
-              <ChevronLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
-            </button>
-
-            <div className="flex items-center gap-1.5">
-              {testimonios.map((testimonio, posicion) => (
-                <button
-                  key={testimonio.id}
-                  type="button"
-                  onClick={() => setIndice(posicion)}
-                  aria-label={`${posicion + 1} / ${total}`}
-                  aria-current={posicion === indice ? "true" : undefined}
-                  className={`h-2 rounded-full transition-all ${
-                    posicion === indice
-                      ? "w-5 bg-[var(--azul)]"
-                      : "w-2 bg-[var(--txt3)]/40 hover:bg-[var(--azul)]/50"
-                  }`}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={avanzar}
-              aria-label={t("next")}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] transition-colors hover:border-[var(--azul)]/40 hover:text-[var(--azul)]"
-            >
-              <ChevronRight className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
-            </button>
-          </div>
-        ) : null}
+          <Quote
+            className="h-5 w-5 shrink-0 text-[var(--azul)]"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+          <blockquote className="mt-3 flex-1 text-base leading-relaxed text-[var(--txt2)] sm:text-lg">
+            “{testimonio.texto}”
+          </blockquote>
+          <figcaption className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--th)] pt-3 text-xs">
+            <span className="font-bold text-[var(--txt)]">
+              {testimonio.nombreVisible || t("anonymous")}
+            </span>
+            <span className="text-[var(--txt3)]">
+              {fechas.get(testimonio.id) ?? ""}
+            </span>
+          </figcaption>
+        </figure>
       </div>
+
+      {total > 1 ? (
+        <div className="mt-5 flex items-center justify-center gap-4">
+          <button
+            type="button"
+            onClick={retroceder}
+            aria-label={t("previous")}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] transition-colors hover:border-[var(--azul)]/40 hover:text-[var(--azul)]"
+          >
+            <ChevronLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            {testimonios.map((item, posicion) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => irA(posicion)}
+                aria-label={`${posicion + 1} / ${total}`}
+                aria-current={posicion === indice ? "true" : undefined}
+                className={`h-2 rounded-full transition-all ${
+                  posicion === indice
+                    ? "w-5 bg-[var(--azul)]"
+                    : "w-2 bg-[var(--txt3)]/40 hover:bg-[var(--azul)]/50"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={avanzar}
+            aria-label={t("next")}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] transition-colors hover:border-[var(--azul)]/40 hover:text-[var(--azul)]"
+          >
+            <ChevronRight className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
