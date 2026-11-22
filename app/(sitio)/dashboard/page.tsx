@@ -17,6 +17,7 @@ import CheckoutPendiente from "@/components/CheckoutPendiente";
 import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
 import BannerResumenes from "@/components/BannerResumenes";
 import BotonTestimonio from "@/components/BotonTestimonio";
+import GuiaRapidaDashboard from "@/components/GuiaRapidaDashboard";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
 import { CLAVE_ADMIN } from "@/lib/planes";
 
@@ -176,6 +177,8 @@ export default async function DashboardPage({
         {esPremium || esAdministrador ? (
           <BotonTestimonio nombreInicial={usuario?.nombre ?? ""} />
         ) : null}
+
+        <GuiaRapidaDashboard />
 
         {!esPremium ? <TarjetaOferta /> : null}
 

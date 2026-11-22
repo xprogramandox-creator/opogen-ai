@@ -324,7 +324,35 @@
     },
     "testimonialButton": "Dein Feedback",
     "testimonialButtonHint": "Erzähl uns, wie OpoGen AI dir hilft.",
-    "testimonialModalTitle": "Hinterlasse deine Bewertung"
+    "testimonialModalTitle": "Hinterlasse deine Bewertung",
+    "guiaRapida": {
+      "title": "Kurzanleitung",
+      "subtitle": "Alles, was du mit OpoGen AI machen kannst, auf einen Blick.",
+      "miEspacio": {
+        "title": "Mein Bereich",
+        "description": "Deine Studienecke. Lade deine Notizen hoch, sortiere sie in Ordner und erstelle Tests, die zu dir passen."
+      },
+      "miAgenda": {
+        "title": "Mein Kalender",
+        "description": "Prüfungen stehen an? Notiere deine Termine und behalte alles im Griff."
+      },
+      "estadisticas": {
+        "title": "Statistiken",
+        "description": "Sieh, wie du vorankommst. Prüfe deinen Durchschnitt, deine richtigen Antworten und was du wiederholen solltest."
+      },
+      "test": {
+        "title": "Test",
+        "description": "Bereit für eine Probe? Erstelle Prüfungen aus deinen Notizen und finde heraus, was du wirklich kannst."
+      },
+      "arcade": {
+        "title": "Arcade",
+        "description": "Lernen kann auch Spaß machen. Spiele, tritt gegen andere an und brich deine eigenen Rekorde."
+      },
+      "kids": {
+        "title": "Kids",
+        "description": "Für die Kleinen. Spiele und Tests, die zu ihrem Alter passen, damit sie ganz nebenbei lernen."
+      }
+    }
   },
   "CrearTest": {
     "title": "Erstelle deine persönliche Prüfung",

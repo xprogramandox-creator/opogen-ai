@@ -324,7 +324,35 @@
     },
     "testimonialButton": "I tuoi commenti",
     "testimonialButtonHint": "Raccontaci come ti sta aiutando OpoGen AI.",
-    "testimonialModalTitle": "Lascia la tua testimonianza"
+    "testimonialModalTitle": "Lascia la tua testimonianza",
+    "guiaRapida": {
+      "title": "Guida rapida",
+      "subtitle": "Tutto ciò che puoi fare con OpoGen AI, in un colpo d'occhio.",
+      "miEspacio": {
+        "title": "Il mio spazio",
+        "description": "Il tuo angolo di studio. Carica i tuoi appunti, organizzali in cartelle e crea test su misura."
+      },
+      "miAgenda": {
+        "title": "La mia agenda",
+        "description": "Esami in vista? Segna le date e tieni tutto sotto controllo."
+      },
+      "estadisticas": {
+        "title": "Statistiche",
+        "description": "Scopri come stai andando. Guarda la media, le risposte corrette e cosa rivedere."
+      },
+      "test": {
+        "title": "Test",
+        "description": "Pronto a metterti alla prova? Genera esami dai tuoi appunti e scopri quanto sai."
+      },
+      "arcade": {
+        "title": "Arcade",
+        "description": "Anche imparare può essere divertente. Gioca, sfida gli altri e supera i tuoi record."
+      },
+      "kids": {
+        "title": "Kids",
+        "description": "Per i più piccoli. Giochi e test adatti alla loro età per imparare senza accorgersene."
+      }
+    }
   },
   "CrearTest": {
     "title": "Crea il tuo esame personalizzato",
