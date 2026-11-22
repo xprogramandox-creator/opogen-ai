@@ -109,6 +109,17 @@ export default function TarjetaOferta() {
           {t("offer.subtitle")}
         </p>
 
+        {teaser ? (
+          <p className="mt-4 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
+            <Sparkles
+              className="h-3.5 w-3.5 shrink-0"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+            {t("offer.blackFriday.teaserNotice")}
+          </p>
+        ) : null}
+
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {planes.map(({ id, Icono }) => {
             const nombre = t(`offer.plans.${id}.name`);
@@ -156,20 +167,18 @@ export default function TarjetaOferta() {
                       </span>
                     ) : null}
 
-                    {promoActiva ? (
-                      <span className="inline-flex items-center rounded-full border border-[var(--azul)]/30 bg-[var(--sel)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--azul)]">
-                        {t("offer.blackFriday.badge")}
-                      </span>
-                    ) : null}
-
-                    {teaser ? (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--azul)]/30 bg-[var(--sel)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--azul)]">
-                        <Sparkles
-                          className="h-2.5 w-2.5"
-                          strokeWidth={2.5}
-                          aria-hidden="true"
-                        />
-                        {t("offer.blackFriday.teaserBadge")}
+                    {promoActiva || teaser ? (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--txt)]/15 bg-[var(--txt)] px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-[0.08em] text-[var(--card)]">
+                        {teaser ? (
+                          <Sparkles
+                            className="h-2 w-2"
+                            strokeWidth={2.5}
+                            aria-hidden="true"
+                          />
+                        ) : null}
+                        {teaser
+                          ? t("offer.blackFriday.teaserBadge")
+                          : t("offer.blackFriday.badge")}
                       </span>
                     ) : null}
                   </div>
@@ -206,17 +215,6 @@ export default function TarjetaOferta() {
                     </span>
                   ) : null}
                 </p>
-
-                {teaser ? (
-                  <span className="mt-1.5 flex items-start gap-1.5 text-[11px] font-medium leading-snug text-[var(--azul)]">
-                    <Sparkles
-                      className="mt-[1px] h-3 w-3 shrink-0"
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    />
-                    {t("offer.blackFriday.teaserNotice")}
-                  </span>
-                ) : null}
 
                 <p className="mt-1 text-[11px] font-medium text-[var(--txt3)]">
                   {t("offer.vatIncluded")}
