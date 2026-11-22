@@ -44,9 +44,9 @@ const MAX_PREGUNTAS_POR_LOTE = 5;
 const MAX_TRABAJOS_PARALELOS = 3;
 
 const TAMANO_SEGMENTO = 3_000;
-const CORTO_DURO_MS = 145_000;
+const CORTO_DURO_MS = 45_000;
 const TIMEOUT_PROVEEDOR_MS = 20_000;
-const TIMEOUT_GEMINI_MS = 120_000;
+const TIMEOUT_GEMINI_MS = 22_000;
 const MAX_TEXTO_GEMINI = 15_000;
 
 const PETICIONES_POR_MINUTO = 8;
@@ -294,6 +294,8 @@ type InfoLlamadas = {
   esperas: number[];
   huboCuota: boolean;
   sinTiempo: boolean;
+  /** Llamadas que han agotado su tiempo (para devolver 504 si no hay nada). */
+  timeouts: number;
 };
 
 type ResultadoProveedor =
@@ -345,6 +347,33 @@ const limitePorIp = new Map<
   string,
   { peticiones: number; reinicio: number }
 >();
+
+// Generaciones simultaneas por usuario (o IP si es invitado). Evita que una
+// misma persona lance varias a la vez y sature las APIs de IA.
+const MAX_GENERACIONES_SIMULTANEAS = 2;
+const generacionesActivas = new Map<string, number>();
+
+function adquirirGeneracion(clave: string): boolean {
+  const actual = generacionesActivas.get(clave) ?? 0;
+
+  if (actual >= MAX_GENERACIONES_SIMULTANEAS) {
+    return false;
+  }
+
+  generacionesActivas.set(clave, actual + 1);
+
+  return true;
+}
+
+function liberarGeneracion(clave: string): void {
+  const restantes = (generacionesActivas.get(clave) ?? 1) - 1;
+
+  if (restantes <= 0) {
+    generacionesActivas.delete(clave);
+  } else {
+    generacionesActivas.set(clave, restantes);
+  }
+}
 
 /* =========================================================
    UTILIDADES
@@ -1163,21 +1192,24 @@ Es OBLIGATORIO que TODAS las preguntas traten exclusivamente sobre el tema '${tr
         maxRetries: 0,
       });
 
-      const completion = await openai.chat.completions.create({
-        model: trabajador.modelo,
-        messages: [
-          {
-            role: "system",
-            content: instruccionesSistema,
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-        temperature: 0.55,
-        max_tokens: 2_000,
-      });
+      const completion = await openai.chat.completions.create(
+        {
+          model: trabajador.modelo,
+          messages: [
+            {
+              role: "system",
+              content: instruccionesSistema,
+            },
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          temperature: 0.55,
+          max_tokens: 2_000,
+        },
+        { signal: AbortSignal.timeout(timeout) },
+      );
 
       contenido = completion.choices?.[0]?.message?.content ?? undefined;
     }
@@ -1526,6 +1558,7 @@ async function ejecutarTrabajo(
     } else if (
       /timeout|timed out|abort|etimedout/i.test(detalle)
     ) {
+      info.timeouts += 1;
       marcarEnfriamiento(trabajador, 10);
     } else if (status >= 400) {
       marcarEnfriamiento(trabajador, 30);
@@ -1832,6 +1865,23 @@ export async function POST(req: Request) {
     );
   }
 
+  const claveGeneracion = usuario
+    ? `usuario:${usuario.clave}`
+    : `ip:${obtenerIp(req)}`;
+
+  if (!adquirirGeneracion(claveGeneracion)) {
+    return NextResponse.json(
+      {
+        error: "DEMASIADAS_GENERACIONES",
+        codigo: "DEMASIADAS_GENERACIONES",
+        message:
+          "Ya se están generando 2 tests a la vez. Espera a que terminen e inténtalo de nuevo.",
+      },
+      { status: 429 },
+    );
+  }
+
+  try {
   const activos = ordenarProveedoresPorSorteo(activosBase);
 
   const documentos = crearDocumentosTrabajo(texto);
@@ -1851,6 +1901,7 @@ export async function POST(req: Request) {
     esperas: [],
     huboCuota: false,
     sinTiempo: false,
+    timeouts: 0,
   };
 
   const enunciadosVistos = new Set([
@@ -1978,8 +2029,23 @@ export async function POST(req: Request) {
     }
   }
   if (pool.length === 0) {
+    if (info.timeouts > 0 || info.sinTiempo) {
+      return NextResponse.json(
+        {
+          error: "IA_TIMEOUT",
+          codigo: "IA_TIMEOUT",
+          message:
+            "La IA está tardando más de lo normal. Vuelve a intentarlo en unos segundos.",
+        },
+        { status: 504 },
+      );
+    }
+
     return NextResponse.json(
-      { error: "No se han podido generar preguntas válidas." },
+      {
+        error: "No se han podido generar preguntas válidas.",
+        codigo: "IA_ERROR",
+      },
       { status: 502 },
     );
   }
@@ -2016,4 +2082,7 @@ export async function POST(req: Request) {
       },
     },
   );
+  } finally {
+    liberarGeneracion(claveGeneracion);
+  }
 }

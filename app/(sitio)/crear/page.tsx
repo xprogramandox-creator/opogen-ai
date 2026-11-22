@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type DragEvent } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CheckCircle2, FileDown, Save, Trash2, X } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileDown, RefreshCw, Save, Trash2, X } from "lucide-react";
 import TituloPagina from "@/components/TituloPagina";
 import { useSesion } from "@/components/SessionProvider";
 import { useNotification } from "@/components/NotificationProvider";
@@ -187,13 +187,18 @@ async function leerJson(response: Response): Promise<Record<string, unknown>> {
     : {};
 }
 
-async function fetchConTimeout(url: string, init: RequestInit, timeoutMs: number): Promise<Response> {
+async function fetchConTimeout(
+  url: string,
+  init: RequestInit,
+  timeoutMs: number,
+  mensajeTimeout = "La operación ha tardado demasiado. Inténtalo de nuevo.",
+): Promise<Response> {
   const controller = new AbortController();
   const temporizador = setTimeout(() => controller.abort(), timeoutMs);
   try {
     return await fetch(url, { ...init, credentials: "include", signal: controller.signal });
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") throw new Error("La operación ha tardado demasiado. Inténtalo de nuevo.");
+    if (error instanceof Error && error.name === "AbortError") throw new Error(mensajeTimeout);
     throw error;
   } finally {
     clearTimeout(temporizador);
@@ -304,6 +309,16 @@ export default function Home() {
   >("inactivo");
   const [mensajeCarga, setMensajeCarga] = useState("");
   const [error, setError] = useState("");
+  const [errorGeneracion, setErrorGeneracion] = useState<{
+    mensaje: string;
+  } | null>(null);
+  const [tardando, setTardando] = useState(false);
+  const [ultimaSolicitud, setUltimaSolicitud] = useState<{
+    texto: string;
+    pedidas: number;
+    evitar: string[];
+  } | null>(null);
+  const temporizadorLento = useRef<number | null>(null);
   const [examen, setExamen] = useState<Pregunta[] | null>(null);
   const [respuestasUsuario, setRespuestasUsuario] = useState<Record<number, number>>({});
   const [corregido, setCorregido] = useState(false);
@@ -313,6 +328,32 @@ export default function Home() {
   const [preparandoArchivos, setPreparandoArchivos] = useState(false);
   const inputArchivosRef = useRef<HTMLInputElement>(null);
   const inputFotoRef = useRef<HTMLInputElement>(null);
+
+  // Aviso de espera: si la generación tarda más de 10 s, se muestra un texto.
+  function iniciarAvisoLento(): void {
+    if (temporizadorLento.current) {
+      window.clearTimeout(temporizadorLento.current);
+    }
+
+    temporizadorLento.current = window.setTimeout(() => setTardando(true), 10_000);
+  }
+
+  function detenerAvisoLento(): void {
+    if (temporizadorLento.current) {
+      window.clearTimeout(temporizadorLento.current);
+      temporizadorLento.current = null;
+    }
+
+    setTardando(false);
+  }
+
+  useEffect(() => {
+    return () => {
+      if (temporizadorLento.current) {
+        window.clearTimeout(temporizadorLento.current);
+      }
+    };
+  }, []);
 
   const [modalGuardar, setModalGuardar] = useState(false);
   const [carpetasDisponibles, setCarpetasDisponibles] = useState<string[]>([]);
@@ -398,6 +439,114 @@ export default function Home() {
     return documentos;
   }
 
+  async function pedirExamen(
+    texto: string,
+    pedidas: number,
+    evitar: string[],
+  ): Promise<Pregunta[]> {
+    const response = await fetchConTimeout(
+      "/api/generar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          texto,
+          tipoEstudio,
+          idioma,
+          numPreguntas: String(pedidas),
+          evitar,
+        }),
+        cache: "no-store",
+      },
+      50_000,
+      t("errors.timeout"),
+    );
+
+    if (!response.ok) {
+      const d = (await response.json().catch(() => null)) as Record<
+        string,
+        unknown
+      > | null;
+
+      if (d?.limiteInvitado) {
+        actualizarLimiteInvitado(d.limiteInvitado);
+      } else if (response.status === 429 && !sesion) {
+        actualizarLimiteInvitado({
+          usos: MAX_GENERACIONES_INVITADO,
+          restantes: 0,
+          maximo: MAX_GENERACIONES_INVITADO,
+          agotado: true,
+          mensaje: t("errors.guestLimit"),
+        });
+      }
+
+      if (d?.codigo === "LIMITE_FREEMIUM") {
+        throw new Error(t("errors.freemiumLimit"));
+      }
+
+      if (d?.codigo === "DEMASIADAS_GENERACIONES" && typeof d.message === "string") {
+        throw new Error(d.message);
+      }
+
+      if (d?.error === "IA_TIMEOUT" && typeof d.message === "string") {
+        throw new Error(d.message);
+      }
+
+      if (response.status === 429 && !sesion) {
+        throw new Error(t("errors.guestLimit"));
+      }
+
+      throw new Error(
+        typeof d?.error === "string" ? d.error : t("unexpected"),
+      );
+    }
+
+    const data = await leerJson(response);
+
+    if (data.limiteInvitado) actualizarLimiteInvitado(data.limiteInvitado);
+
+    const preguntas = normalizarPreguntas(data.preguntas);
+
+    if (preguntas.length === 0) throw new Error(t("errors.noQuestions"));
+
+    return preguntas;
+  }
+
+  async function reintentarGeneracion(): Promise<void> {
+    if (!ultimaSolicitud || cargando) return;
+
+    setErrorGeneracion(null);
+    setCargando(true);
+    setFaseCarga("generando");
+    setMensajeCarga(t("preparingQuestions"));
+    setAviso("");
+    iniciarAvisoLento();
+
+    try {
+      const preguntas = await pedirExamen(
+        ultimaSolicitud.texto,
+        ultimaSolicitud.pedidas,
+        ultimaSolicitud.evitar,
+      );
+
+      setExamen(preguntas);
+
+      const claveArchivo = claveArchivoDe(modoEntrada, archivos, foto);
+      void registrarPreguntasHechas(
+        claveArchivo,
+        preguntas.map((pregunta) => pregunta.enunciado),
+      );
+      registrarEventoInvitado("crear", "test_creado");
+    } catch (err) {
+      setErrorGeneracion({ mensaje: mensajeError(err) });
+    } finally {
+      setCargando(false);
+      setFaseCarga("inactivo");
+      setMensajeCarga("");
+      detenerAvisoLento();
+    }
+  }
+
   async function handleGenerar(evento: React.FormEvent<HTMLFormElement>): Promise<void> {
     evento.preventDefault();
     if (cargando || limiteAgotado) return;
@@ -415,6 +564,8 @@ export default function Home() {
     }
 
     setCargando(true);
+    setErrorGeneracion(null);
+    iniciarAvisoLento();
     setFaseCarga(
       modoEntrada === "texto" ? "generando" : "leyendo",
     );
@@ -451,35 +602,10 @@ export default function Home() {
         : MAX_PREGUNTAS_INVITADO;
       setMensajeCarga(t("preparingQuestions"));
       setFaseCarga("generando");
-      const response = await fetchConTimeout("/api/generar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ texto: textoTotal, tipoEstudio, idioma, numPreguntas: String(pedidas), evitar }),
-        cache: "no-store",
-      }, 65_000);
 
-      if (!response.ok) {
-        const d = (await response.json().catch(() => null)) as Record<
-          string,
-          unknown
-        > | null;
-        if (d?.limiteInvitado) actualizarLimiteInvitado(d.limiteInvitado);
-        else if (response.status === 429) actualizarLimiteInvitado({ usos: MAX_GENERACIONES_INVITADO, restantes: 0, maximo: MAX_GENERACIONES_INVITADO, agotado: true, mensaje: t("errors.guestLimit") });
-        if (d?.codigo === "LIMITE_FREEMIUM") {
-          throw new Error(t("errors.freemiumLimit"));
-        }
-        if (response.status === 429) {
-          throw new Error(t("errors.guestLimit"));
-        }
-        throw new Error(
-          typeof d?.error === "string" ? d.error : "Error inesperado.",
-        );
-      }
+      setUltimaSolicitud({ texto: textoTotal, pedidas, evitar });
 
-      const data = await leerJson(response);
-      if (data.limiteInvitado) actualizarLimiteInvitado(data.limiteInvitado);
-      const preguntasGeneradas = normalizarPreguntas(data.preguntas);
-      if (preguntasGeneradas.length === 0) throw new Error(t("errors.noQuestions"));
+      const preguntasGeneradas = await pedirExamen(textoTotal, pedidas, evitar);
 
       setExamen(preguntasGeneradas);
       void registrarPreguntasHechas(
@@ -488,11 +614,12 @@ export default function Home() {
       );
       registrarEventoInvitado("crear", "test_creado");
     } catch (err) {
-      setError(mensajeError(err));
+      setErrorGeneracion({ mensaje: mensajeError(err) });
     } finally {
       setCargando(false);
       setFaseCarga("inactivo");
       setMensajeCarga("");
+      detenerAvisoLento();
     }
   }
 
@@ -883,6 +1010,33 @@ export default function Home() {
                     )}</>
                   ) : t("generate")}
                 </button>
+                {cargando && tardando ? (
+                  <p role="status" className="mt-3 text-center text-xs font-medium text-[var(--azul)]">
+                    {t("slowHint")}
+                  </p>
+                ) : null}
+                {errorGeneracion ? (
+                  <div role="alert" className="mt-4 rounded-2xl border border-[var(--azul)]/25 bg-[var(--card)] p-5 shadow-[var(--sombra)]">
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
+                        <AlertTriangle className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-bold text-[var(--txt)]">{t("errorCard.title")}</p>
+                        <p className="mt-1 text-sm text-[var(--txt2)]">{errorGeneracion.mensaje}</p>
+                        <button
+                          type="button"
+                          onClick={() => void reintentarGeneracion()}
+                          disabled={cargando}
+                          className="mt-4 inline-flex h-11 cursor-pointer items-center gap-2 rounded-xl bg-[var(--azul)] px-5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          <RefreshCw className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+                          {t("errorCard.retry")}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
               </form>
             </div>
           )}

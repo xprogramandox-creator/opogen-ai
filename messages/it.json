@@ -343,7 +343,8 @@
       "photoType": "La foto deve essere in JPG, PNG o WebP.",
       "photoEmpty": "La foto è vuota.",
       "photoTooLarge": "La foto non può superare 3,5 MB nemmeno dopo l'ottimizzazione.",
-      "tooManyFiles": "Puoi caricare al massimo {max} file."
+      "tooManyFiles": "Puoi caricare al massimo {max} file.",
+      "timeout": "La generazione ha impiegato troppo tempo. Riprova."
     },
     "preparingFiles": "Preparazione dei file…",
     "filesSelected": "Hai selezionato {count} file",
@@ -388,7 +389,12 @@
     "unexpected": "Si è verificato un errore imprevisto.",
     "recoveringExam": "Recupero dell'esame dal mio spazio...",
     "brandName": "OpoGen",
-    "brandSuffix": "Test"
+    "brandSuffix": "Test",
+    "slowHint": "Sta richiedendo più tempo del solito, attendi…",
+    "errorCard": {
+      "title": "Impossibile generare il test",
+      "retry": "Riprova"
+    }
   },
   "MiEspacio": {
     "newFolder": "Nuova cartella",
