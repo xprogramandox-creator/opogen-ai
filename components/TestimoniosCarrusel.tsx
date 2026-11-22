@@ -49,9 +49,10 @@ export default function TestimoniosCarrusel() {
 
     void (async () => {
       try {
-        const res = await fetch("/api/testimonios/aprobados", {
-          cache: "no-store",
-        });
+        const res = await fetch(
+          `/api/testimonios/aprobados?locale=${encodeURIComponent(locale)}`,
+          { cache: "no-store" },
+        );
 
         if (!res.ok) return;
 
@@ -70,7 +71,11 @@ export default function TestimoniosCarrusel() {
             ) as Testimonio[])
           : [];
 
-        if (activo) setTestimonios(lista);
+        if (activo) {
+          setTestimonios(lista);
+          setIndice(0);
+          setFase("quieta");
+        }
       } catch {
         // Sin testimonios no se muestra la sección.
       }
@@ -79,7 +84,7 @@ export default function TestimoniosCarrusel() {
     return () => {
       activo = false;
     };
-  }, []);
+  }, [locale]);
 
   const total = testimonios.length;
 

@@ -7,6 +7,10 @@ import {
   tieneTestimonioPendiente,
   ultimoEnvioTestimonio,
 } from "@/lib/testimonios-db";
+import {
+  esIdiomaTestimonio,
+  traducirTestimonio,
+} from "@/lib/traduccion";
 
 const MIN_TEXTO = 20;
 const MAX_TEXTO = 500;
@@ -45,6 +49,7 @@ export async function POST(request: Request) {
   const texto = typeof datos.texto === "string" ? datos.texto.trim() : "";
   const nombreVisible =
     typeof datos.nombreVisible === "string" ? datos.nombreVisible.trim() : "";
+  const idioma = esIdiomaTestimonio(datos.idioma) ? datos.idioma : "es";
 
   if (texto.length < MIN_TEXTO || texto.length > MAX_TEXTO) {
     return error(
@@ -81,7 +86,16 @@ export async function POST(request: Request) {
     }
   }
 
-  const testimonio = crearTestimonio(usuario.clave, nombreVisible, texto);
+  // Se traducen los seis idiomas al crear el testimonio. Si la IA falla, se
+  // guarda el texto original en todos y el flujo sigue adelante.
+  const textos = await traducirTestimonio(texto, idioma);
+  const testimonio = crearTestimonio(
+    usuario.clave,
+    nombreVisible,
+    texto,
+    idioma,
+    textos,
+  );
 
   return NextResponse.json(
     {
@@ -89,6 +103,7 @@ export async function POST(request: Request) {
         id: testimonio.id,
         nombreVisible: testimonio.nombreVisible,
         texto: testimonio.texto,
+        idioma: testimonio.idioma,
         estado: testimonio.estado,
         fecha: testimonio.fecha,
       },

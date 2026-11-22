@@ -1,6 +1,11 @@
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { RUTA_DATOS } from "@/lib/rutas";
+import {
+  esIdiomaTestimonio,
+  textoEnIdioma,
+  type IdiomaTestimonio,
+} from "@/lib/traduccion";
 
 export const ESTADOS_TESTIMONIO = ["pendiente", "aprobado", "rechazado"] as const;
 
@@ -10,7 +15,12 @@ export type Testimonio = {
   id: number;
   usuarioClave: string;
   nombreVisible: string;
+  /** Texto original, en el idioma en el que lo escribió el usuario. */
   texto: string;
+  /** Idioma original del testimonio. */
+  idioma: IdiomaTestimonio;
+  /** Traducciones por idioma (puede faltar alguna si la IA falló). */
+  textos: Record<string, string>;
   estado: EstadoTestimonio;
   fecha: string;
   moderadoEn: string | null;
@@ -30,6 +40,8 @@ type FilaTestimonio = {
   usuario_clave: string;
   nombre_visible: string;
   texto: string;
+  idioma: string | null;
+  textos: string | null;
   estado: string;
   fecha: string;
   moderado_en: string | null;
@@ -59,6 +71,8 @@ function abrirBd(): DatabaseSync {
         usuario_clave  TEXT NOT NULL,
         nombre_visible TEXT NOT NULL,
         texto          TEXT NOT NULL,
+        idioma         TEXT NOT NULL DEFAULT 'es',
+        textos         TEXT,
         estado         TEXT NOT NULL DEFAULT 'pendiente'
                        CHECK (estado IN ('pendiente', 'aprobado', 'rechazado')),
         fecha          TEXT NOT NULL,
@@ -73,10 +87,51 @@ function abrirBd(): DatabaseSync {
         ON testimonios (usuario_clave);
     `);
 
+    // Migración para bases creadas antes de las traducciones.
+    const columnas = bd
+      .prepare("PRAGMA table_info(testimonios)")
+      .all() as unknown as Array<{ name: string }>;
+
+    if (!columnas.some((columna) => columna.name === "idioma")) {
+      bd.exec(
+        "ALTER TABLE testimonios ADD COLUMN idioma TEXT NOT NULL DEFAULT 'es'",
+      );
+    }
+
+    if (!columnas.some((columna) => columna.name === "textos")) {
+      bd.exec("ALTER TABLE testimonios ADD COLUMN textos TEXT");
+    }
+
     global.__opogenTestimoniosDb = bd;
   }
 
   return global.__opogenTestimoniosDb;
+}
+
+function parsearTextos(valor: string | null): Record<string, string> {
+  if (!valor) {
+    return {};
+  }
+
+  try {
+    const datos = JSON.parse(valor) as unknown;
+
+    if (!datos || typeof datos !== "object" || Array.isArray(datos)) {
+      return {};
+    }
+
+    const textos: Record<string, string> = {};
+
+    for (const [idioma, texto] of Object.entries(datos)) {
+      if (typeof texto === "string" && texto.trim()) {
+        textos[idioma] = texto.trim();
+      }
+    }
+
+    return textos;
+  } catch {
+    return {};
+  }
 }
 
 function aTestimonio(fila: FilaTestimonio): Testimonio {
@@ -85,6 +140,8 @@ function aTestimonio(fila: FilaTestimonio): Testimonio {
     usuarioClave: fila.usuario_clave,
     nombreVisible: fila.nombre_visible,
     texto: fila.texto,
+    idioma: esIdiomaTestimonio(fila.idioma) ? fila.idioma : "es",
+    textos: parsearTextos(fila.textos),
     estado: esEstado(fila.estado) ? fila.estado : "pendiente",
     fecha: fila.fecha,
     moderadoEn: fila.moderado_en,
@@ -96,20 +153,32 @@ export function crearTestimonio(
   usuarioClave: string,
   nombreVisible: string,
   texto: string,
+  idioma: IdiomaTestimonio,
+  textos: Record<string, string>,
 ): Testimonio {
   const fecha = new Date().toISOString();
   const resultado = abrirBd()
     .prepare(
-      `INSERT INTO testimonios (usuario_clave, nombre_visible, texto, estado, fecha)
-       VALUES (?, ?, ?, 'pendiente', ?)`,
+      `INSERT INTO testimonios
+         (usuario_clave, nombre_visible, texto, idioma, textos, estado, fecha)
+       VALUES (?, ?, ?, ?, ?, 'pendiente', ?)`,
     )
-    .run(usuarioClave, nombreVisible, texto, fecha);
+    .run(
+      usuarioClave,
+      nombreVisible,
+      texto,
+      idioma,
+      JSON.stringify(textos),
+      fecha,
+    );
 
   return {
     id: Number(resultado.lastInsertRowid),
     usuarioClave,
     nombreVisible,
     texto,
+    idioma,
+    textos,
     estado: "pendiente",
     fecha,
     moderadoEn: null,
@@ -117,22 +186,27 @@ export function crearTestimonio(
   };
 }
 
-/** Testimonios aprobados para el carrusel público. */
-export function listarAprobados(limite = 12): TestimonioPublico[] {
+/** Testimonios aprobados para el carrusel público, en el idioma pedido. */
+export function listarAprobados(
+  limite = 12,
+  idioma: IdiomaTestimonio = "es",
+): TestimonioPublico[] {
   const filas = abrirBd()
     .prepare(
-      `SELECT id, nombre_visible, texto, fecha
+      `SELECT id, nombre_visible, texto, textos, fecha
          FROM testimonios
         WHERE estado = 'aprobado'
         ORDER BY fecha DESC, id DESC
         LIMIT ?`,
     )
-    .all(limite) as unknown as Array<Pick<FilaTestimonio, "id" | "nombre_visible" | "texto" | "fecha">>;
+    .all(limite) as unknown as Array<
+    Pick<FilaTestimonio, "id" | "nombre_visible" | "texto" | "textos" | "fecha">
+  >;
 
   return filas.map((fila) => ({
     id: fila.id,
     nombreVisible: fila.nombre_visible,
-    texto: fila.texto,
+    texto: textoEnIdioma(parsearTextos(fila.textos), fila.texto, idioma),
     fecha: fila.fecha,
   }));
 }

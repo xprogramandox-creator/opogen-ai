@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { MessageSquareQuote, Send } from "lucide-react";
 
 type Props = {
@@ -40,6 +40,7 @@ async function obtenerCsrf(): Promise<string> {
 
 export default function FormularioTestimonio({ nombreInicial }: Props) {
   const t = useTranslations("Dashboard.testimonialForm");
+  const locale = useLocale();
   const [nombre, setNombre] = useState(nombreInicial.slice(0, 40));
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -70,7 +71,9 @@ export default function FormularioTestimonio({ nombreInicial }: Props) {
         body: JSON.stringify({
           texto: texto.trim(),
           nombreVisible: nombre.trim(),
+          idioma: locale,
         }),
+        signal: AbortSignal.timeout(45_000),
       });
       const datos = (await res.json().catch(() => ({}))) as {
         error?: unknown;

@@ -1052,6 +1052,8 @@
     "pendiente": "Pending",
     "aprobado": "Approved",
     "rechazado": "Rejected",
-    "todos": "All"
+    "todos": "All",
+    "original": "Original",
+    "translations": "Translations"
   }
 }

@@ -1052,6 +1052,8 @@
     "pendiente": "Ausstehend",
     "aprobado": "Freigegeben",
     "rechazado": "Abgelehnt",
-    "todos": "Alle"
+    "todos": "Alle",
+    "original": "Original",
+    "translations": "Übersetzungen"
   }
 }

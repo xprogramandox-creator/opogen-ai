@@ -136,6 +136,8 @@ type TestimonioAdmin = {
   usuarioClave: string;
   nombreVisible: string;
   texto: string;
+  idioma: string;
+  textos: Record<string, string>;
   estado: "pendiente" | "aprobado" | "rechazado";
   fecha: string;
   moderadoEn: string | null;
@@ -1643,6 +1645,26 @@ export default function AdminPanel() {
                     <span className="line-clamp-3" title={testimonio.texto}>
                       {testimonio.texto}
                     </span>
+                    <span className="mt-1 block text-[10px] font-bold uppercase tracking-wide text-[var(--txt3)]">
+                      {tTestimonios("original")} · {testimonio.idioma.toUpperCase()}
+                    </span>
+                    {Object.keys(testimonio.textos ?? {}).length > 0 ? (
+                      <details className="mt-1">
+                        <summary className="cursor-pointer text-[10px] font-bold uppercase tracking-wide text-[var(--azul)]">
+                          {tTestimonios("translations")}
+                        </summary>
+                        <ul className="mt-1 space-y-0.5 text-[10px] leading-snug text-[var(--txt3)]">
+                          {Object.entries(testimonio.textos).map(
+                            ([idioma, traduccion]) => (
+                              <li key={idioma}>
+                                <strong className="uppercase">{idioma}</strong>:{" "}
+                                {traduccion}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </details>
+                    ) : null}
                   </td>
                   <td className="px-3 py-3">
                     <span
