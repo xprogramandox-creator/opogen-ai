@@ -3,6 +3,7 @@ import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import {
   leerAcertijosVistos,
   marcarAcertijoVisto,
+  reiniciarAcertijosVistos,
 } from "@/lib/acertijos-server";
 import {
   esEdadAcertijo,
@@ -43,14 +44,28 @@ async function responder(edad: EdadAcertijo, idActual?: string) {
   const plan: PlanUsuario =
     usuario.rol === "premium" ? "premium" : "freemium";
 
-  const estado = idActual
+  let estado = idActual
     ? await marcarAcertijoVisto(usuario.clave, plan, idActual)
     : await leerAcertijosVistos(usuario.clave, plan);
 
-  const acertijo = seleccionar(edad, estado.vistos);
+  let acertijo = seleccionar(edad, estado.vistos);
+
+  // Si ya ha visto todos los de su edad, se reinicia la ronda y se sigue
+  // jugando: nunca se bloquea el juego ni se muestra un aviso de fin.
+  if (!acertijo) {
+    estado = await reiniciarAcertijosVistos(usuario.clave, plan);
+    acertijo = seleccionar(edad, estado.vistos);
+  }
+
+  if (!acertijo) {
+    return NextResponse.json(
+      { error: "No hay acertijos disponibles para esta edad." },
+      { status: 404 },
+    );
+  }
 
   return NextResponse.json(
-    { acertijo, completado: acertijo === null },
+    { acertijo },
     { headers: { "Cache-Control": "no-store" } },
   );
 }

@@ -87,6 +87,31 @@ export async function marcarAcertijoVisto(
   });
 }
 
+/**
+ * Vacía la lista de acertijos vistos para volver a empezar la ronda.
+ * El historial de juegos generados se conserva.
+ */
+export async function reiniciarAcertijosVistos(
+  clave: string,
+  plan?: PlanUsuario,
+): Promise<EstadoAcertijos> {
+  return conBloqueoUsuario(clave, async () => {
+    const estado = await leerAcertijosVistos(clave, plan);
+
+    estado.vistos = [];
+    estado.fecha = diaAnalitico();
+
+    await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
+    await writeFile(
+      rutaArchivo(clave, plan),
+      JSON.stringify(estado, null, 2),
+      "utf8",
+    );
+
+    return estado;
+  });
+}
+
 /** Añade un juego generado al historial anti-repetición. */
 export async function registrarAcertijoGenerado(
   clave: string,
