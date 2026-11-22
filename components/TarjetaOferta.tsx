@@ -2,14 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Crown, Gem } from "lucide-react";
+import { Check, Crown, Gem, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 import { useAuthModal } from "@/components/AuthModalProvider";
 import CheckoutModal from "@/components/CheckoutModal";
 import type { PlanCheckout } from "@/components/CheckoutForm";
 import type { PlanStripe } from "@/lib/plan-pendiente";
-import { estaEnBlackFriday, precioConDescuento } from "@/lib/black-friday";
+import {
+  estaEnBlackFriday,
+  estaEnTeaser,
+  precioConDescuento,
+} from "@/lib/black-friday";
 
 const planes = [
   { id: "monthly", Icono: null },
@@ -41,8 +45,15 @@ export default function TarjetaOferta() {
   const { abrirAuth } = useAuthModal();
   const [planCheckout, setPlanCheckout] =
     useState<PlanCheckout | null>(null);
-  // Se calcula una sola vez por montaje; las fechas se comparan en UTC.
-  const [promoActiva] = useState(() => estaEnBlackFriday());
+  // Modo de la promoción, calculado una sola vez por montaje. Las fechas se
+  // comparan en UTC: "teaser" anuncia sin rebajar y "blackFriday" rebaja.
+  const [modoPromo] = useState<"ninguno" | "teaser" | "blackFriday">(() => {
+    if (estaEnBlackFriday()) return "blackFriday";
+    if (estaEnTeaser()) return "teaser";
+    return "ninguno";
+  });
+  const promoActiva = modoPromo === "blackFriday";
+  const teaser = modoPromo === "teaser";
 
   const formatoMoneda = new Intl.NumberFormat(locale, {
     style: "currency",
@@ -124,6 +135,13 @@ export default function TarjetaOferta() {
                       : "border-[var(--th)] bg-[var(--card2)]"
                 }`}
               >
+                {teaser ? (
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-transparent via-[var(--azul)]/45 to-transparent"
+                  />
+                ) : null}
+
                 <div className="mb-2 flex min-h-5 items-start justify-between gap-2">
                   <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                     {badge ? (
@@ -141,6 +159,17 @@ export default function TarjetaOferta() {
                     {promoActiva ? (
                       <span className="inline-flex items-center rounded-full border border-[var(--azul)]/30 bg-[var(--sel)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--azul)]">
                         {t("offer.blackFriday.badge")}
+                      </span>
+                    ) : null}
+
+                    {teaser ? (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--azul)]/30 bg-[var(--sel)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--azul)]">
+                        <Sparkles
+                          className="h-2.5 w-2.5"
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
+                        {t("offer.blackFriday.teaserBadge")}
                       </span>
                     ) : null}
                   </div>
@@ -177,6 +206,17 @@ export default function TarjetaOferta() {
                     </span>
                   ) : null}
                 </p>
+
+                {teaser ? (
+                  <span className="mt-1.5 flex items-start gap-1.5 text-[11px] font-medium leading-snug text-[var(--azul)]">
+                    <Sparkles
+                      className="mt-[1px] h-3 w-3 shrink-0"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    {t("offer.blackFriday.teaserNotice")}
+                  </span>
+                ) : null}
 
                 <p className="mt-1 text-[11px] font-medium text-[var(--txt3)]">
                   {t("offer.vatIncluded")}

@@ -276,7 +276,9 @@
       "blackFriday": {
         "badge": "Black Friday −25%",
         "codeHint": "Usa il codice OPOBLACK25 nella pagina di pagamento",
-        "notice": "Black Friday: usa il codice OPOBLACK25 al pagamento."
+        "notice": "Black Friday: usa il codice OPOBLACK25 al pagamento.",
+        "teaserBadge": "Black Friday −25% in arrivo",
+        "teaserNotice": "Il 26 novembre potrai usare il codice OPOBLACK25 per ottenere il 25% di sconto."
       }
     },
     "premiumExpiresSoon": "Il tuo piano Premium scade a breve: {date}",
