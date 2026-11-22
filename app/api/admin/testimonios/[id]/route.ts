@@ -70,7 +70,7 @@ export async function PUT(request: Request, { params }: Contexto) {
 
     registrarLog(
       acceso.admin.clave,
-      "testimonio-moderar",
+      "comentario-moderar",
       `#${testimonio.id} → ${testimonio.estado}`,
       acceso.ip,
     );
@@ -109,7 +109,7 @@ export async function DELETE(request: Request, { params }: Contexto) {
 
     registrarLog(
       acceso.admin.clave,
-      "testimonio-eliminar",
+      "comentario-eliminar",
       `#${id}`,
       acceso.ip,
     );

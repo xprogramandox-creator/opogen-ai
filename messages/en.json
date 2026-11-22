@@ -1039,10 +1039,10 @@
       }
     }
   },
-  "AdminTestimonios": {
-    "tab": "Testimonials",
-    "title": "User testimonials",
-    "subtitle": "Review and moderate testimonials before publishing them.",
+  "AdminComentarios": {
+    "tab": "Comments",
+    "title": "User comments",
+    "subtitle": "Review and moderate comments before publishing them.",
     "refresh": "Refresh",
     "date": "Date",
     "user": "User",
@@ -1053,14 +1053,33 @@
     "approve": "Approve",
     "reject": "Reject",
     "delete": "Delete",
-    "confirmDelete": "Delete this testimonial permanently?",
-    "empty": "No testimonials in this status.",
-    "error": "The testimonials could not be loaded.",
+    "confirmDelete": "Delete this comment permanently?",
+    "empty": "No comments in this status.",
+    "error": "The comments could not be loaded.",
     "pendiente": "Pending",
     "aprobado": "Approved",
     "rechazado": "Rejected",
     "todos": "All",
     "original": "Original",
     "translations": "Translations"
+  },
+  "AdminPanel": {
+    "menu": {
+      "resumen": "Overview",
+      "usuarios": "Users",
+      "pendientes": "Pending",
+      "comentarios": "Comments",
+      "descuentos": "Discounts",
+      "invitados": "Guests",
+      "estadisticas": "Statistics",
+      "facturacion": "Billing",
+      "exportar": "Export"
+    }
+  },
+  "Sidebar": {
+    "agendaPremiumTitle": "My Agenda is Premium",
+    "agendaPremiumRequired": "My Agenda is exclusive to Premium users. Go Premium to access it.",
+    "agendaPremiumCta": "Go Premium",
+    "close": "Close"
   }
 }

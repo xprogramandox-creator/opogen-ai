@@ -1039,10 +1039,10 @@
       }
     }
   },
-  "AdminTestimonios": {
-    "tab": "Testimonianze",
-    "title": "Testimonianze degli utenti",
-    "subtitle": "Rileggi e modera le testimonianze prima di pubblicarle.",
+  "AdminComentarios": {
+    "tab": "Commenti",
+    "title": "Commenti degli utenti",
+    "subtitle": "Rileggi e modera i commenti prima di pubblicarli.",
     "refresh": "Aggiorna",
     "date": "Data",
     "user": "Utente",
@@ -1053,14 +1053,33 @@
     "approve": "Approva",
     "reject": "Rifiuta",
     "delete": "Elimina",
-    "confirmDelete": "Eliminare definitivamente questa testimonianza?",
-    "empty": "Nessuna testimonianza in questo stato.",
-    "error": "Impossibile caricare le testimonianze.",
+    "confirmDelete": "Eliminare definitivamente questo commento?",
+    "empty": "Nessun commento in questo stato.",
+    "error": "Impossibile caricare i commenti.",
     "pendiente": "In attesa",
     "aprobado": "Approvate",
     "rechazado": "Rifiutate",
     "todos": "Tutte",
     "original": "Originale",
     "translations": "Traduzioni"
+  },
+  "AdminPanel": {
+    "menu": {
+      "resumen": "Riepilogo",
+      "usuarios": "Utenti",
+      "pendientes": "In sospeso",
+      "comentarios": "Commenti",
+      "descuentos": "Sconti",
+      "invitados": "Ospiti",
+      "estadisticas": "Statistiche",
+      "facturacion": "Fatturazione",
+      "exportar": "Esporta"
+    }
+  },
+  "Sidebar": {
+    "agendaPremiumTitle": "La mia agenda è Premium",
+    "agendaPremiumRequired": "La mia agenda è esclusiva per gli utenti Premium. Passa a Premium per accedervi.",
+    "agendaPremiumCta": "Passa a Premium",
+    "close": "Chiudi"
   }
 }

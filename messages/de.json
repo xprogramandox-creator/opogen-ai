@@ -1039,10 +1039,10 @@
       }
     }
   },
-  "AdminTestimonios": {
-    "tab": "Bewertungen",
-    "title": "Bewertungen der Nutzer",
-    "subtitle": "Prüfe und moderiere Bewertungen vor der Veröffentlichung.",
+  "AdminComentarios": {
+    "tab": "Kommentare",
+    "title": "Kommentare der Nutzer",
+    "subtitle": "Prüfe und moderiere Kommentare vor der Veröffentlichung.",
     "refresh": "Aktualisieren",
     "date": "Datum",
     "user": "Nutzer",
@@ -1053,14 +1053,33 @@
     "approve": "Freigeben",
     "reject": "Ablehnen",
     "delete": "Löschen",
-    "confirmDelete": "Diese Bewertung endgültig löschen?",
-    "empty": "Keine Bewertungen in diesem Status.",
-    "error": "Die Bewertungen konnten nicht geladen werden.",
+    "confirmDelete": "Diesen Kommentar endgültig löschen?",
+    "empty": "Keine Kommentare in diesem Status.",
+    "error": "Die Kommentare konnten nicht geladen werden.",
     "pendiente": "Ausstehend",
     "aprobado": "Freigegeben",
     "rechazado": "Abgelehnt",
     "todos": "Alle",
     "original": "Original",
     "translations": "Übersetzungen"
+  },
+  "AdminPanel": {
+    "menu": {
+      "resumen": "Übersicht",
+      "usuarios": "Nutzer",
+      "pendientes": "Ausstehend",
+      "comentarios": "Kommentare",
+      "descuentos": "Rabatte",
+      "invitados": "Gäste",
+      "estadisticas": "Statistiken",
+      "facturacion": "Abrechnung",
+      "exportar": "Exportieren"
+    }
+  },
+  "Sidebar": {
+    "agendaPremiumTitle": "Mein Kalender ist Premium",
+    "agendaPremiumRequired": "Mein Kalender ist nur für Premium-Nutzer. Werde Premium, um ihn zu nutzen.",
+    "agendaPremiumCta": "Premium werden",
+    "close": "Schließen"
   }
 }

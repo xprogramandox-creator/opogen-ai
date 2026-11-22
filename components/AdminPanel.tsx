@@ -192,7 +192,8 @@ export default function AdminPanel() {
   const tPendientes = useTranslations("AdminPending");
   const tDescuentos = useTranslations("AdminDiscounts");
   const tInvitados = useTranslations("AdminGuests");
-  const tTestimonios = useTranslations("AdminTestimonios");
+  const tComentarios = useTranslations("AdminComentarios");
+  const tMenu = useTranslations("AdminPanel.menu");
   const locale = useLocale();
   const [tab, setTab] = useState("resumen");
   const [csrf, setCsrf] = useState("");
@@ -235,7 +236,7 @@ export default function AdminPanel() {
   const [cargandoPendientes, setCargandoPendientes] = useState(false);
   const [errorPendientes, setErrorPendientes] = useState("");
   const [procesandoPendiente, setProcesandoPendiente] = useState("");
-  const [testimonios, setTestimonios] = useState<TestimonioAdmin[]>([]);
+  const [testimonios, setComentarios] = useState<TestimonioAdmin[]>([]);
   const [resumenTestimonios, setResumenTestimonios] = useState({
     pendientes: 0,
     aprobados: 0,
@@ -404,18 +405,18 @@ export default function AdminPanel() {
         resumen?: { pendientes: number; aprobados: number; rechazados: number };
       };
 
-      setTestimonios(datos.testimonios || []);
+      setComentarios(datos.testimonios || []);
       setResumenTestimonios(
         datos.resumen || { pendientes: 0, aprobados: 0, rechazados: 0 },
       );
     } catch (err) {
       setErrorTestimonios(
-        err instanceof Error ? err.message : tTestimonios("error"),
+        err instanceof Error ? err.message : tComentarios("error"),
       );
     } finally {
       setCargandoTestimonios(false);
     }
-  }, [pedir, tTestimonios]);
+  }, [pedir, tComentarios]);
 
   async function moderarTestimonio(
     id: number,
@@ -432,7 +433,7 @@ export default function AdminPanel() {
       await cargarTestimonios();
     } catch (err) {
       setErrorTestimonios(
-        err instanceof Error ? err.message : tTestimonios("error"),
+        err instanceof Error ? err.message : tComentarios("error"),
       );
     } finally {
       setProcesandoTestimonio(null);
@@ -440,7 +441,7 @@ export default function AdminPanel() {
   }
 
   async function borrarTestimonio(id: number): Promise<void> {
-    if (!window.confirm(tTestimonios("confirmDelete"))) {
+    if (!window.confirm(tComentarios("confirmDelete"))) {
       return;
     }
 
@@ -452,7 +453,7 @@ export default function AdminPanel() {
       await cargarTestimonios();
     } catch (err) {
       setErrorTestimonios(
-        err instanceof Error ? err.message : tTestimonios("error"),
+        err instanceof Error ? err.message : tComentarios("error"),
       );
     } finally {
       setProcesandoTestimonio(null);
@@ -899,17 +900,17 @@ export default function AdminPanel() {
   );
   const tabs = useMemo(
     () => [
-      ["resumen", "Resumen", BarChart3],
-      ["usuarios", "Usuarios", Users],
-      ["pendientes", tPendientes("tab"), MailWarning],
-      ["testimonios", tTestimonios("tab"), MessageSquareQuote],
-      ["descuentos", tDescuentos("tab"), BadgePercent],
-      ["invitados", tInvitados("tab"), Ghost],
-      ["estadisticas", "Estadísticas", BarChart3],
-      ["facturacion", "Facturación", FileText],
-      ["exportar", "Exportar", Download],
+      ["resumen", tMenu("resumen"), BarChart3],
+      ["usuarios", tMenu("usuarios"), Users],
+      ["pendientes", tMenu("pendientes"), MailWarning],
+      ["testimonios", tMenu("comentarios"), MessageSquareQuote],
+      ["descuentos", tMenu("descuentos"), BadgePercent],
+      ["invitados", tMenu("invitados"), Ghost],
+      ["estadisticas", tMenu("estadisticas"), BarChart3],
+      ["facturacion", tMenu("facturacion"), FileText],
+      ["exportar", tMenu("exportar"), Download],
     ] as const,
-    [tDescuentos, tPendientes, tInvitados, tTestimonios],
+    [tMenu],
   );
 
   if (accesoDenegado) {
@@ -1034,22 +1035,29 @@ export default function AdminPanel() {
           </p>
         ) : null}
 
-        <nav className="mb-6 flex flex-wrap gap-2">
-          {tabs.map(([id, etiqueta, Icono]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setTab(id)}
-              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold ${
-                tab === id
-                  ? "bg-[var(--azul)] text-white"
-                  : "border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)]"
-              }`}
-            >
-              <Icono className="h-4 w-4" /> {etiqueta}
-            </button>
-          ))}
-        </nav>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+          <nav
+            aria-label="Secciones del panel"
+            className="flex gap-2 overflow-x-auto pb-1 lg:sticky lg:top-24 lg:w-60 lg:shrink-0 lg:flex-col lg:overflow-visible lg:pb-0"
+          >
+            {tabs.map(([id, etiqueta, Icono]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setTab(id)}
+                aria-current={tab === id ? "page" : undefined}
+                className={`inline-flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-bold transition-colors lg:w-full ${
+                  tab === id
+                    ? "bg-[var(--azul)] text-white shadow-sm"
+                    : "border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)] hover:border-[var(--azul)]/40 hover:text-[var(--azul)]"
+                }`}
+              >
+                <Icono className="h-4 w-4 shrink-0" /> {etiqueta}
+              </button>
+            ))}
+          </nav>
+
+          <div className="min-w-0 flex-1">
 
         {cargando && !resumen ? (
           <p className="text-[var(--txt2)]">Cargando panel…</p>
@@ -1546,10 +1554,10 @@ export default function AdminPanel() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
-              {tTestimonios("title")}
+              {tComentarios("title")}
             </h2>
             <p className="mt-1 text-sm text-[var(--txt2)]">
-              {tTestimonios("subtitle")}
+              {tComentarios("subtitle")}
             </p>
           </div>
           <button
@@ -1561,7 +1569,7 @@ export default function AdminPanel() {
             <RefreshCw
               className={`h-4 w-4 ${cargandoTestimonios ? "animate-spin" : ""}`}
             />
-            {tTestimonios("refresh")}
+            {tComentarios("refresh")}
           </button>
         </div>
 
@@ -1590,7 +1598,7 @@ export default function AdminPanel() {
                       : "border border-[var(--th)] bg-[var(--card)] text-[var(--txt2)]"
                   }`}
                 >
-                  {tTestimonios(filtro)}
+                  {tComentarios(filtro)}
                   <span className="rounded-full bg-black/10 px-1.5 text-[11px]">
                     {total}
                   </span>
@@ -1611,12 +1619,12 @@ export default function AdminPanel() {
             <thead className="bg-[var(--card2)] text-[var(--txt3)]">
               <tr>
                 {[
-                  tTestimonios("date"),
-                  tTestimonios("user"),
-                  tTestimonios("name"),
-                  tTestimonios("text"),
-                  tTestimonios("status"),
-                  tTestimonios("actions"),
+                  tComentarios("date"),
+                  tComentarios("user"),
+                  tComentarios("name"),
+                  tComentarios("text"),
+                  tComentarios("status"),
+                  tComentarios("actions"),
                 ].map((titulo) => (
                   <th key={titulo} className="px-3 py-3 font-bold">
                     {titulo}
@@ -1646,12 +1654,12 @@ export default function AdminPanel() {
                       {testimonio.texto}
                     </span>
                     <span className="mt-1 block text-[10px] font-bold uppercase tracking-wide text-[var(--txt3)]">
-                      {tTestimonios("original")} · {testimonio.idioma.toUpperCase()}
+                      {tComentarios("original")} · {testimonio.idioma.toUpperCase()}
                     </span>
                     {Object.keys(testimonio.textos ?? {}).length > 0 ? (
                       <details className="mt-1">
                         <summary className="cursor-pointer text-[10px] font-bold uppercase tracking-wide text-[var(--azul)]">
-                          {tTestimonios("translations")}
+                          {tComentarios("translations")}
                         </summary>
                         <ul className="mt-1 space-y-0.5 text-[10px] leading-snug text-[var(--txt3)]">
                           {Object.entries(testimonio.textos).map(
@@ -1676,7 +1684,7 @@ export default function AdminPanel() {
                             : "bg-amber-100 text-amber-800"
                       }`}
                     >
-                      {tTestimonios(testimonio.estado)}
+                      {tComentarios(testimonio.estado)}
                     </span>
                   </td>
                   <td className="px-3 py-3">
@@ -1693,7 +1701,7 @@ export default function AdminPanel() {
                         className="inline-flex items-center gap-1 rounded-lg bg-[var(--azul)] px-2.5 py-1.5 font-bold text-[var(--btn-txt)] disabled:opacity-50"
                       >
                         <Check className="h-3.5 w-3.5" />
-                        {tTestimonios("approve")}
+                        {tComentarios("approve")}
                       </button>
                       <button
                         type="button"
@@ -1707,7 +1715,7 @@ export default function AdminPanel() {
                         className="inline-flex items-center gap-1 rounded-lg border border-[var(--ambar-b)] bg-[var(--ambar)] px-2.5 py-1.5 font-bold text-[var(--ambar-t)] disabled:opacity-50"
                       >
                         <X className="h-3.5 w-3.5" />
-                        {tTestimonios("reject")}
+                        {tComentarios("reject")}
                       </button>
                       <button
                         type="button"
@@ -1716,7 +1724,7 @@ export default function AdminPanel() {
                         className="inline-flex items-center gap-1 rounded-lg border border-[var(--err-b)] bg-[var(--err)] px-2.5 py-1.5 font-bold text-[var(--err-t)] disabled:opacity-50"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
-                        {tTestimonios("delete")}
+                        {tComentarios("delete")}
                       </button>
                     </div>
                   </td>
@@ -1727,7 +1735,7 @@ export default function AdminPanel() {
 
           {!cargandoTestimonios && testimoniosVisibles.length === 0 ? (
             <p className="px-4 py-8 text-center text-sm text-[var(--txt3)]">
-              {tTestimonios("empty")}
+              {tComentarios("empty")}
             </p>
           ) : null}
         </div>
@@ -2179,6 +2187,8 @@ export default function AdminPanel() {
             </div>
           </section>
         ) : null}
+          </div>
+        </div>
       </div>
 
       {limpiezaAbierta ? (

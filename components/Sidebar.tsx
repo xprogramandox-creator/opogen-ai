@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -44,7 +44,12 @@ const ITEMS: ItemNav[] = [
     icono: Briefcase,
     requierePremium: true,
   },
-  { href: "/agenda", clave: "agenda", icono: CalendarDays },
+  {
+    href: "/agenda",
+    clave: "agenda",
+    icono: CalendarDays,
+    requierePremium: true,
+  },
   {
     href: "/estadisticas",
     clave: "stats",
@@ -86,17 +91,36 @@ function FilaNav({
   activo,
   bloqueado,
   onNavegar,
+  onAvisoAgenda,
 }: {
   item: ItemNav;
   activo: boolean;
   bloqueado: boolean;
   onNavegar?: () => void;
+  onAvisoAgenda?: () => void;
 }) {
   const t = useTranslations("Header");
   const Icono = item.icono;
   const etiqueta = t(item.clave);
 
   if (bloqueado) {
+    // Mi Agenda no navega: abre un aviso de que es una función Premium.
+    if (item.clave === "agenda") {
+      return (
+        <button
+          type="button"
+          onClick={onAvisoAgenda}
+          title={MENSAJE_SOLO_PREMIUM}
+          aria-label={`${etiqueta} (${t("premium")})`}
+          className={`${CLASE_ITEM} text-[var(--txt3)] hover:bg-[var(--suave2)] hover:text-[var(--txt2)]`}
+        >
+          <Icono className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden="true" />
+          <span className="truncate">{etiqueta}</span>
+          <Lock className="ml-auto h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden="true" />
+        </button>
+      );
+    }
+
     return (
       <Link
         href="/premium"
@@ -137,6 +161,8 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
   const pathname = usePathname();
   const { sesion } = useSesion();
   const { cerrar } = useSidebar();
+  const tSidebar = useTranslations("Sidebar");
+  const [avisoAgenda, setAvisoAgenda] = useState(false);
   const esPremium = sesion?.rol === "premium";
   // El acceso al panel de administración solo existe para la cuenta admin.
   const items = sesion?.esAdmin
@@ -179,10 +205,51 @@ function ContenidoSidebar({ mostrarCerrar }: { mostrarCerrar: boolean }) {
               activo={!bloqueado && esRutaActiva(pathname, item.href)}
               bloqueado={bloqueado}
               onNavegar={mostrarCerrar ? cerrar : undefined}
+              onAvisoAgenda={() => setAvisoAgenda(true)}
             />
           );
         })}
       </nav>
+
+      {avisoAgenda ? (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="agenda-premium-titulo"
+            className="w-full max-w-sm rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 text-center shadow-2xl"
+          >
+            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--sel)] text-[var(--azul)]">
+              <Lock className="h-6 w-6" strokeWidth={2} aria-hidden="true" />
+            </span>
+            <h2
+              id="agenda-premium-titulo"
+              className="mt-4 text-lg font-bold text-[var(--txt)]"
+            >
+              {tSidebar("agendaPremiumTitle")}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-[var(--txt2)]">
+              {tSidebar("agendaPremiumRequired")}
+            </p>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
+              <Link
+                href="/premium"
+                onClick={() => setAvisoAgenda(false)}
+                className="inline-flex h-11 items-center justify-center rounded-xl bg-[var(--azul)] px-5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+              >
+                {tSidebar("agendaPremiumCta")}
+              </Link>
+              <button
+                type="button"
+                onClick={() => setAvisoAgenda(false)}
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-[var(--th)] bg-[var(--card2)] px-5 text-sm font-bold text-[var(--txt2)]"
+              >
+                {tSidebar("close")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

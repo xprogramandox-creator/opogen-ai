@@ -1039,10 +1039,10 @@
       }
     }
   },
-  "AdminTestimonios": {
-    "tab": "Testemunhos",
-    "title": "Testemunhos dos utilizadores",
-    "subtitle": "Revê e modera os testemunhos antes de os publicar.",
+  "AdminComentarios": {
+    "tab": "Comentários",
+    "title": "Comentários dos utilizadores",
+    "subtitle": "Revê e modera os comentários antes de os publicar.",
     "refresh": "Atualizar",
     "date": "Data",
     "user": "Utilizador",
@@ -1053,14 +1053,33 @@
     "approve": "Aprovar",
     "reject": "Rejeitar",
     "delete": "Eliminar",
-    "confirmDelete": "Eliminar definitivamente este testemunho?",
-    "empty": "Não há testemunhos neste estado.",
-    "error": "Não foi possível carregar os testemunhos.",
+    "confirmDelete": "Eliminar definitivamente este comentário?",
+    "empty": "Não há comentários neste estado.",
+    "error": "Não foi possível carregar os comentários.",
     "pendiente": "Pendentes",
     "aprobado": "Aprovados",
     "rechazado": "Rejeitados",
     "todos": "Todos",
     "original": "Original",
     "translations": "Traduções"
+  },
+  "AdminPanel": {
+    "menu": {
+      "resumen": "Resumo",
+      "usuarios": "Utilizadores",
+      "pendientes": "Pendentes",
+      "comentarios": "Comentários",
+      "descuentos": "Descontos",
+      "invitados": "Convidados",
+      "estadisticas": "Estatísticas",
+      "facturacion": "Faturação",
+      "exportar": "Exportar"
+    }
+  },
+  "Sidebar": {
+    "agendaPremiumTitle": "A minha agenda é Premium",
+    "agendaPremiumRequired": "A minha agenda é exclusiva para utilizadores Premium. Passa a Premium para aceder.",
+    "agendaPremiumCta": "Torna-te Premium",
+    "close": "Fechar"
   }
 }
