@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { connection, NextResponse } from "next/server";
 import { listarAprobados, type TestimonioPublico } from "@/lib/testimonios-db";
 import { TESTIMONIOS_SEMILLA } from "@/lib/testimonios-semilla";
 
@@ -10,20 +10,27 @@ function combinar(
   semilla: TestimonioPublico[],
 ): TestimonioPublico[] {
   const resultado: TestimonioPublico[] = [];
-  const maximo = Math.max(aprobados.length, semilla.length);
+  const vistos = new Set<number>();
 
-  for (let indice = 0; indice < maximo; indice++) {
-    const aprobado = aprobados[indice];
-    const semillaActual = semilla[indice];
+  // Los aprobados de la BD van primero y nunca se descartan; las semillas
+  // rellenan el resto sin duplicar ids.
+  for (const testimonio of [...aprobados, ...semilla]) {
+    if (vistos.has(testimonio.id)) continue;
 
-    if (aprobado) resultado.push(aprobado);
-    if (semillaActual) resultado.push(semillaActual);
+    vistos.add(testimonio.id);
+    resultado.push(testimonio);
+
+    if (resultado.length >= MAXIMO) break;
   }
 
-  return resultado.slice(0, MAXIMO);
+  return resultado;
 }
 
 export async function GET() {
+  // Obliga a renderizar en cada petición: con cacheComponents la ruta se
+  // prerenderizaría en el build y los aprobados posteriores no saldrían.
+  await connection();
+
   try {
     return NextResponse.json(
       { testimonios: combinar(listarAprobados(MAXIMO), TESTIMONIOS_SEMILLA) },

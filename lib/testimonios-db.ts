@@ -124,7 +124,7 @@ export function listarAprobados(limite = 12): TestimonioPublico[] {
       `SELECT id, nombre_visible, texto, fecha
          FROM testimonios
         WHERE estado = 'aprobado'
-        ORDER BY COALESCE(moderado_en, fecha) DESC, id DESC
+        ORDER BY fecha DESC, id DESC
         LIMIT ?`,
     )
     .all(limite) as unknown as Array<Pick<FilaTestimonio, "id" | "nombre_visible" | "texto" | "fecha">>;
