@@ -124,6 +124,11 @@ export default async function LandingPage({
           </div>
         </section>
 
+        {/* TESTIMONIOS */}
+        <div className="pt-12 sm:pt-16">
+          <TestimoniosCarrusel />
+        </div>
+
         {/* OFERTA PREMIUM */}
         {mostrarOfertaPremium ? (
           <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
@@ -167,8 +172,6 @@ export default async function LandingPage({
             ))}
           </div>
         </section>
-
-        <TestimoniosCarrusel />
 
 {/* ZONA KIDS */}
         <section
