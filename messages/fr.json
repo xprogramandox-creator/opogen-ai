@@ -296,15 +296,6 @@
     "guestName": "Invité",
     "planGuest": "Invité",
     "planFreemium": "Freemium",
-    "kids": {
-      "badge": "Nouveau",
-      "title": "Espace Kids",
-      "titleLocked": "Espace Kids (Premium uniquement)",
-      "description": "Des tests amusants adaptés à l'âge des plus jeunes.",
-      "premiumOnly": "Réservé aux utilisateurs Premium.",
-      "enter": "Entrer !",
-      "discover": "Découvrir Premium"
-    },
     "paymentVerification": "Paiement effectué ! Nous avons envoyé un e-mail de vérification à {email}. Consultez votre boîte de réception (et le dossier Spam) et cliquez sur le lien pour activer votre compte. Une fois vérifié, vous pourrez vous connecter avec votre téléphone et votre mot de passe.",
     "paymentVerificationFallbackEmail": "votre adresse e-mail",
     "testimonialForm": {

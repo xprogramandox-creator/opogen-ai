@@ -296,15 +296,6 @@
     "guestName": "Guest",
     "planGuest": "Guest",
     "planFreemium": "Freemium",
-    "kids": {
-      "badge": "New",
-      "title": "Kids Zone",
-      "titleLocked": "Kids Zone (Premium only)",
-      "description": "Fun tests adapted to the youngest learners' age.",
-      "premiumOnly": "Premium users only.",
-      "enter": "Enter!",
-      "discover": "Discover Premium"
-    },
     "paymentVerification": "Payment complete! We have sent a verification email to {email}. Check your inbox (and Spam folder) and click the link to activate your account. Once verified, you can sign in with your phone number and password.",
     "paymentVerificationFallbackEmail": "your email address",
     "testimonialForm": {

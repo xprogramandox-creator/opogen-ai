@@ -15,7 +15,6 @@ import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import TarjetaOferta from "@/components/TarjetaOferta";
 import CheckoutPendiente from "@/components/CheckoutPendiente";
 import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
-import BannerResumenes from "@/components/BannerResumenes";
 import BotonTestimonio from "@/components/BotonTestimonio";
 import GuiaRapidaDashboard from "@/components/GuiaRapidaDashboard";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
@@ -122,63 +121,11 @@ export default async function DashboardPage({
           </p>
         </div>
 
-        <BannerResumenes
-          variante={esPremium ? "premium" : "upgrade"}
-        />
-
-        <Link
-          href={esPremium ? "/kids" : "/premium"}
-          className="group mb-8 block overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 bg-[var(--azul)]/10 p-5 shadow-[var(--sombra)] transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transform-none dark:border-[var(--azul)]/30 dark:bg-[var(--azul)]/15 sm:p-6"
-        >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-start gap-4">
-              <span
-                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/70 text-3xl shadow-sm dark:bg-slate-900/60"
-                aria-hidden="true"
-              >
-                {esPremium ? "🧸" : "🔒"}
-              </span>
-
-              <div>
-                <span className="inline-flex rounded-full border border-[var(--azul)]/40 bg-[var(--sel)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--azul)] dark:border-[var(--azul)]/30 dark:bg-[var(--azul)]/15 dark:text-[var(--azul)]">
-                  {t("kids.badge")}
-                </span>
-
-                <h2 className="mt-1.5 text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                  {esPremium
-                    ? t("kids.title")
-                    : t("kids.titleLocked")}
-                </h2>
-
-                <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-                  {t("kids.description")}
-                </p>
-
-                {!esPremium ? (
-                  <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
-                    <Lock
-                      className="h-3.5 w-3.5"
-                      strokeWidth={2.5}
-                      aria-hidden="true"
-                    />
-                    {t("kids.premiumOnly")}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-
-            <span className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-[var(--azul)] px-5 py-3 text-sm font-bold text-white shadow-md transition-transform group-hover:scale-[1.02] motion-reduce:transform-none">
-              {esPremium ? t("kids.enter") : t("kids.discover")}
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </span>
-          </div>
-        </Link>
-
-        {esPremium || esAdministrador ? (
-          <BotonTestimonio nombreInicial={usuario?.nombre ?? ""} />
-        ) : null}
-
         <GuiaRapidaDashboard />
+
+      {esPremium || esAdministrador ? (
+        <BotonTestimonio nombreInicial={usuario?.nombre ?? ""} />
+      ) : null}
 
         {!esPremium ? <TarjetaOferta /> : null}
 

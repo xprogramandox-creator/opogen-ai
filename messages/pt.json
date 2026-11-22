@@ -296,15 +296,6 @@
     "guestName": "Convidado",
     "planGuest": "Convidado",
     "planFreemium": "Freemium",
-    "kids": {
-      "badge": "Novidade",
-      "title": "Zona Kids",
-      "titleLocked": "Zona Kids (só Premium)",
-      "description": "Testes divertidos e adaptados à idade dos mais pequenos.",
-      "premiumOnly": "Exclusivo para utilizadores Premium.",
-      "enter": "Entrar!",
-      "discover": "Descobrir Premium"
-    },
     "paymentVerification": "Pagamento concluído! Enviámos um e-mail de verificação para {email}. Verifica a tua caixa de entrada (e a pasta Spam) e clica na ligação para ativar a tua conta. Depois de verificada, poderás iniciar sessão com o teu telefone e palavra-passe.",
     "paymentVerificationFallbackEmail": "o teu endereço de e-mail",
     "testimonialForm": {

@@ -9,17 +9,52 @@ import {
 import { useTranslations } from "next-intl";
 
 const TARJETAS = [
-  { clave: "miEspacio", Icono: FolderOpen },
-  { clave: "miAgenda", Icono: CalendarDays },
-  { clave: "estadisticas", Icono: BarChart3 },
-  { clave: "test", Icono: FileText },
-  { clave: "arcade", Icono: Gamepad2 },
-  { clave: "kids", Icono: Star },
+  {
+    clave: "miEspacio",
+    Icono: FolderOpen,
+    fondo: "bg-blue-50 dark:bg-blue-950/40",
+    iconoFondo:
+      "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300",
+  },
+  {
+    clave: "miAgenda",
+    Icono: CalendarDays,
+    fondo: "bg-indigo-50 dark:bg-indigo-950/40",
+    iconoFondo:
+      "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300",
+  },
+  {
+    clave: "estadisticas",
+    Icono: BarChart3,
+    fondo: "bg-teal-50 dark:bg-teal-950/40",
+    iconoFondo:
+      "bg-teal-100 text-teal-700 dark:bg-teal-900/50 dark:text-teal-300",
+  },
+  {
+    clave: "test",
+    Icono: FileText,
+    fondo: "bg-sky-50 dark:bg-sky-950/40",
+    iconoFondo: "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300",
+  },
+  {
+    clave: "arcade",
+    Icono: Gamepad2,
+    fondo: "bg-purple-50 dark:bg-purple-950/40",
+    iconoFondo:
+      "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300",
+  },
+  {
+    clave: "kids",
+    Icono: Star,
+    fondo: "bg-orange-50 dark:bg-orange-950/40",
+    iconoFondo:
+      "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-300",
+  },
 ] as const;
 
 /**
- * Guía rápida del Dashboard: seis tarjetas informativas, sin enlaces ni
- * acciones, para explicar de un vistazo qué hay en cada zona.
+ * Guía rápida del Dashboard: lista vertical de tarjetas alargadas, con fondo
+ * pastel e icono grande. Son informativas: no tienen enlaces ni acciones.
  */
 export default function GuiaRapidaDashboard() {
   const t = useTranslations("Dashboard.guiaRapida");
@@ -36,25 +71,29 @@ export default function GuiaRapidaDashboard() {
         <p className="mt-1 text-sm text-[var(--txt2)]">{t("subtitle")}</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {TARJETAS.map(({ clave, Icono }) => (
+      <div className="flex flex-col gap-3">
+        {TARJETAS.map(({ clave, Icono, fondo, iconoFondo }) => (
           <article
             key={clave}
-            className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)]"
+            className={`flex items-center gap-4 rounded-2xl border border-[var(--th)] p-4 shadow-[var(--sombra)] sm:p-5 ${fondo}`}
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
+            <span
+              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${iconoFondo}`}
+            >
               <Icono
-                className="h-5 w-5"
-                strokeWidth={2}
+                className="h-7 w-7"
+                strokeWidth={1.8}
                 aria-hidden="true"
               />
             </span>
-            <h3 className="mt-3 text-base font-bold text-[var(--txt)]">
-              {t(`${clave}.title`)}
-            </h3>
-            <p className="mt-1 text-sm leading-relaxed text-[var(--txt2)]">
-              {t(`${clave}.description`)}
-            </p>
+            <div className="min-w-0">
+              <h3 className="text-base font-bold text-[var(--txt)]">
+                {t(`${clave}.title`)}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-[var(--txt2)]">
+                {t(`${clave}.description`)}
+              </p>
+            </div>
           </article>
         ))}
       </div>

@@ -296,15 +296,6 @@
     "guestName": "Gast",
     "planGuest": "Gast",
     "planFreemium": "Freemium",
-    "kids": {
-      "badge": "Neu",
-      "title": "Kids-Zone",
-      "titleLocked": "Kids-Zone (nur Premium)",
-      "description": "Unterhaltsame Tests, passend zum Alter der Kleinsten.",
-      "premiumOnly": "Nur für Premium-Nutzer.",
-      "enter": "Los!",
-      "discover": "Premium entdecken"
-    },
     "paymentVerification": "Zahlung abgeschlossen! Wir haben eine Bestätigungs-E-Mail an {email} gesendet. Prüfe deinen Posteingang (und den Spam-Ordner) und klicke auf den Link, um dein Konto zu aktivieren. Nach der Bestätigung kannst du dich mit Telefonnummer und Passwort anmelden.",
     "paymentVerificationFallbackEmail": "deine E-Mail-Adresse",
     "testimonialForm": {
