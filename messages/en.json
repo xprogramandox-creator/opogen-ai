@@ -125,14 +125,6 @@
         "description": "Get instant feedback, review what you need and save your results."
       }
     },
-    "arcadeBadge": "Arcade Mode",
-    "arcadeTitle": "Learn by playing!",
-    "arcadeText": "Play with your own notes and beat your records.",
-    "arcadeCta": "Try the Arcade",
-    "finalTitle": "Start studying differently",
-    "finalText": "Create your free account, save your tests and reinforce exactly what you need with exams generated from your own notes.",
-    "finalCta": "Create my free account",
-    "finalLogin": "I already have an account",
     "skip": "Skip to main content",
     "testimonials": {
       "title": "What our students say",

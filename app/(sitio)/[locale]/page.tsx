@@ -5,20 +5,17 @@ import {
   ArrowRight,
   CloudUpload,
   FolderKanban,
-  Gamepad2,
   GraduationCap,
   RotateCcw,
   Settings2,
   Sparkles,
   TrendingUp,
-  UserPlus,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { routing } from "@/i18n/routing";
 import RedirigirSiSesion from "@/components/RedirigirSiSesion";
 import TarjetaOferta from "@/components/TarjetaOferta";
-import BotonAuth from "@/components/BotonAuth";
 import ExamenHero from "@/components/ExamenHero";
 import RegistrarEventoInvitado from "@/components/RegistrarEventoInvitado";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
@@ -137,7 +134,7 @@ export default async function LandingPage({
         ) : null}
 
         {/* ZONA KIDS */}
-        <div className="relative z-10 px-5 pb-16 pt-12 sm:px-6">
+        <div className="relative z-10 mt-10 px-5 pb-16 sm:px-6">
           <TarjetaZonaKids />
         </div>
 
@@ -223,78 +220,6 @@ export default async function LandingPage({
           </ol>
         </section>
 
-        {/* ARCADE */}
-        <section
-          aria-labelledby="titulo-arcade"
-          className="relative z-10 mx-auto max-w-5xl px-5 pb-16 sm:px-6"
-        >
-          <div className="relative overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 bg-[var(--azul)]/10 p-7 shadow-[var(--sombra-fuerte)] sm:p-10">
-            <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-2xl">
-                <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-[var(--azul)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                  <Gamepad2 className="h-4 w-4" aria-hidden="true" />
-                  {t("arcadeBadge")}
-                </span>
-
-                <h2
-                  id="titulo-arcade"
-                  className="text-balance text-2xl font-bold tracking-tight text-[var(--txt)] sm:text-3xl"
-                >
-                  {t("arcadeTitle")}
-                </h2>
-
-                <p className="mt-3 text-pretty leading-relaxed text-[var(--txt2)]">
-                  {t("arcadeText")}
-                </p>
-              </div>
-
-              <Link href="/arcade" prefetch={false} className="btn-action btn-arcade shrink-0">
-                {t("arcadeCta")}
-                <ArrowRight className="h-5 w-5" aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA FINAL */}
-        <section
-          aria-labelledby="titulo-registro"
-          className="relative z-10 mx-auto max-w-4xl px-5 pb-20 sm:px-6"
-        >
-          <div className="card rounded-3xl p-8 text-center sm:p-12">
-            <span className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--sel)] text-[var(--azul)]">
-              <UserPlus className="h-7 w-7" strokeWidth={2} aria-hidden="true" />
-            </span>
-
-            <h2
-              id="titulo-registro"
-              className="text-balance text-3xl font-bold tracking-tight text-[var(--txt)] sm:text-4xl"
-            >
-              {t("finalTitle")}
-            </h2>
-
-            <p className="mx-auto mt-3 max-w-xl text-pretty leading-relaxed text-[var(--txt2)]">
-              {t("finalText")}
-            </p>
-
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <BotonAuth
-                modo="registro"
-                className="btn-action btn-examen"
-              >
-                {t("finalCta")}
-                <ArrowRight className="h-5 w-5" aria-hidden="true" />
-              </BotonAuth>
-
-              <BotonAuth
-                modo="login"
-                className="cursor-pointer text-sm font-semibold text-[var(--txt2)] underline underline-offset-4 transition-colors hover:text-[var(--azul)]"
-              >
-                {t("finalLogin")}
-              </BotonAuth>
-            </div>
-          </div>
-        </section>
       </main>
     </>
   );

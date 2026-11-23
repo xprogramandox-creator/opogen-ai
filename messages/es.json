@@ -125,14 +125,6 @@
         "description": "Corrige al instante, repasa lo que necesitas y guarda tus resultados."
       }
     },
-    "arcadeBadge": "Modo Arcade",
-    "arcadeTitle": "¡Aprende jugando!",
-    "arcadeText": "Juega con tus propios apuntes y supera tus récords.",
-    "arcadeCta": "Probar el Arcade",
-    "finalTitle": "Empieza a estudiar de otra forma",
-    "finalText": "Crea tu cuenta gratis, guarda tus tests y refuerza lo que necesitas con exámenes generados a partir de tus propios apuntes.",
-    "finalCta": "Crear mi cuenta gratis",
-    "finalLogin": "Ya tengo cuenta",
     "skip": "Saltar al contenido principal",
     "testimonials": {
       "title": "Lo que dicen nuestros estudiantes",
