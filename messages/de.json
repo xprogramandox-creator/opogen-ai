@@ -238,8 +238,6 @@
     },
     "offer": {
       "title": "🚀 Entfessle dein wahres Potenzial",
-      "subtitle": "Schluss mit dem Limit von 5 Fragen. Wechsle zu Premium und lerne ohne Grenzen.",
-      "launch": "Einführungsangebot",
       "choose": "Tarif wählen",
       "plans": {
         "monthly": {
@@ -287,10 +285,14 @@
         "cta": "Kostenloses Konto erstellen",
         "benefits": {
           "daily": "5 Fragen pro Test und Tag.",
-          "guide": "Zugang zur Kurzanleitung.",
-          "testimonials": "Zugang zu den Erfahrungsberichten.",
           "noPdf": "Kein PDF-Download.",
           "noSummary": "Keine KI-Zusammenfassung."
+        },
+        "limits": {
+          "noKids": "Kein Zugang zu Kids",
+          "noSpace": "Kein Zugang zu Mein Bereich",
+          "noAgenda": "Kein Zugang zu Mein Kalender",
+          "noStats": "Kein Zugang zu Statistiken"
         }
       }
     },

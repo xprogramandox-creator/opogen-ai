@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Crown, Gem, Sparkles } from "lucide-react";
+import { Check, Crown, Gem, Sparkles, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 import { useAuthModal } from "@/components/AuthModalProvider";
@@ -85,22 +85,8 @@ export default function TarjetaOferta() {
 
   return (
     <>
-      <section aria-labelledby="oferta-premium" className="relative mb-8">
+      <section aria-label={t("offer.title")} className="relative mb-8">
         <div className="text-center">
-        <span className="inline-flex rounded-full border border-[var(--ambar-b)] bg-[var(--ambar)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--ambar-t)]">
-          {t("offer.launch")}
-        </span>
-
-        <h2
-          id="oferta-premium"
-          className="mt-3 text-balance text-2xl font-bold tracking-tight text-[var(--txt)] sm:text-3xl"
-        >
-          {t("offer.title")}
-        </h2>
-
-        <p className="mx-auto mt-2 max-w-2xl text-pretty leading-relaxed text-[var(--txt2)]">
-          {t("offer.subtitle")}
-        </p>
 
         {teaser || promoActiva ? (
           <p className="mx-auto mt-3 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
@@ -115,7 +101,7 @@ export default function TarjetaOferta() {
           </p>
         ) : null}
 
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <article className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--th)] bg-[var(--card)] text-left shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none">
             <div className="flex min-h-[72px] flex-col items-center justify-center gap-1 px-2.5 pb-2 pt-3">
               <span className="inline-flex rounded-full border border-[var(--th)] bg-[var(--card2)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--txt2)]">
@@ -144,7 +130,7 @@ export default function TarjetaOferta() {
             </div>
 
             <ul className="flex flex-1 flex-col gap-1 px-2.5 py-2.5">
-              {(["daily", "guide", "testimonials", "noPdf", "noSummary"] as const).map(
+              {(["daily", "noPdf", "noSummary"] as const).map(
                 (beneficio) => (
                   <li
                     key={beneficio}
@@ -156,6 +142,21 @@ export default function TarjetaOferta() {
                       aria-hidden="true"
                     />
                     {t(`offer.freemium.benefits.${beneficio}`)}
+                  </li>
+                ),
+              )}
+              {(["noKids", "noSpace", "noAgenda", "noStats"] as const).map(
+                (limite) => (
+                  <li
+                    key={limite}
+                    className="flex items-start gap-2 text-[10px] font-medium leading-snug text-[var(--txt3)]"
+                  >
+                    <X
+                      className="mt-[1px] h-2.5 w-2.5 shrink-0 text-red-500"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
+                    {t(`offer.freemium.limits.${limite}`)}
                   </li>
                 ),
               )}

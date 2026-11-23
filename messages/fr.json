@@ -238,8 +238,6 @@
     },
     "offer": {
       "title": "🚀 Libérez votre vrai potentiel",
-      "subtitle": "Ne vous limitez plus à 5 questions. Passez à Premium et étudiez sans limites.",
-      "launch": "Offre de lancement",
       "choose": "Choisir le forfait",
       "plans": {
         "monthly": {
@@ -287,10 +285,14 @@
         "cta": "Créer un compte gratuit",
         "benefits": {
           "daily": "5 questions par test et par jour.",
-          "guide": "Accès au Guide rapide.",
-          "testimonials": "Accès aux Témoignages.",
           "noPdf": "Pas de téléchargement PDF.",
           "noSummary": "Pas de résumé IA."
+        },
+        "limits": {
+          "noKids": "Pas d'accès à Kids",
+          "noSpace": "Pas d'accès à Mon espace",
+          "noAgenda": "Pas d'accès à Mon agenda",
+          "noStats": "Pas d'accès aux Statistiques"
         }
       }
     },

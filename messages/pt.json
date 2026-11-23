@@ -238,8 +238,6 @@
     },
     "offer": {
       "title": "🚀 Desbloqueie o seu verdadeiro potencial",
-      "subtitle": "Deixe de se limitar a 5 perguntas. Passe a Premium e estude sem fronteiras.",
-      "launch": "Oferta de lançamento",
       "choose": "Escolher plano",
       "plans": {
         "monthly": {
@@ -287,10 +285,14 @@
         "cta": "Criar conta grátis",
         "benefits": {
           "daily": "5 perguntas por teste por dia.",
-          "guide": "Acesso ao Guia rápido.",
-          "testimonials": "Acesso aos Testemunhos.",
           "noPdf": "Sem download de PDF.",
           "noSummary": "Sem resumo de IA."
+        },
+        "limits": {
+          "noKids": "Sem acesso ao Kids",
+          "noSpace": "Sem acesso ao Meu espaço",
+          "noAgenda": "Sem acesso à Minha agenda",
+          "noStats": "Sem acesso às Estatísticas"
         }
       }
     },
