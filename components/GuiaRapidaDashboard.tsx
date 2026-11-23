@@ -52,18 +52,24 @@ const TARJETAS = [
   },
 ] as const;
 
+type Props = {
+  /** Permite ajustar el espaciado exterior (por defecto, el del Dashboard). */
+  className?: string;
+};
+
 /**
- * Guía rápida del Dashboard: lista vertical de tarjetas alargadas, con fondo
- * pastel e icono grande. Son informativas: no tienen enlaces ni acciones.
+ * Guía rápida reutilizable (Dashboard y Landing): lista vertical de tarjetas
+ * alargadas, con fondo pastel e icono grande. Son informativas: no tienen
+ * enlaces ni acciones.
  */
-export default function GuiaRapidaDashboard() {
+export default function GuiaRapidaDashboard({ className }: Props) {
   const t = useTranslations("Dashboard.guiaRapida");
 
   return (
     <section
       id="guia-rapida"
       aria-labelledby="guia-rapida-titulo"
-      className="mb-8 scroll-mt-24"
+      className={`mx-auto w-full max-w-5xl scroll-mt-24 ${className ?? "mb-8"}`}
     >
       <div className="mb-4">
         <h2

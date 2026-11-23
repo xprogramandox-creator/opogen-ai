@@ -22,6 +22,7 @@ import BotonAuth from "@/components/BotonAuth";
 import ExamenHero from "@/components/ExamenHero";
 import RegistrarEventoInvitado from "@/components/RegistrarEventoInvitado";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
+import GuiaRapidaDashboard from "@/components/GuiaRapidaDashboard";
 
 export const metadata: Metadata = {
   title: "OpoGen AI | Convierte tus apuntes en exámenes",
@@ -123,6 +124,11 @@ export default async function LandingPage({
             </div>
           </div>
         </section>
+
+        {/* GUÍA RÁPIDA */}
+        <div className="relative z-10 px-5 pt-12 sm:px-6 sm:pt-16">
+          <GuiaRapidaDashboard className="mb-0" />
+        </div>
 
         {/* TESTIMONIOS */}
         <div className="pt-12 sm:pt-16">
