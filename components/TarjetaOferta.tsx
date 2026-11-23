@@ -135,28 +135,25 @@ export default function TarjetaOferta() {
             const esMejor = id === "annual";
 
             return (
-              <button
+              <article
                 key={id}
-                type="button"
-                onClick={() => elegirPlan(id)}
-                aria-label={`${t("offer.choose")} ${nombre}`}
-                className={`group relative flex w-full flex-col rounded-2xl border p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] ${
+                className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none ${
                   esRecomendado
-                    ? "border-[var(--azul)]/40 bg-[var(--card)]"
+                    ? "border-[var(--azul)]/40"
                     : esMejor
-                      ? "border-[var(--ambar-b)] bg-[var(--card)]"
-                      : "border-[var(--th)] bg-[var(--card2)]"
+                      ? "border-[var(--ambar-b)]"
+                      : "border-[var(--th)]"
                 }`}
               >
                 {teaser ? (
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 top-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-transparent via-[var(--azul)]/45 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[var(--azul)]/45 to-transparent"
                   />
                 ) : null}
 
-                <div className="mb-2 flex min-h-5 items-start justify-between gap-2">
-                  <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                <div className="flex min-h-[96px] flex-col items-center justify-center gap-1.5 px-4 pb-3 pt-5">
+                  <div className="flex min-h-5 flex-wrap items-center justify-center gap-1.5">
                     {badge ? (
                       <span
                         className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
@@ -170,7 +167,7 @@ export default function TarjetaOferta() {
                     ) : null}
 
                     {promoActiva || teaser ? (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--txt)]/15 bg-[var(--txt)] px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-[0.08em] text-[var(--card)]">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--txt)]/15 bg-[var(--txt)] px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-wide text-[var(--card)]">
                         {teaser ? (
                           <Sparkles
                             className="h-2 w-2"
@@ -196,65 +193,111 @@ export default function TarjetaOferta() {
                       aria-hidden="true"
                     />
                   ) : null}
+
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--txt3)]">
+                    {nombre}
+                  </p>
                 </div>
 
-                <p className="text-xs font-bold uppercase tracking-wide text-[var(--txt3)]">
-                  {nombre}
-                </p>
-
-                <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[var(--txt)]">
+                <div
+                  className={`w-full px-4 py-5 text-center ${
+                    esRecomendado
+                      ? "bg-[var(--azul)] text-white"
+                      : esMejor
+                        ? "bg-[var(--ambar)] text-[var(--txt)]"
+                        : "bg-[var(--sel)] text-[var(--txt)]"
+                  }`}
+                >
                   {promoActiva ? (
-                    <span className="text-sm font-semibold text-[var(--txt3)] line-through decoration-[var(--txt3)]/70">
+                    <p
+                      className={`text-xs font-semibold line-through ${
+                        esRecomendado
+                          ? "text-white/70 decoration-white/60"
+                          : "text-[var(--txt3)] decoration-[var(--txt3)]/70"
+                      }`}
+                    >
                       {formatoMoneda.format(precioBase)}
-                    </span>
+                    </p>
                   ) : null}
-                  <span className="text-4xl font-bold tracking-tight">
-                    {formatoMoneda.format(precioMostrado)}
-                  </span>
-                  {id === "monthly" ? (
-                    <span className="text-sm font-semibold text-[var(--txt3)]">
-                      {t("offer.perMonth")}
+
+                  <p className="flex flex-wrap items-baseline justify-center gap-x-1.5">
+                    <span className="text-4xl font-bold tracking-tight">
+                      {formatoMoneda.format(precioMostrado)}
                     </span>
+                    {id === "monthly" ? (
+                      <span
+                        className={`text-xs font-semibold ${
+                          esRecomendado
+                            ? "text-white/80"
+                            : "text-[var(--txt3)]"
+                        }`}
+                      >
+                        {t("offer.perMonth")}
+                      </span>
+                    ) : null}
+                  </p>
+
+                  <p
+                    className={`mt-1 text-[11px] font-medium ${
+                      esRecomendado ? "text-white/80" : "text-[var(--txt3)]"
+                    }`}
+                  >
+                    {t("offer.vatIncluded")}
+                  </p>
+
+                  <p
+                    className={`mt-1 text-[11px] leading-snug ${
+                      esRecomendado ? "text-white/85" : "text-[var(--txt2)]"
+                    }`}
+                  >
+                    {detalle}
+                  </p>
+
+                  {promoActiva ? (
+                    <p
+                      className={`mt-1 text-[10px] font-medium leading-snug ${
+                        esRecomendado
+                          ? "text-white/75"
+                          : "text-[var(--txt3)]"
+                      }`}
+                    >
+                      {t("offer.blackFriday.codeHint")}
+                    </p>
                   ) : null}
-                </p>
+                </div>
 
-                <p className="mt-1 text-[11px] font-medium text-[var(--txt3)]">
-                  {t("offer.vatIncluded")}
-                </p>
+                <ul className="flex flex-1 flex-col gap-2 px-4 py-4">
+                  {ventajas.map((ventaja) => (
+                    <li
+                      key={ventaja}
+                      className="flex items-start gap-2 text-xs font-medium leading-snug text-[var(--txt2)]"
+                    >
+                      <Check
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--ok-t)]"
+                        strokeWidth={3}
+                        aria-hidden="true"
+                      />
+                      {t(`offer.benefits.${ventaja}`)}
+                    </li>
+                  ))}
+                </ul>
 
-                <p className="mt-1 text-[11px] leading-snug text-[var(--txt2)]">
-                  {detalle}
-                </p>
-
-                <span className="mt-4 inline-flex items-center justify-center rounded-xl bg-[var(--azul)] px-3 py-2 text-xs font-bold text-[var(--btn-txt)] transition-colors group-hover:bg-[var(--azul-hover)]">
-                  {t("offer.choose")}
-                </span>
-
-                {promoActiva ? (
-                  <span className="mt-2 text-balance text-center text-[10px] font-medium leading-snug text-[var(--txt3)]">
-                    {t("offer.blackFriday.codeHint")}
-                  </span>
-                ) : null}
-              </button>
+                <div className="px-4 pb-4">
+                  <button
+                    type="button"
+                    onClick={() => elegirPlan(id)}
+                    aria-label={`${t("offer.choose")} ${nombre}`}
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+                  >
+                    {t("offer.choose")}
+                  </button>
+                </div>
+              </article>
             );
           })}
         </div>
 
-        <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-          {ventajas.map((ventaja) => (
-            <li
-              key={ventaja}
-              className="flex items-start gap-2 text-sm font-medium text-[var(--txt2)]"
-            >
-              <Check
-                className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ok-t)]"
-                strokeWidth={3}
-                aria-hidden="true"
-              />
-              {t(`offer.benefits.${ventaja}`)}
-            </li>
-          ))}
-        </ul>
+
       </div>
     </section>
 
