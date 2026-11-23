@@ -34,25 +34,29 @@ const caracteristicas = [
   {
     id: "generation",
     Icono: Sparkles,
-    fondo: "bg-blue-50 dark:bg-blue-950/40",
+    fondo: "bg-blue-100 dark:bg-blue-900/50",
+    fondoTarjeta: "bg-blue-50 dark:bg-blue-950/30",
     color: "text-blue-700 dark:text-blue-300",
   },
   {
     id: "level",
     Icono: GraduationCap,
-    fondo: "bg-indigo-50 dark:bg-indigo-950/40",
+    fondo: "bg-indigo-100 dark:bg-indigo-900/50",
+    fondoTarjeta: "bg-indigo-50 dark:bg-indigo-950/30",
     color: "text-indigo-700 dark:text-indigo-300",
   },
   {
     id: "space",
     Icono: FolderKanban,
-    fondo: "bg-teal-50 dark:bg-teal-950/40",
+    fondo: "bg-teal-100 dark:bg-teal-900/50",
+    fondoTarjeta: "bg-teal-50 dark:bg-teal-950/30",
     color: "text-teal-700 dark:text-teal-300",
   },
   {
     id: "mistakes",
     Icono: RotateCcw,
-    fondo: "bg-sky-50 dark:bg-sky-950/40",
+    fondo: "bg-sky-100 dark:bg-sky-900/50",
+    fondoTarjeta: "bg-sky-50 dark:bg-sky-950/30",
     color: "text-sky-700 dark:text-sky-300",
   },
 ] as const;
@@ -194,10 +198,10 @@ export default async function LandingPage({
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {caracteristicas.map(({ id, Icono, fondo, color }) => (
+            {caracteristicas.map(({ id, Icono, fondo, color, fondoTarjeta }) => (
               <article
                 key={id}
-                className="card group rounded-2xl p-6 transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none"
+                className={`group rounded-2xl border border-[var(--th)] p-6 shadow-[var(--sombra)] transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none ${fondoTarjeta}`}
               >
                 <span className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${fondo} ${color}`}>
                   <Icono className="h-6 w-6" strokeWidth={2} aria-hidden="true" />
