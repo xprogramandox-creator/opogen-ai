@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 import { LogOut } from "lucide-react";
 
@@ -18,6 +18,7 @@ export default function LogoutButton({
   compacto?: boolean;
 }) {
   const router = useRouter();
+  const locale = useLocale();
   const t = useTranslations("Header");
   const { cerrarSesion } = useSesion();
   const [saliendo, setSaliendo] = useState(false);
@@ -42,7 +43,7 @@ export default function LogoutButton({
       }
 
       cerrarSesion();
-      router.replace("/");
+      router.replace(`/${locale}`);
       router.refresh();
     } catch {
       setError("No se pudo cerrar la sesión.");

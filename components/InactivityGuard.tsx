@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useNotification } from "@/components/NotificationProvider";
+import { useLocale } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 
 const TIEMPO_INACTIVIDAD = 60 * 60 * 1000;
@@ -18,6 +19,7 @@ const EVENTOS_ACTIVIDAD = [
 
 export default function InactivityGuard() {
   const { sesion, cerrarSesion } = useSesion();
+  const locale = useLocale();
   const { notificar } = useNotification();
 
   const temporizadorRef = useRef<number | null>(null);
@@ -67,7 +69,7 @@ export default function InactivityGuard() {
 
         // Damos unos segundos para que se pueda leer el aviso antes de salir.
         window.setTimeout(() => {
-          window.location.replace("/");
+          window.location.replace(`/${locale}`);
         }, RETRASO_REDIRECCION);
       }
     };
@@ -103,7 +105,7 @@ export default function InactivityGuard() {
         window.removeEventListener(evento, registrarActividad);
       }
     };
-  }, [haySesion, notificar, cerrarSesion]);
+  }, [haySesion, notificar, cerrarSesion, locale]);
 
   return null;
 }

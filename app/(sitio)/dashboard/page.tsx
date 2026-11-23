@@ -10,7 +10,8 @@ import {
   RotateCcw,
   UserRound,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import TarjetaOferta from "@/components/TarjetaOferta";
 import CheckoutPendiente from "@/components/CheckoutPendiente";
@@ -63,6 +64,13 @@ export default async function DashboardPage({
 }) {
   const params = await searchParams;
   const usuario = await obtenerUsuarioSesion();
+
+  if (!usuario) {
+    const locale = await getLocale();
+
+    redirect(`/${locale}`);
+  }
+
   const t = await getTranslations("Dashboard");
 
   const esInvitado = !usuario;
