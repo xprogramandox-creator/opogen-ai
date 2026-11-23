@@ -85,32 +85,25 @@ export default function TarjetaOferta() {
 
   return (
     <>
-      <section
-      aria-labelledby="oferta-premium"
-      className="relative mb-8 overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 p-6 shadow-[var(--sombra-fuerte)] sm:p-8"
-      style={{
-        background:
-          "linear-gradient(135deg, var(--sel), var(--card) 60%)",
-      }}
-    >
-      <div className="relative">
+      <section aria-labelledby="oferta-premium" className="relative mb-8">
+        <div className="text-center">
         <span className="inline-flex rounded-full border border-[var(--ambar-b)] bg-[var(--ambar)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--ambar-t)]">
           {t("offer.launch")}
         </span>
 
         <h2
           id="oferta-premium"
-          className="mt-4 text-balance text-2xl font-bold tracking-tight text-[var(--txt)] sm:text-3xl"
+          className="mt-3 text-balance text-2xl font-bold tracking-tight text-[var(--txt)] sm:text-3xl"
         >
           {t("offer.title")}
         </h2>
 
-        <p className="mt-3 max-w-2xl text-pretty leading-relaxed text-[var(--txt2)]">
+        <p className="mx-auto mt-2 max-w-2xl text-pretty leading-relaxed text-[var(--txt2)]">
           {t("offer.subtitle")}
         </p>
 
         {teaser || promoActiva ? (
-          <p className="mt-4 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
+          <p className="mx-auto mt-3 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
             <Sparkles
               className="h-3.5 w-3.5 shrink-0"
               strokeWidth={2}
@@ -122,9 +115,9 @@ export default function TarjetaOferta() {
           </p>
         ) : null}
 
-        <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          <article className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--th)] bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none">
-            <div className="flex min-h-[84px] flex-col items-center justify-center gap-1 px-3 pb-2 pt-4">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <article className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--th)] bg-[var(--card)] text-left shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none">
+            <div className="flex min-h-[72px] flex-col items-center justify-center gap-1 px-2.5 pb-2 pt-3">
               <span className="inline-flex rounded-full border border-[var(--th)] bg-[var(--card2)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--txt2)]">
                 {t("offer.freemium.badge")}
               </span>
@@ -133,9 +126,9 @@ export default function TarjetaOferta() {
               </p>
             </div>
 
-            <div className="w-full border-y border-[var(--th)] bg-[var(--card2)] px-3 py-4 text-center text-[var(--txt)]">
+            <div className="w-full border-y border-[var(--th)] bg-[var(--card2)] px-2.5 py-3 text-center text-[var(--txt)]">
               <p className="flex flex-wrap items-baseline justify-center gap-x-1.5">
-                <span className="text-3xl font-bold tracking-tight">
+                <span className="text-2xl font-bold tracking-tight">
                   {formatoMoneda.format(0)}
                 </span>
                 <span className="text-xs font-semibold text-[var(--txt3)]">
@@ -150,15 +143,15 @@ export default function TarjetaOferta() {
               </p>
             </div>
 
-            <ul className="flex flex-1 flex-col gap-1.5 px-3 py-3">
+            <ul className="flex flex-1 flex-col gap-1 px-2.5 py-2.5">
               {(["daily", "guide", "testimonials", "noPdf", "noSummary"] as const).map(
                 (beneficio) => (
                   <li
                     key={beneficio}
-                    className="flex items-start gap-2 text-[11px] font-medium leading-snug text-[var(--txt2)]"
+                    className="flex items-start gap-2 text-[10px] font-medium leading-snug text-[var(--txt2)]"
                   >
                     <Check
-                      className="mt-[1px] h-3 w-3 shrink-0 text-[var(--ok-t)]"
+                      className="mt-[1px] h-2.5 w-2.5 shrink-0 text-[var(--ok-t)]"
                       strokeWidth={3}
                       aria-hidden="true"
                     />
@@ -168,11 +161,11 @@ export default function TarjetaOferta() {
               )}
             </ul>
 
-            <div className="px-3 pb-3">
+            <div className="px-2.5 pb-2.5">
               <button
                 type="button"
                 onClick={() => abrirAuth("registro")}
-                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-[var(--azul)] bg-[var(--card)] px-3 py-2 text-xs font-bold text-[var(--azul)] transition-colors hover:bg-[var(--sel)]"
+                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-[var(--azul)] bg-[var(--card)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--azul)] transition-colors hover:bg-[var(--sel)]"
               >
                 {t("offer.freemium.cta")}
               </button>
@@ -193,13 +186,7 @@ export default function TarjetaOferta() {
             return (
               <article
                 key={id}
-                className={`group relative flex h-full flex-col overflow-hidden rounded-xl border bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none ${
-                  esRecomendado
-                    ? "border-[var(--azul)]/40"
-                    : esMejor
-                      ? "border-[var(--ambar-b)]"
-                      : "border-[var(--th)]"
-                }`}
+                className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--th)] bg-[var(--card)] text-left shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none"
               >
                 {teaser ? (
                   <span
@@ -208,7 +195,7 @@ export default function TarjetaOferta() {
                   />
                 ) : null}
 
-                <div className="flex min-h-[84px] flex-col items-center justify-center gap-1 px-3 pb-2 pt-4">
+                <div className="flex min-h-[72px] flex-col items-center justify-center gap-1 px-2.5 pb-2 pt-3">
                   <div className="flex min-h-5 flex-wrap items-center justify-center gap-1.5">
                     {badge ? (
                       <span
@@ -242,7 +229,7 @@ export default function TarjetaOferta() {
                 </div>
 
                 <div
-                  className={`w-full px-3 py-4 text-center ${
+                  className={`w-full px-2.5 py-3 text-center ${
                     esRecomendado
                       ? "bg-[var(--azul)] text-white"
                       : esMejor
@@ -284,7 +271,7 @@ export default function TarjetaOferta() {
                   ) : null}
 
                   <p className="flex flex-wrap items-baseline justify-center gap-x-1.5">
-                    <span className="text-3xl font-bold tracking-tight">
+                    <span className="text-2xl font-bold tracking-tight">
                       {formatoMoneda.format(precioMostrado)}
                     </span>
                     {id === "monthly" ? (
@@ -329,14 +316,14 @@ export default function TarjetaOferta() {
                   ) : null}
                 </div>
 
-                <ul className="flex flex-1 flex-col gap-1.5 px-3 py-3">
+                <ul className="flex flex-1 flex-col gap-1 px-2.5 py-2.5">
                   {ventajas.map((ventaja) => (
                     <li
                       key={ventaja}
-                      className="flex items-start gap-2 text-[11px] font-medium leading-snug text-[var(--txt2)]"
+                      className="flex items-start gap-2 text-[10px] font-medium leading-snug text-[var(--txt2)]"
                     >
                       <Check
-                        className="mt-[1px] h-3 w-3 shrink-0 text-[var(--ok-t)]"
+                        className="mt-[1px] h-2.5 w-2.5 shrink-0 text-[var(--ok-t)]"
                         strokeWidth={3}
                         aria-hidden="true"
                       />
@@ -345,12 +332,12 @@ export default function TarjetaOferta() {
                   ))}
                 </ul>
 
-                <div className="px-3 pb-3">
+                <div className="px-2.5 pb-2.5">
                   <button
                     type="button"
                     onClick={() => elegirPlan(id)}
                     aria-label={`${t("offer.choose")} ${nombre}`}
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-3 py-2 text-xs font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
                   >
                     {t("offer.choose")}
                   </button>
