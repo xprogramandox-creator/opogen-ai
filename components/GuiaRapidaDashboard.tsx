@@ -60,7 +60,11 @@ export default function GuiaRapidaDashboard() {
   const t = useTranslations("Dashboard.guiaRapida");
 
   return (
-    <section aria-labelledby="guia-rapida-titulo" className="mb-8">
+    <section
+      id="guia-rapida"
+      aria-labelledby="guia-rapida-titulo"
+      className="mb-8 scroll-mt-24"
+    >
       <div className="mb-4">
         <h2
           id="guia-rapida-titulo"
@@ -71,10 +75,10 @@ export default function GuiaRapidaDashboard() {
         <p className="mt-1 text-sm text-[var(--txt2)]">{t("subtitle")}</p>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <ul role="list" className="flex flex-col gap-3">
         {TARJETAS.map(({ clave, Icono, fondo, iconoFondo }) => (
+          <li key={clave}>
           <article
-            key={clave}
             className={`flex items-center gap-4 rounded-2xl border border-[var(--th)] p-4 shadow-[var(--sombra)] sm:p-5 ${fondo}`}
           >
             <span
@@ -95,8 +99,9 @@ export default function GuiaRapidaDashboard() {
               </p>
             </div>
           </article>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
