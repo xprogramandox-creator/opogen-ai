@@ -278,6 +278,20 @@
         "notice": "Black Friday is live! Save 25% with code OPOBLACK25 at checkout.",
         "teaserBadge": "Black Friday −25% coming soon",
         "teaserNotice": "Black Friday: from Nov 26 to 28, save 25% with code OPOBLACK25."
+      },
+      "freemium": {
+        "badge": "Free",
+        "name": "Freemium",
+        "vat": "No cost",
+        "detail": "Forever",
+        "cta": "Create free account",
+        "benefits": {
+          "daily": "5 questions per test per day.",
+          "guide": "Access to the Quick Guide.",
+          "testimonials": "Access to Testimonials.",
+          "noPdf": "No PDF download.",
+          "noSummary": "No AI summary."
+        }
       }
     },
     "premiumExpiresSoon": "Your Premium plan expires soon: {date}",

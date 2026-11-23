@@ -122,7 +122,63 @@ export default function TarjetaOferta() {
           </p>
         ) : null}
 
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          <article className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--th)] bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none">
+            <div className="flex min-h-[84px] flex-col items-center justify-center gap-1 px-3 pb-2 pt-4">
+              <span className="inline-flex rounded-full border border-[var(--th)] bg-[var(--card2)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--txt2)]">
+                {t("offer.freemium.badge")}
+              </span>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--txt3)]">
+                {t("offer.freemium.name")}
+              </p>
+            </div>
+
+            <div className="w-full border-y border-[var(--th)] bg-[var(--card2)] px-3 py-4 text-center text-[var(--txt)]">
+              <p className="flex flex-wrap items-baseline justify-center gap-x-1.5">
+                <span className="text-3xl font-bold tracking-tight">
+                  {formatoMoneda.format(0)}
+                </span>
+                <span className="text-xs font-semibold text-[var(--txt3)]">
+                  {t("offer.perMonth")}
+                </span>
+              </p>
+              <p className="mt-1 text-[10px] font-medium text-[var(--txt3)]">
+                {t("offer.freemium.vat")}
+              </p>
+              <p className="mt-1 text-[10px] leading-snug text-[var(--txt2)]">
+                {t("offer.freemium.detail")}
+              </p>
+            </div>
+
+            <ul className="flex flex-1 flex-col gap-1.5 px-3 py-3">
+              {(["daily", "guide", "testimonials", "noPdf", "noSummary"] as const).map(
+                (beneficio) => (
+                  <li
+                    key={beneficio}
+                    className="flex items-start gap-2 text-[11px] font-medium leading-snug text-[var(--txt2)]"
+                  >
+                    <Check
+                      className="mt-[1px] h-3 w-3 shrink-0 text-[var(--ok-t)]"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
+                    {t(`offer.freemium.benefits.${beneficio}`)}
+                  </li>
+                ),
+              )}
+            </ul>
+
+            <div className="px-3 pb-3">
+              <button
+                type="button"
+                onClick={() => abrirAuth("registro")}
+                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-[var(--azul)] bg-[var(--card)] px-3 py-2 text-xs font-bold text-[var(--azul)] transition-colors hover:bg-[var(--sel)]"
+              >
+                {t("offer.freemium.cta")}
+              </button>
+            </div>
+          </article>
+
           {planes.map(({ id, Icono }) => {
             const nombre = t(`offer.plans.${id}.name`);
             const precioBase = PRECIOS_BASE[id] * (1 + IVA);
@@ -137,7 +193,7 @@ export default function TarjetaOferta() {
             return (
               <article
                 key={id}
-                className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none ${
+                className={`group relative flex h-full flex-col overflow-hidden rounded-xl border bg-[var(--card)] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transform-none ${
                   esRecomendado
                     ? "border-[var(--azul)]/40"
                     : esMejor
@@ -152,7 +208,7 @@ export default function TarjetaOferta() {
                   />
                 ) : null}
 
-                <div className="flex min-h-[96px] flex-col items-center justify-center gap-1.5 px-4 pb-3 pt-5">
+                <div className="flex min-h-[84px] flex-col items-center justify-center gap-1 px-3 pb-2 pt-4">
                   <div className="flex min-h-5 flex-wrap items-center justify-center gap-1.5">
                     {badge ? (
                       <span
@@ -166,20 +222,6 @@ export default function TarjetaOferta() {
                       </span>
                     ) : null}
 
-                    {promoActiva || teaser ? (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-[var(--txt)]/15 bg-[var(--txt)] px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-wide text-[var(--card)]">
-                        {teaser ? (
-                          <Sparkles
-                            className="h-2 w-2"
-                            strokeWidth={2.5}
-                            aria-hidden="true"
-                          />
-                        ) : null}
-                        {teaser
-                          ? t("offer.blackFriday.teaserBadge")
-                          : t("offer.blackFriday.badge")}
-                      </span>
-                    ) : null}
                   </div>
 
                   {Icono ? (
@@ -200,7 +242,7 @@ export default function TarjetaOferta() {
                 </div>
 
                 <div
-                  className={`w-full px-4 py-5 text-center ${
+                  className={`w-full px-3 py-4 text-center ${
                     esRecomendado
                       ? "bg-[var(--azul)] text-white"
                       : esMejor
@@ -208,6 +250,27 @@ export default function TarjetaOferta() {
                         : "bg-[var(--sel)] text-[var(--txt)]"
                   }`}
                 >
+                  {promoActiva || teaser ? (
+                    <span
+                      className={`mb-1.5 inline-flex items-center gap-1 rounded-full border px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-wide ${
+                        esRecomendado
+                          ? "border-white/30 bg-white/15 text-white"
+                          : "border-[var(--txt)]/15 bg-[var(--txt)] text-[var(--card)]"
+                      }`}
+                    >
+                      {teaser ? (
+                        <Sparkles
+                          className="h-2 w-2"
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      {teaser
+                        ? t("offer.blackFriday.teaserBadge")
+                        : t("offer.blackFriday.badge")}
+                    </span>
+                  ) : null}
+
                   {promoActiva ? (
                     <p
                       className={`text-xs font-semibold line-through ${
@@ -221,7 +284,7 @@ export default function TarjetaOferta() {
                   ) : null}
 
                   <p className="flex flex-wrap items-baseline justify-center gap-x-1.5">
-                    <span className="text-4xl font-bold tracking-tight">
+                    <span className="text-3xl font-bold tracking-tight">
                       {formatoMoneda.format(precioMostrado)}
                     </span>
                     {id === "monthly" ? (
@@ -266,14 +329,14 @@ export default function TarjetaOferta() {
                   ) : null}
                 </div>
 
-                <ul className="flex flex-1 flex-col gap-2 px-4 py-4">
+                <ul className="flex flex-1 flex-col gap-1.5 px-3 py-3">
                   {ventajas.map((ventaja) => (
                     <li
                       key={ventaja}
-                      className="flex items-start gap-2 text-xs font-medium leading-snug text-[var(--txt2)]"
+                      className="flex items-start gap-2 text-[11px] font-medium leading-snug text-[var(--txt2)]"
                     >
                       <Check
-                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--ok-t)]"
+                        className="mt-[1px] h-3 w-3 shrink-0 text-[var(--ok-t)]"
                         strokeWidth={3}
                         aria-hidden="true"
                       />
@@ -282,12 +345,12 @@ export default function TarjetaOferta() {
                   ))}
                 </ul>
 
-                <div className="px-4 pb-4">
+                <div className="px-3 pb-3">
                   <button
                     type="button"
                     onClick={() => elegirPlan(id)}
                     aria-label={`${t("offer.choose")} ${nombre}`}
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-4 py-2.5 text-sm font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--azul)] px-3 py-2 text-xs font-bold text-[var(--btn-txt)] transition-colors hover:bg-[var(--azul-hover)]"
                   >
                     {t("offer.choose")}
                   </button>

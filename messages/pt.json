@@ -278,6 +278,20 @@
         "notice": "Black Friday ativo! Poupa 25% com o código OPOBLACK25 no pagamento.",
         "teaserBadge": "Black Friday −25% em breve",
         "teaserNotice": "Black Friday: de 26 a 28 de novembro, poupe 25% com o código OPOBLACK25."
+      },
+      "freemium": {
+        "badge": "Grátis",
+        "name": "Freemium",
+        "vat": "Sem custos",
+        "detail": "Para sempre",
+        "cta": "Criar conta grátis",
+        "benefits": {
+          "daily": "5 perguntas por teste por dia.",
+          "guide": "Acesso ao Guia rápido.",
+          "testimonials": "Acesso aos Testemunhos.",
+          "noPdf": "Sem download de PDF.",
+          "noSummary": "Sem resumo de IA."
+        }
       }
     },
     "premiumExpiresSoon": "O seu plano Premium expira em breve: {date}",

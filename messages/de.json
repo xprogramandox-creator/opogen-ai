@@ -278,6 +278,20 @@
         "notice": "Black Friday ist da! Spare 25 % mit dem Code OPOBLACK25 an der Kasse.",
         "teaserBadge": "Black Friday −25% bald",
         "teaserNotice": "Black Friday: Spare vom 26. bis 28. November 25 % mit dem Code OPOBLACK25."
+      },
+      "freemium": {
+        "badge": "Kostenlos",
+        "name": "Freemium",
+        "vat": "Kostenlos",
+        "detail": "Für immer",
+        "cta": "Kostenloses Konto erstellen",
+        "benefits": {
+          "daily": "5 Fragen pro Test und Tag.",
+          "guide": "Zugang zur Kurzanleitung.",
+          "testimonials": "Zugang zu den Erfahrungsberichten.",
+          "noPdf": "Kein PDF-Download.",
+          "noSummary": "Keine KI-Zusammenfassung."
+        }
       }
     },
     "premiumExpiresSoon": "Dein Premium-Tarif läuft bald ab: {date}",
