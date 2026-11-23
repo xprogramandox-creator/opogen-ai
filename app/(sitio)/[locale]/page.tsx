@@ -160,7 +160,7 @@ export default async function LandingPage({
         </section>
 
         {/* GUÍA RÁPIDA */}
-        <div className="relative z-10 px-5 pt-12 sm:px-6 sm:pt-16">
+        <div className="relative z-10 px-5 pb-12 pt-12 sm:px-6 sm:pb-14 sm:pt-16">
           <GuiaRapidaDashboard className="mb-0" />
         </div>
 
