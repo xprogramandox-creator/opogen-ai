@@ -183,7 +183,9 @@ function abrirDb(): DatabaseSync {
         pagina TEXT NOT NULL CHECK (pagina IN ('landing', 'crear', 'arcade')),
         accion TEXT NOT NULL CHECK (accion IN ('visita', 'test_creado', 'partida_arcade')),
         fecha TEXT NOT NULL,
-        ip TEXT NOT NULL DEFAULT ''
+        ip TEXT NOT NULL DEFAULT '',
+        pais TEXT NOT NULL DEFAULT '',
+        ciudad TEXT NOT NULL DEFAULT ''
       );
       CREATE TABLE IF NOT EXISTS ips_admin (
         ip TEXT PRIMARY KEY,
@@ -277,6 +279,25 @@ function abrirDb(): DatabaseSync {
       if (!columnas.some((columna) => columna.name === "ip")) {
         db.exec(
           `ALTER TABLE ${tabla} ADD COLUMN ip TEXT NOT NULL DEFAULT ''`,
+        );
+      }
+    }
+
+    // Geolocalización de invitados (país y ciudad) en instalaciones existentes.
+    const columnasInvitados = db
+      .prepare("PRAGMA table_info(actividad_invitados)")
+      .all() as Array<{ name: string }>;
+    const existentesInvitados = new Set(
+      columnasInvitados.map((columna) => columna.name),
+    );
+
+    for (const [nombre, definicion] of [
+      ["pais", "TEXT NOT NULL DEFAULT ''"],
+      ["ciudad", "TEXT NOT NULL DEFAULT ''"],
+    ] as Array<[string, string]>) {
+      if (!existentesInvitados.has(nombre)) {
+        db.exec(
+          `ALTER TABLE actividad_invitados ADD COLUMN ${nombre} ${definicion}`,
         );
       }
     }
@@ -1290,17 +1311,31 @@ export function registrarActividadInvitado(
   pagina: "landing" | "crear" | "arcade",
   accion: "visita" | "test_creado" | "partida_arcade",
   ip = "",
+  pais = "",
+  ciudad = "",
 ): void {
   abrirDb()
     .prepare(
-      `INSERT INTO actividad_invitados (session_id, pagina, accion, fecha, ip)
-       VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO actividad_invitados
+         (session_id, pagina, accion, fecha, ip, pais, ciudad)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
     )
-    .run(sessionId, pagina, accion, new Date().toISOString(), ip.trim());
+    .run(
+      sessionId,
+      pagina,
+      accion,
+      new Date().toISOString(),
+      ip.trim(),
+      pais.trim(),
+      ciudad.trim(),
+    );
 }
 
 export type InvitadoAdmin = {
   sessionId: string;
+  ip: string;
+  pais: string;
+  ciudad: string;
   visitasLanding: number;
   testsCreados: number;
   partidasArcade: number;
@@ -1328,6 +1363,9 @@ export function obtenerInvitadosAdmin(fecha?: string): InvitadoAdmin[] {
   const filas = db
     .prepare(
       `SELECT session_id,
+        MAX(ip) AS ip,
+        MAX(NULLIF(pais, '')) AS pais,
+        MAX(NULLIF(ciudad, '')) AS ciudad,
          COALESCE(SUM(CASE WHEN pagina = 'landing' AND accion = 'visita' THEN 1 ELSE 0 END), 0) AS visitas_landing,
          COALESCE(SUM(CASE WHEN accion = 'test_creado' THEN 1 ELSE 0 END), 0) AS tests_creados,
          COALESCE(SUM(CASE WHEN accion = 'partida_arcade' THEN 1 ELSE 0 END), 0) AS partidas_arcade,
@@ -1339,6 +1377,9 @@ export function obtenerInvitadosAdmin(fecha?: string): InvitadoAdmin[] {
     )
     .all(...valores) as Array<{
     session_id: string;
+    ip: string | null;
+    pais: string | null;
+    ciudad: string | null;
     visitas_landing: number;
     tests_creados: number;
     partidas_arcade: number;
@@ -1347,6 +1388,9 @@ export function obtenerInvitadosAdmin(fecha?: string): InvitadoAdmin[] {
 
   return filas.map((fila) => ({
     sessionId: fila.session_id,
+    ip: fila.ip || "",
+    pais: fila.pais || "",
+    ciudad: fila.ciudad || "",
     visitasLanding: Number(fila.visitas_landing),
     testsCreados: Number(fila.tests_creados),
     partidasArcade: Number(fila.partidas_arcade),

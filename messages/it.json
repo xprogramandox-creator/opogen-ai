@@ -858,7 +858,6 @@
     "tab": "Ospiti",
     "title": "Attività degli ospiti",
     "subtitle": "Attività dei visitatori non registrati.",
-    "sessionId": "ID sessione",
     "landingVisits": "Visite alla landing",
     "testsCreated": "Test creati",
     "arcadeGames": "Partite Arcade",
@@ -876,7 +875,10 @@
     "cancel": "Annulla",
     "confirmDelete": "Elimina",
     "deleting": "Eliminazione…",
-    "deleteError": "Impossibile eliminare l'attività degli ospiti."
+    "deleteError": "Impossibile eliminare l'attività degli ospiti.",
+    "location": "Posizione",
+    "ip": "IP",
+    "unknownLocation": "Sconosciuta"
   },
   "Contacto": {
     "back": "Indietro",

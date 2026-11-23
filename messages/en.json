@@ -858,7 +858,6 @@
     "tab": "Guests",
     "title": "Guest activity",
     "subtitle": "Activity from unregistered visitors.",
-    "sessionId": "Session ID",
     "landingVisits": "Landing visits",
     "testsCreated": "Tests created",
     "arcadeGames": "Arcade games",
@@ -876,7 +875,10 @@
     "cancel": "Cancel",
     "confirmDelete": "Delete",
     "deleting": "Deleting…",
-    "deleteError": "Could not delete guest activity."
+    "deleteError": "Could not delete guest activity.",
+    "location": "Location",
+    "ip": "IP",
+    "unknownLocation": "Unknown"
   },
   "Contacto": {
     "back": "Back",

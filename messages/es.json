@@ -858,7 +858,6 @@
     "tab": "Invitados",
     "title": "Actividad de invitados",
     "subtitle": "Actividad de los visitantes no registrados.",
-    "sessionId": "ID de sesión",
     "landingVisits": "Visitas a la landing",
     "testsCreated": "Tests creados",
     "arcadeGames": "Partidas de Arcade",
@@ -876,7 +875,10 @@
     "cancel": "Cancelar",
     "confirmDelete": "Borrar",
     "deleting": "Borrando…",
-    "deleteError": "No se pudo borrar la actividad de invitados."
+    "deleteError": "No se pudo borrar la actividad de invitados.",
+    "location": "Ubicación",
+    "ip": "IP",
+    "unknownLocation": "Desconocida"
   },
   "Contacto": {
     "back": "Volver",

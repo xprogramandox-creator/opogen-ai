@@ -147,6 +147,9 @@ type TestimonioAdmin = {
 
 type InvitadoAdmin = {
   sessionId: string;
+  ip: string;
+  pais: string;
+  ciudad: string;
   visitasLanding: number;
   testsCreados: number;
   partidasArcade: number;
@@ -177,11 +180,6 @@ function dinero(valor: number): string {
 function fecha(iso: string | null): string {
   if (!iso) return "—";
   return new Date(iso).toLocaleDateString("es-ES");
-}
-
-function abreviarSesion(sessionId: string): string {
-  if (sessionId.length <= 12) return sessionId;
-  return `${sessionId.slice(0, 8)}…`;
 }
 
 export default function AdminPanel() {
@@ -2056,7 +2054,8 @@ export default function AdminPanel() {
                 <table className="w-full min-w-[760px] text-left text-xs">
                   <thead className="bg-[var(--card2)] text-[var(--txt3)]">
                     <tr>
-                      <th className="px-3 py-3">{tInvitados("sessionId")}</th>
+                      <th className="px-3 py-3">{tInvitados("location")}</th>
+                  <th className="px-3 py-3">{tInvitados("ip")}</th>
                       <th className="px-3 py-3">{tInvitados("landingVisits")}</th>
                       <th className="px-3 py-3">{tInvitados("testsCreated")}</th>
                       <th className="px-3 py-3">{tInvitados("arcadeGames")}</th>
@@ -2069,8 +2068,15 @@ export default function AdminPanel() {
                         key={invitado.sessionId}
                         className="border-t border-[var(--th)]"
                       >
+                        <td className="px-3 py-3">
+                          {invitado.ciudad || invitado.pais
+                            ? [invitado.ciudad, invitado.pais]
+                                .filter(Boolean)
+                                .join(", ")
+                            : tInvitados("unknownLocation")}
+                        </td>
                         <td className="px-3 py-3 font-mono">
-                          {abreviarSesion(invitado.sessionId)}
+                          {invitado.ip || "—"}
                         </td>
                         <td className="px-3 py-3">{invitado.visitasLanding}</td>
                         <td className="px-3 py-3">{invitado.testsCreados}</td>

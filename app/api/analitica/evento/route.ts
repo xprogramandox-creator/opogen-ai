@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { registrarActividadInvitado } from "@/lib/admin-db";
 import { obtenerIpCliente } from "@/lib/ip";
+import { obtenerUbicacionInvitado } from "@/lib/geo-invitado";
 import { consumirLimite } from "@/lib/rate-limit";
 
 const ID_ANONIMO = /^[A-Za-z0-9_-]{16,80}$/;
@@ -48,11 +49,15 @@ export async function POST(request: Request) {
     );
   }
 
+  const ubicacion = await obtenerUbicacionInvitado(request, ip);
+
   registrarActividadInvitado(
     sessionId,
     pagina as "landing" | "crear" | "arcade",
     accion as "visita" | "test_creado" | "partida_arcade",
     ip,
+    ubicacion.pais,
+    ubicacion.ciudad,
   );
 
   return new NextResponse(null, {

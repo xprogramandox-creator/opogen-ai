@@ -858,7 +858,6 @@
     "tab": "Gäste",
     "title": "Gastaktivität",
     "subtitle": "Aktivität nicht angemeldeter Besucher.",
-    "sessionId": "Sitzungs-ID",
     "landingVisits": "Besuche der Startseite",
     "testsCreated": "Erstellte Tests",
     "arcadeGames": "Arcade-Spiele",
@@ -876,7 +875,10 @@
     "cancel": "Abbrechen",
     "confirmDelete": "Löschen",
     "deleting": "Wird gelöscht…",
-    "deleteError": "Gastaktivität konnte nicht gelöscht werden."
+    "deleteError": "Gastaktivität konnte nicht gelöscht werden.",
+    "location": "Standort",
+    "ip": "IP",
+    "unknownLocation": "Unbekannt"
   },
   "Contacto": {
     "back": "Zurück",

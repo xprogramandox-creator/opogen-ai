@@ -858,7 +858,6 @@
     "tab": "Invités",
     "title": "Activité des invités",
     "subtitle": "Activité des visiteurs non connectés.",
-    "sessionId": "ID de session",
     "landingVisits": "Visites de la page d'accueil",
     "testsCreated": "Tests créés",
     "arcadeGames": "Parties Arcade",
@@ -876,7 +875,10 @@
     "cancel": "Annuler",
     "confirmDelete": "Supprimer",
     "deleting": "Suppression…",
-    "deleteError": "Impossible de supprimer l'activité des invités."
+    "deleteError": "Impossible de supprimer l'activité des invités.",
+    "location": "Localisation",
+    "ip": "IP",
+    "unknownLocation": "Inconnue"
   },
   "Contacto": {
     "back": "Retour",
