@@ -327,10 +327,6 @@
       "arcade": {
         "title": "Arcade",
         "description": "Anche imparare può essere divertente. Gioca, sfida gli altri e supera i tuoi record."
-      },
-      "kids": {
-        "title": "Kids",
-        "description": "Per i più piccoli. Giochi e test adatti alla loro età per imparare senza accorgersene."
       }
     }
   },

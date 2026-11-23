@@ -327,10 +327,6 @@
       "arcade": {
         "title": "Arcade",
         "description": "Aprender também pode ser divertido. Joga, compete e supera os teus recordes."
-      },
-      "kids": {
-        "title": "Kids",
-        "description": "Para os mais pequenos. Jogos e testes adaptados à idade deles para aprenderem sem dar por isso."
       }
     }
   },

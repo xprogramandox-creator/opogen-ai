@@ -4,7 +4,6 @@ import {
   FileText,
   FolderOpen,
   Gamepad2,
-  Star,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -42,13 +41,6 @@ const TARJETAS = [
     fondo: "bg-purple-50 dark:bg-purple-950/40",
     iconoFondo:
       "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300",
-  },
-  {
-    clave: "kids",
-    Icono: Star,
-    fondo: "bg-orange-50 dark:bg-orange-950/40",
-    iconoFondo:
-      "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-300",
   },
 ] as const;
 

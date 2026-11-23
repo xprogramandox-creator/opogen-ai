@@ -327,10 +327,6 @@
       "arcade": {
         "title": "Arcade",
         "description": "Learning can be fun too. Play, compete and beat your own records."
-      },
-      "kids": {
-        "title": "Kids",
-        "description": "For the little ones. Games and tests adapted to their age so they learn without even noticing."
       }
     }
   },

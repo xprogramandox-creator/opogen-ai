@@ -164,15 +164,10 @@ export default async function LandingPage({
           <GuiaRapidaDashboard className="mb-0" />
         </div>
 
-        {/* OFERTA PREMIUM */}
-        {mostrarOfertaPremium ? (
-          <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
-            <TarjetaOferta />
-          </div>
-        ) : null}
+        {/* OFERTA + ZONA KIDS (flex + gap para evitar el colapso de margenes) */}
+        <div className="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-5 pb-4 sm:px-6">
+          {mostrarOfertaPremium ? <TarjetaOferta /> : null}
 
-        {/* ZONA KIDS */}
-        <div className="relative z-10 mt-16 px-5 pb-16 sm:px-6">
           <TarjetaZonaKids />
         </div>
 
