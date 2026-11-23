@@ -31,16 +31,54 @@ export const metadata: Metadata = {
 export const instant = false;
 
 const caracteristicas = [
-  { id: "generation", Icono: Sparkles },
-  { id: "level", Icono: GraduationCap },
-  { id: "space", Icono: FolderKanban },
-  { id: "mistakes", Icono: RotateCcw },
+  {
+    id: "generation",
+    Icono: Sparkles,
+    fondo: "bg-blue-50 dark:bg-blue-950/40",
+    color: "text-blue-700 dark:text-blue-300",
+  },
+  {
+    id: "level",
+    Icono: GraduationCap,
+    fondo: "bg-indigo-50 dark:bg-indigo-950/40",
+    color: "text-indigo-700 dark:text-indigo-300",
+  },
+  {
+    id: "space",
+    Icono: FolderKanban,
+    fondo: "bg-teal-50 dark:bg-teal-950/40",
+    color: "text-teal-700 dark:text-teal-300",
+  },
+  {
+    id: "mistakes",
+    Icono: RotateCcw,
+    fondo: "bg-sky-50 dark:bg-sky-950/40",
+    color: "text-sky-700 dark:text-sky-300",
+  },
 ] as const;
 
 const pasos = [
-  { numero: "1", id: "upload", Icono: CloudUpload },
-  { numero: "2", id: "configure", Icono: Settings2 },
-  { numero: "3", id: "learn", Icono: TrendingUp },
+  {
+    numero: "1",
+    id: "upload",
+    Icono: CloudUpload,
+    pastel:
+      "bg-blue-100 text-blue-800 ring-1 ring-blue-200 dark:bg-blue-900/60 dark:text-blue-200 dark:ring-blue-800",
+  },
+  {
+    numero: "2",
+    id: "configure",
+    Icono: Settings2,
+    pastel:
+      "bg-indigo-100 text-indigo-800 ring-1 ring-indigo-200 dark:bg-indigo-900/60 dark:text-indigo-200 dark:ring-indigo-800",
+  },
+  {
+    numero: "3",
+    id: "learn",
+    Icono: TrendingUp,
+    pastel:
+      "bg-teal-100 text-teal-800 ring-1 ring-teal-200 dark:bg-teal-900/60 dark:text-teal-200 dark:ring-teal-800",
+  },
 ] as const;
 
 export default async function LandingPage({
@@ -134,7 +172,7 @@ export default async function LandingPage({
         ) : null}
 
         {/* ZONA KIDS */}
-        <div className="relative z-10 mt-10 px-5 pb-16 sm:px-6">
+        <div className="relative z-10 mt-16 px-5 pb-16 sm:px-6">
           <TarjetaZonaKids />
         </div>
 
@@ -161,12 +199,12 @@ export default async function LandingPage({
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {caracteristicas.map(({ id, Icono }) => (
+            {caracteristicas.map(({ id, Icono, fondo, color }) => (
               <article
                 key={id}
                 className="card group rounded-2xl p-6 transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none"
               >
-                <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
+                <span className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${fondo} ${color}`}>
                   <Icono className="h-6 w-6" strokeWidth={2} aria-hidden="true" />
                 </span>
                 <h3 className="mb-2 text-lg font-bold text-[var(--txt)]">
@@ -186,6 +224,7 @@ export default async function LandingPage({
           aria-labelledby="titulo-como-funciona"
           className="relative z-10 mx-auto max-w-6xl px-5 pb-16 sm:px-6"
         >
+          <div className="rounded-3xl border border-[var(--th)] bg-[var(--card2)] px-5 py-8 shadow-[var(--sombra)] sm:px-8 sm:py-10">
           <div className="mb-9 text-center">
             <h2
               id="titulo-como-funciona"
@@ -199,9 +238,9 @@ export default async function LandingPage({
           </div>
 
           <ol className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            {pasos.map(({ numero, id, Icono }) => (
+            {pasos.map(({ numero, id, Icono, pastel }) => (
               <li key={numero} className="card relative rounded-2xl p-6 pt-10">
-                <span className="absolute -top-4 left-6 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--azul)] text-sm font-bold text-white shadow-lg">
+                <span className={`absolute -top-4 left-6 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold shadow-sm ${pastel}`}>
                   {numero}
                 </span>
                 <Icono
@@ -218,6 +257,7 @@ export default async function LandingPage({
               </li>
             ))}
           </ol>
+          </div>
         </section>
 
       </main>
