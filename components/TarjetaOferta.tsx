@@ -130,7 +130,7 @@ export default function TarjetaOferta() {
             </div>
 
             <ul className="flex flex-1 flex-col gap-1 px-2.5 py-2.5">
-              {(["daily", "noPdf", "noSummary"] as const).map(
+              {(["daily"] as const).map(
                 (beneficio) => (
                   <li
                     key={beneficio}
@@ -145,7 +145,7 @@ export default function TarjetaOferta() {
                   </li>
                 ),
               )}
-              {(["noKids", "noSpace", "noAgenda", "noStats"] as const).map(
+              {(["noPdf", "noSummary", "noKids", "noSpace", "noAgenda", "noStats"] as const).map(
                 (limite) => (
                   <li
                     key={limite}

@@ -284,15 +284,15 @@
         "detail": "Para siempre",
         "cta": "Crear cuenta gratis",
         "benefits": {
-          "daily": "5 preguntas por test al día.",
-          "noPdf": "Sin descarga de PDF.",
-          "noSummary": "Sin resumen de IA."
+          "daily": "5 preguntas por test al día."
         },
         "limits": {
           "noKids": "Sin acceso a Kids",
           "noSpace": "Sin acceso a Mi Espacio",
           "noAgenda": "Sin acceso a Mi Agenda",
-          "noStats": "Sin acceso a Estadísticas"
+          "noStats": "Sin acceso a Estadísticas",
+          "noPdf": "Sin descarga de PDF.",
+          "noSummary": "Sin resumen de IA."
         }
       }
     },

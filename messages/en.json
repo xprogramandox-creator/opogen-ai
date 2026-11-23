@@ -284,15 +284,15 @@
         "detail": "Forever",
         "cta": "Create free account",
         "benefits": {
-          "daily": "5 questions per test per day.",
-          "noPdf": "No PDF download.",
-          "noSummary": "No AI summary."
+          "daily": "5 questions per test per day."
         },
         "limits": {
           "noKids": "No access to Kids",
           "noSpace": "No access to My Space",
           "noAgenda": "No access to My Agenda",
-          "noStats": "No access to Statistics"
+          "noStats": "No access to Statistics",
+          "noPdf": "No PDF download.",
+          "noSummary": "No AI summary."
         }
       }
     },
