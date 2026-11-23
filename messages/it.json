@@ -575,7 +575,10 @@
     "tryAgain": "Bel tentativo!",
     "timeUp": "Tempo scaduto. La risposta corretta era {letter}) {answer}.",
     "wrongAnswer": "Da ripassare: la risposta corretta era {letter}) {answer}.",
-    "failedQuestion": "Domanda {current} da ripassare: la risposta corretta era {letter}) {answer}."
+    "failedQuestion": "Domanda {current} da ripassare: la risposta corretta era {letter}) {answer}.",
+    "questionOnly": "Domanda {current}",
+    "masteredTopic": "Hai padroneggiato questo argomento! Provane un altro o ricomincia la partita.",
+    "loadingMore": "Caricamento di altre domande…"
   },
   "Estadisticas": {
     "title": "Le tue statistiche",

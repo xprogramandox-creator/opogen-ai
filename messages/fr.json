@@ -575,7 +575,10 @@
     "tryAgain": "Bien essayé !",
     "timeUp": "Temps écoulé. La bonne réponse était {letter}) {answer}.",
     "wrongAnswer": "À réviser : la bonne réponse était {letter}) {answer}.",
-    "failedQuestion": "Question {current} à réviser : la bonne réponse était {letter}) {answer}."
+    "failedQuestion": "Question {current} à réviser : la bonne réponse était {letter}) {answer}.",
+    "questionOnly": "Question {current}",
+    "masteredTopic": "Tu maîtrises ce sujet ! Essaie-en un autre ou recommence la partie.",
+    "loadingMore": "Chargement d'autres questions…"
   },
   "Estadisticas": {
     "title": "Vos statistiques",

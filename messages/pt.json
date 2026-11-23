@@ -575,7 +575,10 @@
     "tryAgain": "Boa tentativa!",
     "timeUp": "O tempo acabou. A resposta correta era {letter}) {answer}.",
     "wrongAnswer": "Para revisar: a resposta correta era {letter}) {answer}.",
-    "failedQuestion": "Questão {current} para revisar: a resposta correta era {letter}) {answer}."
+    "failedQuestion": "Questão {current} para revisar: a resposta correta era {letter}) {answer}.",
+    "questionOnly": "Pergunta {current}",
+    "masteredTopic": "Dominaste este tema! Experimenta outro ou reinicia a partida.",
+    "loadingMore": "A carregar mais perguntas…"
   },
   "Estadisticas": {
     "title": "As suas estatísticas",

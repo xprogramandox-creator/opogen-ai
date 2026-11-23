@@ -575,7 +575,10 @@
     "tryAgain": "¡Buen intento!",
     "timeUp": "Se acabó el tiempo. La correcta era {letter}) {answer}.",
     "wrongAnswer": "Para repasar: la correcta era {letter}) {answer}.",
-    "failedQuestion": "Pregunta {current} para repasar: la correcta era {letter}) {answer}."
+    "failedQuestion": "Pregunta {current} para repasar: la correcta era {letter}) {answer}.",
+    "questionOnly": "Pregunta {current}",
+    "masteredTopic": "¡Has dominado este tema! Prueba con otro o reinicia la partida.",
+    "loadingMore": "Cargando más preguntas…"
   },
   "Estadisticas": {
     "title": "Tus estadísticas",

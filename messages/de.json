@@ -575,7 +575,10 @@
     "tryAgain": "Guter Versuch!",
     "timeUp": "Zeit abgelaufen. Die richtige Antwort war {letter}) {answer}.",
     "wrongAnswer": "Zum Wiederholen: Die richtige Antwort war {letter}) {answer}.",
-    "failedQuestion": "Frage {current} zum Wiederholen: Die richtige Antwort war {letter}) {answer}."
+    "failedQuestion": "Frage {current} zum Wiederholen: Die richtige Antwort war {letter}) {answer}.",
+    "questionOnly": "Frage {current}",
+    "masteredTopic": "Du beherrschst dieses Thema! Probiere ein anderes oder starte neu.",
+    "loadingMore": "Weitere Fragen werden geladen…"
   },
   "Estadisticas": {
     "title": "Deine Statistiken",

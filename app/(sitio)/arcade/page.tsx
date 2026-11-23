@@ -100,6 +100,9 @@ type Config = {
 type EstadoArcade = {
   pantalla: Pantalla;
   preguntas: PreguntaFuente[];
+  fuente: Fuente;
+  tema: string;
+  cargandoMas: boolean;
   actual: PreguntaJuego | null;
   siguienteIndice: number;
   ronda: number;
@@ -159,6 +162,9 @@ function crearEstadoInicial(): EstadoArcade {
   return {
     pantalla: "menu",
     preguntas: [],
+    fuente: "archivos",
+    tema: "",
+    cargandoMas: false,
     actual: null,
     siguienteIndice: 0,
     ronda: 1,
@@ -215,9 +221,19 @@ function indiceCorrecto(valor: unknown): number | null {
   return null;
 }
 
+function clavePregunta(texto: string): string {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 function normalizarPreguntas(valor: unknown): PreguntaFuente[] {
   if (!Array.isArray(valor)) return [];
   const preguntas: PreguntaFuente[] = [];
+  const vistas = new Set<string>();
   for (const item of valor) {
     if (!item || typeof item !== "object") continue;
     const pregunta = item as Record<string, unknown>;
@@ -228,6 +244,13 @@ function normalizarPreguntas(valor: unknown): PreguntaFuente[] {
     const correcta = indiceCorrecto(pregunta.correcta);
     const unicas = new Set(opciones.map(o => o.toLowerCase()));
     if (enunciado.length < 8 || opciones.length !== 4 || unicas.size !== 4 || opciones.some(o => o.length === 0) || correcta === null) continue;
+
+    const clave = clavePregunta(enunciado);
+
+    if (!clave || vistas.has(clave)) continue;
+
+    vistas.add(clave);
+
     preguntas.push({
       q: enunciado,
       o: opciones,
@@ -608,6 +631,67 @@ export default function ArcadePage() {
     }, demora);
   }
 
+  async function ampliarPreguntas(): Promise<void> {
+    const estado = vistaRef.current;
+
+    if (
+      estado.cargandoMas ||
+      estado.limiteRondas !== null ||
+      estado.fuente !== "tema" ||
+      !estado.tema
+    ) {
+      return;
+    }
+
+    estado.cargandoMas = true;
+    commit();
+
+    try {
+      const evitar = Array.from(
+        new Set([
+          ...estado.preguntas.map((pregunta) => pregunta.q),
+          ...leerPreguntasUsadas(estado.tema),
+        ]),
+      );
+      const res = await pedirPreguntas(
+        `TEMA DE ESTUDIO: ${estado.tema}. Usa tu conocimiento general sobre este tema para generar un examen tipo test.`,
+        10,
+        configRef.current.difficulty,
+        tipoEstudio,
+        idioma,
+        evitar,
+        estado.tema,
+      );
+      const claves = new Set(
+        estado.preguntas.map((pregunta) => clavePregunta(pregunta.q)),
+      );
+      const nuevas = res.questions.filter(
+        (pregunta) => !claves.has(clavePregunta(pregunta.q)),
+      );
+
+      if (nuevas.length === 0) {
+        estado.cargandoMas = false;
+        commit();
+        terminarPartida(t("masteredTopic"));
+        return;
+      }
+
+      estado.preguntas = [...estado.preguntas, ...nuevas];
+      guardarPreguntasUsadas(
+        estado.tema,
+        evitar,
+        nuevas.map((pregunta) => pregunta.q),
+      );
+      estado.cargandoMas = false;
+      commit();
+      cargarSiguiente();
+    } catch {
+      estado.cargandoMas = false;
+      commit();
+      terminarPartida(t("masteredTopic"));
+    }
+  }
+
   function cargarSiguiente(): void {
     const estado = vistaRef.current;
     cancelarPausaPista();
@@ -629,7 +713,20 @@ export default function ArcadePage() {
       setErrorConfig("No hay preguntas disponibles.");
       estado.pantalla = "config"; commit(); return;
     }
-    const indice = estado.siguienteIndice % estado.preguntas.length;
+
+    // Sin límite de rondas (Tema Libre): se piden más preguntas nuevas al
+    // agotar el bloque actual en lugar de repetir las ya jugadas.
+    if (estado.siguienteIndice >= estado.preguntas.length) {
+      if (estado.fuente === "tema" && estado.limiteRondas === null) {
+        void ampliarPreguntas();
+        return;
+      }
+
+      terminarPartida(t("completed", { count: estado.preguntas.length }));
+      return;
+    }
+
+    const indice = estado.siguienteIndice;
     estado.siguienteIndice += 1;
     estado.ronda = estado.siguienteIndice;
     estado.actual = prepararPregunta(estado.preguntas[indice]);
@@ -801,6 +898,8 @@ export default function ArcadePage() {
     preguntas: PreguntaFuente[],
     aviso: string,
     limiteRondas: number | null = null,
+    fuentePartida: Fuente = "archivos",
+    temaPartida: string = "",
   ): void {
     registrarEventoInvitado("arcade", "partida_arcade");
     cancelarPausaPista();
@@ -808,6 +907,7 @@ export default function ArcadePage() {
     const estado = vistaRef.current;
     const modo = configRef.current.mode;
     estado.pantalla = "game"; estado.preguntas = preguntas; estado.actual = null; estado.siguienteIndice = 0;
+    estado.fuente = fuentePartida; estado.tema = temaPartida; estado.cargandoMas = false;
     estado.ronda = 1; estado.limiteRondas = limiteRondas;
     estado.puntuacion = 0; estado.racha = 0; estado.aciertos = 0;
     estado.modo = modo; estado.vidas = modo === "supervivencia" ? 1 : configRef.current.lives;
@@ -823,7 +923,13 @@ export default function ArcadePage() {
   function jugarOtraVez(): void {
     const estado = vistaRef.current;
     if (estado.preguntas.length === 0) { estado.pantalla = "menu"; commit(); return; }
-    iniciarPartida(estado.preguntas, estado.aviso, estado.limiteRondas);
+    iniciarPartida(
+      estado.preguntas,
+      estado.aviso,
+      estado.limiteRondas,
+      estado.fuente,
+      estado.tema,
+    );
   }
 
   function crearTestNuevo(): void {
@@ -977,6 +1083,8 @@ export default function ArcadePage() {
           : res.questions.slice(0, limiteAplicado),
         res.notice || avisoPorDefecto,
         limiteAplicado,
+        fuente,
+        fuente === "tema" ? temaLimpio : "",
       );
     } catch (error) {
       const errorApi = error as ErrorApi;
@@ -1218,13 +1326,20 @@ export default function ArcadePage() {
             <div className="qmeta">
               <span className="cat">{vista.actual?.cat || t("categoryFallback")}</span>
               <span>
-                {t("questionOf", {
-                  current: vista.ronda,
-                  total: vista.limiteRondas ?? vista.preguntas.length,
-                })}
+                {vista.limiteRondas === null
+                  ? t("questionOnly", { current: vista.ronda })
+                  : t("questionOf", {
+                      current: vista.ronda,
+                      total: vista.limiteRondas,
+                    })}
               </span>
               <button className="pausebtn" onClick={abrirPausa} disabled={vista.bloqueado || vista.pausado}>II</button>
             </div>
+            {vista.cargandoMas ? (
+              <p className="mx-auto mt-2 text-center text-sm font-semibold text-[var(--txt2)]">
+                {t("loadingMore")}
+              </p>
+            ) : null}
             {vista.modo !== "supervivencia" && (
               <div className={`timerwrap ${vista.pausaPista ? "timerwrap-pausa" : ""}`} role="progressbar" aria-valuenow={Math.round(porcentajeTiempo)}>
                 {vista.pausaPista && (

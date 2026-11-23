@@ -575,7 +575,10 @@
     "tryAgain": "Good try!",
     "timeUp": "Time is up. The correct answer was {letter}) {answer}.",
     "wrongAnswer": "To review: the correct answer was {letter}) {answer}.",
-    "failedQuestion": "Question {current} to review: the correct answer was {letter}) {answer}."
+    "failedQuestion": "Question {current} to review: the correct answer was {letter}) {answer}.",
+    "questionOnly": "Question {current}",
+    "masteredTopic": "You've mastered this topic! Try another one or restart the game.",
+    "loadingMore": "Loading more questions…"
   },
   "Estadisticas": {
     "title": "Your statistics",
