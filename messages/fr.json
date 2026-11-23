@@ -134,9 +134,6 @@
     "finalCta": "Créer mon compte gratuit",
     "finalLogin": "J'ai déjà un compte",
     "skip": "Aller au contenu principal",
-    "kidsTitle": "Nouveau : Espace Kids 🧒",
-    "kidsText": "Vos enfants apprendront en jouant avec notre nouvel Espace OpoGen Kids, avec des tests adaptés à leur âge. (Réservé aux utilisateurs Premium)",
-    "kidsCta": "Découvrir l'Espace Kids",
     "testimonials": {
       "title": "Ce que disent nos étudiants",
       "subtitle": "Témoignages réels de personnes qui étudient déjà avec OpoGen AI.",
@@ -1101,5 +1098,10 @@
     "agendaPremiumRequired": "Mon agenda est réservé aux utilisateurs Premium. Passe à Premium pour y accéder.",
     "agendaPremiumCta": "Passer à Premium",
     "close": "Fermer"
+  },
+  "KidsCard": {
+    "badge": "Nouveauté",
+    "title": "Espace Kids",
+    "description": "Des tests et des jeux pensés pour les plus petits, adaptés à leur âge. Apprendre en jouant, sans s'en rendre compte."
   }
 }

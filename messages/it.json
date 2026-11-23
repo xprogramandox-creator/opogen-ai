@@ -134,9 +134,6 @@
     "finalCta": "Crea il mio account gratuito",
     "finalLogin": "Ho già un account",
     "skip": "Vai al contenuto principale",
-    "kidsTitle": "Novità: Zona Kids 🧒",
-    "kidsText": "I tuoi bambini impareranno giocando con la nostra nuova Zona OpoGen Kids, con test adatti alla loro età. (Esclusivo per gli utenti Premium)",
-    "kidsCta": "Scopri la Zona Kids",
     "testimonials": {
       "title": "Cosa dicono i nostri studenti",
       "subtitle": "Testimonianze reali di persone che studiano già con OpoGen AI.",
@@ -1101,5 +1098,10 @@
     "agendaPremiumRequired": "La mia agenda è esclusiva per gli utenti Premium. Passa a Premium per accedervi.",
     "agendaPremiumCta": "Passa a Premium",
     "close": "Chiudi"
+  },
+  "KidsCard": {
+    "badge": "Novità",
+    "title": "Zona Kids",
+    "description": "Test e giochi pensati per i più piccoli, adatti alla loro età. Imparare giocando, senza accorgersene."
   }
 }

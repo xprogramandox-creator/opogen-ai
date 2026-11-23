@@ -22,6 +22,7 @@ import BotonAuth from "@/components/BotonAuth";
 import ExamenHero from "@/components/ExamenHero";
 import RegistrarEventoInvitado from "@/components/RegistrarEventoInvitado";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
+import TarjetaZonaKids from "@/components/TarjetaZonaKids";
 import GuiaRapidaDashboard from "@/components/GuiaRapidaDashboard";
 
 export const metadata: Metadata = {
@@ -59,9 +60,7 @@ export default async function LandingPage({
   const t = await getTranslations({ locale, namespace: "Landing" });
   const usuario = await obtenerUsuarioSesion();
   const mostrarOfertaPremium = !usuario || usuario.rol === "freemium";
-  const ctaKids =
-    usuario?.rol === "premium" ? "/kids" : "/premium";
-
+  
   if (usuario) {
     redirect("/dashboard");
   }
@@ -130,17 +129,22 @@ export default async function LandingPage({
           <GuiaRapidaDashboard className="mb-0" />
         </div>
 
-        {/* TESTIMONIOS */}
-        <div className="pt-12 sm:pt-16">
-          <TestimoniosCarrusel />
-        </div>
-
         {/* OFERTA PREMIUM */}
         {mostrarOfertaPremium ? (
           <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
             <TarjetaOferta />
           </div>
         ) : null}
+
+        {/* ZONA KIDS */}
+        <div className="relative z-10 px-5 pb-16 pt-12 sm:px-6">
+          <TarjetaZonaKids />
+        </div>
+
+        {/* TESTIMONIOS */}
+        <div className="pt-12 sm:pt-16">
+          <TestimoniosCarrusel />
+        </div>
 
         {/* CARACTERÍSTICAS */}
         <section
@@ -176,47 +180,6 @@ export default async function LandingPage({
                 </p>
               </article>
             ))}
-          </div>
-        </section>
-
-{/* ZONA KIDS */}
-        <section
-          aria-labelledby="titulo-zona-kids"
-          className="relative z-10 mx-auto max-w-6xl px-5 pb-16 sm:px-6"
-        >
-          <div className="overflow-hidden rounded-3xl border-2 border-[var(--azul)]/30 bg-[var(--azul)]/10 p-7 shadow-[var(--sombra)] dark:border-[var(--azul)]/30 dark:bg-[var(--azul)]/15 sm:p-9">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-5">
-                <span
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/70 text-4xl shadow-sm dark:bg-slate-900/60"
-                  aria-hidden="true"
-                >
-                  🧒
-                </span>
-
-                <div>
-                  <h2
-                    id="titulo-zona-kids"
-                    className="text-balance text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl"
-                  >
-                    {t("kidsTitle")}
-                  </h2>
-
-                  <p className="mt-2 max-w-2xl text-pretty leading-relaxed text-slate-700 dark:text-slate-300">
-                    {t("kidsText")}
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                href={ctaKids}
-                prefetch={false}
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-[var(--azul)] px-5 py-3 text-sm font-bold text-white shadow-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--azul)] focus-visible:ring-offset-2 motion-reduce:transform-none"
-              >
-                {t("kidsCta")}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
           </div>
         </section>
 

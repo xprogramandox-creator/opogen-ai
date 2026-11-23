@@ -17,6 +17,7 @@ import CheckoutPendiente from "@/components/CheckoutPendiente";
 import AvisoVerificacionPago from "@/components/AvisoVerificacionPago";
 import BotonTestimonio from "@/components/BotonTestimonio";
 import GuiaRapidaDashboard from "@/components/GuiaRapidaDashboard";
+import TarjetaZonaKids from "@/components/TarjetaZonaKids";
 import TestimoniosCarrusel from "@/components/TestimoniosCarrusel";
 import { CLAVE_ADMIN } from "@/lib/planes";
 
@@ -123,11 +124,15 @@ export default async function DashboardPage({
 
         <GuiaRapidaDashboard />
 
+        {!esPremium ? <TarjetaOferta /> : null}
+
+        <div className="mb-8">
+          <TarjetaZonaKids />
+        </div>
+
       {esPremium || esAdministrador ? (
         <BotonTestimonio nombreInicial={usuario?.nombre ?? ""} />
       ) : null}
-
-        {!esPremium ? <TarjetaOferta /> : null}
 
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
