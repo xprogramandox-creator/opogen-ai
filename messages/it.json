@@ -293,7 +293,7 @@
       "name": "Nome visualizzato",
       "namePlaceholder": "Il tuo nome o le iniziali",
       "text": "Il tuo commento",
-      "textPlaceholder": "Cosa ti sta aiutando in OpoGen AI?",
+      "textPlaceholder": "",
       "submit": "Invia commento",
       "sending": "Invio…",
       "success": "Grazie! Rileggeremo il tuo commento e lo pubblicheremo se tutto va bene.",
