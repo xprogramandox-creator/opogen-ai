@@ -7,20 +7,6 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const CONTENT_SECURITY_POLICY = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' blob: data: https://*.stripe.com",
-  "font-src 'self'",
-  "connect-src 'self' https://api.stripe.com https://js.stripe.com https://hooks.stripe.com https://api.deepseek.com https://generativelanguage.googleapis.com https://api.resend.com",
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://checkout.stripe.com",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-].join("; ");
-
 const nextConfig: NextConfig = {
   output: "standalone",
   cacheComponents: true,
@@ -58,10 +44,6 @@ const nextConfig: NextConfig = {
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains",
-          },
-          {
-            key: "Content-Security-Policy",
-            value: CONTENT_SECURITY_POLICY,
           },
           {
             key: "Cross-Origin-Embedder-Policy",

@@ -1,5 +1,6 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { isIP } from "node:net";
 import path from "node:path";
 import { open, type CountryResponse, type Reader } from "maxmind";
@@ -26,6 +27,26 @@ import { LOCALE_COOKIE, routing } from "./i18n/routing";
 const handleI18nRouting = createMiddleware(routing);
 
 const LOCALES = routing.locales;
+
+/** CSP con nonce por petición. En desarrollo se permite eval para HMR. */
+function cspConNonce(nonce: string): string {
+  const evalDesarrollo =
+    process.env.NODE_ENV !== "production" ? " 'unsafe-eval'" : "";
+
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${evalDesarrollo} https://js.stripe.com`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' blob: data: https://*.stripe.com",
+    "font-src 'self'",
+    "connect-src 'self' https://api.stripe.com https://js.stripe.com https://hooks.stripe.com https://api.deepseek.com https://generativelanguage.googleapis.com https://api.resend.com",
+    "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://checkout.stripe.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+  ].join("; ");
+}
 const COOKIE_SESION = "opoquiz_sesion";
 const SECRETO_DESARROLLO =
   "opoquiz-desarrollo-local-sin-valor-real";
@@ -440,18 +461,29 @@ function enrutarConLocale(
 
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const nonce = Buffer.from(randomUUID()).toString("base64");
+
+  // Next.js lee el nonce de esta cabecera para aplicarlo a sus scripts.
+  request.headers.set("x-nonce", nonce);
+
+  const conCsp = (respuesta: NextResponse): NextResponse => {
+    respuesta.headers.set("Content-Security-Policy", cspConNonce(nonce));
+    return respuesta;
+  };
 
   // El panel de administración no debe revelar su existencia. Comprobamos
   // la sesión antes de renderizar y devolvemos un 404 real si no es admin.
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     if (!(await esSesionAdmin(request))) {
-      return new NextResponse("Página no encontrada", {
-        status: 404,
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Cache-Control": "no-store",
-        },
-      });
+      return conCsp(
+        new NextResponse("Página no encontrada", {
+          status: 404,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "no-store",
+          },
+        }),
+      );
     }
   }
 
@@ -465,7 +497,7 @@ export default async function proxy(request: NextRequest) {
   if (yaLocalizada) {
     // La portada localizada (/es, /it...) la resuelve next-intl.
     if (esPortada) {
-      return handleI18nRouting(request);
+      return conCsp(handleI18nRouting(request));
     }
 
     // Rutas internas sin prefijo, pero con idioma en la URL: se reescriben a
@@ -484,7 +516,7 @@ export default async function proxy(request: NextRequest) {
     });
     response.cookies.set(LOCALE_COOKIE, locale, opcionesCookieIdioma());
 
-    return response;
+    return conCsp(response);
   }
 
   const cookieIdioma = request.cookies.get(LOCALE_COOKIE)?.value;
@@ -506,7 +538,7 @@ export default async function proxy(request: NextRequest) {
     // Si next-intl no redirigiese (por ejemplo, por una ruta ya resuelta),
     // se fuerza la redirección preservando ruta y query.
     if (respuesta.status >= 300 && respuesta.status < 400) {
-      return respuesta;
+      return conCsp(respuesta);
     }
 
     const url = request.nextUrl.clone();
@@ -519,7 +551,7 @@ export default async function proxy(request: NextRequest) {
       opcionesCookieIdioma(),
     );
 
-    return redireccion;
+    return conCsp(redireccion);
   }
 
   // Portada sin detección por IP (bots, cookie previa o función apagada):
@@ -544,11 +576,11 @@ export default async function proxy(request: NextRequest) {
           );
         }
 
-        return permanente;
+        return conCsp(permanente);
       }
     }
 
-    return response;
+    return conCsp(response);
   }
 
   // Resto de rutas sin prefijo: se determina el idioma para que la cabecera
@@ -561,7 +593,7 @@ export default async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request: { headers } });
   response.cookies.set(LOCALE_COOKIE, locale, opcionesCookieIdioma());
 
-  return response;
+  return conCsp(response);
 }
 
 export const config = {
