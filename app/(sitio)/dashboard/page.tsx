@@ -4,9 +4,7 @@ import {
   ArrowRight,
   BarChart3,
   FolderKanban,
-  Gamepad2,
   Lock,
-  Plus,
   RotateCcw,
   UserRound,
 } from "lucide-react";
@@ -159,7 +157,7 @@ export default async function DashboardPage({
             const descripcion = t(`cards.${id}.description`);
             const bloqueada = !esPremium && soloPremium;
               const clases =
-                "card group flex flex-col rounded-2xl p-5 transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none";
+                "group flex flex-col rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 motion-reduce:transform-none";
 
               const contenido = (
                 <>
@@ -226,26 +224,6 @@ export default async function DashboardPage({
             <TestimoniosCarrusel />
           </div>
         ) : null}
-
-        <div className="mb-12 mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Link
-            href="/crear"
-            className="btn-action btn-action-compacta btn-examen mx-auto w-full max-w-none"
-          >
-            <Plus className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
-            {t("createTest")}
-            <ArrowRight className="ml-auto h-4 w-4" aria-hidden="true" />
-          </Link>
-
-          <Link
-            href="/arcade"
-            className="btn-action btn-action-compacta btn-arcade mx-auto w-full max-w-none"
-          >
-            <Gamepad2 className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
-            {t("playArcade")}
-            <ArrowRight className="ml-auto h-5 w-5" aria-hidden="true" />
-          </Link>
-        </div>
 
       </section>
     </main>
