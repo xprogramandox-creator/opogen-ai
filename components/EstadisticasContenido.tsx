@@ -496,7 +496,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Filtro por carpeta"
-        className="flex flex-col gap-3 rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:flex-row sm:items-center sm:justify-between"
+        className="flex flex-col gap-3 rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <p className="text-sm font-bold text-[var(--txt)]">
@@ -535,7 +535,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Detalle del día seleccionado"
-        className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6"
+        className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-6"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -571,7 +571,7 @@ export default function EstadisticasContenido() {
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-sky-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-sky-400/20">
+          <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl ring-1 ring-inset ring-sky-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
                 {t("testsDone")}
@@ -585,7 +585,7 @@ export default function EstadisticasContenido() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-emerald-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-emerald-400/20">
+          <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl ring-1 ring-inset ring-emerald-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-emerald-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
                 {t("correct")}
@@ -599,7 +599,7 @@ export default function EstadisticasContenido() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-rose-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-rose-400/20">
+          <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl ring-1 ring-inset ring-rose-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-rose-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
                 {t("wrong")}
@@ -619,7 +619,7 @@ export default function EstadisticasContenido() {
         aria-label="Resumen"
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
-        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-6">
+        <article className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-6">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
               {t("completed")}
@@ -636,7 +636,7 @@ export default function EstadisticasContenido() {
           </p>
         </article>
 
-        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-amber-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-amber-400/20 sm:p-6">
+        <article className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl ring-1 ring-inset ring-amber-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-amber-400/20 sm:p-6">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
               {t("average")}
@@ -653,7 +653,7 @@ export default function EstadisticasContenido() {
           <p className="mt-1 text-sm text-[var(--txt3)]">Sobre 10 puntos.</p>
         </article>
 
-        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-rose-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-rose-400/20 sm:col-span-2 sm:p-6 lg:col-span-1">
+        <article className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl ring-1 ring-inset ring-rose-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-rose-400/20 sm:col-span-2 sm:p-6 lg:col-span-1">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
               {t("pending")}
@@ -671,7 +671,7 @@ export default function EstadisticasContenido() {
         </article>
       </section>
 
-      <section className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6">
+      <section className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
@@ -814,7 +814,7 @@ export default function EstadisticasContenido() {
         )}
       </section>
 
-      <section className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6">
+      <section className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
