@@ -218,6 +218,7 @@ export default function MiEspacioPage() {
   const [carpetaPractica, setCarpetaPractica] = useState<string>("");
   const [totalPreguntasPractica, setTotalPreguntasPractica] = useState(0);
   const [testId, setTestId] = useState<string | null>(null);
+  const [archivoTestActivo, setArchivoTestActivo] = useState("");
   const ventanaTest = useVentanaPersistente<SnapshotTest>({
     clave: "test:mi-espacio",
     version: 1,
@@ -275,6 +276,7 @@ export default function MiEspacioPage() {
   const cerrarVentanaTest = useCallback((): void => {
     cerrarVentanaTestPersistida();
     setTestId(null);
+    setArchivoTestActivo("");
     setTestModalAbierto(false);
     setModoPracticaAbierto(false);
   }, [cerrarVentanaTestPersistida]);
@@ -408,6 +410,7 @@ export default function MiEspacioPage() {
           throw new Error("No hay fallos para practicar");
         }
 
+        setArchivoTestActivo("");
         setCarpetaPractica(nombreCarpeta);
         setPreguntasPracticaRestantes(preguntas);
         setPreguntasPractica([preguntas[0]]);
@@ -694,6 +697,7 @@ export default function MiEspacioPage() {
       }
 
       setPreguntasTest(preguntas);
+      setArchivoTestActivo("");
       setTextoContextoTest("Preguntas por repasar");
     } catch (err) {
       notificar({
@@ -785,6 +789,7 @@ export default function MiEspacioPage() {
           ? datos.textoContexto
           : "Examen de OpoGen";
 
+      setArchivoTestActivo(archivo);
       setPreguntasTest(preguntas);
       setTextoContextoTest(textoContexto);
       guardarVentanaTest({
@@ -829,7 +834,7 @@ export default function MiEspacioPage() {
           textoContexto: `Test mixto de ${carpetaActiva}`,
         }),
       });
-      const datos = await leerRespuesta(res);
+      const datos = (await leerRespuesta(res)) as { archivo?: unknown; error?: unknown };
 
       // Se cierra el selector antes de refrescar para que no muestre la
       // selección vacía mientras se recarga la carpeta.
@@ -845,6 +850,10 @@ export default function MiEspacioPage() {
           tipo: "peligro",
         });
       } else {
+        setArchivoTestActivo(
+          typeof datos.archivo === "string" ? datos.archivo : "",
+        );
+
         // Se refresca el árbol para que aparezca la subcarpeta
         // «Test Mixtos - <carpeta>» bajo la carpeta principal.
         await Promise.all([
@@ -1526,6 +1535,7 @@ export default function MiEspacioPage() {
                   isMixtoGuardado={esTestMixto}
                   carpetaOrigen={carpetaActiva || undefined}
                   persistenciaKey={testId ?? undefined}
+                  testId={archivoTestActivo || undefined}
                   onFallosActualizados={cargarCarpetas}
                 />
               )}

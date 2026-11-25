@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { obtenerClaveSesion } from "@/lib/auth-server";
+import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
 import {
   guardarFallosCarpeta,
@@ -11,7 +11,6 @@ import {
 } from "@/lib/fallos-db";
 import { actualizarPdfRepaso } from "@/lib/estructura-carpetas";
 import {
-  esNombreCarpetaSeguro,
   resolverCarpetaExistente,
   rutaEspacioUsuario,
 } from "@/lib/rutas-espacio";
@@ -106,11 +105,20 @@ async function carpetaDesdeTest(
   return "";
 }
 
+function esArcadeOKids(valor: string): boolean {
+  const normalizado = valor
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  return /(^|[^a-z])(arcade|kids)([^a-z]|$)/.test(normalizado);
+}
+
 export async function POST(req: Request) {
   try {
-    const clave = await obtenerClaveSesion();
+    const usuario = await obtenerUsuarioSesion();
 
-    if (!clave) {
+    if (!usuario) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
@@ -123,16 +131,36 @@ export async function POST(req: Request) {
       );
     }
 
-    // Cada carpeta de examen tiene su propio Repaso_Fallos.pdf y su índice
-    // interno. Así "Test Mixtos - Humanización" no comparte repaso con
-    // "Humanización".
-    const porCarpeta = new Map<string, Pregunta[]>();
-    const fallosNuevos = new Map<string, Pregunta[]>();
-    const madresResueltas = new Map<string, string>();
     const debugFallos =
       process.env.NODE_ENV !== "production" ||
       process.env.DEBUG_FALLOS === "1";
+    const clave = usuario.clave;
+
+    if (usuario.rol !== "premium") {
+      if (debugFallos) {
+        console.warn("[fallos/actualizar] excluido no premium", {
+          userId: clave,
+          plan: usuario.rol,
+        });
+      }
+
+      return NextResponse.json({
+        ok: true,
+        procesados: 0,
+        carpetas: [],
+        repasoActualizado: false,
+        excluidos: { noPremium: cuerpo.length, arcadeKids: 0 },
+        motivo: "no_premium",
+      });
+    }
+
+    const porCarpeta = new Map<string, Pregunta[]>();
+    const fallosNuevos = new Map<string, Pregunta[]>();
+    const carpetasTest = new Map<string, string>();
+    const madresResueltas = new Map<string, string>();
     let procesados = 0;
+    let repasoActualizado = false;
+    let excluidosArcadeKids = 0;
 
     for (const item of cuerpo) {
       const resultado = leerResultado(item);
@@ -141,47 +169,114 @@ export async function POST(req: Request) {
         continue;
       }
 
-      const carpetaEfectiva =
-        resultado.carpeta ||
-        (await carpetaDesdeTest(clave, resultado.testId ?? ""));
+      const testId = resultado.testId?.trim() ?? "";
+      const carpetaCliente = resultado.carpeta;
+
+      if (debugFallos) {
+        console.info("[fallos/actualizar] entrada", {
+          testId,
+          carpeta: carpetaCliente,
+        });
+      }
+
+      // Filtro 2: Arcade/Kids, por identificador o carpeta de origen.
+      const motivoExclusion = testId
+        ? esArcadeOKids(testId)
+          ? "testId"
+          : ""
+        : esArcadeOKids(carpetaCliente)
+          ? "carpeta"
+          : "";
+
+      if (motivoExclusion) {
+        excluidosArcadeKids += 1;
+
+        if (debugFallos) {
+          console.warn("[fallos/actualizar] excluido arcade/kids", {
+            testId,
+            motivo: motivoExclusion,
+          });
+        }
+        continue;
+      }
+
+      // El testId manda siempre. La carpeta del cliente solo se acepta como
+      // compatibilidad si no hay testId.
+      let carpetaEfectiva = "";
+
+      if (testId) {
+        carpetaEfectiva = carpetasTest.get(testId) ?? "";
+
+        if (!carpetaEfectiva) {
+          carpetaEfectiva = await carpetaDesdeTest(clave, testId);
+          carpetasTest.set(testId, carpetaEfectiva);
+        }
+      } else {
+        carpetaEfectiva = carpetaCliente;
+      }
 
       if (!carpetaEfectiva) {
         if (debugFallos) {
-          console.warn("[fallos/actualizar] resultado sin carpeta", {
-            testId: resultado.testId,
+          console.warn("[fallos/actualizar] sin carpeta resoluble", {
+            testId,
+            carpeta: carpetaCliente,
           });
         }
         continue;
       }
 
       const madreSolicitada = obtenerCarpetaMadre(carpetaEfectiva);
+
+      if (esArcadeOKids(madreSolicitada)) {
+        excluidosArcadeKids += 1;
+
+        if (debugFallos) {
+          console.warn("[fallos/actualizar] excluido arcade/kids", {
+            testId,
+            motivo: "carpeta_madre",
+          });
+        }
+        continue;
+      }
+
       const claveMadre = madreSolicitada.toLocaleLowerCase("es");
       let madre = madresResueltas.get(claveMadre);
 
       if (!madre) {
-        // El nombre guardado puede venir sin tildes ("Humanizacion") mientras
-        // que el cliente envía "Humanización" (o al revés). Se resuelve contra
-        // la carpeta física real para no escribir en el legado.
         const resuelta = await resolverCarpetaExistente(
           clave,
           madreSolicitada,
         );
 
-        madre = resuelta?.nombre ?? madreSolicitada;
+        if (!resuelta) {
+          if (debugFallos) {
+            console.warn("[fallos/actualizar] carpeta no encontrada", {
+              testId,
+              madreSolicitada,
+            });
+          }
+          continue;
+        }
+
+        madre = resuelta.nombre;
         madresResueltas.set(claveMadre, madre);
       }
 
-      if (!esNombreCarpetaSeguro(madre)) {
-        continue;
-      }
+      const carpetaMadre = path.join(rutaEspacioUsuario(clave), madre);
+      const existeCarpetaMadre = existsSync(carpetaMadre);
 
       if (debugFallos) {
-        console.info("[fallos/actualizar] resultado", {
-          carpeta: resultado.carpeta,
-          testId: resultado.testId,
+        console.info("[fallos/actualizar] resuelto", {
+          testId,
+          carpetaLeidaDelJson: testId ? carpetaEfectiva : null,
           madre,
-          acierto: resultado.acierto,
+          carpetaMadre,
+          existe: existeCarpetaMadre,
         });
+      }
+
+      if (!existeCarpetaMadre) {
+        continue;
       }
 
       let fallos = porCarpeta.get(madre);
@@ -206,10 +301,7 @@ export async function POST(req: Request) {
               clavePregunta(resultado.pregunta),
           )
         ) {
-          fallosNuevos.set(madre, [
-            ...acumulados,
-            resultado.pregunta,
-          ]);
+          fallosNuevos.set(madre, [...acumulados, resultado.pregunta]);
         }
       }
 
@@ -224,36 +316,13 @@ export async function POST(req: Request) {
 
     for (const [madre, fallos] of porCarpeta) {
       await guardarFallosCarpeta(clave, madre, fallos);
+      repasoActualizado = true;
 
       const nuevas = fallosNuevos.get(madre) ?? [];
-      const carpetaMadre = path.join(
-        rutaEspacioUsuario(clave),
-        madre,
-      );
 
-      const existeCarpetaMadre = existsSync(carpetaMadre);
+      if (nuevas.length > 0) {
+        const carpetaMadre = path.join(rutaEspacioUsuario(clave), madre);
 
-      if (debugFallos) {
-        console.info("[fallos/actualizar] carpeta", {
-          madre,
-          carpetaMadre,
-          existe: existeCarpetaMadre,
-          nuevas: nuevas.length,
-        });
-      }
-
-      if (nuevas.length > 0 && !existeCarpetaMadre) {
-        if (debugFallos) {
-          console.warn("[fallos/actualizar] carpeta no encontrada", {
-            madre,
-            carpetaMadre,
-          });
-        }
-      }
-
-      if (nuevas.length > 0 && existeCarpetaMadre) {
-        // Añade los fallos al repaso.pdf de la carpeta madre directamente
-        // desde la pantalla de corrección, sin pasar por Mi Espacio.
         await actualizarPdfRepaso(carpetaMadre, nuevas);
 
         if (debugFallos) {
@@ -262,10 +331,24 @@ export async function POST(req: Request) {
       }
     }
 
+    const carpetas = [...porCarpeta.keys()];
+
+    if (debugFallos) {
+      console.info("[fallos/actualizar] salida", {
+        procesados,
+        carpetas,
+        repasoActualizado,
+        excluidosNoPremium: 0,
+        excluidosArcadeKids,
+      });
+    }
+
     return NextResponse.json({
-      mensaje: "Preguntas actualizadas correctamente",
+      ok: true,
       procesados,
-      carpetas: [...porCarpeta.keys()],
+      carpetas,
+      repasoActualizado,
+      excluidos: { noPremium: 0, arcadeKids: excluidosArcadeKids },
     });
   } catch (error) {
     console.error("[fallos/actualizar] error", error);

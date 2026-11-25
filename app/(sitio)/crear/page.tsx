@@ -663,8 +663,8 @@ export default function Home() {
       });
     }
     
-    // Enviar fallos a la API
-    if (examen) {
+    // Enviar fallos a la API solo si el test se guardó (testId disponible).
+    if (examen && archivoGuardado) {
       try {
         const resultados = examen.map((pregunta, index) => {
           const respuestaUsuario = respuestasUsuario[index];

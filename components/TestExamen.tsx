@@ -51,6 +51,7 @@ export function TestExamen({
   onPreguntaPracticaCompletada,
   onFallosActualizados,
   persistenciaKey,
+  testId,
 }: {
   examen: Pregunta[],
   textoContexto: string,
@@ -65,6 +66,7 @@ export function TestExamen({
   onPreguntaPracticaCompletada?: (preguntaCorregida: boolean) => void,
   onFallosActualizados?: () => void,
   persistenciaKey?: string,
+  testId?: string,
 }) {
 
   const { sesion } = useSesion();
@@ -179,6 +181,7 @@ export function TestExamen({
           const respuestaUsuario = respuestasUsuario[index];
           const acierto = respuestaUsuario === pregunta.correcta;
           return {
+            testId,
             carpeta: carpetaOrigen,
             pregunta: pregunta,
             acierto: acierto
