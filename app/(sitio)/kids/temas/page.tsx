@@ -74,7 +74,7 @@ export default function KidsTemasPage() {
         <div className="mt-10 grid grid-cols-2 gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
           <Link
             href="/kids/tablas"
-            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
+            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 kids-glass rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
           >
             <span className="text-5xl" aria-hidden="true">
               ✖️
@@ -86,7 +86,7 @@ export default function KidsTemasPage() {
 
           <Link
             href="/kids/logica"
-            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
+            className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 kids-glass rounded-3xl border-2 border-[var(--azul)]/40 bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--azul)]/40 dark:bg-[var(--card)]"
           >
             <span className="text-5xl" aria-hidden="true">
               🧠
@@ -104,7 +104,7 @@ export default function KidsTemasPage() {
                 key={tema.clave}
                 type="button"
                 onClick={() => elegirTema(nombre, tema.clave)}
-                className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--th)] dark:bg-[var(--card)]"
+                className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-3 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 text-center shadow-md transition-transform duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/40 dark:border-[var(--th)] dark:bg-[var(--card)]"
               >
                 <span className="text-5xl" aria-hidden="true">
                   {tema.icono}

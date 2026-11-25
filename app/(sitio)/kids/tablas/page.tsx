@@ -138,7 +138,7 @@ export default function KidsTablasPage() {
 
         <section
           aria-labelledby="tablas-elegir"
-          className="mt-8 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7"
+          className="mt-8 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7"
         >
           <h2
             id="tablas-elegir"
@@ -174,7 +174,7 @@ export default function KidsTablasPage() {
           </div>
         </section>
 
-        <section className="mt-5 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7">
+        <section className="mt-5 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {FACTORES.map((factor) => {
               const correcta = Number(respuestas[factor]) === tabla * factor;

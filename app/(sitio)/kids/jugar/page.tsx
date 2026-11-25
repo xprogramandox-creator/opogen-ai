@@ -275,7 +275,7 @@ function KidsJuego() {
         </div>
 
         {cargando ? (
-          <div className="rounded-3xl border border-white/70 bg-white/80 p-10 text-center shadow-xl dark:border-white/10 dark:bg-slate-800/80">
+          <div className="kids-glass rounded-3xl border border-white/70 bg-white/80 p-10 text-center shadow-xl dark:border-white/10 dark:bg-slate-800/80">
             <span className="text-5xl" aria-hidden="true">
               🧸
             </span>
@@ -287,7 +287,7 @@ function KidsJuego() {
             </div>
           </div>
         ) : error ? (
-          <div className="rounded-3xl border border-rose-200 bg-white/90 p-8 text-center shadow-xl dark:border-rose-900 dark:bg-slate-800/90">
+          <div className="kids-glass rounded-3xl border border-rose-200 bg-white/90 p-8 text-center shadow-xl dark:border-rose-900 dark:bg-slate-800/90">
             <span className="text-5xl" aria-hidden="true">
               🌈
             </span>
@@ -312,7 +312,7 @@ function KidsJuego() {
             </div>
           </div>
         ) : terminado ? (
-          <div className="rounded-3xl border border-white/70 bg-white/90 p-8 text-center shadow-xl dark:border-white/10 dark:bg-slate-800/90 sm:p-12">
+          <div className="kids-glass rounded-3xl border border-white/70 bg-white/90 p-8 text-center shadow-xl dark:border-white/10 dark:bg-slate-800/90 sm:p-12">
             <span className="text-7xl" aria-hidden="true">
               {emojiFinal}
             </span>
@@ -358,7 +358,7 @@ function KidsJuego() {
               </div>
             </div>
 
-            <section className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-slate-800/90 sm:p-9">
+            <section className="kids-glass rounded-3xl border border-white/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-slate-800/90 sm:p-9">
               <p className="text-center text-2xl font-bold leading-snug text-[var(--txt)] sm:text-4xl">
                 {pregunta.enunciado}
               </p>

@@ -129,7 +129,7 @@ export default function KidsLogicaPage() {
         ) : cargando || !acertijo ? (
           <p className="mt-8 text-[var(--txt3)]">{t("loading")}</p>
         ) : (
-          <article className="mt-8 rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8">
+          <article className="mt-8 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8">
             <h2 className="text-2xl font-bold tracking-tight text-[var(--txt)]">
               {acertijo.titulo}
             </h2>

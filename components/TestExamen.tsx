@@ -444,9 +444,9 @@ export function TestExamen({
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 rounded-3xl border border-white/40 bg-white/55 p-3 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/40 sm:p-4">
       {/* CABECERA STICKY */}
-      <div className="sticky top-0 z-30 flex flex-col gap-3 rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] backdrop-blur-xl md:flex-row md:items-center md:justify-between md:gap-4">
+      <div className="sticky top-0 z-30 flex flex-col gap-3 rounded-2xl border border-white/50 bg-white/70 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70 md:flex-row md:items-center md:justify-between md:gap-4">
         <div className="flex items-center gap-4">
           <span className="flex h-3 w-3 rounded-full bg-[var(--azul)]" aria-hidden="true" />
           <h2 className="text-lg font-bold">{corregido ? "Resultados de la simulación" : "Examen en curso"}</h2>
@@ -545,7 +545,7 @@ export function TestExamen({
       </div>
 
       {corregido && (
-        <section className="mb-8 rounded-2xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl md:p-8">
+        <section className="mb-8 rounded-2xl border border-white/50 bg-white/70 p-6 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70 md:p-8">
           {esFreemium && (showPdfButton || showSaveButton) ? (
             <div className="mb-5 rounded-xl border border-[var(--ambar-b)] bg-[var(--ambar)] p-4 text-sm font-medium text-[var(--ambar-t)]">
               ¿Quieres guardar este test y descargarlo en PDF?{" "}
@@ -560,7 +560,7 @@ export function TestExamen({
           ) : null}
 
           <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
-            <div className="rounded-xl border border-[var(--th)] bg-[var(--card2)] p-4">
+            <div className="rounded-xl border border-white/50 bg-white/65 p-4 backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/65">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--txt3)] sm:text-sm">Nota final</p>
               <p className={`text-3xl font-bold sm:text-4xl ${Number(resultados.nota) >= 5 ? "text-[var(--azul)]" : "text-[var(--rojo)]"}`}>{resultados.nota}</p>
             </div>
@@ -572,7 +572,7 @@ export function TestExamen({
               <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--err-t)] sm:text-sm">Por repasar</p>
               <p className="text-3xl font-bold text-[var(--err-t)] sm:text-4xl">{resultados.errores}</p>
             </div>
-            <div className="rounded-xl border border-[var(--th)] bg-[var(--card2)] p-4">
+            <div className="rounded-xl border border-white/50 bg-white/65 p-4 backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/65">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--txt3)] sm:text-sm">En blanco</p>
               <p className="text-3xl font-bold text-[var(--txt3)] sm:text-4xl">{resultados.enBlanco}</p>
             </div>
@@ -588,24 +588,24 @@ export function TestExamen({
           const claseRetroalimentacion = sinResponder ? "border-[var(--ambar-b)] bg-[var(--ambar)]" : esCorrecta ? "border-[var(--ok-b)] bg-[var(--ok)]" : "border-[var(--err-b)] bg-[var(--err)]";
           const claseTextoRetroalimentacion = sinResponder ? "text-[var(--ambar-t)]" : esCorrecta ? "text-[var(--ok-t)]" : "text-[var(--err-t)]";
           return (
-            <article id={`pregunta-${index}`} key={index} className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] backdrop-blur-xl md:p-8">
+            <article id={`pregunta-${index}`} key={index} className="rounded-2xl border border-white/50 bg-white/80 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/80 md:p-8">
               <div className="flex gap-4">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--azul)] text-sm font-bold text-white">{index + 1}</span>
                 <h3 className="text-lg font-semibold leading-snug">{pregunta.enunciado}</h3>
               </div>
               <ul className="mt-6 space-y-3 md:pl-12">
                 {pregunta.opciones.map((opcion, opcionIndex) => {
-                  let claseBoton = "flex w-full items-start rounded-xl border-2 p-4 text-left transition-all duration-200 ";
+                  let claseBoton = "flex w-full items-start rounded-xl border-2 p-4 text-left backdrop-blur-sm transition-all duration-200 ";
                   if (!corregido) {
-                    claseBoton += respuestaSeleccionada === opcionIndex ? "border-[var(--azul)] bg-[var(--sel)] ring-2 ring-[var(--azul)]/20" : "cursor-pointer border-[var(--th)] bg-[var(--card2)] hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]";
+                    claseBoton += respuestaSeleccionada === opcionIndex ? "border-[var(--azul)] bg-[var(--sel)] ring-2 ring-[var(--azul)]/20" : "cursor-pointer border-white/50 bg-white/65 hover:border-[var(--azul)]/40 hover:bg-white/80 dark:border-white/10 dark:bg-[#141b2d]/65 dark:hover:bg-[#141b2d]/80";
                   } else if (opcionIndex === pregunta.correcta) {
                     claseBoton += "border-emerald-500 bg-[var(--ok)]";
                   } else if (respuestaSeleccionada === opcionIndex && !esCorrecta) {
                     claseBoton += "border-red-500 bg-[var(--err)]";
                   } else {
-                    claseBoton += "border-[var(--th)] bg-[var(--card2)] opacity-50";
+                    claseBoton += "border-white/40 bg-white/55 opacity-50 dark:border-white/10 dark:bg-[#141b2d]/50";
                   }
-                  const claseLetra = respuestaSeleccionada === opcionIndex && !corregido ? "bg-[var(--azul)] text-white" : corregido && opcionIndex === pregunta.correcta ? "bg-emerald-500 text-white" : corregido && respuestaSeleccionada === opcionIndex ? "bg-red-500 text-white" : "bg-[var(--card)] text-[var(--txt3)]";
+                  const claseLetra = respuestaSeleccionada === opcionIndex && !corregido ? "bg-[var(--azul)] text-white" : corregido && opcionIndex === pregunta.correcta ? "bg-emerald-500 text-white" : corregido && respuestaSeleccionada === opcionIndex ? "bg-red-500 text-white" : "bg-white/70 text-[var(--txt3)] dark:bg-[#141b2d]/70";
                   return (
                     <li key={opcionIndex}>
                       <button type="button" disabled={corregido} onClick={() => handleSeleccionarRespuesta(index, opcionIndex)} className={claseBoton}>
@@ -648,7 +648,7 @@ export function TestExamen({
       </div>
       
       {!corregido && (
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[var(--th)] bg-[var(--card)] p-6 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/50 bg-white/65 p-6 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/65 sm:flex-row">
           <p className="text-sm font-medium text-[var(--txt3)]">
             Preguntas respondidas:{" "}
             <span className="font-bold text-[var(--txt)]">

@@ -152,7 +152,7 @@ export default function RompecabezasPage() {
           {t("puzzleIntro")}
         </p>
 
-        <div className="mx-auto mt-7 max-w-md rounded-3xl border border-[var(--th)] bg-[var(--azul)]/10 p-3 shadow-2xl dark:border-[var(--th)] dark:bg-[var(--azul)]/15">
+        <div className="kids-glass mx-auto mt-7 max-w-md rounded-3xl border border-[var(--th)] bg-[var(--azul)]/10 p-3 shadow-2xl dark:border-[var(--th)] dark:bg-[var(--azul)]/15">
           <div className="grid aspect-square grid-cols-3 gap-2">
             {tablero.map((pieza, indice) => {
               const esHueco = pieza === 8;
@@ -193,7 +193,7 @@ export default function RompecabezasPage() {
         </div>
 
         {resuelto ? (
-          <div className="mx-auto mt-6 max-w-md rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-5 text-center dark:bg-emerald-950/50">
+          <div className="kids-glass mx-auto mt-6 max-w-md rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-5 text-center dark:bg-emerald-950/50">
             <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-200">
               🎉 {t("puzzleWinTitle")}
             </p>

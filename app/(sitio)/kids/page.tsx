@@ -72,7 +72,7 @@ export default function KidsPage() {
               type="button"
               onClick={() => elegirEtapa(etapa.codigo)}
               aria-label={`${t(etapa.etapaKey)}: ${t(etapa.edadKey)}`}
-              className={`group relative min-h-[280px] cursor-pointer overflow-hidden rounded-3xl ${etapa.clase} p-8 text-left shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/60`}
+              className={`kids-glass group relative min-h-[280px] cursor-pointer overflow-hidden rounded-3xl ${etapa.clase} p-8 text-left shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/60`}
             >
               <span
                 className="absolute -right-4 -top-4 text-8xl opacity-20 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110"
@@ -106,7 +106,7 @@ export default function KidsPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-10 max-w-3xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 text-left shadow-lg dark:border-[var(--th)] dark:bg-[var(--card)] sm:p-8">
+        <div className="mx-auto mt-10 max-w-3xl kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 text-left shadow-lg dark:border-[var(--th)] dark:bg-[var(--card)] sm:p-8">
           <h3 className="text-xl font-bold text-[var(--txt)] sm:text-2xl">
             {t("infoTitle")}
           </h3>
