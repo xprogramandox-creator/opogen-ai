@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Crown, Gem, Sparkles, X } from "lucide-react";
+import { Check, Crown, Flame, Gem, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSesion } from "@/components/SessionProvider";
 import { useAuthModal } from "@/components/AuthModalProvider";
@@ -89,8 +89,8 @@ export default function TarjetaOferta() {
         <div className="text-center">
 
         {teaser || promoActiva ? (
-          <p className="mx-auto mt-3 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-[var(--azul)]/20 bg-[var(--sel)]/60 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--azul)]">
-            <Sparkles
+          <p className="mx-auto mt-3 inline-flex max-w-2xl items-center gap-2 rounded-xl border border-orange-300/60 bg-gradient-to-r from-orange-500/20 via-rose-500/15 to-amber-400/20 px-3 py-2 text-xs font-bold leading-snug text-orange-700 shadow-sm dark:border-orange-400/30 dark:text-orange-200">
+            <Flame
               className="h-3.5 w-3.5 shrink-0"
               strokeWidth={2}
               aria-hidden="true"
@@ -239,23 +239,13 @@ export default function TarjetaOferta() {
                   }`}
                 >
                   {promoActiva || teaser ? (
-                    <span
-                      className={`mb-1.5 inline-flex items-center gap-1 rounded-full border px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-wide ${
-                        esRecomendado
-                          ? "border-white/30 bg-white/15 text-white"
-                          : "border-[var(--txt)]/15 bg-[var(--txt)] text-[var(--card)]"
-                      }`}
-                    >
-                      {teaser ? (
-                        <Sparkles
-                          className="h-2 w-2"
-                          strokeWidth={2.5}
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      {teaser
-                        ? t("offer.blackFriday.teaserBadge")
-                        : t("offer.blackFriday.badge")}
+                    <span className="mb-1.5 inline-flex items-center gap-1 rounded-full border border-orange-300/60 bg-gradient-to-r from-orange-500 to-rose-500 px-2 py-[3px] text-[9px] font-black uppercase tracking-wide text-white shadow-md shadow-orange-500/25">
+                      <Flame
+                        className="h-2.5 w-2.5 shrink-0"
+                        strokeWidth={2.5}
+                        aria-hidden="true"
+                      />
+                      {t("offer.blackFriday.badge")}
                     </span>
                   ) : null}
 

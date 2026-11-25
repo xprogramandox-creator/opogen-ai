@@ -14,8 +14,9 @@ export const BLACK_FRIDAY = {
   descuento: 0.25,
   /** 22 de noviembre de 2026, 00:00 UTC: empieza el anuncio. */
   inicioTeaserUtc: Date.UTC(2026, 10, 22),
-  /** 26 de noviembre de 2026, 00:00 UTC: empieza el descuento real. */
-  inicioUtc: Date.UTC(2026, 10, 26),
+  /** 26 de noviembre de 2026, 00:00 en España (23:00 UTC del día 25):
+   *  empieza el descuento real. */
+  inicioUtc: Date.UTC(2026, 10, 25, 23),
   /** 29 de noviembre de 2026, 00:00 UTC (fin exclusivo). */
   finUtc: Date.UTC(2026, 10, 29),
 } as const;
