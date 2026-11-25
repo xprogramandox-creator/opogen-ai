@@ -918,7 +918,7 @@ export default function Home() {
           />
 
           {!examen && (
-            <div className="mx-auto mt-6 max-w-2xl rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] backdrop-blur-xl sm:p-8">
+            <div className="mx-auto mt-6 max-w-2xl rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-6 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-8">
               <div className="mb-8 text-center">
                 <h2 className="mb-2 text-2xl font-bold">{t("title")}</h2>
               </div>

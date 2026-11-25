@@ -220,12 +220,12 @@
     .arcade-app .arcade-modo-card {
       display: flex;
       width: 100%;
-      min-height: 360px;
+      min-height: 190px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      padding: 36px 28px;
+      gap: 8px;
+      padding: 18px 12px;
       border: 1px solid var(--arcade-card-border);
       border-radius: 28px;
       background: var(--arcade-card);
@@ -250,22 +250,22 @@
     }
 
     .arcade-app .arcade-modo-icono {
-      font-size: 80px;
+      font-size: 42px;
       line-height: 1;
     }
 
     .arcade-app .arcade-modo-titulo {
       color: var(--txt);
-      font-size: 24px;
+      font-size: 16px;
       font-weight: 800;
       line-height: 1.15;
     }
 
     .arcade-app .arcade-modo-descripcion {
-      max-width: 28ch;
+      max-width: 24ch;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.55;
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .arcade-app .arcade-modos + .menu-btns {

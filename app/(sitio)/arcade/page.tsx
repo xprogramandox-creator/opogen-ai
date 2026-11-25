@@ -976,20 +976,12 @@ export default function ArcadePage() {
     estado.pausado = false; estado.bloqueado = false; estado.pantalla = "menu"; commit();
   }
 
-  function abrirInfoModo(modo: ModoExplicado): void {
-    setModoExplicado(modo);
-    setModalAyuda(true);
-  }
-
   function cerrarAyuda(): void {
     setModalAyuda(false);
     setModoExplicado(null);
   }
 
-  function jugarModoSeleccionado(): void {
-    const modo = modoExplicado;
-    cerrarAyuda();
-
+  function iniciarModo(modo: ModoExplicado | null): void {
     if (!modo) return;
 
     if (modo === "espacio") {
@@ -1003,6 +995,12 @@ export default function ArcadePage() {
     }
 
     irAConfiguracion();
+  }
+
+  function jugarModoSeleccionado(): void {
+    const modo = modoExplicado;
+    cerrarAyuda();
+    iniciarModo(modo);
   }
 
   function irAConfiguracion(): void {
@@ -1395,13 +1393,13 @@ export default function ArcadePage() {
                 </p>
               </div>
 
-              <div className="arcade-modos grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="arcade-modos grid grid-cols-2 gap-3 lg:grid-cols-4">
                 {MODOS_INFO.map((modo) => (
                   <button
                     key={modo.id}
                     type="button"
                     className="arcade-modo-card"
-                    onClick={() => abrirInfoModo(modo.id)}
+                    onClick={() => iniciarModo(modo.id)}
                   >
                     <span className="arcade-modo-icono" aria-hidden="true">
                       {modo.icono}
@@ -1414,10 +1412,6 @@ export default function ArcadePage() {
                     </span>
                   </button>
                 ))}
-              </div>
-
-              <div className="menu-btns">
-                <button className="btn btn-jugar" onClick={irAConfiguracion} disabled={generarDeshabilitado}>{t("playNow")}</button>
               </div>
 
               <div className="arcade-beneficios grid grid-cols-2 gap-4 md:grid-cols-4">
