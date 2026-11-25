@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { AlertTriangle, CheckCircle2, FileDown, RefreshCw, Save, Trash2, X } from "lucide-react";
 import TituloPagina from "@/components/TituloPagina";
@@ -909,6 +910,18 @@ export default function Home() {
 
   return (
     <main className="bg-transparent relative min-h-app px-4 pb-4 font-sans text-[var(--txt)] sm:px-6 sm:pb-6 md:px-12 md:pb-12">
+        {cargando ? (
+          <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[var(--fondo)]/90 px-6 backdrop-blur-md">
+            <Image
+              src="/logo-3d.png"
+              alt=""
+              width={534}
+              height={554}
+              priority
+              className="logo-carga h-auto w-40 sm:w-48"
+            />
+          </div>
+        ) : null}
         <div className="relative z-10 mx-auto max-w-4xl">
           <TituloPagina
             marca={t("brandName")}
