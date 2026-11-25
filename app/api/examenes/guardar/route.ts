@@ -137,6 +137,7 @@ export async function POST(req: Request) {
             numPreguntas: preguntas.length,
             carpeta: destino.nombre,
             textoContexto: textoContexto || "Examen de OpoGen",
+            creadoEn: new Date().toISOString(),
           },
           null,
           2,

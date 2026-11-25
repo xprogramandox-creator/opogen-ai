@@ -393,6 +393,16 @@ export default function EstadisticasContenido() {
       }
     }
 
+    // El día actual debe coincidir con la tarjeta superior, aunque no haya
+    // snapshot reciente o el último test no estuviera guardado.
+    const diaHoy = porClave.get(claveDia(new Date()));
+    if (diaHoy) {
+      diaHoy.pendientes =
+        carpetaActiva === "todas"
+          ? (fallosPendientes ?? 0)
+          : (fallosPorCarpeta[carpetaActiva] ?? 0);
+    }
+
     const maximo = Math.max(
       1,
       ...dias.map((dia) =>
@@ -405,7 +415,12 @@ export default function EstadisticasContenido() {
     );
 
     return { dias, maximo, totalSemana };
-  }, [historialFiltrado]);
+  }, [
+    historialFiltrado,
+    carpetaActiva,
+    fallosPendientes,
+    fallosPorCarpeta,
+  ]);
 
   const diaDetalle = useMemo(() => {
     if (!diaSeleccionado) return null;

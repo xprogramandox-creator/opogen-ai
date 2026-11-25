@@ -340,45 +340,60 @@ export async function guardarFallosCarpeta(
     return;
   }
 
-  return conBloqueoUsuario(clave, async () => {
-    const carpeta = path.join(rutaEspacioUsuario(clave), madre);
+  return conBloqueoUsuario(clave, () =>
+    guardarFallosCarpetaSinBloqueo(clave, madre, fallos),
+  );
+}
 
-    // Sin carpeta física (por ejemplo, test rápido "General") se conserva en
-    // el archivo antiguo para no crear carpetas vacías.
-    if (!(await existeCarpeta(carpeta))) {
-      const legado = await leerLegado(clave);
+/** Igual que guardarFallosCarpeta, pero el llamador ya tiene el lock. */
+export async function guardarFallosCarpetaSinBloqueo(
+  clave: string,
+  nombre: string,
+  fallos: Pregunta[],
+): Promise<void> {
+  const madre = nombre.trim();
 
-      for (const claveLegado of clavesLegadoDeMadre(legado, madre)) {
-        delete legado[claveLegado];
-      }
+  if (!esNombreCarpetaSeguro(madre)) {
+    return;
+  }
 
-      if (fallos.length > 0) {
-        legado[madre] = fallos;
-      }
+  const carpeta = path.join(rutaEspacioUsuario(clave), madre);
 
-      await escribirLegado(clave, legado);
-      return;
-    }
-
-    if (fallos.length === 0) {
-      await rm(rutaArchivoFallos(clave, madre), { force: true });
-      await guardarPdfFallos(clave, madre, []);
-    } else {
-      await escribirArchivoFallos(clave, madre, fallos);
-      await guardarPdfFallos(clave, madre, fallos);
-    }
-
+  // Sin carpeta física (por ejemplo, test rápido "General") se conserva en
+  // el archivo antiguo para no crear carpetas vacías.
+  if (!(await existeCarpeta(carpeta))) {
     const legado = await leerLegado(clave);
-    const claves = clavesLegadoDeMadre(legado, madre);
 
-    if (claves.length > 0) {
-      for (const claveLegado of claves) {
-        delete legado[claveLegado];
-      }
-
-      await escribirLegado(clave, legado);
+    for (const claveLegado of clavesLegadoDeMadre(legado, madre)) {
+      delete legado[claveLegado];
     }
-  });
+
+    if (fallos.length > 0) {
+      legado[madre] = fallos;
+    }
+
+    await escribirLegado(clave, legado);
+    return;
+  }
+
+  if (fallos.length === 0) {
+    await rm(rutaArchivoFallos(clave, madre), { force: true });
+    await guardarPdfFallos(clave, madre, []);
+  } else {
+    await escribirArchivoFallos(clave, madre, fallos);
+    await guardarPdfFallos(clave, madre, fallos);
+  }
+
+  const legado = await leerLegado(clave);
+  const claves = clavesLegadoDeMadre(legado, madre);
+
+  if (claves.length > 0) {
+    for (const claveLegado of claves) {
+      delete legado[claveLegado];
+    }
+
+    await escribirLegado(clave, legado);
+  }
 }
 
 /** Elimina los fallos de una carpeta madre (no la carpeta). */

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import {
   carpetaMadre,
+  esTestCompletado,
   normalizarEntradaHistorial,
   type EntradaHistorialTest,
 } from "@/lib/historial-tests";
@@ -11,6 +12,7 @@ import {
 } from "@/lib/historial-servidor";
 import { leerFallosCarpeta } from "@/lib/fallos-db";
 import { clavesPreguntasDeCarpeta } from "@/lib/preguntas-carpeta";
+import { barrerTestsHuerfanos } from "@/lib/tests-huerfanos";
 import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
 import {
   listarCarpetasMadreExistentes,
@@ -75,7 +77,7 @@ function agregar(
         carpetas: {},
       };
 
-    const cuentaComoTest = entrada.tipo !== "repaso";
+    const cuentaComoTest = esTestCompletado(entrada);
     if (cuentaComoTest) dia.tests += 1;
     dia.aciertos += entrada.aciertos;
     dia.fallos += entrada.fallos;
@@ -105,11 +107,16 @@ function agregar(
     carpeta.aciertos += entrada.aciertos;
     carpeta.fallos += entrada.fallos;
 
-    const claveTest = entrada.testId || `sin-test-${fecha}-${carpeta.tests}`;
-    carpeta.notas.set(
-      claveTest,
-      Math.max(carpeta.notas.get(claveTest) ?? 0, entrada.nota),
-    );
+    if (
+      entrada.testId &&
+      entrada.tipo !== "huerfano" &&
+      entrada.tipo !== "repaso_fallido"
+    ) {
+      carpeta.notas.set(
+        entrada.testId,
+        Math.max(carpeta.notas.get(entrada.testId) ?? 0, entrada.nota),
+      );
+    }
     carpetas.set(madre, carpeta);
   }
 
@@ -149,6 +156,10 @@ export async function GET() {
       { status: 403 },
     );
   }
+
+  // Barrido idempotente: los tests guardados hace más de dos horas que nunca
+  // se corrigieron pasan a repaso y a fallos totales.
+  await barrerTestsHuerfanos(usuario.clave, usuario.rol);
 
   // Filtrado defensivo: solo cuentan las entradas cuya carpeta madre sigue
   // existiendo en el volumen. Un único readdir por consulta, sin caché, para
@@ -195,17 +206,24 @@ export async function GET() {
 
   const mejoresNotas = new Map<string, number>();
 
-  historial.forEach((entrada, indice) => {
-    const claveTest = entrada.testId || `sin-test-${indice}`;
+  historial.forEach((entrada) => {
+    if (
+      !entrada.testId ||
+      entrada.tipo === "huerfano" ||
+      entrada.tipo === "repaso_fallido"
+    ) {
+      return;
+    }
+
     mejoresNotas.set(
-      claveTest,
-      Math.max(mejoresNotas.get(claveTest) ?? 0, entrada.nota),
+      entrada.testId,
+      Math.max(mejoresNotas.get(entrada.testId) ?? 0, entrada.nota),
     );
   });
 
   const notas = [...mejoresNotas.values()];
   const resumen = {
-    tests: historial.filter((entrada) => entrada.tipo !== "repaso").length,
+    tests: historial.filter(esTestCompletado).length,
     aciertos: historial.reduce(
       (total, entrada) => total + entrada.aciertos,
       0,

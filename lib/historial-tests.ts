@@ -13,7 +13,7 @@ export type EntradaHistorialTest = {
   /** Pendientes tras la corrección, para el histórico del gráfico. */
   pendientes?: number;
   /** "repaso" no cuenta como test completado, pero sí como acierto. */
-  tipo?: "test" | "repaso";
+  tipo?: "test" | "repaso" | "repaso_fallido" | "huerfano";
 };
 
 export type NuevoTestCompletado = Omit<EntradaHistorialTest, "fecha"> & {
@@ -75,7 +75,10 @@ export function normalizarEntradaHistorial(
     entrada.pendientes >= 0
       ? { pendientes: entrada.pendientes }
       : {}),
-    ...(entrada.tipo === "repaso" || entrada.tipo === "test"
+    ...(entrada.tipo === "repaso" ||
+    entrada.tipo === "test" ||
+    entrada.tipo === "repaso_fallido" ||
+    entrada.tipo === "huerfano"
       ? { tipo: entrada.tipo }
       : {}),
   };
@@ -89,9 +92,19 @@ export function calcularNotaMediaPorTest(
 
   const mejores = new Map<string, number>();
 
-  historial.forEach((entrada, indice) => {
-    const clave = entrada.testId || `sin-test-${indice}`;
-    mejores.set(clave, Math.max(mejores.get(clave) ?? 0, entrada.nota));
+  historial.forEach((entrada) => {
+    if (
+      !entrada.testId ||
+      entrada.tipo === "huerfano" ||
+      entrada.tipo === "repaso_fallido"
+    ) {
+      return;
+    }
+
+    mejores.set(
+      entrada.testId,
+      Math.max(mejores.get(entrada.testId) ?? 0, entrada.nota),
+    );
   });
 
   const notas = [...mejores.values()];
@@ -99,7 +112,7 @@ export function calcularNotaMediaPorTest(
 }
 
 export function esTestCompletado(entrada: EntradaHistorialTest): boolean {
-  return entrada.tipo !== "repaso";
+  return entrada.tipo !== "repaso" && entrada.tipo !== "huerfano" && entrada.tipo !== "repaso_fallido";
 }
 
 export function guardarTestCompletado(entrada: NuevoTestCompletado): void {

@@ -291,6 +291,61 @@ export function TestExamen({
             onPreguntaPracticaCompletada(true);
           }
         }, 1500);
+      } else if (carpetaOrigen) {
+        void (async () => {
+          let pendientesRepaso: number | undefined;
+
+          try {
+            const res = await fetch("/api/fallos/actualizar", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              body: JSON.stringify([{
+                carpeta: carpetaOrigen,
+                pregunta: preguntaActual,
+                acierto: false
+              }])
+            });
+            const datos = (await res.json().catch(() => null)) as {
+              carpetas?: unknown;
+              pendientes?: unknown;
+            } | null;
+
+            if (res.ok) {
+              onFallosActualizados?.();
+
+              if (datos && Array.isArray(datos.carpetas)) {
+                const carpetaLeida = datos.carpetas[0];
+                const mapa = datos.pendientes;
+
+                if (
+                  typeof carpetaLeida === "string" &&
+                  mapa &&
+                  typeof mapa === "object" &&
+                  typeof (mapa as Record<string, unknown>)[carpetaLeida] === "number"
+                ) {
+                  pendientesRepaso = (mapa as Record<string, number>)[carpetaLeida];
+                }
+              }
+            }
+          } catch (error) {
+            console.error("Error al actualizar fallos:", error);
+          }
+
+          guardarTestCompletado({
+            nota: 0,
+            carpeta: carpetaOrigen,
+            aciertos: 0,
+            fallos: 1,
+            enBlanco: 0,
+            total: 1,
+            testId: `repaso:${carpetaOrigen}`,
+            tipo: "repaso_fallido",
+            ...(typeof pendientesRepaso === "number"
+              ? { pendientes: pendientesRepaso }
+              : {}),
+          });
+        })();
       }
     }
 

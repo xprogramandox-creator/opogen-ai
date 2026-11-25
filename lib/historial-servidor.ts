@@ -94,26 +94,35 @@ export async function agregarHistorialServidor(
   entrada: EntradaHistorialTest,
   plan?: PlanUsuario,
 ): Promise<void> {
-  return conBloqueoUsuario(clave, async () => {
-    const historial = await leerHistorialServidor(clave, plan);
-    const claveNueva = claveEntrada(entrada);
+  return conBloqueoUsuario(clave, () =>
+    agregarHistorialServidorSinBloqueo(clave, entrada, plan),
+  );
+}
 
-    if (historial.some((guardada) => claveEntrada(guardada) === claveNueva)) {
-      return;
-    }
+/** Igual que agregarHistorialServidor, pero el llamador ya tiene el lock. */
+export async function agregarHistorialServidorSinBloqueo(
+  clave: string,
+  entrada: EntradaHistorialTest,
+  plan?: PlanUsuario,
+): Promise<void> {
+  const historial = await leerHistorialServidor(clave, plan);
+  const claveNueva = claveEntrada(entrada);
 
-    const actualizado = [entrada, ...historial].slice(
-      0,
-      HISTORIAL_TESTS_MAX,
-    );
+  if (historial.some((guardada) => claveEntrada(guardada) === claveNueva)) {
+    return;
+  }
 
-    await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
-    await writeFile(
-      rutaHistorial(clave, plan),
-      JSON.stringify(actualizado, null, 2),
-      "utf8",
-    );
-  });
+  const actualizado = [entrada, ...historial].slice(
+    0,
+    HISTORIAL_TESTS_MAX,
+  );
+
+  await mkdir(rutaBaseUsuario(clave, plan), { recursive: true });
+  await writeFile(
+    rutaHistorial(clave, plan),
+    JSON.stringify(actualizado, null, 2),
+    "utf8",
+  );
 }
 
 /** Clave normalizada de una carpeta: quita prefijos lógicos y acentos. */
