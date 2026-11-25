@@ -1080,6 +1080,17 @@
         "3": "Erstelle gemischte Tests und Wiederholungen.",
         "4": "Unbegrenzter Zugriff auf deine Dateien."
       }
+    },
+    "arcade": {
+      "title": "Arcade freischalten",
+      "subtitle": "Das Arcade ist nur für Premium-Nutzer. Spiele mit den Tests, die du bereits in Mi Espacio gespeichert hast.",
+      "cta": "Premium werden",
+      "benefits": {
+        "1": "Spiele mit deinen Mi-Espacio-Tests, ohne Dateien hochzuladen.",
+        "2": "Zugang zu allen Arcade-Modi.",
+        "3": "Keine Gast- oder Freemium-Limits.",
+        "4": "Deine Spiele verändern weder Statistiken noch Wiederholungen."
+      }
     }
   },
   "AdminComentarios": {

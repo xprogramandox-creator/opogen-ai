@@ -1080,6 +1080,17 @@
         "3": "Create mixed tests and reviews.",
         "4": "Unlimited access to your files."
       }
+    },
+    "arcade": {
+      "title": "Unlock the Arcade",
+      "subtitle": "The Arcade is exclusive to Premium users. Play with the tests you already have saved in Mi Espacio.",
+      "cta": "Go Premium",
+      "benefits": {
+        "1": "Play with your Mi Espacio tests, without uploading files.",
+        "2": "Access every Arcade mode.",
+        "3": "No guest or Freemium limits.",
+        "4": "Your games do not change your statistics or reviews."
+      }
     }
   },
   "AdminComentarios": {

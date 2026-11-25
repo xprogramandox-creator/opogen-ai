@@ -1080,6 +1080,17 @@
         "3": "Cria testes mistos e revisões.",
         "4": "Acesso ilimitado aos teus ficheiros."
       }
+    },
+    "arcade": {
+      "title": "Desbloqueia o Arcade",
+      "subtitle": "O Arcade é exclusivo para utilizadores Premium. Joga com os testes que já tens guardados em Mi Espacio.",
+      "cta": "Torna-te Premium",
+      "benefits": {
+        "1": "Joga com os teus testes de Mi Espacio, sem carregar ficheiros.",
+        "2": "Acesso a todos os modos do Arcade.",
+        "3": "Sem limites de convidado ou Freemium.",
+        "4": "As tuas partidas não alteram estatísticas nem repassagens."
+      }
     }
   },
   "AdminComentarios": {

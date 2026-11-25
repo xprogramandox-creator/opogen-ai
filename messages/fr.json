@@ -1080,6 +1080,17 @@
         "3": "Créez des tests mixtes et des révisions.",
         "4": "Accès illimité à vos fichiers."
       }
+    },
+    "arcade": {
+      "title": "Débloque l'Arcade",
+      "subtitle": "L'Arcade est réservé aux utilisateurs Premium. Joue avec les tests déjà enregistrés dans Mi Espacio.",
+      "cta": "Passer Premium",
+      "benefits": {
+        "1": "Joue avec tes tests de Mi Espacio, sans importer de fichiers.",
+        "2": "Accès à tous les modes de l'Arcade.",
+        "3": "Sans limites invité ni Freemium.",
+        "4": "Tes parties ne modifient ni tes statistiques ni tes révisions."
+      }
     }
   },
   "AdminComentarios": {

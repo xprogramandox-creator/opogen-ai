@@ -1080,6 +1080,17 @@
         "3": "Crea test misti e ripassi.",
         "4": "Accesso illimitato ai tuoi file."
       }
+    },
+    "arcade": {
+      "title": "Sblocca l'Arcade",
+      "subtitle": "L'Arcade è riservato agli utenti Premium. Gioca con i test che hai già salvato in Mi Espacio.",
+      "cta": "Passa a Premium",
+      "benefits": {
+        "1": "Gioca con i tuoi test di Mi Espacio, senza caricare file.",
+        "2": "Accesso a tutte le modalità dell'Arcade.",
+        "3": "Nessun limite ospite o Freemium.",
+        "4": "Le tue partite non modificano statistiche o ripassi."
+      }
     }
   },
   "AdminComentarios": {
