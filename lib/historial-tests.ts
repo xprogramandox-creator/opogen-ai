@@ -8,6 +8,12 @@ export type EntradaHistorialTest = {
   fallos: number;
   enBlanco: number;
   total: number;
+  /** Archivo del test corregido; permite agrupar repeticiones. */
+  testId?: string;
+  /** Pendientes tras la corrección, para el histórico del gráfico. */
+  pendientes?: number;
+  /** "repaso" no cuenta como test completado, pero sí como acierto. */
+  tipo?: "test" | "repaso";
 };
 
 export type NuevoTestCompletado = Omit<EntradaHistorialTest, "fecha"> & {
@@ -61,7 +67,39 @@ export function normalizarEntradaHistorial(
     fallos: numeroSeguro(entrada.fallos),
     enBlanco: numeroSeguro(entrada.enBlanco),
     total: numeroSeguro(entrada.total),
+    ...(typeof entrada.testId === "string" && entrada.testId.trim()
+      ? { testId: entrada.testId.trim() }
+      : {}),
+    ...(typeof entrada.pendientes === "number" &&
+    Number.isFinite(entrada.pendientes) &&
+    entrada.pendientes >= 0
+      ? { pendientes: entrada.pendientes }
+      : {}),
+    ...(entrada.tipo === "repaso" || entrada.tipo === "test"
+      ? { tipo: entrada.tipo }
+      : {}),
   };
+}
+
+/** Media de la mejor nota de cada test, agrupando por testId. */
+export function calcularNotaMediaPorTest(
+  historial: EntradaHistorialTest[],
+): number {
+  if (historial.length === 0) return 0;
+
+  const mejores = new Map<string, number>();
+
+  historial.forEach((entrada, indice) => {
+    const clave = entrada.testId || `sin-test-${indice}`;
+    mejores.set(clave, Math.max(mejores.get(clave) ?? 0, entrada.nota));
+  });
+
+  const notas = [...mejores.values()];
+  return notas.reduce((total, nota) => total + nota, 0) / notas.length;
+}
+
+export function esTestCompletado(entrada: EntradaHistorialTest): boolean {
+  return entrada.tipo !== "repaso";
 }
 
 export function guardarTestCompletado(entrada: NuevoTestCompletado): void {

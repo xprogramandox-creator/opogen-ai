@@ -163,18 +163,9 @@ export function TestExamen({
   async function handleCorregir() {
     setCorregido(true);
 
-    if (!modoPractica && examen.length > 0) {
-      const { aciertos, errores, enBlanco, nota } = calcularNota();
-      guardarTestCompletado({
-        nota: Number(nota),
-        carpeta: (carpetaGuardado || carpetaOrigen || "").trim(),
-        aciertos,
-        fallos: errores,
-        enBlanco,
-        total: examen.length,
-      });
-    }
-    
+    const notaCalculada = modoPractica ? null : calcularNota();
+    let pendientes: number | undefined;
+
     if (carpetaOrigen && !modoPractica) {
       try {
         const resultados = examen.map((pregunta, index) => {
@@ -187,27 +178,64 @@ export function TestExamen({
             acierto: acierto
           };
         });
-        
+
         const res = await fetch("/api/fallos/actualizar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(resultados)
         });
-        if (res.ok) onFallosActualizados?.();
+        const datos = (await res.json().catch(() => null)) as {
+          carpetas?: unknown;
+          pendientes?: unknown;
+        } | null;
+
+        if (res.ok) {
+          onFallosActualizados?.();
+
+          if (datos && Array.isArray(datos.carpetas)) {
+            const carpetaLeida = datos.carpetas[0];
+            const mapa = datos.pendientes;
+
+            if (
+              typeof carpetaLeida === "string" &&
+              mapa &&
+              typeof mapa === "object" &&
+              typeof (mapa as Record<string, unknown>)[carpetaLeida] === "number"
+            ) {
+              pendientes = (mapa as Record<string, number>)[carpetaLeida];
+            }
+          }
+        }
       } catch (error) {
         console.error("Error al actualizar fallos:", error);
       }
     }
-    
+
+    if (!modoPractica && notaCalculada) {
+      guardarTestCompletado({
+        nota: Number(notaCalculada.nota),
+        carpeta: (carpetaGuardado || carpetaOrigen || "").trim(),
+        aciertos: notaCalculada.aciertos,
+        fallos: notaCalculada.errores,
+        enBlanco: notaCalculada.enBlanco,
+        total: examen.length,
+        testId,
+        tipo: "test",
+        ...(typeof pendientes === "number" ? { pendientes } : {}),
+      });
+    }
+
     if (modoPractica && examen.length > 0) {
       const preguntaActual = examen[0];
       const respuestaUsuario = respuestasUsuario[0];
       const acierto = respuestaUsuario === preguntaActual.correcta;
-      
+
       if (acierto && carpetaOrigen) {
         setMensajeAcierto(true);
         setTimeout(async () => {
+          let pendientesRepaso: number | undefined;
+
           try {
             const res = await fetch("/api/fallos/actualizar", {
               method: "POST",
@@ -219,17 +247,53 @@ export function TestExamen({
                 acierto: true
               }])
             });
-            if (res.ok) onFallosActualizados?.();
+            const datos = (await res.json().catch(() => null)) as {
+              carpetas?: unknown;
+              pendientes?: unknown;
+            } | null;
+
+            if (res.ok) {
+              onFallosActualizados?.();
+
+              if (datos && Array.isArray(datos.carpetas)) {
+                const carpetaLeida = datos.carpetas[0];
+                const mapa = datos.pendientes;
+
+                if (
+                  typeof carpetaLeida === "string" &&
+                  mapa &&
+                  typeof mapa === "object" &&
+                  typeof (mapa as Record<string, unknown>)[carpetaLeida] === "number"
+                ) {
+                  pendientesRepaso = (mapa as Record<string, number>)[carpetaLeida];
+                }
+              }
+            }
           } catch (error) {
             console.error("Error al actualizar fallos:", error);
           }
+
+          guardarTestCompletado({
+            nota: 10,
+            carpeta: carpetaOrigen,
+            aciertos: 1,
+            fallos: 0,
+            enBlanco: 0,
+            total: 1,
+            testId: `repaso:${carpetaOrigen}`,
+            tipo: "repaso",
+            ...(typeof pendientesRepaso === "number"
+              ? { pendientes: pendientesRepaso }
+              : {}),
+          });
+
           if (onPreguntaPracticaCompletada) {
             onPreguntaPracticaCompletada(true);
           }
         }, 1500);
       }
     }
-    
+
     if (onCorregir) {
       onCorregir();
     } else {

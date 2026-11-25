@@ -1,14 +1,29 @@
 import { NextResponse } from "next/server";
-import { obtenerClaveSesion } from "@/lib/auth-server";
+import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
-import { leerFallosCarpeta } from "@/lib/fallos-db";
+import {
+  leerFallosCarpeta,
+  obtenerCarpetaMadre,
+} from "@/lib/fallos-db";
+import { clavesPreguntasDeCarpeta } from "@/lib/preguntas-carpeta";
+import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
+import { claveCanonicaPregunta } from "@/lib/tipos";
 
 export async function GET(req: Request) {
-  const clave = await obtenerClaveSesion();
+  const usuario = await obtenerUsuarioSesion();
 
-  if (!clave) {
+  if (!usuario) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
+
+  if (usuario.rol !== "premium") {
+    return NextResponse.json(
+      { error: MENSAJE_SOLO_PREMIUM, codigo: "PREMIUM_REQUERIDO" },
+      { status: 403 },
+    );
+  }
+
+  const clave = usuario.clave;
 
   try {
     const { searchParams } = new URL(req.url);
@@ -21,16 +36,38 @@ export async function GET(req: Request) {
       );
     }
 
-    const preguntas = await leerFallosCarpeta(clave, carpeta);
+    const guardadas = await leerFallosCarpeta(clave, carpeta);
+    const unicas = new Map<string, (typeof guardadas)[number]>();
 
-    if (preguntas.length === 0) {
+    for (const pregunta of guardadas) {
+      const clavePregunta = claveCanonicaPregunta(pregunta.enunciado);
+      if (!unicas.has(clavePregunta)) {
+        unicas.set(clavePregunta, pregunta);
+      }
+    }
+
+    if (unicas.size === 0) {
       return NextResponse.json(
         { error: "No hay fallos para esta carpeta" },
         { status: 404 },
       );
     }
 
-    return NextResponse.json({ preguntas });
+    const fuente = await clavesPreguntasDeCarpeta(
+      clave,
+      obtenerCarpetaMadre(carpeta),
+    );
+    const preguntas = [...unicas.entries()]
+      .filter(([clavePregunta]) =>
+        fuente.size === 0 ? true : fuente.has(clavePregunta),
+      )
+      .map(([, pregunta]) => pregunta);
+
+    return NextResponse.json({
+      preguntas,
+      pendientes: preguntas.length,
+      totalPreguntas: fuente.size,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: mensajeError(error) },

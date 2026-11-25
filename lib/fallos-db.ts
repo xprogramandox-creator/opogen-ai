@@ -11,7 +11,11 @@ import {
   rutaEspacioUsuario,
   type PlanUsuario,
 } from "@/lib/rutas-espacio";
-import { normalizarPreguntas, type Pregunta } from "@/lib/tipos";
+import {
+  claveCanonicaPregunta,
+  normalizarPreguntas,
+  type Pregunta,
+} from "@/lib/tipos";
 import { conBloqueoUsuario } from "@/lib/file-lock";
 import {
   guardarPdfFallos,
@@ -120,8 +124,9 @@ function unirPreguntas(...listas: Pregunta[][]): Pregunta[] {
 
   for (const lista of listas) {
     for (const pregunta of lista) {
-      if (!mapa.has(pregunta.enunciado)) {
-        mapa.set(pregunta.enunciado, pregunta);
+      const clave = claveCanonicaPregunta(pregunta.enunciado);
+      if (!mapa.has(clave)) {
+        mapa.set(clave, pregunta);
       }
     }
   }

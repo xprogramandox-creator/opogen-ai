@@ -10,11 +10,16 @@ import {
   obtenerCarpetaMadre,
 } from "@/lib/fallos-db";
 import { actualizarPdfRepaso } from "@/lib/estructura-carpetas";
+import { clavesPreguntasDeCarpeta } from "@/lib/preguntas-carpeta";
 import {
   resolverCarpetaExistente,
   rutaEspacioUsuario,
 } from "@/lib/rutas-espacio";
-import { normalizarPregunta, type Pregunta } from "@/lib/tipos";
+import {
+  claveCanonicaPregunta,
+  normalizarPregunta,
+  type Pregunta,
+} from "@/lib/tipos";
 
 type ResultadoTest = {
   carpeta: string;
@@ -47,7 +52,7 @@ function leerResultado(valor: unknown): ResultadoTest | null {
 }
 
 function clavePregunta(pregunta: Pregunta): string {
-  return pregunta.enunciado;
+  return claveCanonicaPregunta(pregunta.enunciado);
 }
 
 /**
@@ -150,6 +155,8 @@ export async function POST(req: Request) {
         carpetas: [],
         repasoActualizado: false,
         excluidos: { noPremium: cuerpo.length, arcadeKids: 0 },
+        pendientes: {},
+        pendientesTotales: 0,
         motivo: "no_premium",
       });
     }
@@ -343,12 +350,32 @@ export async function POST(req: Request) {
       });
     }
 
+    const pendientes: Record<string, number> = {};
+
+    for (const [madre, fallos] of porCarpeta) {
+      const claves = new Set(fallos.map(clavePregunta));
+      const fuente = await clavesPreguntasDeCarpeta(clave, madre);
+      const validas = [...claves].filter((clavePregunta) =>
+        fuente.size === 0 ? true : fuente.has(clavePregunta),
+      );
+
+      pendientes[madre] =
+        fuente.size > 0
+          ? Math.min(validas.length, fuente.size)
+          : validas.length;
+    }
+
     return NextResponse.json({
       ok: true,
       procesados,
       carpetas,
       repasoActualizado,
       excluidos: { noPremium: 0, arcadeKids: excluidosArcadeKids },
+      pendientes,
+      pendientesTotales: Object.values(pendientes).reduce(
+        (total, cantidad) => total + cantidad,
+        0,
+      ),
     });
   } catch (error) {
     console.error("[fallos/actualizar] error", error);

@@ -118,3 +118,13 @@ export function barajarPreguntas(
     barajarOpcionesPregunta(pregunta, aleatorio),
   );
 }
+
+/** Clave estable para comparar preguntas entre tests, mixtos y repaso. */
+export function claveCanonicaPregunta(enunciado: string): string {
+  return enunciado
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLocaleLowerCase("es")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}

@@ -12,7 +12,11 @@ import {
   esNombreCarpetaSeguro,
   estaDentroDe,
 } from "@/lib/rutas-espacio";
-import { normalizarPreguntas, type Pregunta } from "@/lib/tipos";
+import {
+  claveCanonicaPregunta,
+  normalizarPreguntas,
+  type Pregunta,
+} from "@/lib/tipos";
 
 export const SUB_CARPETA_TEST = "Test";
 export const SUB_CARPETA_MIXTOS = "Test Mixtos";
@@ -141,7 +145,7 @@ function deduplicarPreguntas(preguntas: Pregunta[]): Pregunta[] {
   const mapa = new Map<string, Pregunta>();
 
   for (const pregunta of preguntas) {
-    const clave = pregunta.enunciado.trim().toLocaleLowerCase("es");
+    const clave = claveCanonicaPregunta(pregunta.enunciado);
 
     if (clave && !mapa.has(clave)) {
       mapa.set(clave, pregunta);
@@ -268,14 +272,12 @@ export async function limpiarPdfRepaso(
   const actuales = await leerPreguntasRepaso(ruta);
   const superadas = new Set(
     preguntasAcertadas.map((pregunta) =>
-      pregunta.enunciado.trim().toLocaleLowerCase("es"),
+      claveCanonicaPregunta(pregunta.enunciado),
     ),
   );
   const restantes = actuales.filter(
     (pregunta) =>
-      !superadas.has(
-        pregunta.enunciado.trim().toLocaleLowerCase("es"),
-      ),
+      !superadas.has(claveCanonicaPregunta(pregunta.enunciado)),
   );
 
   await escribirPdfYIndice(ruta, restantes);

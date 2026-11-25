@@ -537,6 +537,11 @@
         "title": "Überleben",
         "description": "Extremer Modus. Keine Leben, keine Gnade.",
         "detail": "Extremer Modus. Keine Leben, keine Gnade. Zeig, wie lange du durchhältst, wenn jede Antwort sitzt."
+      },
+      "espacio": {
+        "title": "Meine Tests",
+        "description": "Spiele mit den Tests, die du bereits in Mi Espacio hast.",
+        "detail": "Wähle einen Mi-Espacio-Ordner und dann einen seiner Tests. Es werden keine Dateien hochgeladen und keine neuen Fragen erzeugt: Du spielst genau deine gespeicherten Tests, ohne Statistiken oder Repaso zu verändern."
       }
     },
     "benefits": {
@@ -579,7 +584,18 @@
     "failedQuestion": "Frage {current} zum Wiederholen: Die richtige Antwort war {letter}) {answer}.",
     "questionOnly": "Frage {current}",
     "masteredTopic": "Du beherrschst dieses Thema! Probiere ein anderes oder starte neu.",
-    "loadingMore": "Weitere Fragen werden geladen…"
+    "loadingMore": "Weitere Fragen werden geladen…",
+    "myTests": "Meine Tests",
+    "spaceFolder": "Mi-Espacio-Ordner",
+    "spaceFolderPlaceholder": "Ordner wählen",
+    "spaceTest": "Verfügbarer Test",
+    "spaceTestPlaceholder": "Test wählen",
+    "spacePremium": "Tests aus Mi Espacio im Arcade sind nur für Premium.",
+    "spaceSelectTest": "Wähle einen Test aus Mi Espacio.",
+    "spaceNoTests": "In diesem Ordner sind keine Tests gespeichert.",
+    "spaceLoadFolders": "Deine Ordner konnten nicht geladen werden.",
+    "spaceLoadTest": "Der Test konnte nicht geladen werden.",
+    "spaceEmptyTest": "Der Test enthält keine gültigen Fragen."
   },
   "Estadisticas": {
     "title": "Deine Statistiken",
@@ -594,19 +610,20 @@
     "clickDay": "Klicke im Diagramm auf einen Tag, um die Details zu sehen.",
     "testsDone": "Absolvierte Tests",
     "correct": "Richtig",
-    "wrong": "Zum Wiederholen",
+    "wrong": "Fehler insgesamt",
     "completed": "Abgeschlossene Tests",
     "average": "Durchschnittsnote",
     "pending": "Offene Fragen",
     "last7": "Letzte 7 Tage",
-    "last7Help": "Richtige Antworten und Fragen zum Wiederholen pro Tag. Klicke auf einen Tag für die Zusammenfassung.",
+    "last7Help": "Richtige Antworten und offene Fragen pro Tag. Klicken Sie auf einen Tag, um die Zusammenfassung zu sehen.",
     "retry": "Erneut versuchen",
     "goSpace": "Zu Mein Bereich",
     "loading": "Ordner werden geladen…",
     "breakdown": "Aufschlüsselung nach Ordnern",
     "breakdownHelp": "Tests, die in jedem Ordner in Mein Bereich gespeichert sind.",
     "viewGeneral": "Gesamtübersicht anzeigen",
-    "emptyFolders": "Du hast noch keine Ordner. Erstelle einen in Mein Bereich, um Statistiken zu sehen."
+    "emptyFolders": "Du hast noch keine Ordner. Erstelle einen in Mein Bereich, um Statistiken zu sehen.",
+    "pendingLegend": "Offene Fragen"
   },
   "Kids": {
     "brand": "OpoGen",

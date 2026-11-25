@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
-import { obtenerClaveSesion } from "@/lib/auth-server";
+import { obtenerUsuarioSesion } from "@/lib/auth-server";
 import { mensajeError } from "@/lib/errores";
+import { MENSAJE_SOLO_PREMIUM } from "@/lib/planes";
 import {
   esNombreArchivoSeguro,
   estaDentroDe,
   resolverCarpetaExistente,
 } from "@/lib/rutas-espacio";
-import { normalizarPregunta, type Pregunta } from "@/lib/tipos";
+import {
+  claveCanonicaPregunta,
+  normalizarPregunta,
+  type Pregunta,
+} from "@/lib/tipos";
 import { barajarPreguntas } from "@/lib/tipos";
 import { generarPreguntasDesdeResumen } from "@/lib/preguntas-resumen";
 
@@ -21,11 +26,20 @@ const NOMBRE_RESUMEN = /^[\p{L}\p{N}][\p{L}\p{N} ._()\-]{0,150}\.md$/iu;
 
 export async function POST(req: Request) {
   try {
-    const clave = await obtenerClaveSesion();
+    const usuario = await obtenerUsuarioSesion();
 
-    if (!clave) {
+    if (!usuario) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
+
+    if (usuario.rol !== "premium") {
+      return NextResponse.json(
+        { error: MENSAJE_SOLO_PREMIUM, codigo: "PREMIUM_REQUERIDO" },
+        { status: 403 },
+      );
+    }
+
+    const clave = usuario.clave;
 
     const cuerpo: unknown = await req.json().catch(() => null);
 
@@ -205,7 +219,7 @@ export async function POST(req: Request) {
     const vistos = new Set<string>();
 
     for (const pregunta of todasLasPreguntas) {
-      const id = pregunta.enunciado;
+      const id = claveCanonicaPregunta(pregunta.enunciado);
 
       if (!vistos.has(id)) {
         vistos.add(id);
@@ -227,8 +241,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const usadasCanonicas = new Set(
+      usadas.map((enunciado) => claveCanonicaPregunta(enunciado)),
+    );
     const noUsadas = unicas.filter(
-      (pregunta) => !usadas.includes(pregunta.enunciado),
+      (pregunta) =>
+        !usadasCanonicas.has(claveCanonicaPregunta(pregunta.enunciado)),
     );
 
     for (let i = noUsadas.length - 1; i > 0; i--) {

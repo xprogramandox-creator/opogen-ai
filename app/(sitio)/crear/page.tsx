@@ -661,6 +661,52 @@ export default function Home() {
       carpetaSeleccionada ||
       nuevaCarpetaNombre.trim() ||
       "General";
+    let pendientes: number | undefined;
+
+    // Enviar fallos a la API solo si el test se guardó (testId disponible).
+    if (examen && archivoGuardado) {
+      try {
+        const resultados = examen.map((pregunta, index) => {
+          const respuestaUsuario = respuestasUsuario[index];
+          const acierto = respuestaUsuario === pregunta.correcta;
+          return {
+            carpeta: carpetaParaFallos,
+            testId: archivoGuardado,
+            pregunta: pregunta,
+            acierto: acierto,
+          };
+        });
+
+        const res = await fetch("/api/fallos/actualizar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(resultados),
+        });
+        const datos = (await res.json().catch(() => null)) as {
+          carpetas?: unknown;
+          pendientes?: unknown;
+        } | null;
+
+        if (res.ok && datos && Array.isArray(datos.carpetas)) {
+          const carpetaLeida = datos.carpetas[0];
+          const mapa = datos.pendientes;
+
+          if (
+            typeof carpetaLeida === "string" &&
+            mapa &&
+            typeof mapa === "object" &&
+            typeof (mapa as Record<string, unknown>)[carpetaLeida] === "number"
+          ) {
+            pendientes = (mapa as Record<string, number>)[carpetaLeida];
+          }
+        } else if (!res.ok) {
+          console.error("[crear] no se guardaron los fallos", res.status);
+        }
+      } catch (error) {
+        console.error("Error al actualizar fallos:", error);
+      }
+    }
 
     if (examen) {
       const { aciertos, errores, enBlanco, nota } = calcularNota();
@@ -672,36 +718,10 @@ export default function Home() {
         fallos: errores,
         enBlanco,
         total: examen.length,
+        testId: archivoGuardado || undefined,
+        tipo: "test",
+        ...(typeof pendientes === "number" ? { pendientes } : {}),
       });
-    }
-    
-    // Enviar fallos a la API solo si el test se guardó (testId disponible).
-    if (examen && archivoGuardado) {
-      try {
-        const resultados = examen.map((pregunta, index) => {
-          const respuestaUsuario = respuestasUsuario[index];
-          const acierto = respuestaUsuario === pregunta.correcta;
-          return {
-            carpeta: carpetaParaFallos,
-            testId: archivoGuardado,
-            pregunta: pregunta,
-            acierto: acierto
-          };
-        });
-        
-        const res = await fetch("/api/fallos/actualizar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(resultados)
-        });
-
-        if (!res.ok) {
-          console.error("[crear] no se guardaron los fallos", res.status);
-        }
-      } catch (error) {
-        console.error("Error al actualizar fallos:", error);
-      }
     }
   }
 

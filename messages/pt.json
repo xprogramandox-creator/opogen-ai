@@ -537,6 +537,11 @@
         "title": "Sobrevivência",
         "description": "Modo extremo. Sem vidas, sem piedade.",
         "detail": "Modo extremo. Sem vidas, sem piedade. Mostra quanto tempo aguentas acertando uma a uma."
+      },
+      "espacio": {
+        "title": "Os meus testes",
+        "description": "Joga com os testes que já tens em Mi Espacio.",
+        "detail": "Escolhe uma pasta de Mi Espacio e depois um dos seus testes. Não são carregados ficheiros nem geradas perguntas novas: jogas exatamente com os teus testes guardados, sem alterar estatísticas ou repaso."
       }
     },
     "benefits": {
@@ -579,7 +584,18 @@
     "failedQuestion": "Questão {current} para revisar: a resposta correta era {letter}) {answer}.",
     "questionOnly": "Pergunta {current}",
     "masteredTopic": "Dominaste este tema! Experimenta outro ou reinicia a partida.",
-    "loadingMore": "A carregar mais perguntas…"
+    "loadingMore": "A carregar mais perguntas…",
+    "myTests": "Os meus testes",
+    "spaceFolder": "Pasta de Mi Espacio",
+    "spaceFolderPlaceholder": "Escolhe uma pasta",
+    "spaceTest": "Teste disponível",
+    "spaceTestPlaceholder": "Escolhe um teste",
+    "spacePremium": "Os testes de Mi Espacio no Arcade são exclusivos para Premium.",
+    "spaceSelectTest": "Seleciona um teste de Mi Espacio.",
+    "spaceNoTests": "Não há testes guardados nesta pasta.",
+    "spaceLoadFolders": "Não foi possível carregar as tuas pastas.",
+    "spaceLoadTest": "Não foi possível carregar o teste.",
+    "spaceEmptyTest": "O teste não tem perguntas válidas."
   },
   "Estadisticas": {
     "title": "As suas estatísticas",
@@ -594,19 +610,20 @@
     "clickDay": "Clique num dia do gráfico para ver o detalhe.",
     "testsDone": "Testes realizados",
     "correct": "Respostas certas",
-    "wrong": "Para revisar",
+    "wrong": "Erros totais",
     "completed": "Testes concluídos",
     "average": "Nota média",
     "pending": "Questões pendentes",
     "last7": "Últimos 7 dias",
-    "last7Help": "Respostas certas e questões para revisar por dia. Clica num dia para ver o resumo.",
+    "last7Help": "Respostas certas e perguntas pendentes acumuladas por dia. Clica num dia para ver o resumo.",
     "retry": "Tentar novamente",
     "goSpace": "Ir para o meu espaço",
     "loading": "A carregar pastas…",
     "breakdown": "Detalhe por pasta",
     "breakdownHelp": "Testes guardados em cada pasta do meu espaço.",
     "viewGeneral": "Ver resumo global",
-    "emptyFolders": "Ainda não tens pastas. Cria uma em O Meu Espaço para começares a ver estatísticas."
+    "emptyFolders": "Ainda não tens pastas. Cria uma em O Meu Espaço para começares a ver estatísticas.",
+    "pendingLegend": "Perguntas pendentes"
   },
   "Kids": {
     "brand": "OpoGen",

@@ -40,18 +40,19 @@ const EXTENSIONES_PERMITIDAS = new Set([
 ]);
 
 type Pantalla = "menu" | "config" | "loading" | "game" | "result";
-type Fuente = "tema" | "archivos";
+type Fuente = "tema" | "archivos" | "espacio";
 type Dificultad = "facil" | "media" | "dificil";
 type ModoJuego = "normal" | "supervivencia";
 type Resultado = "correct" | "wrong" | "timeout" | null;
 type Destello = "good" | "bad" | null;
 
-type ModoExplicado = "archivos" | "tema" | "supervivencia";
+type ModoExplicado = "espacio" | "archivos" | "tema" | "supervivencia";
 
 const MODOS_INFO: Array<{
   id: ModoExplicado;
   icono: string;
 }> = [
+  { id: "espacio", icono: "🗂️" },
   { id: "archivos", icono: "📁" },
   { id: "tema", icono: "✍️" },
   { id: "supervivencia", icono: "🔥" },
@@ -69,6 +70,12 @@ type PreguntaFuente = {
   o: string[];
   a: number;
   e: string;
+};
+
+type TestEspacio = {
+  archivo: string;
+  carpeta: string;
+  etiqueta: string;
 };
 
 type PreguntaJuego = {
@@ -162,7 +169,7 @@ function crearEstadoInicial(): EstadoArcade {
   return {
     pantalla: "menu",
     preguntas: [],
-    fuente: "archivos",
+    fuente: "espacio",
     tema: "",
     cargandoMas: false,
     actual: null,
@@ -428,7 +435,13 @@ export default function ArcadePage() {
 
   const [vista, setVista] = useState<EstadoArcade>(() => crearEstadoInicial());
   const [config, setConfig] = useState<Config>({ time: 15, lives: 3, difficulty: "media", mode: "normal" });
-  const [fuente, setFuente] = useState<Fuente>("archivos");
+  const [fuente, setFuente] = useState<Fuente>("espacio");
+  const [carpetasEspacio, setCarpetasEspacio] = useState<string[]>([]);
+  const [carpetaEspacio, setCarpetaEspacio] = useState("");
+  const [testsEspacio, setTestsEspacio] = useState<TestEspacio[]>([]);
+  const [testEspacio, setTestEspacio] = useState<TestEspacio | null>(null);
+  const [cargandoEspacio, setCargandoEspacio] = useState(false);
+  const [errorEspacio, setErrorEspacio] = useState("");
   const [tema, setTema] = useState("");
   const [archivos, setArchivos] = useState<File[]>([]);
   const [preparandoArchivos, setPreparandoArchivos] = useState(false);
@@ -979,6 +992,10 @@ export default function ArcadePage() {
 
     if (!modo) return;
 
+    if (modo === "espacio") {
+      setFuente("espacio");
+      void cargarCarpetasEspacio();
+    }
     if (modo === "tema") setFuente("tema");
     if (modo === "archivos") setFuente("archivos");
     if (modo === "supervivencia") {
@@ -988,8 +1005,23 @@ export default function ArcadePage() {
     irAConfiguracion();
   }
 
-  function irAConfiguracion(): void { setErrorConfig(""); vistaRef.current.pantalla = "config"; commit(); }
-  function seleccionarFuente(siguiente: Fuente): void { setFuente(siguiente); setErrorConfig(""); }
+  function irAConfiguracion(): void {
+    setErrorConfig("");
+    vistaRef.current.pantalla = "config";
+    commit();
+
+    if (fuente === "espacio") {
+      void cargarCarpetasEspacio();
+    }
+  } 
+  function seleccionarFuente(siguiente: Fuente): void {
+    setFuente(siguiente);
+    setErrorConfig("");
+
+    if (siguiente === "espacio") {
+      void cargarCarpetasEspacio();
+    }
+  }
   function seleccionarTiempo(valor: number): void {
     actualizarConfig({ time: valor, difficulty: valor >= 20 ? "facil" : valor <= 10 ? "dificil" : "media" });
   }
@@ -1014,8 +1046,226 @@ export default function ArcadePage() {
     if (evento.key === "Enter") { evento.preventDefault(); void iniciarGeneracion(); }
   }
 
+  function esCarpetaMadreArcade(nombre: string): boolean {
+    const limpio = nombre.trim();
+    return (
+      Boolean(limpio) &&
+      !limpio.startsWith("Fallos - ") &&
+      !limpio.startsWith("Test Mixtos - ") &&
+      !limpio.startsWith("Simulacros - ") &&
+      limpio !== "Test rápido" &&
+      limpio !== "Sin carpeta"
+    );
+  }
+
+  async function cargarCarpetasEspacio(): Promise<void> {
+    if (sesionRef.current?.rol !== "premium") return;
+
+    setCargandoEspacio(true);
+    setErrorEspacio("");
+
+    try {
+      const res = await fetch("/api/carpetas", { cache: "no-store" });
+      const datos = (await res.json().catch(() => null)) as {
+        carpetas?: unknown;
+      } | null;
+
+      if (!res.ok || !datos || !Array.isArray(datos.carpetas)) {
+        throw new Error(t("spaceLoadFolders"));
+      }
+
+      const nombres = datos.carpetas.filter(
+        (nombre): nombre is string =>
+          typeof nombre === "string" && esCarpetaMadreArcade(nombre),
+      );
+
+      setCarpetasEspacio([...new Set(nombres)]);
+    } catch (error) {
+      setErrorEspacio(
+        error instanceof Error ? error.message : t("spaceLoadFolders"),
+      );
+    } finally {
+      setCargandoEspacio(false);
+    }
+  }
+
+  async function cargarTestsEspacio(carpeta: string): Promise<void> {
+    setCargandoEspacio(true);
+    setErrorEspacio("");
+    setTestEspacio(null);
+
+    try {
+      const rutas = [
+        carpeta,
+        `Test Mixtos - ${carpeta}`,
+      ];
+      const respuestas = await Promise.all(
+        rutas.map(async (ruta) => {
+          try {
+            const res = await fetch(
+              `/api/carpetas/archivos?carpeta=${encodeURIComponent(ruta)}`,
+              { cache: "no-store" },
+            );
+            if (!res.ok) return [] as TestEspacio[];
+
+            const datos = (await res.json().catch(() => null)) as {
+              archivos?: unknown;
+            } | null;
+            const archivos = Array.isArray(datos?.archivos)
+              ? datos.archivos.filter(
+                  (archivo): archivo is string =>
+                    typeof archivo === "string" &&
+                    /\.pdf$/i.test(archivo),
+                )
+              : [];
+
+            return archivos.map((archivo) => ({
+              archivo,
+              carpeta: ruta,
+              etiqueta:
+                ruta === carpeta
+                  ? archivo.replace(/\.pdf$/i, "")
+                  : `Mixto · ${archivo.replace(/\.pdf$/i, "")}`,
+            }));
+          } catch {
+            return [] as TestEspacio[];
+          }
+        }),
+      );
+
+      const combinados = respuestas.flat();
+      const vistos = new Set<string>();
+      setTestsEspacio(
+        combinados.filter((test) => {
+          const clave = `${test.carpeta}|${test.archivo}`;
+          if (vistos.has(clave)) return false;
+          vistos.add(clave);
+          return true;
+        }),
+      );
+
+      if (combinados.length === 0) {
+        setErrorEspacio(t("spaceNoTests"));
+      }
+    } finally {
+      setCargandoEspacio(false);
+    }
+  }
+
+  async function iniciarDesdeEspacio(): Promise<void> {
+    if (sesionRef.current?.rol !== "premium") {
+      setErrorConfig(t("spacePremium"));
+      return;
+    }
+
+    if (!testEspacio) {
+      setErrorConfig(t("spaceSelectTest"));
+      return;
+    }
+
+    generandoRef.current = true;
+    setErrorConfig("");
+    setFaseCarga("generando");
+    vistaRef.current.pantalla = "loading";
+    commit();
+
+    try {
+      const archivoJson = testEspacio.archivo.replace(/\.pdf$/i, ".json");
+      const res = await fetch(
+        `/api/examenes/recuperar?carpeta=${encodeURIComponent(
+          testEspacio.carpeta,
+        )}&archivo=${encodeURIComponent(archivoJson)}`,
+        { cache: "no-store", credentials: "include" },
+      );
+      const datos = (await res.json().catch(() => null)) as {
+        preguntas?: unknown;
+        error?: unknown;
+      } | null;
+
+      if (!res.ok) {
+        throw new Error(
+          typeof datos?.error === "string"
+            ? datos.error
+            : t("spaceLoadTest"),
+        );
+      }
+
+      const preguntas: PreguntaFuente[] = Array.isArray(datos?.preguntas)
+        ? datos.preguntas
+            .map((item) => {
+              if (!item || typeof item !== "object") return null;
+              const pregunta = item as Record<string, unknown>;
+              const enunciado =
+                typeof pregunta.enunciado === "string"
+                  ? pregunta.enunciado.trim()
+                  : "";
+              const opciones = Array.isArray(pregunta.opciones)
+                ? pregunta.opciones.filter(
+                    (opcion): opcion is string =>
+                      typeof opcion === "string",
+                  )
+                : [];
+              const correcta =
+                typeof pregunta.correcta === "number"
+                  ? pregunta.correcta
+                  : -1;
+
+              if (
+                enunciado.length < 5 ||
+                opciones.length < 2 ||
+                correcta < 0 ||
+                correcta >= opciones.length
+              ) {
+                return null;
+              }
+
+              return {
+                q: enunciado,
+                o: opciones,
+                a: correcta,
+                e:
+                  typeof pregunta.explicacion === "string"
+                    ? pregunta.explicacion
+                    : "",
+              };
+            })
+            .filter(
+              (pregunta): pregunta is PreguntaFuente =>
+                pregunta !== null,
+            )
+        : [];
+
+      if (preguntas.length === 0) {
+        throw new Error(t("spaceEmptyTest"));
+      }
+
+      iniciarPartida(
+        preguntas,
+        `Test de ${testEspacio.carpeta}`,
+        null,
+        "espacio",
+        testEspacio.carpeta,
+      );
+    } catch (error) {
+      setErrorConfig(
+        error instanceof Error ? error.message : t("spaceLoadTest"),
+      );
+      vistaRef.current.pantalla = "config";
+      commit();
+    } finally {
+      generandoRef.current = false;
+      setFaseCarga("inactivo");
+    }
+  }
+
   async function iniciarGeneracion(): Promise<void> {
     if (generandoRef.current) return;
+
+    if (fuente === "espacio") {
+      await iniciarDesdeEspacio();
+      return;
+    }
+
     const yaAgotado = !sesionRef.current && Boolean(limiteRef.current?.agotado);
     if (yaAgotado) { setErrorConfig(""); vistaRef.current.pantalla = "config"; commit(); return; }
     const temaLimpio = tema.trim();
@@ -1196,9 +1446,83 @@ export default function ArcadePage() {
           <section id="config" className={`screen ${vista.pantalla === "config" ? "active" : ""}`}>
             <h2 id="cfgTitle">{t("prepare")}</h2>
             <div className="source-switch" role="group">
-              <button className={fuente === "archivos" ? "on" : ""} onClick={() => seleccionarFuente("archivos")}>{t("myFiles")}</button>
+              <button className={fuente === "espacio" ? "on" : ""} onClick={() => seleccionarFuente("espacio")}>{t("myTests")}</button>
               <button className={fuente === "tema" ? "on" : ""} onClick={() => seleccionarFuente("tema")}>{t("freeTopic")}</button>
+              <button className={fuente === "archivos" ? "on" : ""} onClick={() => seleccionarFuente("archivos")}>{t("myFiles")}</button>
             </div>
+
+            <div className="source-panel" hidden={fuente !== "espacio"}>
+              {sesion?.rol !== "premium" ? (
+                <p className="error-box">{t("spacePremium")}</p>
+              ) : (
+                <>
+                  <div className="topic-box">
+                    <label htmlFor="espacioCarpeta">{t("spaceFolder")}</label>
+                    <select
+                      id="espacioCarpeta"
+                      className="topic-input"
+                      value={carpetaEspacio}
+                      disabled={cargandoEspacio}
+                      onChange={(event) => {
+                        const carpeta = event.target.value;
+                        setCarpetaEspacio(carpeta);
+                        if (carpeta) {
+                          void cargarTestsEspacio(carpeta);
+                        } else {
+                          setTestsEspacio([]);
+                          setTestEspacio(null);
+                        }
+                      }}
+                    >
+                      <option value="">{t("spaceFolderPlaceholder")}</option>
+                      {carpetasEspacio.map((carpeta) => (
+                        <option key={carpeta} value={carpeta}>
+                          {carpeta}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="topic-box">
+                    <label htmlFor="espacioTest">{t("spaceTest")}</label>
+                    <select
+                      id="espacioTest"
+                      className="topic-input"
+                      value={
+                        testEspacio
+                          ? `${testEspacio.carpeta}|${testEspacio.archivo}`
+                          : ""
+                      }
+                      disabled={!carpetaEspacio || cargandoEspacio}
+                      onChange={(event) => {
+                        const valor = event.target.value;
+                        const [carpeta, archivo] = valor.split("|");
+                        setTestEspacio(
+                          testsEspacio.find(
+                            (test) =>
+                              test.carpeta === carpeta &&
+                              test.archivo === archivo,
+                          ) ?? null,
+                        );
+                      }}
+                    >
+                      <option value="">{t("spaceTestPlaceholder")}</option>
+                      {testsEspacio.map((test) => (
+                        <option
+                          key={`${test.carpeta}|${test.archivo}`}
+                          value={`${test.carpeta}|${test.archivo}`}
+                        >
+                          {test.etiqueta}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errorEspacio ? (
+                    <p className="error-box">{errorEspacio}</p>
+                  ) : null}
+                </>
+              )}
+            </div>
+
             <div className="source-panel" hidden={fuente !== "tema"}>
               <div className="topic-box">
                 <label htmlFor="topicInput">{t("topic")}</label>

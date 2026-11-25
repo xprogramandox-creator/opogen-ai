@@ -537,6 +537,11 @@
         "title": "Sopravvivenza",
         "description": "Modalità estrema. Senza vite, senza pietà.",
         "detail": "Modalità estrema. Senza vite, senza pietà. Dimostra quanto resisti azzeccando una risposta dopo l'altra."
+      },
+      "espacio": {
+        "title": "I miei test",
+        "description": "Gioca con i test che hai già in Mi Espacio.",
+        "detail": "Scegli una cartella di Mi Espacio e poi uno dei suoi test. Non vengono caricati file né generate nuove domande: giochi esattamente con i tuoi test salvati, senza modificare statistiche o ripasso."
       }
     },
     "benefits": {
@@ -579,7 +584,18 @@
     "failedQuestion": "Domanda {current} da ripassare: la risposta corretta era {letter}) {answer}.",
     "questionOnly": "Domanda {current}",
     "masteredTopic": "Hai padroneggiato questo argomento! Provane un altro o ricomincia la partita.",
-    "loadingMore": "Caricamento di altre domande…"
+    "loadingMore": "Caricamento di altre domande…",
+    "myTests": "I miei test",
+    "spaceFolder": "Cartella di Mi Espacio",
+    "spaceFolderPlaceholder": "Scegli una cartella",
+    "spaceTest": "Test disponibile",
+    "spaceTestPlaceholder": "Scegli un test",
+    "spacePremium": "I test di Mi Espacio in Arcade sono solo per Premium.",
+    "spaceSelectTest": "Seleziona un test di Mi Espacio.",
+    "spaceNoTests": "Non ci sono test salvati in questa cartella.",
+    "spaceLoadFolders": "Impossibile caricare le tue cartelle.",
+    "spaceLoadTest": "Impossibile caricare il test.",
+    "spaceEmptyTest": "Il test non ha domande valide."
   },
   "Estadisticas": {
     "title": "Le tue statistiche",
@@ -594,19 +610,20 @@
     "clickDay": "Clicca su un giorno del grafico per vedere i dettagli.",
     "testsDone": "Test svolti",
     "correct": "Risposte corrette",
-    "wrong": "Da ripassare",
+    "wrong": "Errori totali",
     "completed": "Test completati",
     "average": "Voto medio",
     "pending": "Domande in sospeso",
     "last7": "Ultimi 7 giorni",
-    "last7Help": "Risposte corrette e domande da ripassare per giorno. Clicca su un giorno per il riepilogo.",
+    "last7Help": "Risposte corrette e domande in sospeso accumulate per giorno. Premi un giorno per vedere il riepilogo.",
     "retry": "Riprova",
     "goSpace": "Vai al mio spazio",
     "loading": "Caricamento cartelle…",
     "breakdown": "Dettaglio per cartella",
     "breakdownHelp": "Test salvati in ogni cartella del mio spazio.",
     "viewGeneral": "Vedi riepilogo globale",
-    "emptyFolders": "Non hai ancora cartelle. Creane una in Il mio spazio per iniziare a vedere le statistiche."
+    "emptyFolders": "Non hai ancora cartelle. Creane una in Il mio spazio per iniziare a vedere le statistiche.",
+    "pendingLegend": "Domande in sospeso"
   },
   "Kids": {
     "brand": "OpoGen",

@@ -59,6 +59,9 @@ function claveEntrada(entrada: EntradaHistorialTest): string {
     entrada.fallos,
     entrada.enBlanco,
     entrada.total,
+    entrada.testId ?? "",
+    entrada.pendientes ?? "",
+    entrada.tipo ?? "",
   ].join("|");
 }
 

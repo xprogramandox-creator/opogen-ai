@@ -537,6 +537,11 @@
         "title": "Survie",
         "description": "Mode extrême. Sans vies, sans pitié.",
         "detail": "Mode extrême. Sans vies, sans pitié. Montre combien de temps tu tiens en enchaînant les bonnes réponses."
+      },
+      "espacio": {
+        "title": "Mes tests",
+        "description": "Joue avec les tests déjà enregistrés dans Mi Espacio.",
+        "detail": "Choisis un dossier de Mi Espacio puis l'un de ses tests. Aucun fichier n'est importé et aucune question n'est générée : tu joues exactement avec tes tests enregistrés, sans modifier tes statistiques ni ton repaso."
       }
     },
     "benefits": {
@@ -579,7 +584,18 @@
     "failedQuestion": "Question {current} à réviser : la bonne réponse était {letter}) {answer}.",
     "questionOnly": "Question {current}",
     "masteredTopic": "Tu maîtrises ce sujet ! Essaie-en un autre ou recommence la partie.",
-    "loadingMore": "Chargement d'autres questions…"
+    "loadingMore": "Chargement d'autres questions…",
+    "myTests": "Mes tests",
+    "spaceFolder": "Dossier de Mi Espacio",
+    "spaceFolderPlaceholder": "Choisis un dossier",
+    "spaceTest": "Test disponible",
+    "spaceTestPlaceholder": "Choisis un test",
+    "spacePremium": "Les tests de Mi Espacio dans Arcade sont réservés aux Premium.",
+    "spaceSelectTest": "Sélectionne un test de Mi Espacio.",
+    "spaceNoTests": "Aucun test enregistré dans ce dossier.",
+    "spaceLoadFolders": "Impossible de charger tes dossiers.",
+    "spaceLoadTest": "Impossible de charger le test.",
+    "spaceEmptyTest": "Le test n'a pas de questions valides."
   },
   "Estadisticas": {
     "title": "Vos statistiques",
@@ -594,19 +610,20 @@
     "clickDay": "Cliquez sur un jour du graphique pour voir le détail.",
     "testsDone": "Tests effectués",
     "correct": "Bonnes réponses",
-    "wrong": "À réviser",
+    "wrong": "Erreurs totales",
     "completed": "Tests terminés",
     "average": "Note moyenne",
     "pending": "Questions en attente",
     "last7": "7 derniers jours",
-    "last7Help": "Bonnes réponses et questions à réviser par jour. Clique sur un jour pour voir son résumé.",
+    "last7Help": "Bonnes réponses et questions en attente cumulées par jour. Cliquez sur un jour pour voir son résumé.",
     "retry": "Réessayer",
     "goSpace": "Aller à Mon espace",
     "loading": "Chargement des dossiers…",
     "breakdown": "Détail par dossier",
     "breakdownHelp": "Tests enregistrés dans chaque dossier de Mon espace.",
     "viewGeneral": "Voir le résumé global",
-    "emptyFolders": "Tu n'as pas encore de dossiers. Crée-en un dans Mon espace pour commencer à voir des statistiques."
+    "emptyFolders": "Tu n'as pas encore de dossiers. Crée-en un dans Mon espace pour commencer à voir des statistiques.",
+    "pendingLegend": "Questions en attente"
   },
   "Kids": {
     "brand": "OpoGen",

@@ -12,7 +12,9 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  calcularNotaMediaPorTest,
   carpetaMadre,
+  esTestCompletado,
   normalizarEntradaHistorial,
   normalizarNombreCarpeta,
   type EntradaHistorialTest,
@@ -29,6 +31,7 @@ type DiaResumen = {
   numero: string;
   aciertos: number;
   fallos: number;
+  pendientes: number | null;
   tests: number;
 };
 
@@ -101,7 +104,12 @@ async function contarFallosDeCarpeta(carpeta: string): Promise<number> {
 
     const datos = (await res.json().catch(() => ({}))) as {
       preguntas?: unknown;
+      pendientes?: unknown;
     };
+
+    if (typeof datos.pendientes === "number") {
+      return datos.pendientes;
+    }
 
     return Array.isArray(datos.preguntas) ? datos.preguntas.length : 0;
   } catch {
@@ -318,14 +326,8 @@ export default function EstadisticasContenido() {
   );
 
   const resumen = useMemo(() => {
-    const totalTests = historialFiltrado.length;
-    const notaMedia =
-      totalTests > 0
-        ? historialFiltrado.reduce(
-            (total, entrada) => total + entrada.nota,
-            0,
-          ) / totalTests
-        : 0;
+    const totalTests = historialFiltrado.filter(esTestCompletado).length;
+    const notaMedia = calcularNotaMediaPorTest(historialFiltrado);
     const aciertos = historialFiltrado.reduce(
       (total, entrada) => total + entrada.aciertos,
       0,
@@ -370,6 +372,7 @@ export default function EstadisticasContenido() {
         numero: formatoNumeroDia.format(fecha),
         aciertos: 0,
         fallos: 0,
+        pendientes: null,
         tests: 0,
       });
     }
@@ -383,13 +386,18 @@ export default function EstadisticasContenido() {
       if (dia) {
         dia.aciertos += entrada.aciertos;
         dia.fallos += entrada.fallos;
-        dia.tests += 1;
+        if (dia.pendientes === null && typeof entrada.pendientes === "number") {
+          dia.pendientes = entrada.pendientes;
+        }
+        if (esTestCompletado(entrada)) dia.tests += 1;
       }
     }
 
     const maximo = Math.max(
       1,
-      ...dias.map((dia) => Math.max(dia.aciertos, dia.fallos)),
+      ...dias.map((dia) =>
+        Math.max(dia.aciertos, dia.fallos, dia.pendientes ?? 0),
+      ),
     );
     const totalSemana = dias.reduce(
       (total, dia) => total + dia.aciertos + dia.fallos,
@@ -418,6 +426,10 @@ export default function EstadisticasContenido() {
       clave: diaSeleccionado,
       etiqueta: formatoDia.format(fecha),
       numero: formatoNumeroDia.format(fecha),
+      pendientes:
+        entradasDelDia.find(
+          (entrada) => typeof entrada.pendientes === "number",
+        )?.pendientes ?? null,
       aciertos: entradasDelDia.reduce(
         (total, entrada) => total + entrada.aciertos,
         0,
@@ -426,7 +438,7 @@ export default function EstadisticasContenido() {
         (total, entrada) => total + entrada.fallos,
         0,
       ),
-      tests: entradasDelDia.length,
+      tests: entradasDelDia.filter(esTestCompletado).length,
     };
   }, [diaSeleccionado, grafico.dias, historialFiltrado]);
 
@@ -446,7 +458,8 @@ export default function EstadisticasContenido() {
       return {
         totalTests: resumen.totalTests,
         notaMedia: resumen.notaMedia,
-        fallos: fallosFiltrados,
+        fallos: resumen.fallos,
+        pendientes: fallosFiltrados,
       };
     }
 
@@ -466,6 +479,7 @@ export default function EstadisticasContenido() {
       totalTests: diaDetalle.tests,
       notaMedia,
       fallos: diaDetalle.fallos,
+      pendientes: diaDetalle.pendientes ?? 0,
     };
   }, [diaDetalle, fallosFiltrados, historialFiltrado, resumen]);
 
@@ -663,7 +677,7 @@ export default function EstadisticasContenido() {
             </span>
           </div>
           <p className="mt-2 text-4xl font-bold text-rose-900 dark:text-rose-100">
-            {resumenVisible.fallos === null ? "—" : resumenVisible.fallos}
+            {resumenVisible.pendientes === null ? "—" : resumenVisible.pendientes}
           </p>
           <p className="mt-1 text-sm text-[var(--txt3)]">
             Preguntas falladas que puedes repasar en Mi Espacio.
@@ -695,7 +709,7 @@ export default function EstadisticasContenido() {
                 className="h-2.5 w-2.5 rounded-full bg-rose-500"
                 aria-hidden="true"
               />
-              {t("wrong")}
+              {t("pendingLegend")}
             </li>
           </ul>
         </div>
@@ -778,15 +792,16 @@ export default function EstadisticasContenido() {
                         <div className="h-full w-full rounded-t-md bg-emerald-500" />
                       </div>
                       <div
-                        title={`${dia.etiqueta} ${dia.numero}: ${dia.fallos} fallos`}
+                        title={`${dia.etiqueta} ${dia.numero}: ${dia.pendientes ?? 0} pendientes`}
                         className="relative w-2/5 max-w-7"
                         style={{
-                          height: alturaBarra(dia.fallos),
-                          minHeight: dia.fallos > 0 ? "4px" : "1px",
+                          height: alturaBarra(dia.pendientes ?? 0),
+                          minHeight:
+                            (dia.pendientes ?? 0) > 0 ? "4px" : "1px",
                         }}
                       >
                         <span className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 text-xs font-bold text-rose-700 dark:text-rose-400">
-                          {dia.fallos}
+                          {dia.pendientes ?? 0}
                         </span>
                         <div className="h-full w-full rounded-t-md bg-rose-500" />
                       </div>
