@@ -225,7 +225,7 @@ export default async function LandingPage({
           aria-labelledby="titulo-como-funciona"
           className="relative z-10 mx-auto max-w-6xl px-5 pb-16 sm:px-6"
         >
-          <div className="rounded-3xl border border-[var(--th)] bg-[var(--card2)] px-5 py-8 shadow-[var(--sombra)] sm:px-8 sm:py-10">
+          <div className="rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 px-5 py-8 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:px-8 sm:py-10">
           <div className="mb-9 text-center">
             <h2
               id="titulo-como-funciona"
@@ -240,7 +240,7 @@ export default async function LandingPage({
 
           <ol className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {pasos.map(({ numero, id, Icono, pastel }) => (
-              <li key={numero} className="card relative rounded-2xl p-6 pt-10">
+              <li key={numero} className="group relative rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-6 pt-10 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 motion-reduce:transform-none">
                 <span className={`absolute -top-4 left-6 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold shadow-sm ${pastel}`}>
                   {numero}
                 </span>

@@ -175,7 +175,7 @@ export default function TestimoniosCarrusel() {
         <figure
           aria-live="polite"
           aria-atomic="true"
-          className={`flex flex-col rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-[var(--sombra)] sm:p-8 ${
+          className={`flex flex-col rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-6 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-8 ${
             fase === "salida"
               ? "animate-testimonio-salida"
               : fase === "entrada"
