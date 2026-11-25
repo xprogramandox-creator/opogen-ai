@@ -265,7 +265,7 @@ export default function AgendaPage() {
         </header>
 
         {sinSesion ? (
-          <section className="mx-auto mt-10 max-w-md rounded-3xl border border-[var(--th)] bg-[var(--card)] p-8 text-center shadow-[var(--sombra)]">
+          <section className="mx-auto mt-10 max-w-md rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-8 text-center shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
             <CalendarDays
               className="mx-auto h-10 w-10 text-[var(--azul)]"
               strokeWidth={1.6}
@@ -287,8 +287,8 @@ export default function AgendaPage() {
               <p
                 className={`flex-1 rounded-2xl border px-4 py-3 text-sm font-semibold ${
                   proximo
-                    ? "border-[var(--azul)]/30 bg-[var(--sel)] text-[var(--azul)]"
-                    : "border-[var(--th)] bg-[var(--card2)] text-[var(--txt2)]"
+                    ? "border-[var(--azul)]/30 bg-gradient-to-r from-sky-100/75 to-blue-300/55 text-[var(--azul)] dark:bg-none dark:bg-[#141b2d]/55"
+                    : "border-white/40 bg-gradient-to-r from-sky-100/65 to-blue-300/45 text-[var(--txt2)] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"
                 }`}
               >
                 {proximo
@@ -323,7 +323,7 @@ export default function AgendaPage() {
               {cargando ? (
                 <p className="mt-4 text-sm text-[var(--txt3)]">{t("loading")}</p>
               ) : proximos.length === 0 ? (
-                <p className="mt-4 rounded-2xl border border-dashed border-[var(--th)] bg-[var(--card2)] p-6 text-center text-sm text-[var(--txt3)]">
+                <p className="mt-4 rounded-2xl border border-dashed border-white/50 bg-white/50 p-6 text-center text-sm text-[var(--txt3)] backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50">
                   {t("empty")}
                 </p>
               ) : (
@@ -331,7 +331,7 @@ export default function AgendaPage() {
                   {proximos.map((examen) => (
                     <article
                       key={examen.id}
-                      className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] sm:p-5"
+                      className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-5"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
@@ -398,7 +398,7 @@ export default function AgendaPage() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="agenda-modal-titulo"
-            className="w-full max-w-md rounded-2xl border border-[var(--th)] bg-[var(--card)] p-6 shadow-2xl"
+            className="w-full max-w-md rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-6 shadow-2xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"
           >
             <div className="flex items-start justify-between gap-3">
               <h2 id="agenda-modal-titulo" className="text-lg font-bold">

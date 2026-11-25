@@ -1083,14 +1083,14 @@ export default function AdminPanel() {
                 ["Nuevos este mes", resumen.nuevosMes],
                 ["Nuevos este año", resumen.nuevosAno],
               ].map(([etiqueta, valor]) => (
-                <div key={String(etiqueta)} className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4">
+                <div key={String(etiqueta)} className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
                   <p className="text-xs font-semibold text-[var(--txt3)]">{etiqueta}</p>
                   <p className="mt-1 text-2xl font-bold text-[var(--txt)]">{valor}</p>
                 </div>
               ))}
             </div>
 
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="font-bold text-[var(--txt)]">
                   {tAnalitica("title")}
@@ -1168,7 +1168,7 @@ export default function AdminPanel() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <div className="flex flex-wrap items-end justify-between gap-3">
                 <h2 className="font-bold text-[var(--txt)]">
                   {tAnalitica("accessTitle")}
@@ -1209,7 +1209,7 @@ export default function AdminPanel() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <h2 className="font-bold text-[var(--txt)]">
                   {tIA("title")}
@@ -1308,7 +1308,7 @@ export default function AdminPanel() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
                 <h2 className="font-bold text-[var(--txt)]">Ganancias e IVA</h2>
                 <div className="mt-3 grid gap-2 text-sm">
                   {[
@@ -1327,7 +1327,7 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+              <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
                 <h2 className="font-bold text-[var(--txt)]">Próximos a caducar</h2>
                 <div className="mt-3 grid grid-cols-3 gap-3 text-center">
                   {[["7 días", resumen.proximos7], ["15 días", resumen.proximos15], ["30 días", resumen.proximos30]].map(([etiqueta, valor]) => (
@@ -1347,7 +1347,7 @@ export default function AdminPanel() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <h2 className="font-bold text-[var(--txt)]">Últimas acciones administrativas</h2>
               <div className="mt-3 space-y-2 text-xs">
                 {logs.slice(0, 8).map((log) => (
@@ -1381,7 +1381,7 @@ export default function AdminPanel() {
 
         {tab === "usuarios" ? (
           <section className="space-y-4">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 rounded-2xl border border-white/40 bg-white/70 p-3 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
               <input value={filtros.busqueda} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, busqueda: e.target.value })); }} placeholder="Buscar nombre, correo o teléfono" className="min-w-[240px] flex-1 rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm" />
               <select value={filtros.tipo} onChange={(e) => { setPagina(1); setFiltros((f) => ({ ...f, tipo: e.target.value })); }} className="rounded-xl border border-[var(--th)] bg-[var(--card)] px-3 py-2 text-sm">
                 <option value="">Todos</option><option value="freemium">Free</option><option value="premium">Premium</option>
@@ -1395,7 +1395,7 @@ export default function AdminPanel() {
               <button type="button" onClick={() => { setForm(FORM_VACIO); setModal("crear"); }} className="inline-flex items-center gap-2 rounded-xl bg-[var(--azul)] px-4 py-2 text-sm font-bold text-white"><Plus className="h-4 w-4" /> Crear usuario</button>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+            <div className="overflow-x-auto rounded-2xl border border-white/40 bg-white/70 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
               <table className="w-full min-w-[1100px] text-left text-xs">
                 <thead className="bg-[var(--card2)] text-[var(--txt3)]">
                   <tr>{["ID", "Usuario", "Cuenta", "Plan", "Base", "IVA", "Total", "Registro", "Pago", "Caducidad", "Estado", "Acciones"].map((h) => <th key={h} className="px-3 py-3 font-bold">{h}</th>)}</tr>
@@ -1465,7 +1465,7 @@ export default function AdminPanel() {
               </p>
             ) : null}
 
-            <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+            <div className="overflow-x-auto rounded-2xl border border-white/40 bg-white/70 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
               <table className="w-full min-w-[760px] text-left text-xs">
                 <thead className="bg-[var(--card2)] text-[var(--txt3)]">
                   <tr>
@@ -1580,7 +1580,7 @@ export default function AdminPanel() {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 rounded-2xl border border-white/40 bg-white/70 p-3 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
           {(["pendiente", "aprobado", "rechazado", "todos"] as const).map(
             (filtro) => {
               const total =
@@ -1621,7 +1621,7 @@ export default function AdminPanel() {
           </p>
         ) : null}
 
-        <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+        <div className="overflow-x-auto rounded-2xl border border-white/40 bg-white/70 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
           <table className="w-full min-w-[860px] text-left text-xs">
             <thead className="bg-[var(--card2)] text-[var(--txt3)]">
               <tr>
@@ -1888,7 +1888,7 @@ export default function AdminPanel() {
                 </button>
               </div>
 
-              <div className="overflow-x-auto rounded-2xl border border-[var(--th)] bg-[var(--card)]">
+              <div className="overflow-x-auto rounded-2xl border border-white/40 bg-white/70 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/70">
                 <table className="w-full min-w-[720px] text-left text-xs">
                   <thead className="bg-[var(--card2)] text-[var(--txt3)]">
                     <tr>
@@ -1984,7 +1984,7 @@ export default function AdminPanel() {
         ) : null}
 
         {tab === "invitados" ? (
-          <section className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+          <section className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="font-bold text-[var(--txt)]">
                 {tInvitados("title")}
@@ -2105,7 +2105,7 @@ export default function AdminPanel() {
                 {tReset("resetStats")}
               </button>
             </div>
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="font-bold text-[var(--txt)]">Uso por zona</h2>
                 <button
@@ -2127,7 +2127,7 @@ export default function AdminPanel() {
                 {uso.length === 0 ? <p className="text-[var(--txt3)]">Sin datos de uso todavía.</p> : null}
               </div>
             </div>
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <h2 className="font-bold text-[var(--txt)]">Crecimiento de usuarios</h2>
               <div className="mt-4 space-y-2">
                 {[["Hoy", resumen?.nuevosDia || 0], ["Semana", resumen?.nuevosSemana || 0], ["Mes", resumen?.nuevosMes || 0], ["Año", resumen?.nuevosAno || 0]].map(([etiqueta, valor]) => (
@@ -2151,18 +2151,18 @@ export default function AdminPanel() {
               </button>
             </div>
             <div className="grid gap-3 md:grid-cols-3">
-              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">Base anual</p><p className="text-2xl font-bold">{dinero(resumen?.gananciasAno || 0)}</p></div>
-              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">IVA anual</p><p className="text-2xl font-bold">{dinero(resumen?.ivaAno || 0)}</p></div>
-              <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4"><p className="text-xs text-[var(--txt3)]">Total anual</p><p className="text-2xl font-bold">{dinero((resumen?.gananciasAno || 0) + (resumen?.ivaAno || 0))}</p></div>
+              <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"><p className="text-xs text-[var(--txt3)]">Base anual</p><p className="text-2xl font-bold">{dinero(resumen?.gananciasAno || 0)}</p></div>
+              <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"><p className="text-xs text-[var(--txt3)]">IVA anual</p><p className="text-2xl font-bold">{dinero(resumen?.ivaAno || 0)}</p></div>
+              <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"><p className="text-xs text-[var(--txt3)]">Total anual</p><p className="text-2xl font-bold">{dinero((resumen?.gananciasAno || 0) + (resumen?.ivaAno || 0))}</p></div>
             </div>
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <h2 className="font-bold">Facturación mensual · EUR</h2>
               <table className="mt-3 w-full text-left text-xs">
                 <thead><tr className="text-[var(--txt3)]">{["Mes", "Base", "IVA", "Total", "Facturas"].map((h) => <th key={h} className="py-2">{h}</th>)}</tr></thead>
                 <tbody>{pagosMensuales.map((fila) => <tr key={fila.mes} className="border-t border-[var(--th)]"><td className="py-2">{fila.mes}</td><td>{dinero(fila.base)}</td><td>{dinero(fila.iva)}</td><td className="font-bold">{dinero(fila.total)}</td><td>{fila.facturas}</td></tr>)}</tbody>
               </table>
             </div>
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-5">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <h2 className="font-bold">Histórico de pagos</h2>
               <div className="mt-3 max-h-96 overflow-auto">
                 <table className="w-full min-w-[700px] text-left text-xs">
