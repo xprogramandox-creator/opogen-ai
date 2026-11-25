@@ -11,8 +11,7 @@ const ETAPAS = [
     etapaKey: "stageExplorers",
     subtituloKey: "stageExplorersSubtitle",
     icono: "🧸",
-    clase:
-      "bg-[var(--azul)]/10 text-[var(--txt)]",
+    clase: "text-[var(--txt)]",
   },
   {
     edadKey: "stageAventurersAge",
@@ -20,8 +19,7 @@ const ETAPAS = [
     etapaKey: "stageAventurers",
     subtituloKey: "stageAventurersSubtitle",
     icono: "🚀",
-    clase:
-      "bg-[var(--azul)]/10 text-[var(--txt)]",
+    clase: "text-[var(--txt)]",
   },
   {
     edadKey: "stageGeniusesAge",
@@ -29,8 +27,7 @@ const ETAPAS = [
     etapaKey: "stageGeniuses",
     subtituloKey: "stageGeniusesSubtitle",
     icono: "🧠",
-    clase:
-      "bg-[var(--azul)]/10 text-[var(--txt)]",
+    clase: "text-[var(--txt)]",
   },
 ] as const;
 
@@ -65,14 +62,14 @@ export default function KidsPage() {
           {t("intro")}
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:mt-14 sm:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-3">
           {ETAPAS.map((etapa) => (
             <button
               key={etapa.codigo}
               type="button"
               onClick={() => elegirEtapa(etapa.codigo)}
               aria-label={`${t(etapa.etapaKey)}: ${t(etapa.edadKey)}`}
-              className={`kids-glass group relative min-h-[280px] cursor-pointer overflow-hidden rounded-3xl ${etapa.clase} p-8 text-left shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/60`}
+              className={`group relative min-h-[210px] cursor-pointer overflow-hidden rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 text-left shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/60 dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-6 ${etapa.clase}`}
             >
               <span
                 className="absolute -right-4 -top-4 text-8xl opacity-20 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110"
@@ -82,23 +79,23 @@ export default function KidsPage() {
               </span>
 
               <span className="relative flex h-full flex-col">
-                <span className="text-6xl" aria-hidden="true">
+                <span className="text-5xl" aria-hidden="true">
                   {etapa.icono}
                 </span>
 
-                <span className="mt-5 text-sm font-bold uppercase tracking-widest opacity-80">
+                <span className="mt-3 text-xs font-bold uppercase tracking-widest opacity-80">
                   {t(etapa.etapaKey)}
                 </span>
 
-                <span className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+                <span className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
                   {t(etapa.edadKey)}
                 </span>
 
-                <span className="mt-3 text-base font-bold opacity-90">
+                <span className="mt-2 text-sm font-bold opacity-90">
                   {t(etapa.subtituloKey)}
                 </span>
 
-                <span className="mt-auto pt-6 text-sm font-bold uppercase tracking-wide underline decoration-2 underline-offset-4">
+                <span className="mt-auto pt-4 text-xs font-bold uppercase tracking-wide underline decoration-2 underline-offset-4">
                   {t("go")}
                 </span>
               </span>
@@ -106,7 +103,7 @@ export default function KidsPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-10 max-w-3xl kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-6 text-left shadow-lg dark:border-[var(--th)] dark:bg-[var(--card)] sm:p-8">
+        <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-5 text-left shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-6">
           <h3 className="text-xl font-bold text-[var(--txt)] sm:text-2xl">
             {t("infoTitle")}
           </h3>
