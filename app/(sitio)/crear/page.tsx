@@ -341,7 +341,7 @@ export default function Home() {
       window.clearTimeout(temporizadorLento.current);
     }
 
-    temporizadorLento.current = window.setTimeout(() => setTardando(true), 10_000);
+    temporizadorLento.current = window.setTimeout(() => setTardando(true), 40_000);
   }
 
   function detenerAvisoLento(): void {
