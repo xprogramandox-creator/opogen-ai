@@ -442,7 +442,8 @@
     "errorCard": {
       "title": "The test could not be generated",
       "retry": "Try again"
-    }
+    },
+    "savePrompt": "Save the test to your space so you can review the questions you missed later."
   },
   "MiEspacio": {
     "newFolder": "New Folder",

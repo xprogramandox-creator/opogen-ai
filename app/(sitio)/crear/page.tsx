@@ -540,6 +540,11 @@ export default function Home() {
       );
 
       setExamen(preguntas);
+      setGuardado(false);
+
+      if (sesion?.rol === "premium") {
+        void handleAbrirModalGuardar();
+      }
 
       const claveArchivo = claveArchivoDe(modoEntrada, archivos, foto);
       void registrarPreguntasHechas(
@@ -585,6 +590,7 @@ export default function Home() {
     setCorregido(false);
     setIndiceSalto(0);
     setAviso("");
+    setGuardado(false);
     setCarpetaGuardada("");
     setArchivoGuardado("");
 
@@ -620,6 +626,12 @@ export default function Home() {
       const preguntasGeneradas = await pedirExamen(textoTotal, pedidas, evitar);
 
       setExamen(preguntasGeneradas);
+      setGuardado(false);
+
+      if (sesion?.rol === "premium") {
+        void handleAbrirModalGuardar();
+      }
+
       void registrarPreguntasHechas(
         claveArchivo,
         preguntasGeneradas.map((pregunta) => pregunta.enunciado),
@@ -1248,7 +1260,10 @@ export default function Home() {
         {modalGuardar && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
             <div className="bg-[var(--card)] rounded-2xl border border-[var(--th)] p-6 shadow-2xl w-full max-w-sm">
-              <h3 className="text-lg font-bold mb-4">{t("saveTitle")}</h3>
+              <h3 className="text-lg font-bold mb-2">{t("saveTitle")}</h3>
+              <p className="mb-4 text-sm leading-relaxed text-[var(--txt2)]">
+                {t("savePrompt")}
+              </p>
               <form onSubmit={handleGuardarEnEspacio} className="space-y-4">
                 <div>
                   <label className="mb-2 block text-sm font-semibold text-[var(--txt2)]">{t("selectFolder")}</label>

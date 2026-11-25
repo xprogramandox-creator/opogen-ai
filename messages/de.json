@@ -442,7 +442,8 @@
     "errorCard": {
       "title": "Der Test konnte nicht erstellt werden",
       "retry": "Erneut versuchen"
-    }
+    },
+    "savePrompt": "Speichere den Test in deinem Bereich, um die falsch beantworteten Fragen später zu wiederholen."
   },
   "MiEspacio": {
     "newFolder": "Neuer Ordner",

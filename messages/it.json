@@ -442,7 +442,8 @@
     "errorCard": {
       "title": "Impossibile generare il test",
       "retry": "Riprova"
-    }
+    },
+    "savePrompt": "Salva il test nel tuo spazio per rivedere più tardi le domande sbagliate."
   },
   "MiEspacio": {
     "newFolder": "Nuova cartella",

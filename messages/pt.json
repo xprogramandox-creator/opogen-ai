@@ -442,7 +442,8 @@
     "errorCard": {
       "title": "Não foi possível gerar o teste",
       "retry": "Tentar novamente"
-    }
+    },
+    "savePrompt": "Guarda o teste no teu espaço para poderes rever mais tarde as perguntas erradas."
   },
   "MiEspacio": {
     "newFolder": "Nova pasta",

@@ -442,7 +442,8 @@
     "errorCard": {
       "title": "Impossible de générer le test",
       "retry": "Réessayer"
-    }
+    },
+    "savePrompt": "Enregistre le test dans ton espace pour pouvoir revoir plus tard les questions ratées."
   },
   "MiEspacio": {
     "newFolder": "Nouveau dossier",
