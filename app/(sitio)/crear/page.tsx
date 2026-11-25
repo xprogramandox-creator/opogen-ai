@@ -291,7 +291,7 @@ export default function Home() {
   const t = useTranslations("CrearTest");
   const locale = useLocale();
   const { sesion, cargando: cargandoSesion, limiteInvitado, actualizarLimiteInvitado } = useSesion();
-  const { notificar, confirmar } = useNotification();
+  const { notificar } = useNotification();
   const esFreemium = sesion?.rol === "freemium";
   const limiteAgotado = !sesion && Boolean(limiteInvitado?.agotado);
   const mensajeLimite = t("errors.guestLimit");
@@ -856,17 +856,9 @@ export default function Home() {
   }
 
   function handleCerrarTest(): void {
-    confirmar({
-      titulo: t("closeExamTitle"),
-      mensaje: t("closeMessage"),
-      textoAceptar: t("confirmClose"),
-      textoCancelar: t("keepExam"),
-      onAceptar: () => {
-        // Se vuelve al formulario de configuración sin cambiar de ruta.
-        reiniciarFormulario();
-        setAviso(t("closedNotice"));
-      },
-    });
+    // Se cierra directamente, sin modal de confirmación.
+    reiniciarFormulario();
+    setAviso(t("closedNotice"));
   }
 
   async function seleccionarArchivos(nuevos: File[]): Promise<void> {
