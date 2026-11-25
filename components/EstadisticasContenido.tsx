@@ -473,7 +473,18 @@ export default function EstadisticasContenido() {
     `${Math.min(100, Math.round((valor / grafico.maximo) * 100))}%`;
 
   return (
-    <div className="space-y-6">
+    <div className="relative isolate">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      >
+        <div className="absolute -left-28 -top-32 h-96 w-96 rounded-full bg-sky-300/50 opacity-40 blur-[120px] dark:bg-sky-500/25" />
+        <div className="absolute -right-32 top-1/4 h-[28rem] w-[28rem] rounded-full bg-cyan-200/50 opacity-40 blur-[120px] dark:bg-cyan-400/20" />
+        <div className="absolute -bottom-40 left-1/3 h-[26rem] w-[26rem] rounded-full bg-amber-200/40 opacity-30 blur-[120px] dark:bg-blue-500/20" />
+        <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#141b2d]/10 opacity-30 blur-[110px] dark:bg-[#60a5fa]/15" />
+      </div>
+
+      <div className="relative z-10 space-y-6">
       <header>
         <h1 className="text-balance text-3xl font-bold tracking-tight text-[var(--txt)] sm:text-4xl">
           {t("title")}
@@ -485,7 +496,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Filtro por carpeta"
-        className="flex flex-col gap-3 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50/60 via-white to-sky-50/60 p-4 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:flex-row sm:items-center sm:justify-between"
+        className="flex flex-col gap-3 rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <p className="text-sm font-bold text-[var(--txt)]">
@@ -524,7 +535,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Detalle del día seleccionado"
-        className="rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50/70 via-white to-sky-50/60 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6"
+        className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -560,7 +571,7 @@ export default function EstadisticasContenido() {
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-blue-50/70 p-4 shadow-sm dark:border-sky-400/20 dark:from-sky-500/10 dark:to-blue-500/5">
+          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-sky-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-sky-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
                 {t("testsDone")}
@@ -574,7 +585,7 @@ export default function EstadisticasContenido() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50 to-teal-50/70 p-4 shadow-sm dark:border-emerald-400/20 dark:from-emerald-500/10 dark:to-teal-500/5">
+          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-emerald-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-emerald-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
                 {t("correct")}
@@ -588,7 +599,7 @@ export default function EstadisticasContenido() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-rose-200/80 bg-gradient-to-br from-rose-50 to-orange-50/60 p-4 shadow-sm dark:border-rose-400/20 dark:from-rose-500/10 dark:to-orange-500/5">
+          <div className="rounded-2xl border border-white/40 bg-white/60 p-4 shadow-xl ring-1 ring-inset ring-rose-200/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-rose-400/20">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
                 {t("wrong")}
@@ -608,7 +619,7 @@ export default function EstadisticasContenido() {
         aria-label="Resumen"
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
-        <article className="rounded-3xl border border-sky-100 bg-gradient-to-br from-sky-50/80 via-white to-blue-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-sky-400/15 dark:from-sky-500/10 dark:via-slate-900 dark:to-blue-500/5 sm:p-6">
+        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-sky-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-sky-400/20 sm:p-6">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
               {t("completed")}
@@ -625,7 +636,7 @@ export default function EstadisticasContenido() {
           </p>
         </article>
 
-        <article className="rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50/80 via-white to-orange-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-orange-500/5 sm:p-6">
+        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-amber-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-amber-400/20 sm:p-6">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
               {t("average")}
@@ -642,7 +653,7 @@ export default function EstadisticasContenido() {
           <p className="mt-1 text-sm text-[var(--txt3)]">Sobre 10 puntos.</p>
         </article>
 
-        <article className="rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50/80 via-white to-orange-50/40 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-rose-400/15 dark:from-rose-500/10 dark:via-slate-900 dark:to-orange-500/5 sm:col-span-2 sm:p-6 lg:col-span-1">
+        <article className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl ring-1 ring-inset ring-rose-200/40 backdrop-blur-md transition-transform duration-300 hover:scale-[1.02] dark:border-white/10 dark:bg-[#141b2d]/50 dark:ring-rose-400/20 sm:col-span-2 sm:p-6 lg:col-span-1">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
               {t("pending")}
@@ -660,7 +671,7 @@ export default function EstadisticasContenido() {
         </article>
       </section>
 
-      <section className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50/60 via-white to-sky-50/60 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-violet-400/15 dark:from-violet-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6">
+      <section className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
@@ -803,7 +814,7 @@ export default function EstadisticasContenido() {
         )}
       </section>
 
-      <section className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/60 via-white to-sky-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-emerald-400/15 dark:from-emerald-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6">
+      <section className="rounded-3xl border border-white/40 bg-white/60 p-5 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-[#141b2d]/50 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
@@ -868,6 +879,7 @@ export default function EstadisticasContenido() {
           </ul>
         )}
       </section>
+      </div>
     </div>
   );
 }
