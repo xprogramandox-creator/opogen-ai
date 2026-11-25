@@ -111,43 +111,43 @@ export default function KidsTablasPage() {
 
   return (
     <main id="contenido" className="min-h-app bg-transparent">
-      <section className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-14">
-        <div className="mb-6 flex items-center justify-between gap-3">
+      <section className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-7">
+        <div className="mb-3 flex items-center justify-between gap-3">
           <Link
             href="/kids/temas"
-            className="inline-flex items-center gap-2 rounded-xl border border-[var(--th)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--txt2)] shadow-sm transition-colors hover:bg-[var(--suave2)]"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/70 px-3 py-1.5 text-xs font-bold text-[var(--txt2)] shadow-sm backdrop-blur-md transition-colors hover:bg-white/85 dark:border-white/10 dark:bg-[#141b2d]/70"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             {t("back")}
           </Link>
 
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--sel)] text-2xl">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--sel)] text-xl">
             ✖️
           </span>
         </div>
 
         <div className="text-center">
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-[var(--txt)] sm:text-5xl">
+          <h1 className="text-balance text-3xl font-bold tracking-tight text-[var(--txt)] sm:text-4xl">
             <span aria-hidden="true">✨</span> {t("title")}{" "}
             <span aria-hidden="true">🚀</span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-pretty text-[var(--txt2)]">
+          <p className="mx-auto mt-1.5 max-w-xl text-pretty text-sm text-[var(--txt2)]">
             {t("subtitle")}
           </p>
         </div>
 
         <section
           aria-labelledby="tablas-elegir"
-          className="mt-8 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7"
+          className="mt-5 rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-5"
         >
           <h2
             id="tablas-elegir"
-            className="text-center text-sm font-bold uppercase tracking-widest text-[var(--txt3)]"
+            className="text-center text-xs font-bold uppercase tracking-widest text-[var(--txt3)]"
           >
             {t("chooseTable")}
           </h2>
 
-          <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-10">
+          <div className="mt-3 grid grid-cols-5 gap-1.5 sm:grid-cols-10">
             {TABLAS.map((numero) => {
               const activa = numero === tabla;
               const color = COLORES_TABLA[numero - 1];
@@ -161,7 +161,7 @@ export default function KidsTablasPage() {
                     reiniciar();
                   }}
                   aria-pressed={activa}
-                  className={`flex h-12 items-center justify-center rounded-2xl border-2 text-lg font-black transition-all duration-150 hover:-translate-y-0.5 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 ${color.boton} ${color.anillo} ${
+                  className={`flex h-9 items-center justify-center rounded-xl border-2 text-sm font-black transition-all duration-150 hover:-translate-y-0.5 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 ${color.boton} ${color.anillo} ${
                     activa
                       ? `scale-110 border-4 shadow-xl ring-4 ring-offset-2 ring-offset-[var(--card)] ${color.anillo}`
                       : "shadow-sm"
@@ -174,17 +174,17 @@ export default function KidsTablasPage() {
           </div>
         </section>
 
-        <section className="mt-5 kids-glass rounded-3xl border border-[var(--th)] bg-[var(--card)] p-5 shadow-[var(--sombra)] sm:p-7">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <section className="mt-3 rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50 sm:p-5">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {FACTORES.map((factor) => {
               const correcta = Number(respuestas[factor]) === tabla * factor;
 
               return (
                 <div
                   key={factor}
-                  className={`flex flex-wrap items-center gap-3 rounded-2xl border-2 px-4 py-3 transition-colors ${colorTabla.suave}`}
+                  className={`flex flex-wrap items-center gap-2 rounded-xl border-2 px-3 py-2 transition-colors ${colorTabla.suave}`}
                 >
-                  <span className="min-w-[88px] text-lg font-bold text-[var(--txt)] sm:text-xl">
+                  <span className="min-w-[72px] text-base font-bold text-[var(--txt)] sm:text-lg">
                     {tabla} × {factor} =
                   </span>
 
@@ -197,7 +197,7 @@ export default function KidsTablasPage() {
                       cambiarRespuesta(factor, evento.target.value)
                     }
                     aria-label={`${tabla} × ${factor}`}
-                    className={`h-12 min-w-0 flex-1 rounded-2xl border-4 bg-[var(--card)] px-3 text-lg font-black text-[var(--txt)] outline-none transition-all focus:ring-4 ${
+                    className={`h-10 min-w-0 flex-1 rounded-xl border-2 bg-white/75 px-2 text-base font-black text-[var(--txt)] outline-none transition-all focus:ring-4 dark:bg-[#141b2d]/75 ${
                       corregido
                         ? correcta
                           ? "kids-tabla-pop border-emerald-500 bg-emerald-50 text-emerald-900 focus:ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-100"
@@ -227,17 +227,17 @@ export default function KidsTablasPage() {
           {corregido ? (
             <p
               role="status"
-              className="mt-5 rounded-2xl border border-[var(--ok-b)] bg-[var(--ok)] px-4 py-3 text-center text-sm font-bold text-[var(--ok-t)]"
+              className="mt-3 rounded-xl border border-[var(--ok-b)] bg-[var(--ok)] px-3 py-2 text-center text-xs font-bold text-[var(--ok-t)]"
             >
               {t("result", { correct: aciertos, total: FACTORES.length })}
             </p>
           ) : null}
 
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <button
               type="button"
               onClick={() => setCorregido(true)}
-              className={`inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-2 border-white/40 px-5 text-sm font-black text-white shadow-md transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-4 ${colorTabla.acento}`}
+              className={`inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl border-2 border-white/40 px-4 text-sm font-black text-white shadow-md transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-4 ${colorTabla.acento}`}
             >
               <Check className="h-5 w-5" aria-hidden="true" />
               {t("check")}
@@ -246,7 +246,7 @@ export default function KidsTablasPage() {
             <button
               type="button"
               onClick={reiniciar}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-2 border-[var(--th)] bg-[var(--card2)] px-5 text-sm font-black text-[var(--txt)] transition-transform hover:bg-[var(--suave2)] active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/30"
+              className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl border-2 border-[var(--th)] bg-white/70 px-4 text-sm font-black text-[var(--txt)] backdrop-blur-md transition-transform hover:bg-white/85 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--azul)]/30 dark:bg-[#141b2d]/70"
             >
               <RotateCcw className="h-5 w-5" aria-hidden="true" />
               {t("reset")}
