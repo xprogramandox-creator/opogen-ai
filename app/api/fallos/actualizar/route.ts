@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { obtenerClaveSesion } from "@/lib/auth-server";
@@ -11,12 +12,14 @@ import {
 import { actualizarPdfRepaso } from "@/lib/estructura-carpetas";
 import {
   esNombreCarpetaSeguro,
+  resolverCarpetaExistente,
   rutaEspacioUsuario,
 } from "@/lib/rutas-espacio";
 import { normalizarPregunta, type Pregunta } from "@/lib/tipos";
 
 type ResultadoTest = {
   carpeta: string;
+  testId?: string;
   pregunta: Pregunta;
   acierto: boolean;
 };
@@ -29,21 +32,78 @@ function leerResultado(valor: unknown): ResultadoTest | null {
   const datos = valor as Record<string, unknown>;
   const carpeta =
     typeof datos.carpeta === "string" ? datos.carpeta.trim() : "";
+  const testId =
+    typeof datos.testId === "string" ? datos.testId.trim() : "";
   const pregunta = normalizarPregunta(datos.pregunta);
 
   if (
-    !carpeta ||
+    (!carpeta && !testId) ||
     !pregunta ||
     typeof datos.acierto !== "boolean"
   ) {
     return null;
   }
 
-  return { carpeta, pregunta, acierto: datos.acierto };
+  return { carpeta, testId, pregunta, acierto: datos.acierto };
 }
 
 function clavePregunta(pregunta: Pregunta): string {
   return pregunta.enunciado;
+}
+
+/**
+ * Recupera la carpeta madre leyendo el JSON del test cuando el cliente no
+ * envía `carpeta` (por ejemplo, un test recuperado desde /crear).
+ */
+async function carpetaDesdeTest(
+  clave: string,
+  testId: string,
+): Promise<string> {
+  const nombre = testId.trim();
+
+  if (
+    !nombre ||
+    nombre.includes("..") ||
+    nombre.includes("/") ||
+    nombre.includes("\\") ||
+    nombre.includes("\0")
+  ) {
+    return "";
+  }
+
+  const archivo = nombre.toLowerCase().endsWith(".json")
+    ? nombre
+    : `${nombre.replace(/\.pdf$/i, "")}.json`;
+  const espacio = rutaEspacioUsuario(clave);
+  const entradas = await readdir(espacio, { withFileTypes: true }).catch(
+    () => [],
+  );
+  const subcarpetas = ["Test", "Test Mixtos", "Repaso", ""];
+
+  for (const entrada of entradas) {
+    if (!entrada.isDirectory()) continue;
+
+    for (const subcarpeta of subcarpetas) {
+      try {
+        const contenido = await readFile(
+          path.join(espacio, entrada.name, subcarpeta, archivo),
+          "utf8",
+        );
+        const datos = JSON.parse(contenido) as { carpeta?: unknown };
+
+        if (
+          typeof datos.carpeta === "string" &&
+          datos.carpeta.trim()
+        ) {
+          return datos.carpeta.trim();
+        }
+      } catch {
+        // Se prueba la siguiente ubicación.
+      }
+    }
+  }
+
+  return "";
 }
 
 export async function POST(req: Request) {
@@ -68,6 +128,10 @@ export async function POST(req: Request) {
     // "Humanización".
     const porCarpeta = new Map<string, Pregunta[]>();
     const fallosNuevos = new Map<string, Pregunta[]>();
+    const madresResueltas = new Map<string, string>();
+    const debugFallos =
+      process.env.NODE_ENV !== "production" ||
+      process.env.DEBUG_FALLOS === "1";
     let procesados = 0;
 
     for (const item of cuerpo) {
@@ -77,10 +141,47 @@ export async function POST(req: Request) {
         continue;
       }
 
-      const madre = obtenerCarpetaMadre(resultado.carpeta);
+      const carpetaEfectiva =
+        resultado.carpeta ||
+        (await carpetaDesdeTest(clave, resultado.testId ?? ""));
+
+      if (!carpetaEfectiva) {
+        if (debugFallos) {
+          console.warn("[fallos/actualizar] resultado sin carpeta", {
+            testId: resultado.testId,
+          });
+        }
+        continue;
+      }
+
+      const madreSolicitada = obtenerCarpetaMadre(carpetaEfectiva);
+      const claveMadre = madreSolicitada.toLocaleLowerCase("es");
+      let madre = madresResueltas.get(claveMadre);
+
+      if (!madre) {
+        // El nombre guardado puede venir sin tildes ("Humanizacion") mientras
+        // que el cliente envía "Humanización" (o al revés). Se resuelve contra
+        // la carpeta física real para no escribir en el legado.
+        const resuelta = await resolverCarpetaExistente(
+          clave,
+          madreSolicitada,
+        );
+
+        madre = resuelta?.nombre ?? madreSolicitada;
+        madresResueltas.set(claveMadre, madre);
+      }
 
       if (!esNombreCarpetaSeguro(madre)) {
         continue;
+      }
+
+      if (debugFallos) {
+        console.info("[fallos/actualizar] resultado", {
+          carpeta: resultado.carpeta,
+          testId: resultado.testId,
+          madre,
+          acierto: resultado.acierto,
+        });
       }
 
       let fallos = porCarpeta.get(madre);
@@ -130,10 +231,34 @@ export async function POST(req: Request) {
         madre,
       );
 
-      if (nuevas.length > 0 && existsSync(carpetaMadre)) {
+      const existeCarpetaMadre = existsSync(carpetaMadre);
+
+      if (debugFallos) {
+        console.info("[fallos/actualizar] carpeta", {
+          madre,
+          carpetaMadre,
+          existe: existeCarpetaMadre,
+          nuevas: nuevas.length,
+        });
+      }
+
+      if (nuevas.length > 0 && !existeCarpetaMadre) {
+        if (debugFallos) {
+          console.warn("[fallos/actualizar] carpeta no encontrada", {
+            madre,
+            carpetaMadre,
+          });
+        }
+      }
+
+      if (nuevas.length > 0 && existeCarpetaMadre) {
         // Añade los fallos al repaso.pdf de la carpeta madre directamente
         // desde la pantalla de corrección, sin pasar por Mi Espacio.
         await actualizarPdfRepaso(carpetaMadre, nuevas);
+
+        if (debugFallos) {
+          console.info("[fallos/actualizar] repaso actualizado", { madre });
+        }
       }
     }
 
@@ -143,6 +268,8 @@ export async function POST(req: Request) {
       carpetas: [...porCarpeta.keys()],
     });
   } catch (error) {
+    console.error("[fallos/actualizar] error", error);
+
     return NextResponse.json(
       { error: mensajeError(error) },
       { status: 500 },

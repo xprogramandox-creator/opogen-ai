@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type DragEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { AlertTriangle, CheckCircle2, FileDown, RefreshCw, Save, Trash2, X } from "lucide-react";
@@ -281,6 +281,12 @@ async function registrarPreguntasHechas(
   }
 }
 
+type RespuestaGuardado = {
+  carpeta?: string;
+  archivo?: string;
+  esMixto?: boolean;
+};
+
 export default function Home() {
   const t = useTranslations("CrearTest");
   const locale = useLocale();
@@ -364,6 +370,8 @@ export default function Home() {
   const [carpetaPreferida, setCarpetaPreferida] = useState("");
   const [cargandoGuardado, setCargandoGuardado] = useState(false);
   const [guardado, setGuardado] = useState(false);
+  const [carpetaGuardada, setCarpetaGuardada] = useState("");
+  const [archivoGuardado, setArchivoGuardado] = useState("");
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -392,7 +400,7 @@ export default function Home() {
     return () => window.clearTimeout(id);
   }, [locale]);
 
-  async function recuperarExamen(carpeta: string, archivo: string) {
+  const recuperarExamen = useCallback(async (carpeta: string, archivo: string) => {
     setCargando(true);
     setMensajeCarga(t("recoveringExam"));
     try {
@@ -400,6 +408,8 @@ export default function Home() {
       if (!res.ok) throw new Error(await leerErrorJson(res));
       const data = await leerJson(res);
       setExamen(normalizarPreguntas(data.preguntas));
+      setCarpetaGuardada(carpeta);
+      setArchivoGuardado(archivo);
       setAviso(t("examRecovered"));
     } catch (err) {
       setError(mensajeError(err));
@@ -408,7 +418,7 @@ export default function Home() {
       setFaseCarga("inactivo");
       setMensajeCarga("");
     }
-  }
+  }, [t]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -426,7 +436,7 @@ export default function Home() {
     }, 0);
 
     return () => window.clearTimeout(id);
-  }, []);
+  }, [recuperarExamen]);
 
   async function extraerDocumentos(archivosSeleccionados: File[]): Promise<DocumentoExtraido[]> {
     const formData = new FormData();
@@ -575,6 +585,8 @@ export default function Home() {
     setCorregido(false);
     setIndiceSalto(0);
     setAviso("");
+    setCarpetaGuardada("");
+    setArchivoGuardado("");
 
     try {
       let textoTotal = "";
@@ -632,13 +644,18 @@ export default function Home() {
     setCorregido(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
+    const carpetaParaFallos =
+      carpetaGuardada ||
+      carpetaSeleccionada ||
+      nuevaCarpetaNombre.trim() ||
+      "General";
+
     if (examen) {
       const { aciertos, errores, enBlanco, nota } = calcularNota();
 
       guardarTestCompletado({
         nota: Number(nota),
-        carpeta:
-          carpetaSeleccionada || nuevaCarpetaNombre.trim() || "Test rápido",
+        carpeta: carpetaParaFallos,
         aciertos,
         fallos: errores,
         enBlanco,
@@ -653,18 +670,23 @@ export default function Home() {
           const respuestaUsuario = respuestasUsuario[index];
           const acierto = respuestaUsuario === pregunta.correcta;
           return {
-            carpeta: carpetaSeleccionada || nuevaCarpetaNombre.trim() || "General",
+            carpeta: carpetaParaFallos,
+            testId: archivoGuardado,
             pregunta: pregunta,
             acierto: acierto
           };
         });
         
-        await fetch("/api/fallos/actualizar", {
+        const res = await fetch("/api/fallos/actualizar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(resultados)
         });
+
+        if (!res.ok) {
+          console.error("[crear] no se guardaron los fallos", res.status);
+        }
       } catch (error) {
         console.error("Error al actualizar fallos:", error);
       }
@@ -777,6 +799,20 @@ export default function Home() {
         throw new Error(await leerErrorJson(res));
       }
 
+      const datos = (await res.json().catch(() => null)) as
+        | RespuestaGuardado
+        | null;
+      const carpetaReal =
+        typeof datos?.carpeta === "string" && datos.carpeta.trim()
+          ? datos.carpeta
+          : carpetaSeleccionada ||
+            nuevaCarpetaNombre.trim() ||
+            "General";
+
+      setCarpetaGuardada(carpetaReal);
+      setArchivoGuardado(
+        typeof datos?.archivo === "string" ? datos.archivo : "",
+      );
       setGuardado(true);
       setModalGuardar(false);
 
@@ -800,6 +836,8 @@ export default function Home() {
     setExamen(null); setCorregido(false); setRespuestasUsuario({});
     setArchivos([]); setFoto(null); setTextoPegado(""); setAviso(""); setError(""); setIndiceSalto(0);
     setGuardado(false);
+    setCarpetaGuardada("");
+    setArchivoGuardado("");
     if (inputArchivosRef.current) inputArchivosRef.current.value = "";
     if (inputFotoRef.current) inputFotoRef.current.value = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
