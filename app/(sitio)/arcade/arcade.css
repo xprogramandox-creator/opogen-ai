@@ -16,6 +16,8 @@
       --line: rgba(31, 27, 22, 0.08);
       --blob1: rgba(96, 165, 250, 0.4);
       --blob2: rgba(147, 197, 253, 0.3);
+      --arcade-card: var(--card);
+      --arcade-card-border: var(--th);
     }
 
     [data-tema="oscuro"] .arcade-app {
@@ -33,6 +35,8 @@
       --line: rgba(239, 234, 222, 0.12);
       --blob1: rgba(30, 58, 138, 0.5);
       --blob2: rgba(88, 28, 135, 0.3);
+      --arcade-card: #141b2d;
+      --arcade-card-border: rgba(96, 165, 250, 0.16);
     }
 
     .arcade-app * {
@@ -222,9 +226,9 @@
       justify-content: center;
       gap: 20px;
       padding: 36px 28px;
-      border: 1px solid var(--th);
+      border: 1px solid var(--arcade-card-border);
       border-radius: 28px;
-      background: var(--card);
+      background: var(--arcade-card);
       color: var(--txt);
       text-align: center;
       cursor: pointer;
@@ -276,9 +280,9 @@
       gap: 14px;
       margin-top: 8px;
       padding: 16px 18px;
-      border: 1px solid var(--line);
+      border: 1px solid var(--arcade-card-border);
       border-radius: 18px;
-      background: var(--card);
+      background: var(--arcade-card);
       text-align: left;
     }
 
@@ -311,9 +315,9 @@
       align-items: center;
       gap: 4px;
       padding: 14px 10px;
-      border: 1px solid var(--th);
+      border: 1px solid var(--arcade-card-border);
       border-radius: 14px;
-      background: color-mix(in srgb, var(--card) 72%, transparent);
+      background: color-mix(in srgb, var(--arcade-card) 82%, transparent);
       text-align: center;
     }
 
