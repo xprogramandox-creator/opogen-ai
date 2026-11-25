@@ -11,6 +11,7 @@ import {
   Layers,
   RefreshCw,
   ShieldAlert,
+  Sparkles,
   Trash2,
 } from "lucide-react";
 import { TestExamen } from "@/components/TestExamen";
@@ -23,6 +24,41 @@ import { useTranslations } from "next-intl";
 import { mensajeError } from "@/lib/errores";
 import { normalizarPreguntas } from "@/lib/tipos";
 import { useVentanaPersistente } from "@/hooks/useVentanaPersistente";
+
+const ESTILOS_SUBCARPETA = {
+  test: {
+    tarjeta:
+      "border-sky-200/80 bg-gradient-to-br from-sky-50 to-blue-50/70 hover:border-sky-300 hover:shadow-sky-200/50 dark:border-sky-400/20 dark:from-sky-500/10 dark:to-blue-500/5 dark:hover:border-sky-400/40",
+    icono:
+      "bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300",
+    flecha:
+      "text-sky-400 group-hover:text-sky-600 dark:text-sky-400/60 dark:group-hover:text-sky-300",
+  },
+  mixtos: {
+    tarjeta:
+      "border-violet-200/80 bg-gradient-to-br from-violet-50 to-indigo-50/70 hover:border-violet-300 hover:shadow-violet-200/50 dark:border-violet-400/20 dark:from-violet-500/10 dark:to-indigo-500/5 dark:hover:border-violet-400/40",
+    icono:
+      "bg-violet-100 text-violet-700 dark:bg-violet-400/15 dark:text-violet-300",
+    flecha:
+      "text-violet-400 group-hover:text-violet-600 dark:text-violet-400/60 dark:group-hover:text-violet-300",
+  },
+  resumenes: {
+    tarjeta:
+      "border-amber-200/80 bg-gradient-to-br from-amber-50 to-orange-50/70 hover:border-amber-300 hover:shadow-amber-200/50 dark:border-amber-400/20 dark:from-amber-500/10 dark:to-orange-500/5 dark:hover:border-amber-400/40",
+    icono:
+      "bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300",
+    flecha:
+      "text-amber-400 group-hover:text-amber-600 dark:text-amber-400/60 dark:group-hover:text-amber-300",
+  },
+  recuperaciones: {
+    tarjeta:
+      "border-emerald-200/80 bg-gradient-to-br from-emerald-50 to-teal-50/70 hover:border-emerald-300 hover:shadow-emerald-200/50 dark:border-emerald-400/20 dark:from-emerald-500/10 dark:to-teal-500/5 dark:hover:border-emerald-400/40",
+    icono:
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300",
+    flecha:
+      "text-emerald-400 group-hover:text-emerald-600 dark:text-emerald-400/60 dark:group-hover:text-emerald-300",
+  },
+} as const;
 
 type SnapshotTest = {  id: string;
   preguntas: Pregunta[];
@@ -1209,9 +1245,26 @@ export default function MiEspacioPage() {
               </nav>
 
               {!carpetaActiva ? (
-                <div className="text-center py-12">
-                  <h2 className="text-2xl font-bold mb-4">{t("welcomeTitle")}</h2>
-                  <p className="text-[var(--txt3)]">{t("welcomeText")}</p>
+                <div className="relative overflow-hidden rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50 via-orange-50/50 to-sky-50 px-6 py-12 text-center shadow-sm dark:border-amber-400/15 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 sm:py-16">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-12 -top-14 h-44 w-44 rounded-full bg-amber-200/50 blur-3xl dark:bg-amber-400/10"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-sky-200/50 blur-3xl dark:bg-sky-400/10"
+                  />
+                  <div className="relative">
+                    <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/80 bg-white/80 text-amber-500 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-amber-300">
+                      <Sparkles className="h-7 w-7" strokeWidth={1.8} aria-hidden="true" />
+                    </span>
+                    <h2 className="mb-3 text-2xl font-bold text-[var(--txt)] sm:text-3xl">
+                      {t("welcomeTitle")}
+                    </h2>
+                    <p className="mx-auto max-w-md leading-relaxed text-[var(--txt2)]">
+                      {t("welcomeText")}
+                    </p>
+                  </div>
                 </div>
               ) : !subcarpetaActiva ? (
                 <div className="py-4">
@@ -1226,19 +1279,30 @@ export default function MiEspacioPage() {
                       ["mixtos", t("subfolderMixed"), Layers],
                       ["resumenes", t("subfolderSummaries"), BookOpen],
                       ["recuperaciones", t("subfolderRetrievals"), ShieldAlert],
-                    ] as const).map(([tipo, etiqueta, Icono]) => (
-                      <button
-                        key={tipo}
-                        type="button"
-                        onClick={() => abrirSubcarpeta(tipo)}
-                        className="flex items-center gap-3 rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4 text-left transition-colors hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]"
-                      >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--sel)] text-[var(--azul)]">
-                          <Icono className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
-                        </span>
-                        <span className="font-bold text-[var(--txt)]">{etiqueta}</span>
-                      </button>
-                    ))}
+                    ] as const).map(([tipo, etiqueta, Icono]) => {
+                      const estilo = ESTILOS_SUBCARPETA[tipo];
+
+                      return (
+                        <button
+                          key={tipo}
+                          type="button"
+                          onClick={() => abrirSubcarpeta(tipo)}
+                          className={`group flex items-center gap-3 rounded-2xl border p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${estilo.tarjeta}`}
+                        >
+                          <span
+                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${estilo.icono}`}
+                          >
+                            <Icono className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+                          </span>
+                          <span className="font-bold text-[var(--txt)]">{etiqueta}</span>
+                          <ChevronRight
+                            className={`ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 ${estilo.flecha}`}
+                            strokeWidth={2.2}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      );
+                    })}
                   </div>
 
                   <button
