@@ -87,8 +87,8 @@ export function normalizarEntradaHistorial(
 /** Media de la mejor nota de cada test, agrupando por testId. */
 export function calcularNotaMediaPorTest(
   historial: EntradaHistorialTest[],
-): number {
-  if (historial.length === 0) return 0;
+): number | null {
+  if (historial.length === 0) return null;
 
   const mejores = new Map<string, number>();
 
@@ -96,7 +96,8 @@ export function calcularNotaMediaPorTest(
     if (
       !entrada.testId ||
       entrada.tipo === "huerfano" ||
-      entrada.tipo === "repaso_fallido"
+      entrada.tipo === "repaso_fallido" ||
+      !Number.isFinite(entrada.nota)
     ) {
       return;
     }
@@ -106,6 +107,8 @@ export function calcularNotaMediaPorTest(
       Math.max(mejores.get(entrada.testId) ?? 0, entrada.nota),
     );
   });
+
+  if (mejores.size === 0) return null;
 
   const notas = [...mejores.values()];
   return notas.reduce((total, nota) => total + nota, 0) / notas.length;

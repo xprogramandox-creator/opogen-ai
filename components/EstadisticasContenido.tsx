@@ -675,9 +675,9 @@ export default function EstadisticasContenido() {
             </span>
           </div>
           <p className="mt-2 text-4xl font-bold text-amber-900 dark:text-amber-100">
-            {resumenVisible.totalTests > 0
-              ? formatoNota.format(resumenVisible.notaMedia)
-              : "—"}
+            {resumenVisible.notaMedia === null
+              ? "—"
+              : formatoNota.format(resumenVisible.notaMedia)}
           </p>
           <p className="mt-1 text-sm text-[var(--txt3)]">Sobre 10 puntos.</p>
         </article>
