@@ -28,7 +28,7 @@ import { useVentanaPersistente } from "@/hooks/useVentanaPersistente";
 const ESTILOS_SUBCARPETA = {
   test: {
     tarjeta:
-      "border-sky-200/80 bg-gradient-to-br from-sky-50 to-blue-50/70 hover:border-sky-300 hover:shadow-sky-200/50 dark:border-sky-400/20 dark:from-sky-500/10 dark:to-blue-500/5 dark:hover:border-sky-400/40",
+      "border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 shadow-lg backdrop-blur-md hover:border-sky-200/80 hover:shadow-xl dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50",
     icono:
       "bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300",
     flecha:
@@ -36,7 +36,7 @@ const ESTILOS_SUBCARPETA = {
   },
   mixtos: {
     tarjeta:
-      "border-violet-200/80 bg-gradient-to-br from-violet-50 to-indigo-50/70 hover:border-violet-300 hover:shadow-violet-200/50 dark:border-violet-400/20 dark:from-violet-500/10 dark:to-indigo-500/5 dark:hover:border-violet-400/40",
+      "border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 shadow-lg backdrop-blur-md hover:border-sky-200/80 hover:shadow-xl dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50",
     icono:
       "bg-violet-100 text-violet-700 dark:bg-violet-400/15 dark:text-violet-300",
     flecha:
@@ -44,7 +44,7 @@ const ESTILOS_SUBCARPETA = {
   },
   resumenes: {
     tarjeta:
-      "border-amber-200/80 bg-gradient-to-br from-amber-50 to-orange-50/70 hover:border-amber-300 hover:shadow-amber-200/50 dark:border-amber-400/20 dark:from-amber-500/10 dark:to-orange-500/5 dark:hover:border-amber-400/40",
+      "border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 shadow-lg backdrop-blur-md hover:border-sky-200/80 hover:shadow-xl dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50",
     icono:
       "bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300",
     flecha:
@@ -52,7 +52,7 @@ const ESTILOS_SUBCARPETA = {
   },
   recuperaciones: {
     tarjeta:
-      "border-emerald-200/80 bg-gradient-to-br from-emerald-50 to-teal-50/70 hover:border-emerald-300 hover:shadow-emerald-200/50 dark:border-emerald-400/20 dark:from-emerald-500/10 dark:to-teal-500/5 dark:hover:border-emerald-400/40",
+      "border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 shadow-lg backdrop-blur-md hover:border-sky-200/80 hover:shadow-xl dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50",
     icono:
       "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300",
     flecha:
@@ -1109,7 +1109,7 @@ export default function MiEspacioPage() {
     <main className="bg-transparent relative min-h-app p-4 font-sans text-[var(--txt)] sm:p-6 md:p-12">
         <div className="relative z-10 mx-auto flex flex-col md:flex-row gap-8 max-w-6xl">
           <aside className="w-full md:w-64 shrink-0 space-y-6">
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-4 shadow-[var(--sombra)] backdrop-blur-xl">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-4 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <button onClick={() => setMostrarModal(true)} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--azul)] px-4 py-3 text-sm font-bold text-white transition-all hover:bg-[var(--azul-hover)]">
                 <FolderPlus className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden="true" />
                 {t("newFolder")}
@@ -1153,10 +1153,10 @@ export default function MiEspacioPage() {
                     return (
                       <div key={carpeta} className="space-y-1">
                         <div
-                          className={`group flex min-w-0 items-center gap-1 rounded-lg border py-1.5 pr-1 text-sm transition-colors ${
+                          className={`group flex min-w-0 items-center gap-1 rounded-lg border py-1.5 pr-1 text-sm backdrop-blur-md transition-colors ${
                             abierta
-                              ? "border-[var(--azul)]/40 bg-[var(--sel)] font-bold ring-1 ring-[var(--azul)]/20"
-                              : "border-[var(--th)] bg-[var(--card2)] font-semibold hover:border-[var(--azul)]/30 hover:bg-[var(--suave)]"
+                              ? "border-[var(--azul)]/40 bg-gradient-to-r from-sky-200/70 to-blue-300/50 font-bold ring-1 ring-[var(--azul)]/20 dark:bg-none dark:bg-[#141b2d]/60"
+                              : "border-white/40 bg-gradient-to-r from-sky-100/60 to-blue-300/40 font-semibold hover:border-sky-200/80 dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"
                           }`}
                         >
                           <button
@@ -1197,10 +1197,10 @@ export default function MiEspacioPage() {
                                 key={tipo}
                                 type="button"
                                 onClick={() => abrirSubcarpeta(tipo)}
-                                className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors ${
+                                className={`flex w-full items-center gap-2 rounded-md border px-2 py-1.5 text-left text-xs backdrop-blur-sm transition-colors ${
                                   subcarpetaActiva === tipo
-                                    ? "bg-[var(--azul)] font-bold text-white"
-                                    : "text-[var(--txt2)] hover:bg-[var(--suave)] hover:text-[var(--azul)]"
+                                    ? "border-[var(--azul)]/40 bg-[var(--azul)] font-bold text-white"
+                                    : "border-white/30 bg-white/40 text-[var(--txt2)] hover:border-sky-200/80 hover:bg-sky-50/60 hover:text-[var(--azul)] dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/35"
                                 }`}
                               >
                                 <Icono className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden="true" />
@@ -1218,7 +1218,7 @@ export default function MiEspacioPage() {
           </aside>
 
           <div className="flex-1">
-            <div className="rounded-2xl border border-[var(--th)] bg-[var(--card)] p-8 shadow-[var(--sombra)] backdrop-blur-xl">
+            <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/80 to-blue-300/65 p-8 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
               <nav
                 aria-label={t("breadcrumb")}
                 className="mb-4 flex flex-wrap items-center gap-1 text-xs font-semibold text-[var(--txt3)]"
@@ -1411,10 +1411,10 @@ export default function MiEspacioPage() {
                           return (
                             <div
                               key={idx}
-                              className={`flex items-center justify-between gap-3 p-4 rounded-xl border bg-[var(--card2)] transition-colors group ${
+                              className={`group flex items-center justify-between gap-3 rounded-xl border p-4 backdrop-blur-md transition-all duration-200 ${
                                 marcado
-                                  ? "border-[var(--azul)] bg-[var(--suave)] ring-1 ring-[var(--azul)]/30"
-                                  : "border-[var(--th)] hover:border-[var(--azul)]/40 hover:bg-[var(--suave)]"
+                                  ? "border-[var(--azul)]/50 bg-sky-100/75 ring-1 ring-[var(--azul)]/30 dark:bg-sky-500/15"
+                                  : "border-white/40 bg-gradient-to-br from-sky-100/65 to-blue-300/45 shadow-sm hover:-translate-y-0.5 hover:border-sky-200/80 hover:shadow-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50"
                               }`}
                             >
                               {permiteTestMixto && (

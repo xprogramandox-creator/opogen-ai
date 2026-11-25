@@ -166,7 +166,7 @@ export default function ListaResumenes({
     <section className="mt-6">
       {/* Cabecera del test mixto: siempre visible, se atenúa si no hay
           resúmenes suficientes seleccionados. */}
-      <div className="rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4">
+      <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-sky-100/70 to-blue-300/50 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-none dark:bg-[#141b2d]/50">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
             <p className="flex items-center gap-2 text-sm font-bold text-[var(--txt)]">
