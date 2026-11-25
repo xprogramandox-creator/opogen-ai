@@ -2,6 +2,14 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import {
+  Award,
+  BarChart3,
+  BookOpenCheck,
+  CircleAlert,
+  Repeat2,
+  Target,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   carpetaMadre,
@@ -477,7 +485,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Filtro por carpeta"
-        className="card flex flex-col gap-3 rounded-2xl p-4 sm:flex-row sm:items-center sm:justify-between"
+        className="flex flex-col gap-3 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50/60 via-white to-sky-50/60 p-4 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <p className="text-sm font-bold text-[var(--txt)]">
@@ -516,7 +524,7 @@ export default function EstadisticasContenido() {
 
       <section
         aria-label="Detalle del día seleccionado"
-        className="card rounded-3xl p-5 sm:p-6"
+        className="rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50/70 via-white to-sky-50/60 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -552,29 +560,44 @@ export default function EstadisticasContenido() {
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-[var(--th)] bg-[var(--card2)] p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-[var(--txt3)]">
-              {t("testsDone")}
-            </p>
-            <p className="mt-1 text-3xl font-bold text-[var(--txt)]">
+          <div className="rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-blue-50/70 p-4 shadow-sm dark:border-sky-400/20 dark:from-sky-500/10 dark:to-blue-500/5">
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                {t("testsDone")}
+              </p>
+              <span className="rounded-lg bg-white/70 p-1.5 text-sky-600 dark:bg-white/5 dark:text-sky-300">
+                <BarChart3 className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              </span>
+            </div>
+            <p className="mt-1 text-3xl font-bold text-sky-900 dark:text-sky-100">
               {diaDetalle ? diaDetalle.tests : resumen.totalTests}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[var(--ok-b)] bg-[var(--ok)] p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-[var(--ok-t)]">
-              {t("correct")}
-            </p>
-            <p className="mt-1 text-3xl font-bold text-[var(--ok-t)]">
+          <div className="rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50 to-teal-50/70 p-4 shadow-sm dark:border-emerald-400/20 dark:from-emerald-500/10 dark:to-teal-500/5">
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+                {t("correct")}
+              </p>
+              <span className="rounded-lg bg-white/70 p-1.5 text-emerald-600 dark:bg-white/5 dark:text-emerald-300">
+                <Target className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              </span>
+            </div>
+            <p className="mt-1 text-3xl font-bold text-emerald-900 dark:text-emerald-100">
               {diaDetalle ? diaDetalle.aciertos : resumen.aciertos}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[var(--err-b)] bg-[var(--err)] p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-[var(--err-t)]">
-              {t("wrong")}
-            </p>
-            <p className="mt-1 text-3xl font-bold text-[var(--err-t)]">
+          <div className="rounded-2xl border border-rose-200/80 bg-gradient-to-br from-rose-50 to-orange-50/60 p-4 shadow-sm dark:border-rose-400/20 dark:from-rose-500/10 dark:to-orange-500/5">
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
+                {t("wrong")}
+              </p>
+              <span className="rounded-lg bg-white/70 p-1.5 text-rose-600 dark:bg-white/5 dark:text-rose-300">
+                <Repeat2 className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              </span>
+            </div>
+            <p className="mt-1 text-3xl font-bold text-rose-900 dark:text-rose-100">
               {diaDetalle ? diaDetalle.fallos : resumen.fallos}
             </p>
           </div>
@@ -585,11 +608,16 @@ export default function EstadisticasContenido() {
         aria-label="Resumen"
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
-        <article className="card rounded-3xl p-5 sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--txt3)]">
-            {t("completed")}
-          </p>
-          <p className="mt-2 text-4xl font-bold text-[var(--txt)]">
+        <article className="rounded-3xl border border-sky-100 bg-gradient-to-br from-sky-50/80 via-white to-blue-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-sky-400/15 dark:from-sky-500/10 dark:via-slate-900 dark:to-blue-500/5 sm:p-6">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+              {t("completed")}
+            </p>
+            <span className="rounded-lg bg-white/70 p-1.5 text-sky-600 dark:bg-white/5 dark:text-sky-300">
+              <BookOpenCheck className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-4xl font-bold text-sky-900 dark:text-sky-100">
             {resumenVisible.totalTests}
           </p>
           <p className="mt-1 text-sm text-[var(--txt3)]">
@@ -597,11 +625,16 @@ export default function EstadisticasContenido() {
           </p>
         </article>
 
-        <article className="card rounded-3xl p-5 sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--txt3)]">
-            {t("average")}
-          </p>
-          <p className="mt-2 text-4xl font-bold text-[var(--txt)]">
+        <article className="rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50/80 via-white to-orange-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-amber-400/15 dark:from-amber-500/10 dark:via-slate-900 dark:to-orange-500/5 sm:p-6">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+              {t("average")}
+            </p>
+            <span className="rounded-lg bg-white/70 p-1.5 text-amber-600 dark:bg-white/5 dark:text-amber-300">
+              <Award className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-4xl font-bold text-amber-900 dark:text-amber-100">
             {resumenVisible.totalTests > 0
               ? formatoNota.format(resumenVisible.notaMedia)
               : "—"}
@@ -609,11 +642,16 @@ export default function EstadisticasContenido() {
           <p className="mt-1 text-sm text-[var(--txt3)]">Sobre 10 puntos.</p>
         </article>
 
-        <article className="card rounded-3xl p-5 sm:p-6 sm:col-span-2 lg:col-span-1">
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--txt3)]">
-            {t("pending")}
-          </p>
-          <p className="mt-2 text-4xl font-bold text-[var(--txt)]">
+        <article className="rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50/80 via-white to-orange-50/40 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-rose-400/15 dark:from-rose-500/10 dark:via-slate-900 dark:to-orange-500/5 sm:col-span-2 sm:p-6 lg:col-span-1">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
+              {t("pending")}
+            </p>
+            <span className="rounded-lg bg-white/70 p-1.5 text-rose-600 dark:bg-white/5 dark:text-rose-300">
+              <CircleAlert className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-4xl font-bold text-rose-900 dark:text-rose-100">
             {resumenVisible.fallos === null ? "—" : resumenVisible.fallos}
           </p>
           <p className="mt-1 text-sm text-[var(--txt3)]">
@@ -622,7 +660,7 @@ export default function EstadisticasContenido() {
         </article>
       </section>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50/60 via-white to-sky-50/60 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-violet-400/15 dark:from-violet-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
@@ -765,7 +803,7 @@ export default function EstadisticasContenido() {
         )}
       </section>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/60 via-white to-sky-50/50 p-5 shadow-[var(--sombra)] backdrop-blur-xl dark:border-emerald-400/15 dark:from-emerald-500/10 dark:via-slate-900 dark:to-sky-500/10 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-[var(--txt)]">
@@ -822,7 +860,7 @@ export default function EstadisticasContenido() {
                 <span className="min-w-0 truncate text-sm font-semibold text-[var(--txt)]">
                   {embellecerCarpeta(carpeta.nombre)}
                 </span>
-                <span className="shrink-0 rounded-full border border-[var(--th)] bg-[var(--card2)] px-3 py-1 text-xs font-bold text-[var(--txt2)]">
+                <span className="shrink-0 rounded-full border border-sky-200/80 bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300">
                   {carpeta.tests} {carpeta.tests === 1 ? "test" : "tests"}
                 </span>
               </li>
