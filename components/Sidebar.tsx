@@ -57,7 +57,7 @@ const ITEMS: ItemNav[] = [
     requierePremium: true,
   },
   { href: "/crear", clave: "test", icono: ClipboardCheck },
-  { href: "/arcade", clave: "arcade", icono: Gamepad2 },
+  { href: "/arcade", clave: "arcade", icono: Gamepad2, requierePremium: true },
   { href: "/kids", clave: "kids", icono: Star, requierePremium: true },
 ];
 
